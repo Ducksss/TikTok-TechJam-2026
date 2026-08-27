@@ -220,4 +220,5 @@ __marimo__/
 # Local model artifacts and inference output
 weights/*
 !weights/README.md
+!weights/manifest.json
 outputs/
