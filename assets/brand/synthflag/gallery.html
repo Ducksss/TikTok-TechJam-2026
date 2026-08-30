@@ -1,0 +1,1144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>SynthFlag — Brand Explorations</title>
+  <meta name="description" content="Sixty SynthFlag brand assets across core identity, digital, print, and evidence-system applications.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&amp;family=Poppins:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cobalt:#0040C1;
+      --ink:#111827;
+      --slate:#4B5563;
+      --muted:#6B7280;
+      --white:#FFFFFF;
+      --cloud:#EFF4FF;
+      --line:#D1E0FF;
+      --sky:#6199FF;
+      --deep:#00359E;
+      --bright:#2970FF;
+      --radius:34px;
+      --shadow:0 18px 60px rgba(0,64,193,.10);
+    }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      margin:0;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 96% 2%, rgba(97,153,255,.22), transparent 28rem),
+        var(--cloud);
+      font-family:Poppins, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    a { color:inherit; }
+    .masthead {
+      position:relative;
+      overflow:hidden;
+      padding:clamp(2rem,6vw,5.5rem);
+      color:var(--white);
+      background:var(--ink);
+      min-height:60vh;
+      display:grid;
+      align-items:end;
+      isolation:isolate;
+    }
+    .masthead::before {
+      content:"";
+      position:absolute;
+      inset:auto -8vw -44% 44%;
+      height:120%;
+      border-radius:44px;
+      background:linear-gradient(135deg,var(--deep),var(--bright));
+      transform:skewX(-9deg);
+      z-index:-2;
+    }
+    .masthead::after {
+      content:"";
+      position:absolute;
+      width:36rem;
+      height:9rem;
+      right:-7rem;
+      top:12%;
+      background:
+        linear-gradient(90deg,
+          transparent 0 2%, rgba(255,255,255,.96) 2% 15%,
+          transparent 15% 20%, rgba(255,255,255,.96) 20% 42%,
+          transparent 42% 47%, rgba(255,255,255,.96) 47% 69%,
+          transparent 69% 74%, rgba(255,255,255,.96) 74% 87%,
+          transparent 87%);
+      border-radius:30px;
+      transform:skewX(-9deg) rotate(-5deg);
+      opacity:.92;
+      z-index:-1;
+    }
+    .masthead-inner { width:min(84rem,100%); margin:auto; }
+    .brand-line { display:flex; align-items:center; gap:1rem; margin-bottom:clamp(4rem,14vh,9rem); }
+    .mark { display:grid; grid-template-columns:repeat(4, .55rem); gap:.25rem; height:2rem; align-items:center; transform:skewX(-9deg); }
+    .mark i { display:block; border-radius:999px; background:var(--sky); height:1.4rem; }
+    .mark i:nth-child(2), .mark i:nth-child(3) { height:2rem; background:var(--white); }
+    .brand-name { font-family:"Instrument Sans",sans-serif; font-weight:650; font-size:1.2rem; letter-spacing:-.03em; }
+    .masthead .eyebrow { color:#C0D7FF; }
+    h1,h2,h3 { font-family:"Instrument Sans", ui-sans-serif, sans-serif; margin:0; letter-spacing:-.045em; }
+    h1 { max-width:11ch; font-size:clamp(3.7rem,10vw,9.4rem); line-height:.88; font-weight:620; }
+    .intro { display:grid; grid-template-columns:minmax(0,2fr) minmax(16rem,1fr); gap:3rem; align-items:end; }
+    .intro-copy { max-width:34rem; margin:0 0 .6rem; color:#C7D2E1; font-size:clamp(1rem,1.7vw,1.25rem); line-height:1.65; }
+    .eyebrow { margin:0 0 .85rem; text-transform:uppercase; letter-spacing:.15em; font-size:.74rem; font-weight:600; color:var(--cobalt); }
+    .toolbar-wrap {
+      position:sticky;
+      top:0;
+      z-index:20;
+      border-bottom:1px solid rgba(0,64,193,.14);
+      background:rgba(239,244,255,.88);
+      backdrop-filter:blur(18px);
+    }
+    .toolbar { width:min(92rem,calc(100% - 2rem)); margin:auto; display:flex; gap:.6rem; padding:.85rem 0; overflow:auto; }
+    .filter {
+      flex:0 0 auto;
+      border:1px solid var(--line);
+      background:var(--white);
+      color:var(--slate);
+      border-radius:999px;
+      padding:.7rem 1rem;
+      font:600 .78rem/1 Poppins,sans-serif;
+      cursor:pointer;
+      transition:.18s ease;
+    }
+    .filter:hover,.filter[aria-pressed="true"] { background:var(--cobalt); color:var(--white); border-color:var(--cobalt); }
+    main { width:min(92rem,calc(100% - 2rem)); margin:auto; padding:clamp(3rem,7vw,7rem) 0; }
+    .asset-section { margin-bottom:clamp(5rem,10vw,10rem); scroll-margin-top:6rem; }
+    .asset-section[hidden] { display:none; }
+    .section-heading { display:grid; grid-template-columns:minmax(0,1fr) minmax(18rem,36rem); gap:2rem; align-items:end; margin-bottom:2rem; padding:0 .25rem; }
+    .section-heading h2 { font-size:clamp(2.5rem,5vw,5.2rem); line-height:.9; }
+    .section-heading > p { margin:0; color:var(--slate); line-height:1.7; }
+    .asset-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:clamp(1rem,2.3vw,2.25rem); }
+    .asset-card { margin:0; min-width:0; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; background:var(--white); box-shadow:var(--shadow); }
+    .asset-preview { display:grid; place-items:center; min-height:18rem; aspect-ratio:16/10; padding:clamp(.65rem,1.7vw,1.4rem); background:
+      linear-gradient(45deg, rgba(209,224,255,.34) 25%, transparent 25% 75%, rgba(209,224,255,.34) 75%),
+      linear-gradient(45deg, rgba(209,224,255,.34) 25%, #fff 25% 75%, rgba(209,224,255,.34) 75%);
+      background-size:24px 24px;
+      background-position:0 0,12px 12px;
+      border-bottom:1px solid var(--line);
+    }
+    .asset-preview img { display:block; width:100%; height:100%; max-height:32rem; object-fit:contain; border-radius:calc(var(--radius) - 12px); transition:transform .28s ease; }
+    .asset-preview:hover img { transform:scale(1.012); }
+    figcaption { padding:clamp(1.3rem,3vw,2.25rem); }
+    .asset-kicker { display:flex; justify-content:space-between; gap:1rem; margin-bottom:1rem; color:var(--cobalt); text-transform:uppercase; letter-spacing:.14em; font:600 .68rem/1 Poppins,sans-serif; }
+    h3 { font-size:clamp(1.55rem,2.5vw,2.35rem); line-height:1.05; }
+    .use { min-height:3em; margin:.65rem 0 1rem; color:var(--slate); line-height:1.55; }
+    details { border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:.9rem 0; color:var(--muted); font-size:.84rem; }
+    summary { color:var(--ink); font-weight:600; cursor:pointer; }
+    details p { margin:.75rem 0 0; line-height:1.6; }
+    .download { display:inline-flex; align-items:center; gap:.6rem; margin-top:1.25rem; text-decoration:none; color:var(--cobalt); font-size:.82rem; font-weight:600; }
+    .download span { font-size:1.1rem; }
+    footer { padding:0 1rem 5rem; text-align:center; color:var(--muted); }
+    footer strong { color:var(--ink); }
+    @media (max-width:760px) {
+      .masthead { min-height:72vh; }
+      .intro,.section-heading { grid-template-columns:1fr; }
+      .asset-grid { grid-template-columns:1fr; }
+      .masthead::after { width:24rem; right:-10rem; }
+      .asset-preview { min-height:14rem; }
+      .use { min-height:0; }
+    }
+    @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } * { transition:none !important; } }
+  </style>
+</head>
+<body>
+  <header class="masthead">
+    <div class="masthead-inner">
+      <div class="brand-line">
+        <span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="brand-name">SynthFlag</span>
+      </div>
+      <p class="eyebrow">Brand exploration · 60 assets</p>
+      <div class="intro">
+        <h1>Evidence before certainty.</h1>
+        <p class="intro-copy">A broad but coherent asset system for repository identity, social launch, print, events, and reviewable AI-image evidence. Built to feel specific, calm, and qualified.</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="toolbar-wrap" aria-label="Asset filters">
+    <nav class="toolbar">
+      <button class="filter" data-filter="all" aria-pressed="true">All 60</button>
+      <button class="filter" data-filter="core" aria-pressed="false">Core identity</button>
+      <button class="filter" data-filter="digital" aria-pressed="false">Digital &amp; social</button>
+      <button class="filter" data-filter="print" aria-pressed="false">Print &amp; event</button>
+      <button class="filter" data-filter="evidence" aria-pressed="false">Evidence system</button>
+      <a class="filter" href="manifest.csv">Manifest</a>
+      <a class="filter" href="README.md">GitHub index</a>
+    </nav>
+  </div>
+
+  <main>
+
+      <section class="asset-section" id="core" data-section="core">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">01–15</p>
+            <h2>Core identity</h2>
+          </div>
+          <p>Marks, lockups, avatars, micro-icons, and mastheads.</p>
+        </div>
+        <div class="asset-grid">
+          <figure class="asset-card" data-group="core">
+            <a class="asset-preview" href="01-primary-four-bar-mark.png" aria-label="Open Core signal mark">
+              <img src="01-primary-four-bar-mark.png" alt="SynthFlag Core signal mark" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>01</span><span>core</span></div>
+              <h3>Core signal mark</h3>
+              <p class="use">Primary standalone logo</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Four cobalt skewed rounded bars; outer bars short and inner bars tall; transparent field</p>
+              </details>
+              <a class="download" href="01-primary-four-bar-mark.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="core">
+            <a class="asset-preview" href="02-inverse-mark.png" aria-label="Open Core inverse">
+              <img src="02-inverse-mark.png" alt="SynthFlag Core inverse" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>02</span><span>core</span></div>
+              <h3>Core inverse</h3>
+              <p class="use">Inverse logo use</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Four white skewed rounded bars centered on a cobalt field</p>
+              </details>
+              <a class="download" href="02-inverse-mark.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="core">
+            <a class="asset-preview" href="03-horizontal-wordmark.png" aria-label="Open Primary wordmark">
+              <img src="03-horizontal-wordmark.png" alt="SynthFlag Primary wordmark" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>03</span><span>core</span></div>
+              <h3>Primary wordmark</h3>
+              <p class="use">Headers and horizontal placements</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Cobalt four-bar mark paired with exact SynthFlag wordmark in ink on transparency</p>
+              </details>
+              <a class="download" href="03-horizontal-wordmark.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="core">
+            <a class="asset-preview" href="04-stacked-lockup.png" aria-label="Open Stacked identity">
+              <img src="04-stacked-lockup.png" alt="SynthFlag Stacked identity" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>04</span><span>core</span></div>
+              <h3>Stacked identity</h3>
+              <p class="use">Centered and narrow placements</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Four-bar cobalt mark above the exact SynthFlag wordmark on transparency</p>
+              </details>
+              <a class="download" href="04-stacked-lockup.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="core">
+            <a class="asset-preview" href="05-square-app-icon.png" aria-label="Open Product icon">
+              <img src="05-square-app-icon.png" alt="SynthFlag Product icon" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>05</span><span>core</span></div>
+              <h3>Product icon</h3>
+              <p class="use">Application icon</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>White four-bar mark centered on a cobalt rounded square</p>
+              </details>
+              <a class="download" href="05-square-app-icon.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="core">
+            <a class="asset-preview" href="06-repo-avatar.png" aria-label="Open Thumbnail identity">
+              <img src="06-repo-avatar.png" alt="SynthFlag Thumbnail identity" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>06</span><span>core</span></div>
+              <h3>Thumbnail identity</h3>
+              <p class="use">GitHub repository avatar</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Cobalt four-bar mark composed for circular-safe repository-avatar use</p>
+              </details>
+              <a class="download" href="06-repo-avatar.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="core">
+            <a class="asset-preview" href="07-favicon-tile.png" aria-label="Open Micro icon">
+              <img src="07-favicon-tile.png" alt="SynthFlag Micro icon" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>07</span><span>core</span></div>
+              <h3>Micro icon</h3>
+              <p class="use">Favicon source tile</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Simplified four-bar symbol with heavier geometry for 16- and 32-pixel use</p>
+              </details>
+              <a class="download" href="07-favicon-tile.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="core">
+            <a class="asset-preview" href="08-monochrome-mark.png" aria-label="Open Monochrome mark">
+              <img src="08-monochrome-mark.png" alt="SynthFlag Monochrome mark" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>08</span><span>core</span></div>
+              <h3>Monochrome mark</h3>
+              <p class="use">Single-color print and utility use</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>One-color ink rendering of the four-bar signal on transparency</p>
+              </details>
+              <a class="download" href="08-monochrome-mark.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="core">
+            <a class="asset-preview" href="09-cobalt-only-mark.png" aria-label="Open Cobalt utility mark">
+              <img src="09-cobalt-only-mark.png" alt="SynthFlag Cobalt utility mark" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>09</span><span>core</span></div>
+              <h3>Cobalt utility mark</h3>
+              <p class="use">UI labels and cobalt-only reproduction</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Compact one-color cobalt rendering of the four-bar signal</p>
+              </details>
+              <a class="download" href="09-cobalt-only-mark.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="core">
+            <a class="asset-preview" href="10-ink-only-wordmark.png" aria-label="Open Wordmark only">
+              <img src="10-ink-only-wordmark.png" alt="SynthFlag Wordmark only" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>10</span><span>core</span></div>
+              <h3>Wordmark only</h3>
+              <p class="use">Typography-only placements</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Exact SynthFlag name in a restrained Instrument Sans-style ink wordmark</p>
+              </details>
+              <a class="download" href="10-ink-only-wordmark.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="core">
+            <a class="asset-preview" href="11-compact-pill-lockup.png" aria-label="Open Pill lockup">
+              <img src="11-compact-pill-lockup.png" alt="SynthFlag Pill lockup" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>11</span><span>core</span></div>
+              <h3>Pill lockup</h3>
+              <p class="use">Navigation and compact headers</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Four-bar mark and exact SynthFlag wordmark inside a thin line-blue white pill</p>
+              </details>
+              <a class="download" href="11-compact-pill-lockup.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="core">
+            <a class="asset-preview" href="12-outlined-mark.png" aria-label="Open Outline mark">
+              <img src="12-outlined-mark.png" alt="SynthFlag Outline mark" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>12</span><span>core</span></div>
+              <h3>Outline mark</h3>
+              <p class="use">Lightweight technical accents</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Uniform cobalt outline rendering of the four rounded bars with transparent interiors</p>
+              </details>
+              <a class="download" href="12-outlined-mark.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="core">
+            <a class="asset-preview" href="13-small-size-mark.png" aria-label="Open Small-size optimization">
+              <img src="13-small-size-mark.png" alt="SynthFlag Small-size optimization" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>13</span><span>core</span></div>
+              <h3>Small-size optimization</h3>
+              <p class="use">Small UI controls and dense layouts</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Extra-thick cobalt four-bar silhouette with enlarged gaps for downscaling</p>
+              </details>
+              <a class="download" href="13-small-size-mark.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="core">
+            <a class="asset-preview" href="14-wide-masthead.png" aria-label="Open Editorial masthead">
+              <img src="14-wide-masthead.png" alt="SynthFlag Editorial masthead" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>14</span><span>core</span></div>
+              <h3>Editorial masthead</h3>
+              <p class="use">Repository and documentation masthead</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Wide Swiss-editorial SynthFlag lockup with Evidence Before Certainty supporting line</p>
+              </details>
+              <a class="download" href="14-wide-masthead.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="core">
+            <a class="asset-preview" href="15-minimal-endorsement-lockup.png" aria-label="Open Endorsement signature">
+              <img src="15-minimal-endorsement-lockup.png" alt="SynthFlag Endorsement signature" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>15</span><span>core</span></div>
+              <h3>Endorsement signature</h3>
+              <p class="use">Report and evidence-card footers</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Compact four-bar mark followed by the exact Evidence by SynthFlag phrase</p>
+              </details>
+              <a class="download" href="15-minimal-endorsement-lockup.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="asset-section" id="digital" data-section="digital">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">16–30</p>
+            <h2>Digital &amp; social</h2>
+          </div>
+          <p>README heroes, social previews, announcement cards, and presentation covers.</p>
+        </div>
+        <div class="asset-grid">
+          <figure class="asset-card" data-group="digital">
+            <a class="asset-preview" href="16-light-readme-hero.png" aria-label="Open Light editorial repository banner">
+              <img src="16-light-readme-hero.png" alt="SynthFlag Light editorial repository banner" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>16</span><span>digital</span></div>
+              <h3>Light editorial repository banner</h3>
+              <p class="use">Light README hero</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>White and Cloud evidence card with cobalt rail, four-bar mark, SynthFlag wordmark, and Evidence before certainty.</p>
+              </details>
+              <a class="download" href="16-light-readme-hero.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="digital">
+            <a class="asset-preview" href="17-dark-readme-hero.png" aria-label="Open Deep-signal repository banner">
+              <img src="17-dark-readme-hero.png" alt="SynthFlag Deep-signal repository banner" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>17</span><span>digital</span></div>
+              <h3>Deep-signal repository banner</h3>
+              <p class="use">Dark README hero</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Ink field with approved Deep Signal panel, four-bar mark, SynthFlag wordmark, and Confidence with context.</p>
+              </details>
+              <a class="download" href="17-dark-readme-hero.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="digital">
+            <a class="asset-preview" href="18-github-social-preview.png" aria-label="Open Thumbnail-first evidence card">
+              <img src="18-github-social-preview.png" alt="SynthFlag Thumbnail-first evidence card" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>18</span><span>digital</span></div>
+              <h3>Thumbnail-first evidence card</h3>
+              <p class="use">GitHub social preview</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Cloud field and white rounded card with cobalt rail, four-bar mark, SynthFlag wordmark, and From pixels to evidence.</p>
+              </details>
+              <a class="download" href="18-github-social-preview.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="digital">
+            <a class="asset-preview" href="19-launch-card.png" aria-label="Open Signal-cobalt launch system">
+              <img src="19-launch-card.png" alt="SynthFlag Signal-cobalt launch system" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>19</span><span>digital</span></div>
+              <h3>Signal-cobalt launch system</h3>
+              <p class="use">Launch announcement</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Cobalt field around a white editorial card with thin rules, four-bar mark, SynthFlag, and Inspect the signal.</p>
+              </details>
+              <a class="download" href="19-launch-card.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="digital">
+            <a class="asset-preview" href="20-release-card.png" aria-label="Open Modular open-source release card">
+              <img src="20-release-card.png" alt="SynthFlag Modular open-source release card" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>20</span><span>digital</span></div>
+              <h3>Modular open-source release card</h3>
+              <p class="use">Release announcement</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>White and Cloud modular card with cobalt accents, four-bar mark, SynthFlag, and Designed for the wild without version claims.</p>
+              </details>
+              <a class="download" href="20-release-card.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="digital">
+            <a class="asset-preview" href="21-docs-header.png" aria-label="Open Technical editorial header">
+              <img src="21-docs-header.png" alt="SynthFlag Technical editorial header" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>21</span><span>digital</span></div>
+              <h3>Technical editorial header</h3>
+              <p class="use">Documentation header</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Wide Cloud and white header with cobalt rail, measurement rules, four-bar mark, SynthFlag, and Confidence with context.</p>
+              </details>
+              <a class="download" href="21-docs-header.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="digital">
+            <a class="asset-preview" href="22-blog-header.png" aria-label="Open Research-journal editorial">
+              <img src="22-blog-header.png" alt="SynthFlag Research-journal editorial" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>22</span><span>digital</span></div>
+              <h3>Research-journal editorial</h3>
+              <p class="use">Blog header</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Wide white and Cloud composition with cropped four-bar mark, SynthFlag, and Evidence before certainty.</p>
+              </details>
+              <a class="download" href="22-blog-header.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="digital">
+            <a class="asset-preview" href="23-linkedin-landscape.png" aria-label="Open Institutional split field">
+              <img src="23-linkedin-landscape.png" alt="SynthFlag Institutional split field" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>23</span><span>digital</span></div>
+              <h3>Institutional split field</h3>
+              <p class="use">LinkedIn landscape</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>White and cobalt two-column social card with four-bar mark, SynthFlag, and From pixels to evidence.</p>
+              </details>
+              <a class="download" href="23-linkedin-landscape.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="digital">
+            <a class="asset-preview" href="24-x-landscape.png" aria-label="Open Dark feed-first poster">
+              <img src="24-x-landscape.png" alt="SynthFlag Dark feed-first poster" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>24</span><span>digital</span></div>
+              <h3>Dark feed-first poster</h3>
+              <p class="use">X landscape</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Ink frame and cobalt rounded card with large SynthFlag type, four-bar mark, and Inspect the signal.</p>
+              </details>
+              <a class="download" href="24-x-landscape.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="digital">
+            <a class="asset-preview" href="25-square-social-tile.png" aria-label="Open Modular evidence-card grid">
+              <img src="25-square-social-tile.png" alt="SynthFlag Modular evidence-card grid" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>25</span><span>digital</span></div>
+              <h3>Modular evidence-card grid</h3>
+              <p class="use">Square social tile</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Square nested evidence cards in Cloud and white with cobalt block, four-bar mark, SynthFlag, and Evidence before certainty.</p>
+              </details>
+              <a class="download" href="25-square-social-tile.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="digital">
+            <a class="asset-preview" href="26-story-portrait-tile.png" aria-label="Open Vertical signal-field poster">
+              <img src="26-story-portrait-tile.png" alt="SynthFlag Vertical signal-field poster" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>26</span><span>digital</span></div>
+              <h3>Vertical signal-field poster</h3>
+              <p class="use">Story or portrait tile</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Approved Signal Field portrait with four-bar mark, monumental SynthFlag wordmark, and a white promise card.</p>
+              </details>
+              <a class="download" href="26-story-portrait-tile.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="digital">
+            <a class="asset-preview" href="27-presentation-cover.png" aria-label="Open Signal-field title slide">
+              <img src="27-presentation-cover.png" alt="SynthFlag Signal-field title slide" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>27</span><span>digital</span></div>
+              <h3>Signal-field title slide</h3>
+              <p class="use">Presentation cover</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>White-framed approved Signal Field panel with large SynthFlag wordmark, four-bar mark, and From pixels to evidence.</p>
+              </details>
+              <a class="download" href="27-presentation-cover.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="digital">
+            <a class="asset-preview" href="28-closing-slide.png" aria-label="Open Deep Signal closing statement">
+              <img src="28-closing-slide.png" alt="SynthFlag Deep Signal closing statement" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>28</span><span>digital</span></div>
+              <h3>Deep Signal closing statement</h3>
+              <p class="use">Presentation closing slide</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Approved Deep Signal rounded panel with four-bar mark, SynthFlag wordmark, thin rule, and Evidence before certainty.</p>
+              </details>
+              <a class="download" href="28-closing-slide.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="digital">
+            <a class="asset-preview" href="29-webinar-cover.png" aria-label="Open Open research-event template">
+              <img src="29-webinar-cover.png" alt="SynthFlag Open research-event template" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>29</span><span>digital</span></div>
+              <h3>Open research-event template</h3>
+              <p class="use">Webinar cover</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Cloud and white event cover with cobalt four-bar mark, SynthFlag, Confidence with context, and open space for future details.</p>
+              </details>
+              <a class="download" href="29-webinar-cover.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="digital">
+            <a class="asset-preview" href="30-email-newsletter-header.png" aria-label="Open Compact editorial masthead">
+              <img src="30-email-newsletter-header.png" alt="SynthFlag Compact editorial masthead" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>30</span><span>digital</span></div>
+              <h3>Compact editorial masthead</h3>
+              <p class="use">Email or newsletter header</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Wide Cloud masthead with centered four-bar mark, SynthFlag wordmark, thin rule, and Specific calm qualified.</p>
+              </details>
+              <a class="download" href="30-email-newsletter-header.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="asset-section" id="print" data-section="print">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">31–45</p>
+            <h2>Print &amp; event</h2>
+          </div>
+          <p>Stickers, badges, conference collateral, reports, and physical formats.</p>
+        </div>
+        <div class="asset-grid">
+          <figure class="asset-card" data-group="print">
+            <a class="asset-preview" href="31-transparent-sticker.png" aria-label="Open Compact identity lockup">
+              <img src="31-transparent-sticker.png" alt="SynthFlag Compact identity lockup" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>31</span><span>print</span></div>
+              <h3>Compact identity lockup</h3>
+              <p class="use">Transparent die-cut sticker</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Four skewed cobalt bars, exact SynthFlag wordmark, white keyline, genuine transparent background</p>
+              </details>
+              <a class="download" href="31-transparent-sticker.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="print">
+            <a class="asset-preview" href="32-circular-badge.png" aria-label="Open Institutional roundel">
+              <img src="32-circular-badge.png" alt="SynthFlag Institutional roundel" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>32</span><span>print</span></div>
+              <h3>Institutional roundel</h3>
+              <p class="use">Circular event badge</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Cobalt ring, cloud field, four-bar mark, exact SynthFlag wordmark</p>
+              </details>
+              <a class="download" href="32-circular-badge.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="print">
+            <a class="asset-preview" href="33-conference-lanyard-card.png" aria-label="Open Editorial physical mockup">
+              <img src="33-conference-lanyard-card.png" alt="SynthFlag Editorial physical mockup" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>33</span><span>print</span></div>
+              <h3>Editorial physical mockup</h3>
+              <p class="use">Conference lanyard credential</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Front-facing printed credential, cobalt lanyard, cropped signal motif, exact SynthFlag wordmark</p>
+              </details>
+              <a class="download" href="33-conference-lanyard-card.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="print">
+            <a class="asset-preview" href="34-research-poster.png" aria-label="Open Swiss editorial grid">
+              <img src="34-research-poster.png" alt="SynthFlag Swiss editorial grid" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>34</span><span>print</span></div>
+              <h3>Swiss editorial grid</h3>
+              <p class="use">Research poster</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Portrait measured grid, cropped cobalt bar system, rounded cloud structures, exact SynthFlag wordmark</p>
+              </details>
+              <a class="download" href="34-research-poster.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="print">
+            <a class="asset-preview" href="35-report-cover.png" aria-label="Open Formal evidence system">
+              <img src="35-report-cover.png" alt="SynthFlag Formal evidence system" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>35</span><span>print</span></div>
+              <h3>Formal evidence system</h3>
+              <p class="use">Research report cover</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Cobalt spine, thin measurement rules, blank rounded evidence panels, exact SynthFlag wordmark</p>
+              </details>
+              <a class="download" href="35-report-cover.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="print">
+            <a class="asset-preview" href="36-one-page-brief-cover.png" aria-label="Open Practical research brief">
+              <img src="36-one-page-brief-cover.png" alt="SynthFlag Practical research brief" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>36</span><span>print</span></div>
+              <h3>Practical research brief</h3>
+              <p class="use">One-page briefing cover</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Oversized cobalt wordmark, four-bar mark, three empty context panels, generous white space</p>
+              </details>
+              <a class="download" href="36-one-page-brief-cover.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="print">
+            <a class="asset-preview" href="37-business-card-front.png" aria-label="Open Minimal typographic identity">
+              <img src="37-business-card-front.png" alt="SynthFlag Minimal typographic identity" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>37</span><span>print</span></div>
+              <h3>Minimal typographic identity</h3>
+              <p class="use">Business card front</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Horizontal white card, compact four-bar mark, exact SynthFlag wordmark, line-blue rule</p>
+              </details>
+              <a class="download" href="37-business-card-front.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="print">
+            <a class="asset-preview" href="38-business-card-back.png" aria-label="Open Bold signal field">
+              <img src="38-business-card-back.png" alt="SynthFlag Bold signal field" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>38</span><span>print</span></div>
+              <h3>Bold signal field</h3>
+              <p class="use">Business card back</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Oversized cropped four-bar rhythm with a small exact SynthFlag signature</p>
+              </details>
+              <a class="download" href="38-business-card-back.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="print">
+            <a class="asset-preview" href="39-conference-slide-title.png" aria-label="Open Calm keynote system">
+              <img src="39-conference-slide-title.png" alt="SynthFlag Calm keynote system" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>39</span><span>print</span></div>
+              <h3>Calm keynote system</h3>
+              <p class="use">Conference title slide</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Large ink wordmark, compact four-bar mark, approved signal-field band, blank evidence panel</p>
+              </details>
+              <a class="download" href="39-conference-slide-title.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="print">
+            <a class="asset-preview" href="40-meetup-flyer.png" aria-label="Open Independent studio poster">
+              <img src="40-meetup-flyer.png" alt="SynthFlag Independent studio poster" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>40</span><span>print</span></div>
+              <h3>Independent studio poster</h3>
+              <p class="use">Meetup flyer</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Vertical cobalt and cloud bar rhythm, screenprint texture, exact SynthFlag wordmark</p>
+              </details>
+              <a class="download" href="40-meetup-flyer.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="print">
+            <a class="asset-preview" href="41-laptop-wallpaper.png" aria-label="Open Measured desktop field">
+              <img src="41-laptop-wallpaper.png" alt="SynthFlag Measured desktop field" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>41</span><span>print</span></div>
+              <h3>Measured desktop field</h3>
+              <p class="use">Laptop wallpaper</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Quiet line-blue modular grid, four large cobalt bars, small exact SynthFlag signature</p>
+              </details>
+              <a class="download" href="41-laptop-wallpaper.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="print">
+            <a class="asset-preview" href="42-mobile-wallpaper.png" aria-label="Open Deep signal portrait">
+              <img src="42-mobile-wallpaper.png" alt="SynthFlag Deep signal portrait" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>42</span><span>print</span></div>
+              <h3>Deep signal portrait</h3>
+              <p class="use">Mobile wallpaper</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Approved cobalt gradient, four pale bars in the lower half, clear top safe area, exact SynthFlag signature</p>
+              </details>
+              <a class="download" href="42-mobile-wallpaper.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="print">
+            <a class="asset-preview" href="43-press-kit-cover.png" aria-label="Open Institutional communications system">
+              <img src="43-press-kit-cover.png" alt="SynthFlag Institutional communications system" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>43</span><span>print</span></div>
+              <h3>Institutional communications system</h3>
+              <p class="use">Press-kit cover</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Identity lockup beside blank rounded components, thin rules, restrained signal-gradient circle</p>
+              </details>
+              <a class="download" href="43-press-kit-cover.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="print">
+            <a class="asset-preview" href="44-dataset-card.png" aria-label="Open Context-first component template">
+              <img src="44-dataset-card.png" alt="SynthFlag Context-first component template" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>44</span><span>print</span></div>
+              <h3>Context-first component template</h3>
+              <p class="use">Reusable dataset card</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Rounded cloud evidence card, blank structured fields and chips, four-bar mark, no invented data</p>
+              </details>
+              <a class="download" href="44-dataset-card.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="print">
+            <a class="asset-preview" href="45-thank-you-end-card.png" aria-label="Open Confident deep-signal finale">
+              <img src="45-thank-you-end-card.png" alt="SynthFlag Confident deep-signal finale" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>45</span><span>print</span></div>
+              <h3>Confident deep-signal finale</h3>
+              <p class="use">Presentation closing card</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Deep cobalt field, giant cropped white four-bar mark, exact SynthFlag wordmark, pale rule</p>
+              </details>
+              <a class="download" href="45-thank-you-end-card.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="asset-section" id="evidence" data-section="evidence">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">46–60</p>
+            <h2>Evidence system</h2>
+          </div>
+          <p>Context-first templates, method diagrams, review states, and signal fields.</p>
+        </div>
+        <div class="asset-grid">
+          <figure class="asset-card" data-group="evidence">
+            <a class="asset-preview" href="46-evidence-card-light.png" aria-label="Open Light evidence card">
+              <img src="46-evidence-card-light.png" alt="SynthFlag Light evidence card" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>46</span><span>evidence</span></div>
+              <h3>Light evidence card</h3>
+              <p class="use">Evidence card template</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Design a clean light evidence card for an image provenance detector. Place one abstract source-frame placeholder beside a structured context panel. Use the SynthFlag four skewed rounded-bar mark subtly.</p>
+              </details>
+              <a class="download" href="46-evidence-card-light.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="evidence">
+            <a class="asset-preview" href="47-evidence-card-cobalt.png" aria-label="Open Cobalt proof block">
+              <img src="47-evidence-card-cobalt.png" alt="SynthFlag Cobalt proof block" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>47</span><span>evidence</span></div>
+              <h3>Cobalt proof block</h3>
+              <p class="use">Evidence card template</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Create a cobalt evidence summary card with four small context cells feeding one larger review state, using the SynthFlag four-bar mark.</p>
+              </details>
+              <a class="download" href="47-evidence-card-cobalt.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="evidence">
+            <a class="asset-preview" href="48-score-context-template.png" aria-label="Open Reviewable probability">
+              <img src="48-score-context-template.png" alt="SynthFlag Reviewable probability" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>48</span><span>evidence</span></div>
+              <h3>Reviewable probability</h3>
+              <p class="use">Score context template</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Design an editorial template that makes a model score inseparable from its threshold, source, condition, and interpretation. Use an empty score line and blank value fields, not fabricated numbers.</p>
+              </details>
+              <a class="download" href="48-score-context-template.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="evidence">
+            <a class="asset-preview" href="49-dataset-comparison-template.png" aria-label="Open Conditioned metric frame">
+              <img src="49-dataset-comparison-template.png" alt="SynthFlag Conditioned metric frame" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>49</span><span>evidence</span></div>
+              <h3>Conditioned metric frame</h3>
+              <p class="use">Dataset comparison template</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Create a rigorous blank comparison figure with three horizontal rows and direct-label spaces. It must look ready for real benchmark data but contain no invented values.</p>
+              </details>
+              <a class="download" href="49-dataset-comparison-template.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="evidence">
+            <a class="asset-preview" href="50-operating-points.png" aria-label="Open Same scores, different operating points">
+              <img src="50-operating-points.png" alt="SynthFlag Same scores, different operating points" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>50</span><span>evidence</span></div>
+              <h3>Same scores, different operating points</h3>
+              <p class="use">Threshold explainer</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Explain that changing a threshold changes the operating trade-off but not the underlying score ranking. Show one fixed ordered score line with two clearly different threshold markers; do not claim either detector is better.</p>
+              </details>
+              <a class="download" href="50-operating-points.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="evidence">
+            <a class="asset-preview" href="51-four-experts-diagram.png" aria-label="Open Four experts, one probability">
+              <img src="51-four-experts-diagram.png" alt="SynthFlag Four experts, one probability" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>51</span><span>evidence</span></div>
+              <h3>Four experts, one probability</h3>
+              <p class="use">Architecture explainer</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Show four equal expert modules converging into one reviewable probability output. Use the four skewed rounded-bar SynthFlag mark as the organizing metaphor, but keep the diagram flat and simple.</p>
+              </details>
+              <a class="download" href="51-four-experts-diagram.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="evidence">
+            <a class="asset-preview" href="52-review-split.png" aria-label="Open Flag for review">
+              <img src="52-review-split.png" alt="SynthFlag Flag for review" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>52</span><span>evidence</span></div>
+              <h3>Flag for review</h3>
+              <p class="use">Review-state graphic</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Create an abstract two-lane review graphic showing “continue” and “flag for review” as calm operational states, not real-versus-fake verdicts. Use one cobalt signal moving between rounded cards.</p>
+              </details>
+              <a class="download" href="52-review-split.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="evidence">
+            <a class="asset-preview" href="53-uncertainty-callout.png" aria-label="Open Specific, calm, qualified">
+              <img src="53-uncertainty-callout.png" alt="SynthFlag Specific, calm, qualified" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>53</span><span>evidence</span></div>
+              <h3>Specific, calm, qualified</h3>
+              <p class="use">Uncertainty callout</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Design a clear editorial callout that keeps uncertainty visible beside a detection result. Use the four-bar mark and one cobalt dot as the signal.</p>
+              </details>
+              <a class="download" href="53-uncertainty-callout.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="evidence">
+            <a class="asset-preview" href="54-method-card.png" aria-label="Open Method before claim">
+              <img src="54-method-card.png" alt="SynthFlag Method before claim" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>54</span><span>evidence</span></div>
+              <h3>Method before claim</h3>
+              <p class="use">Method summary card</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Create a reusable method card that foregrounds method, dataset, split, threshold, and uncertainty before any claim. Leave answer areas blank.</p>
+              </details>
+              <a class="download" href="54-method-card.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="evidence">
+            <a class="asset-preview" href="55-source-frame-overlay.png" aria-label="Open Source frame">
+              <img src="55-source-frame-overlay.png" alt="SynthFlag Source frame" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>55</span><span>evidence</span></div>
+              <h3>Source frame</h3>
+              <p class="use">Image-analysis overlay</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Create a clean image-analysis framing overlay with four cobalt corner brackets, a small four-bar mark, and minimal review labels. The center must remain open for a real image to be placed later.</p>
+              </details>
+              <a class="download" href="55-source-frame-overlay.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="evidence">
+            <a class="asset-preview" href="56-signal-pattern-light.png" aria-label="Open Four-bar signal field">
+              <img src="56-signal-pattern-light.png" alt="SynthFlag Four-bar signal field" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>56</span><span>evidence</span></div>
+              <h3>Four-bar signal field</h3>
+              <p class="use">Light brand background</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Create a calm repeatable-feeling brand background derived only from the SynthFlag four skewed rounded bars, thin measurement rules, and large open fields. No logo lockup and no text.</p>
+              </details>
+              <a class="download" href="56-signal-pattern-light.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="evidence">
+            <a class="asset-preview" href="57-signal-pattern-dark.png" aria-label="Open Deep signal field">
+              <img src="57-signal-pattern-dark.png" alt="SynthFlag Deep signal field" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>57</span><span>evidence</span></div>
+              <h3>Deep signal field</h3>
+              <p class="use">Dark brand background</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Create a restrained dark presentation background derived from the four skewed rounded-bar mark and one measured cobalt signal line. No text.</p>
+              </details>
+              <a class="download" href="57-signal-pattern-dark.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="evidence">
+            <a class="asset-preview" href="58-for-review-badge.png" aria-label="Open Operational state">
+              <img src="58-for-review-badge.png" alt="SynthFlag Operational state" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>58</span><span>evidence</span></div>
+              <h3>Operational state</h3>
+              <p class="use">Transparent review badge</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Create a compact horizontal pill badge using the four skewed cobalt bars and a calm review-state label.</p>
+              </details>
+              <a class="download" href="58-for-review-badge.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="evidence">
+            <a class="asset-preview" href="59-report-figure-frame.png" aria-label="Open Evidence figure">
+              <img src="59-report-figure-frame.png" alt="SynthFlag Evidence figure" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>59</span><span>evidence</span></div>
+              <h3>Evidence figure</h3>
+              <p class="use">Report figure frame</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Design a blank publication-ready figure frame with a title zone, plot zone, direct-label column, and caveat footer. It must contain no data.</p>
+              </details>
+              <a class="download" href="59-report-figure-frame.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+          <figure class="asset-card" data-group="evidence">
+            <a class="asset-preview" href="60-evidence-before-certainty.png" aria-label="Open Evidence before certainty">
+              <img src="60-evidence-before-certainty.png" alt="SynthFlag Evidence before certainty" loading="lazy">
+            </a>
+            <figcaption>
+              <div class="asset-kicker"><span>60</span><span>evidence</span></div>
+              <h3>Evidence before certainty</h3>
+              <p class="use">Core promise tile</p>
+              <details>
+                <summary>Direction notes</summary>
+                <p>Create a bold but calm brand tile centered on the evidence-first promise. Use oversized editorial typography and the four skewed rounded-bar mark.</p>
+              </details>
+              <a class="download" href="60-evidence-before-certainty.png" download>Download PNG <span aria-hidden="true">↓</span></a>
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+  </main>
+
+  <footer><strong>SynthFlag</strong> · Confidence with context · 2026 exploration set</footer>
+
+  <script>
+    const buttons = [...document.querySelectorAll("[data-filter]")];
+    const sections = [...document.querySelectorAll("[data-section]")];
+    buttons.forEach(button => button.addEventListener("click", () => {
+      const filter = button.dataset.filter;
+      buttons.forEach(item => item.setAttribute("aria-pressed", String(item === button)));
+      sections.forEach(section => {
+        section.hidden = filter !== "all" && section.dataset.section !== filter;
+      });
+      window.scrollTo({top: document.querySelector(".toolbar-wrap").offsetTop, behavior:"smooth"});
+    }));
+  </script>
+</body>
+</html>

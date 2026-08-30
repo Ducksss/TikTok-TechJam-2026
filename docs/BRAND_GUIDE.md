@@ -1,8 +1,8 @@
-# FeatDistill brand guide
+# SynthFlag brand guide
 
 Version 1.0 · 31 August 2026
 
-This guide translates the visual grammar of the [Arooth reference site](https://arooth.webflow.io/) into an original identity for FeatDistill. It keeps the reference's clarity, scale, cobalt palette, pill-shaped controls, pale surfaces, and editorial pacing while replacing its agency-specific identity with a system built for robust AI-generated image detection.
+This guide translates the visual grammar of the [Arooth reference site](https://arooth.webflow.io/) into an original identity for SynthFlag. It keeps the reference's clarity, scale, cobalt palette, pill-shaped controls, pale surfaces, and editorial pacing while replacing its agency-specific identity with a system built for robust AI-generated image detection.
 
 The reference is inspiration, not an asset library. Do not reuse its logo, icons, photographs, illustrations, or copy without the appropriate license.
 
@@ -10,13 +10,13 @@ The reference is inspiration, not an asset library. Do not reuse its logo, icons
 
 ### One-line description
 
-FeatDistill is a four-expert ensemble that turns image signals into a clear, reviewable probability of synthetic origin.
+SynthFlag is a four-expert ensemble that turns image signals into a clear, reviewable probability of synthetic origin.
 
 ### Brand idea
 
 **Evidence before certainty.**
 
-FeatDistill should feel technically credible without looking clinical, and progressive without falling into generic “AI futurism.” The identity combines measured structure with one confident visual gesture: a vivid cobalt signal moving through a calm field of white and pale blue.
+SynthFlag should feel technically credible without looking clinical, and progressive without falling into generic “AI futurism.” The identity combines measured structure with one confident visual gesture: a vivid cobalt signal moving through a calm field of white and pale blue.
 
 ### Promise
 
@@ -42,7 +42,7 @@ FeatDistill should feel technically credible without looking clinical, and progr
 
 ### Core messages
 
-1. **Four experts. One ensemble score.** FeatDistill combines two CLIP and two SigLIP experts.
+1. **Four experts. One ensemble score.** SynthFlag combines two CLIP and two SigLIP experts through the FeatDistill detector architecture.
 2. **Designed for the wild.** The system is designed to be evaluated across real-world datasets, generators, and controlled distortions.
 3. **Evidence, not a verdict.** The score supports review; it is not conclusive proof of an image's origin.
 4. **Performance you can inspect.** Report thresholds, datasets, sample counts, uncertainty, and failure cases beside headline metrics.
@@ -81,13 +81,13 @@ Avoid:
 
 ### Primary lockup
 
-Use a bespoke four-part signal mark followed by the `FeatDistill` wordmark. The proposed mark consists of four tapered modules surrounding a narrow central aperture:
+Use a bespoke four-part signal mark followed by the `SynthFlag` wordmark. The proposed mark consists of four tapered modules surrounding a narrow central aperture:
 
 - four modules represent the four expert models;
 - the aperture represents the image signal being inspected;
 - the aligned modules communicate agreement without implying certainty.
 
-The wordmark is set in Instrument Sans Medium with custom spacing. Use title case exactly as `FeatDistill`.
+The wordmark is set in Instrument Sans Medium with custom spacing. Use title case exactly as `SynthFlag`.
 
 ### Alternate lockups
 
@@ -107,7 +107,7 @@ The wordmark is set in Instrument Sans Medium with custom spacing. Use title cas
 - Use Ink on light backgrounds, White on Cobalt, or Cobalt on White.
 - Keep the mark flat; do not apply the brand gradients inside the wordmark.
 - Do not rotate, stretch, outline, add a drop shadow, or place over busy imagery.
-- Do not reproduce or modify the Arooth logo; the FeatDistill mark must be original.
+- Do not reproduce or modify the Arooth logo; the SynthFlag mark must be original.
 
 ## Color system
 
@@ -295,7 +295,7 @@ Base unit: 8 px.
 - Single subjects, objects, or material details rather than busy scenes.
 - Crop boldly and use rounded frames.
 
-For FeatDistill, pair aspirational imagery with forensic detail: surface texture, compression patterns, reflections, skin, typography, and object edges. Avoid visual tropes such as glowing brains, humanoid robots, circuit-board faces, or hooded hackers.
+For SynthFlag, pair aspirational imagery with forensic detail: surface texture, compression patterns, reflections, skin, typography, and object edges. Avoid visual tropes such as glowing brains, humanoid robots, circuit-board faces, or hooded hackers.
 
 ### Technical graphics
 
@@ -324,7 +324,7 @@ Motion should communicate direction and state, not create spectacle.
 
 ## Page grammar
 
-A typical FeatDistill page should follow this rhythm:
+A typical SynthFlag page should follow this rhythm:
 
 1. Floating pill navigation.
 2. Oversized single-word signal such as **EVIDENCE**, **TRACE**, **SIGNAL**, or **TRUST**.
@@ -358,7 +358,7 @@ Secondary action: **View benchmark**
 
 ### Responsible-use note
 
-> FeatDistill scores indicate model confidence, not proof of origin. Use them alongside provenance, context, and human review.
+> SynthFlag scores indicate model confidence, not proof of origin. Use them alongside provenance, context, and human review.
 
 ## Design tokens
 
@@ -400,7 +400,7 @@ Secondary action: **View benchmark**
 
 ## Final quality check
 
-Before shipping a FeatDistill artifact, ask:
+Before shipping a SynthFlag artifact, ask:
 
 - Is the page mostly calm, pale, and spacious, with Cobalt used as the signal?
 - Is there one clear message and one dominant action?
