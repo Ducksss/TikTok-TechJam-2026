@@ -3,6 +3,12 @@
 Run these commands from the repository root unless a section says otherwise.
 They match the checked-in package metadata and CLI arguments.
 
+Before downloading external checkpoints or data, read the
+[model card](MODEL_CARD.md), [dataset rights inventory](DATASETS_AND_RIGHTS.md),
+[third-party notices](THIRD_PARTY_NOTICES.md), and
+[release audit](RELEASE_AUDIT.md). Reproduction instructions do not grant
+redistribution rights for any external artifact.
+
 ## 1. Verify the static submission package
 
 ```bash

@@ -12,6 +12,10 @@ package in this repository.
 - [Accessible architecture explanation](ARCHITECTURE.md)
 - [Exact reproduction commands](REPRODUCE.md)
 - [Package checksum manifest](ARTIFACTS.sha256)
+- [Model card](MODEL_CARD.md)
+- [Dataset attribution and rights](DATASETS_AND_RIGHTS.md)
+- [Third-party notices](THIRD_PARTY_NOTICES.md)
+- [Release audit](RELEASE_AUDIT.md)
 - [Machine-readable and source-report evidence](evidence/)
 
 ## Result in one sentence
@@ -75,3 +79,7 @@ and false-negative costs.
 - [Command-line interface](../infer/cli.py)
 - [Checkpoint instructions](../weights/README.md)
 - [License](../LICENSE)
+
+The repository license covers original repository material only. Checkpoints,
+dataset pixels, protected split rows, and per-image protected-evaluation scores
+are excluded from the public package and remain subject to their own terms.

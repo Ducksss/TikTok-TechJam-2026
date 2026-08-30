@@ -222,3 +222,13 @@ weights/*
 !weights/README.md
 !weights/manifest.json
 outputs/
+
+# Release safety: never publish model binaries, dataset pixels, or private evaluation rows
+*.pth
+*.pt
+*.ckpt
+*.safetensors
+data/
+dataset/
+datasets/
+experiments/private/

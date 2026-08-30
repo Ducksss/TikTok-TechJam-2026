@@ -54,7 +54,8 @@ The submission branch is the assembly point; source artifacts remain authoritati
 | Demo link | [Live SynthFlag landing page](https://synthflag.chaipinzheng353496.chatgpt.site/) and source on `codex/synthflag-brand-site` | **Verified** | An unauthenticated request returned HTTP 200 with SynthFlag title/metadata/content; the page is explanatory and does not claim to provide browser-based inference. |
 | Architecture diagram | `submission/ARCHITECTURE.svg` and `submission/ARCHITECTURE.md` | **Verified** | Valid XML, accessible text companion, technically accurate four-expert flow, and explicit SynthFlag/FeatDistill naming boundary. |
 | Reproduction commands | `submission/REPRODUCE.md` | **Verified** | Covers package hashes, environment setup, checkpoint verification, inference, output validation, score interpretation, and private benchmark boundaries. |
-| Artifact checksums | `submission/ARTIFACTS.sha256` and `submission/evidence/weights-manifest.json` | **Verified** | All 11 static-package checksum entries pass; checkpoint sizes and hashes are separately preserved without shipping checkpoint binaries. |
+| Artifact checksums | `submission/ARTIFACTS.sha256` and `submission/evidence/weights-manifest.json` | **Verified** | All 15 static-package checksum entries pass; checkpoint sizes and hashes are separately preserved without shipping checkpoint binaries. |
+| Licensing and model card | `submission/MODEL_CARD.md`, `submission/DATASETS_AND_RIGHTS.md`, `submission/THIRD_PARTY_NOTICES.md`, and `submission/RELEASE_AUDIT.md` | **Verified with exclusions** | Code and original documentation are covered by the repository license; unlicensed or separately licensed checkpoints, dataset pixels, private rows, and per-image scores are excluded. |
 
 ## Operating and safety rules
 

@@ -19,6 +19,10 @@ Python package. SynthFlag is the public product and submission name.
 - [Architecture diagram and explanation](submission/ARCHITECTURE.md)
 - [Exact reproduction commands](submission/REPRODUCE.md)
 - [Artifact checksums](submission/ARTIFACTS.sha256)
+- [Model card](submission/MODEL_CARD.md)
+- [Dataset attribution and rights](submission/DATASETS_AND_RIGHTS.md)
+- [Third-party notices](submission/THIRD_PARTY_NOTICES.md)
+- [Release audit](submission/RELEASE_AUDIT.md)
 - [Project status and worktree register](STATUS.md)
 
 ## Benchmark snapshot
@@ -99,6 +103,8 @@ integration, reproducibility layer, evidence package, and product presentation
 are the submission work; the detector architecture and released checkpoints
 must retain their upstream attribution.
 
+Underlying detector report: [FeatDistill, arXiv:2603.21939](https://arxiv.org/abs/2603.21939).
+
 A SynthFlag score is a signal, not conclusive proof of an image's origin.
 Decisions with real consequences should include human review and supporting
 evidence.
@@ -118,6 +124,18 @@ Please cite the challenge report when using the detector or checkpoints:
 [arXiv:2604.11487](https://arxiv.org/abs/2604.11487) ·
 [CVPR 2026 Open Access](https://openaccess.thecvf.com/CVPR2026_workshops/NTIRE)
 
-Repository code is provided under the [Apache License 2.0](LICENSE). Upstream
-model and checkpoint terms may impose additional requirements and should be
-reviewed separately.
+## Release and licensing
+
+Repository code and original project documentation are provided under the
+[Apache License 2.0](LICENSE). That license does **not** grant rights to
+third-party model checkpoints, datasets, benchmark images, dependency code, or
+trademarks.
+
+This Git repository intentionally excludes the four fine-tuned checkpoints,
+dataset pixels, private split rows, and per-image protected-evaluation scores.
+The checkpoint mirror is an external source, not a redistribution grant. Read
+the [model card](submission/MODEL_CARD.md),
+[dataset and rights inventory](submission/DATASETS_AND_RIGHTS.md),
+[third-party notices](submission/THIRD_PARTY_NOTICES.md), and
+[release audit](submission/RELEASE_AUDIT.md) before packaging or redistributing
+anything beyond this source tree.
