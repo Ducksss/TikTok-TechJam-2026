@@ -168,7 +168,6 @@ body {
 .scan-pass {
   animation: scan-pass 2.7s ease-in-out infinite;
 }
-
 a,
 button {
   -webkit-tap-highlight-color: transparent;
@@ -203,7 +202,6 @@ button:focus-visible {
     transform: translateY(320px);
   }
 }
-
 @media (min-width: 1024px) {
   .evidence-grid {
     min-height: 112vh;
@@ -226,7 +224,6 @@ button:focus-visible {
   .scan-pass {
     animation: none;
   }
-
   [data-hero-card],
   [data-hero-orb],
   [data-reveal],
