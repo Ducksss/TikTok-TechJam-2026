@@ -1,69 +1,63 @@
-# FeatDistill
+# SynthFlag
 
-This repository is the UESTC solution for the **NTIRE 2026 Challenge on Robust AI‑Generated Image Detection in the Wild**, implemented via a four‑expert ensemble model.
-![FeatDistill overview](competition.png)
+**SynthFlag** is the TikTok TechJam 2026 submission for detecting AI-generated
+images in real-world collections. It packages the research-grade FeatDistill
+four-expert detector into a reproducible inference workflow with protected
+evaluation, checkpoint integrity checks, and submission-facing evidence.
 
-The detector contains four independently trained experts:
+FeatDistill remains the name of the underlying detector architecture and the
+Python package. SynthFlag is the public product and submission name.
 
-| Expert | Vision encoder | Input | Classification head |
-|---|---|---:|---|
-| 1 | CLIP ViT-L/14 | 224 px | 768 → 256 → 2 |
-| 2 | CLIP ViT-L/14 | 224 px | 768 → 256 → 2 |
-| 3 | SigLIP So400M Patch14-384 | 384 px | 1152 → 256 → 2 |
-| 4 | SigLIP So400M Patch14-384 | 384 px | 1152 → 256 → 2 |
+## Submission package
 
-## Repository Layout
+- [Submission overview](submission/README.md)
+- [Benchmark table](submission/BENCHMARKS.md)
+- [Architecture diagram and explanation](submission/ARCHITECTURE.md)
+- [Exact reproduction commands](submission/REPRODUCE.md)
+- [Artifact checksums](submission/ARTIFACTS.sha256)
+- [Project status and worktree register](STATUS.md)
 
-```text
-Featdistill_infer/
-├─ infer/
-│  ├─ model.py          # Model definitions, preprocessing, and strict loading
-│  └─ cli.py            # Recursive, resumable batch inference
-├─ distortion/           # Degradation operations that can be added during training
-├─ weights/
-│  ├─ README.md
-├─ pyproject.toml
-└─ requirements.txt
-```
+## Benchmark snapshot
 
-## Installation
+The protected V1 final partition contains 7,998 images: 3,999 real and 3,999
+fake. The recommended balanced operating point changes only the frozen decision
+threshold; it does not retrain the detector or change its ranking.
 
-Python 3.10 or newer is required. When using CUDA, install a PyTorch version compatible with your CUDA driver.
+| Configuration | ROC-AUC | Balanced accuracy | F1 | Fake recall | Precision | Specificity |
+|---|---:|---:|---:|---:|---:|---:|
+| Released mean, threshold 0.5 | 0.8505 | 0.7763 | 0.7259 | 0.5924 | 0.9371 | 0.9602 |
+| **SynthFlag balanced point, threshold 0.2874746155** | **0.8505** | **0.8061** | **0.7861** | **0.7127** | 0.8764 | 0.8995 |
+
+The complete table separates protected V1 results, retrospective V2
+development evidence, and blocked V3 fields. See
+[submission/BENCHMARKS.md](submission/BENCHMARKS.md) for the evidence boundary
+and unavailable values.
+
+## How it works
+
+![SynthFlag architecture: four FeatDistill experts merged into one fake-image score](submission/ARCHITECTURE.svg)
+
+Two CLIP experts process 224 px inputs and two SigLIP experts process 384 px
+inputs. Each returns a fake-image probability. The released inference path
+averages the four probabilities into a single score from 0 to 1. SynthFlag's
+balanced operating point applies the calibration-frozen threshold
+`0.2874746155` to that unchanged score.
+
+## Quick start
+
+Python 3.10 or newer is required. When using CUDA, install a PyTorch build that
+matches the local driver.
 
 ```bash
 python -m venv .venv
+source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -e .
 ```
 
-## Checkpoints
-
-Download the four released expert checkpoints and place them directly in `weights/`:
-
-- Baidu Netdisk: [Download the shared `weights` folder](https://pan.baidu.com/s/1z4FfdeLJOu9PI0wks4vgqQ)
-- Extraction code: `4dqe`
-
-```text
-weights/
-├─ manifest.json
-├─ Expert_1_clip.pth
-├─ Expert_2_clip.pth
-├─ Expert_3_siglip.pth
-└─ Expert_4_siglip.pth
-```
-
-The following commands can be used to download the upstream models:
-
-```bash
-hf download openai/clip-vit-large-patch14 \
-  --local-dir weights/clip-vit-large-patch14
-hf download google/siglip-so400m-patch14-384 \
-  --local-dir weights/siglip-so400m
-```
-
-The current `infer` package does not require these commands.
-
-## Run Inference
+Download the four released expert checkpoints and place them directly in
+`weights/`. Their expected sizes and SHA-256 digests are recorded in
+[`weights/manifest.json`](weights/manifest.json).
 
 ```bash
 python -m infer \
@@ -73,58 +67,39 @@ python -m infer \
   --device auto
 ```
 
-The command recursively reads JPEG, PNG, BMP, WebP, and TIFF images and writes:
+The command recursively reads JPEG, PNG, BMP, WebP, and TIFF images and writes
+`predictions.csv` plus `predictions.meta.json`. Runs are resumable; an exclusive
+output lock prevents concurrent writers from corrupting the CSV.
 
-- `predictions.csv`, containing the two columns `image_name,score`;
-- `predictions.meta.json`, which binds the resumable CSV to its input root directory and weight manifest.
+## Demo
 
-`image_name` is a POSIX-style path relative to `--images-dir`, so images in different subdirectories
-do not conflict. `score` is the final fake-image probability in the range `[0,1]`. Running the same command again
-resumes and continues processing unfinished images; use `--overwrite` to start over. During a resumed run,
-do not replace input images with the same names; after the inputs change, use a new output directory or use
-`--overwrite`. An exclusive output lock prevents two processes from appending to the same CSV simultaneously.
+[Open the live SynthFlag landing page](https://synthflag.chaipinzheng353496.chatgpt.site/).
+An unauthenticated production request was verified to return HTTP 200 with the
+SynthFlag title, metadata, method, evidence, and responsible-use content. The
+hosted page is an explanatory submission demo rather than a browser inference
+upload form; executable inference is provided by the local CLI above.
 
-## Python API
+## Reproduce the evidence
 
-```python
-from PIL import Image
-from infer import Model
+The full benchmark commands, environment checks, expected inputs, verification
+steps, and evidence limitations are in
+[submission/REPRODUCE.md](submission/REPRODUCE.md). Dataset-derived rows,
+individual scores, local paths, and protected data are intentionally excluded
+from the public package.
 
-model = Model(device="auto", model_data_dir="weights")
-scores = model.predict_pil([Image.open("example.jpg")])
-print(float(scores[0]))
-```
+## Research and responsibility
 
-`Model.predict()` also accepts a PyTorch tensor with shape `[B,3,H,W]`. Floating-point inputs must be finite
-and within the range `[0,1]`; `uint8` tensors are also supported.
+SynthFlag builds on FeatDistill, the UESTC solution for the NTIRE 2026
+Challenge on Robust AI-Generated Image Detection in the Wild. The hackathon
+integration, reproducibility layer, evidence package, and product presentation
+are the submission work; the detector architecture and released checkpoints
+must retain their upstream attribution.
 
-## Optional Degradation Utilities
+A SynthFlag score is a signal, not conclusive proof of an image's origin.
+Decisions with real consequences should include human review and supporting
+evidence.
 
-The `distortion/` package is used for controlled robustness experiments and records the degradation operations used during method development. It is
-intentionally kept separate from `Model` and the command-line interface: standard predictions always process the original decoded image and then perform only
-deterministic resizing, center cropping, and normalization.
-
-Install its additional numerical dependencies only when needed:
-
-```bash
-python -m pip install -e ".[distortion]"
-```
-
-Example:
-
-```python
-from distortion import apply_training_distortion
-
-# image: a CPU float32 RGB tensor in [0,1] with shape [3,H,W]
-degraded, operations, levels = apply_training_distortion(
-    image,
-    probability=0.8,
-)
-```
-
-## Citation
-
-Please cite the challenge report when using this implementation:
+Please cite the challenge report when using the detector or checkpoints:
 
 ```bibtex
 @inproceedings{gushchin2026ntire,
@@ -136,12 +111,9 @@ Please cite the challenge report when using this implementation:
 }
 ```
 
-Paper: [arXiv:2604.11487](https://arxiv.org/abs/2604.11487) ·
-[CVPR 2026 Open Access](https://openaccess.thecvf.com/CVPR2026_workshops/NTIRE).
+[arXiv:2604.11487](https://arxiv.org/abs/2604.11487) ·
+[CVPR 2026 Open Access](https://openaccess.thecvf.com/CVPR2026_workshops/NTIRE)
 
-## Release and Licensing Notes
-
-- Add a `LICENSE` to the repository before making the code public. The appropriate license must be selected by the copyright holder.
-- Review and disclose the upstream model terms and the distribution terms for the fine-tuned expert checkpoints before uploading the weights.
-- This is a research detector. Model scores should not be treated as conclusive evidence about an image's origin.
-
+Repository code is provided under the [Apache License 2.0](LICENSE). Upstream
+model and checkpoint terms may impose additional requirements and should be
+reviewed separately.
