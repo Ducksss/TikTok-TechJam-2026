@@ -1,7 +1,10 @@
-# FeatDistill
+<p align="center">
+  <img src="assets/brand/synthflag-primary-wordmark.png" alt="SynthFlag" width="100%">
+</p>
 
-This repository is the UESTC solution for the **NTIRE 2026 Challenge on Robust AI‑Generated Image Detection in the Wild**, implemented via a four‑expert ensemble model.
-![FeatDistill overview](competition.png)
+**SynthFlag** is the UESTC solution for the **NTIRE 2026 Challenge on Robust AI‑Generated Image Detection in the Wild**, implemented via a four‑expert ensemble model.
+
+![SynthFlag detector overview](competition.png)
 
 The detector contains four independently trained experts:
 
@@ -144,4 +147,3 @@ Paper: [arXiv:2604.11487](https://arxiv.org/abs/2604.11487) ·
 - Add a `LICENSE` to the repository before making the code public. The appropriate license must be selected by the copyright holder.
 - Review and disclose the upstream model terms and the distribution terms for the fine-tuned expert checkpoints before uploading the weights.
 - This is a research detector. Model scores should not be treated as conclusive evidence about an image's origin.
-
