@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="title desc">
+  <title id="title">NTIRE 2026 robustness evidence and deployment boundaries for UESTC</title>
+  <desc id="desc">The challenge dataset contains 108,750 real and 185,750 generated images from 42 generators, with 20 generators in the training split. Across challenge stages there are 36 transformation types; robust-track images receive one to five chained distortions. UESTC reports average clean ROC AUC 0.9729 and average robust ROC AUC 0.8679. The score does not identify a generator or prove provenance, and a deployment threshold must be validated separately.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07111f"/>
+      <stop offset="1" stop-color="#0d1728"/>
+    </linearGradient>
+    <linearGradient id="coral" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2b1b24"/>
+      <stop offset="1" stop-color="#1b1924"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="18" flood-color="#020812" flood-opacity="0.48"/>
+    </filter>
+    <marker id="arrow" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto">
+      <path d="M0 0L11 5.5L0 11Z" fill="#ff7e79"/>
+    </marker>
+    <pattern id="grid" width="36" height="36" patternUnits="userSpaceOnUse">
+      <path d="M36 0H0V36" fill="none" stroke="#87a0bf" stroke-opacity="0.055"/>
+    </pattern>
+    <style>
+      text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+      .kicker{font-size:15px;font-weight:700;letter-spacing:2.6px;fill:#8fa4be}
+      .title{font-size:38px;font-weight:730;fill:#f5f8fc;letter-spacing:-.6px}
+      .sub{font-size:17px;fill:#a9bbcf}
+      .label{font-size:13px;font-weight:750;letter-spacing:1.35px}
+      .stat{font-size:34px;font-weight:760;fill:#f7faff}
+      .head{font-size:20px;font-weight:720;fill:#f4f7fc}
+      .body{font-size:14px;fill:#b4c4d6}
+      .mini{font-size:12px;fill:#9aadc3}
+    </style>
+  </defs>
+  <rect width="1440" height="900" rx="32" fill="url(#bg)"/>
+  <rect width="1440" height="900" rx="32" fill="url(#grid)"/>
+  <rect x="36" y="36" width="1368" height="828" rx="26" fill="none" stroke="#8ba2bd" stroke-opacity="0.16"/>
+
+  <text x="80" y="94" class="kicker">PAPER FACTS · CHALLENGE EVIDENCE</text>
+  <text x="80" y="143" class="title">Robustness is measured under real-world damage.</text>
+  <text x="80" y="178" class="sub">Strong benchmark ranking evidence—paired with clear limits on what one score can establish.</text>
+
+  <g transform="translate(80 226)" filter="url(#shadow)">
+    <rect width="570" height="240" rx="24" fill="#0d1b2d" stroke="#334b65"/>
+    <text x="28" y="43" class="label" fill="#8fa9c5">CHALLENGE DATASET</text>
+    <g transform="translate(28 74)">
+      <rect width="240" height="108" rx="17" fill="#101f33" stroke="#4d6987"/>
+      <text x="20" y="43" class="stat">108,750</text>
+      <text x="20" y="76" class="body">real images</text>
+    </g>
+    <g transform="translate(286 74)">
+      <rect width="256" height="108" rx="17" fill="#1e1a1e" stroke="#ffbd5c" stroke-opacity=".7"/>
+      <text x="20" y="43" class="stat">185,750</text>
+      <text x="20" y="76" class="body">generated images</text>
+    </g>
+    <text x="28" y="214" class="body">42 generators overall  ·  20 represented in the training split</text>
+  </g>
+
+  <g transform="translate(676 226)" filter="url(#shadow)">
+    <rect width="680" height="240" rx="24" fill="url(#coral)" stroke="#ff7e79" stroke-opacity=".8"/>
+    <text x="28" y="43" class="label" fill="#ff9d98">ROBUST-TRACK DEGRADATION PIPELINE</text>
+    <g transform="translate(28 74)">
+      <rect width="126" height="80" rx="16" fill="#171b29" stroke="#667890"/>
+      <text x="63" y="34" class="head" text-anchor="middle">Image</text>
+      <text x="63" y="59" class="mini" text-anchor="middle">real or generated</text>
+    </g>
+    <path d="M154 114H198" stroke="#ff7e79" stroke-width="2.2" marker-end="url(#arrow)"/>
+    <g transform="translate(204 74)">
+      <rect width="264" height="80" rx="16" fill="#291b25" stroke="#ff7e79"/>
+      <text x="132" y="33" class="head" text-anchor="middle">1–5 chained distortions</text>
+      <text x="132" y="59" class="mini" text-anchor="middle">type and magnitude sampled per use</text>
+    </g>
+    <path d="M468 114H512" stroke="#ff7e79" stroke-width="2.2" marker-end="url(#arrow)"/>
+    <g transform="translate(518 74)">
+      <rect width="134" height="80" rx="16" fill="#291b25" stroke="#ff7e79"/>
+      <text x="67" y="34" class="head" text-anchor="middle">Robust set</text>
+      <text x="67" y="59" class="mini" text-anchor="middle">distorted inputs</text>
+    </g>
+    <text x="28" y="192" class="body">36 transformation types across challenge stages</text>
+    <text x="28" y="216" class="mini">Examples include blur, noise, compression, crop, watermarking, and adversarial removal.</text>
+  </g>
+
+  <g transform="translate(80 492)" filter="url(#shadow)">
+    <rect width="820" height="252" rx="24" fill="#0c1a2b" stroke="#46617e"/>
+    <text x="28" y="43" class="label" fill="#8fa9c5">UESTC · AVERAGE ACROSS OPEN + HIDDEN TEST SPLITS</text>
+    <g transform="translate(28 72)">
+      <rect width="364" height="136" rx="20" fill="#101f33" stroke="#56b9ff"/>
+      <text x="24" y="33" class="label" fill="#70c7ff">CLEAN ROC-AUC</text>
+      <text x="24" y="84" font-size="46" font-weight="780" fill="#f7fbff">0.9729</text>
+      <rect x="24" y="103" width="316" height="8" rx="4" fill="#263c55"/>
+      <rect x="24" y="103" width="307" height="8" rx="4" fill="#56b9ff"/>
+    </g>
+    <g transform="translate(414 72)">
+      <rect width="378" height="136" rx="20" fill="#291b25" stroke="#ff7e79"/>
+      <text x="24" y="33" class="label" fill="#ff9d98">ROBUST ROC-AUC</text>
+      <text x="24" y="84" font-size="46" font-weight="780" fill="#f7fbff">0.8679</text>
+      <rect x="24" y="103" width="330" height="8" rx="4" fill="#4b2c37"/>
+      <rect x="24" y="103" width="286" height="8" rx="4" fill="#ff7e79"/>
+    </g>
+    <text x="28" y="232" class="mini">ROC-AUC measures ranking across thresholds; higher is better. It is not accuracy at a chosen cutoff.</text>
+  </g>
+
+  <g transform="translate(926 492)" filter="url(#shadow)">
+    <rect width="430" height="252" rx="24" fill="#151c29" stroke="#b7f66e" stroke-opacity=".65"/>
+    <text x="28" y="43" class="label" fill="#b7f66e">DEPLOYMENT BOUNDARIES</text>
+    <g transform="translate(28 70)">
+      <circle cx="7" cy="7" r="6" fill="#ff7e79"/>
+      <text x="26" y="12" class="body">A score does not identify the generator.</text>
+      <circle cx="7" cy="54" r="6" fill="#ff7e79"/>
+      <text x="26" y="59" class="body">A score does not establish provenance.</text>
+      <circle cx="7" cy="101" r="6" fill="#ffbd5c"/>
+      <text x="26" y="106" class="body">Performance can shift on new domains.</text>
+      <circle cx="7" cy="148" r="6" fill="#b7f66e"/>
+      <text x="26" y="145" class="body">Validate an operating threshold on the</text>
+      <text x="26" y="165" class="body">target population and failure costs.</text>
+    </g>
+  </g>
+
+  <g transform="translate(80 778)">
+    <rect width="1276" height="58" rx="18" fill="#101a2a" stroke="#384a60"/>
+    <text x="24" y="36" class="label" fill="#ff9d98">INTERPRETATION</text>
+    <text x="250" y="36" class="body">The clean-to-robust gap shows why post-processing must be part of evaluation—not why every transformed image will fail.</text>
+  </g>
+</svg>

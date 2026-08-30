@@ -442,6 +442,12 @@ export default function Home() {
             >
               Responsible use
             </a>
+            <Link
+              className="transition-colors hover:text-white"
+              href="/documentation"
+            >
+              Documentation
+            </Link>
           </nav>
 
           <Button
@@ -1102,15 +1108,26 @@ export default function Home() {
                   Turn the detector signal into a reviewable result—then pair it
                   with provenance, context, and human judgment.
                 </p>
-                <Button
-                  nativeButton={false}
-                  render={
-                    <Link href="/try">
-                      Test an image <ArrowRight className="size-4" />
-                    </Link>
-                  }
-                  className="mt-9 h-13 rounded-full bg-[#0040c1] px-7 text-white hover:bg-[#002f94]"
-                />
+                <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                  <Button
+                    nativeButton={false}
+                    render={
+                      <Link href="/try">
+                        Test an image <ArrowRight className="size-4" />
+                      </Link>
+                    }
+                    className="h-13 rounded-full bg-[#0040c1] px-7 text-white hover:bg-[#002f94]"
+                  />
+                  <Button
+                    nativeButton={false}
+                    render={
+                      <Link href="/documentation">
+                        Read documentation <ArrowUpRight className="size-4" />
+                      </Link>
+                    }
+                    className="h-13 rounded-full border border-[#0040c1]/20 bg-white px-7 text-[#0040c1] hover:bg-[#eff4ff]"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -1131,12 +1148,20 @@ export default function Home() {
             Powered by the FeatDistill detector architecture and research
             lineage.
           </p>
-          <a
-            className="flex items-center gap-2 text-[#0040c1] hover:underline"
-            href="#top"
-          >
-            Back to top <ArrowUpRight className="size-3.5" />
-          </a>
+          <div className="flex items-center gap-5">
+            <Link
+              className="text-[#0040c1] hover:underline"
+              href="/documentation"
+            >
+              Documentation
+            </Link>
+            <a
+              className="flex items-center gap-2 text-[#0040c1] hover:underline"
+              href="#top"
+            >
+              Back to top <ArrowUpRight className="size-3.5" />
+            </a>
+          </div>
         </div>
       </footer>
     </main>
