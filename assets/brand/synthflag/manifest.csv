@@ -1,0 +1,61 @@
+id,filename,intended_use,direction,prompt_summary
+01,01-primary-four-bar-mark.png,Primary standalone logo,Core signal mark,Four cobalt skewed rounded bars; outer bars short and inner bars tall; transparent field
+02,02-inverse-mark.png,Inverse logo use,Core inverse,Four white skewed rounded bars centered on a cobalt field
+03,03-horizontal-wordmark.png,Headers and horizontal placements,Primary wordmark,Cobalt four-bar mark paired with exact SynthFlag wordmark in ink on transparency
+04,04-stacked-lockup.png,Centered and narrow placements,Stacked identity,Four-bar cobalt mark above the exact SynthFlag wordmark on transparency
+05,05-square-app-icon.png,Application icon,Product icon,White four-bar mark centered on a cobalt rounded square
+06,06-repo-avatar.png,GitHub repository avatar,Thumbnail identity,Cobalt four-bar mark composed for circular-safe repository-avatar use
+07,07-favicon-tile.png,Favicon source tile,Micro icon,Simplified four-bar symbol with heavier geometry for 16- and 32-pixel use
+08,08-monochrome-mark.png,Single-color print and utility use,Monochrome mark,One-color ink rendering of the four-bar signal on transparency
+09,09-cobalt-only-mark.png,UI labels and cobalt-only reproduction,Cobalt utility mark,Compact one-color cobalt rendering of the four-bar signal
+10,10-ink-only-wordmark.png,Typography-only placements,Wordmark only,Exact SynthFlag name in a restrained Instrument Sans-style ink wordmark
+11,11-compact-pill-lockup.png,Navigation and compact headers,Pill lockup,Four-bar mark and exact SynthFlag wordmark inside a thin line-blue white pill
+12,12-outlined-mark.png,Lightweight technical accents,Outline mark,Uniform cobalt outline rendering of the four rounded bars with transparent interiors
+13,13-small-size-mark.png,Small UI controls and dense layouts,Small-size optimization,Extra-thick cobalt four-bar silhouette with enlarged gaps for downscaling
+14,14-wide-masthead.png,Repository and documentation masthead,Editorial masthead,Wide Swiss-editorial SynthFlag lockup with Evidence Before Certainty supporting line
+15,15-minimal-endorsement-lockup.png,Report and evidence-card footers,Endorsement signature,Compact four-bar mark followed by the exact Evidence by SynthFlag phrase
+16,16-light-readme-hero.png,Light README hero,Light editorial repository banner,"White and Cloud evidence card with cobalt rail, four-bar mark, SynthFlag wordmark, and Evidence before certainty."
+17,17-dark-readme-hero.png,Dark README hero,Deep-signal repository banner,"Ink field with approved Deep Signal panel, four-bar mark, SynthFlag wordmark, and Confidence with context."
+18,18-github-social-preview.png,GitHub social preview,Thumbnail-first evidence card,"Cloud field and white rounded card with cobalt rail, four-bar mark, SynthFlag wordmark, and From pixels to evidence."
+19,19-launch-card.png,Launch announcement,Signal-cobalt launch system,"Cobalt field around a white editorial card with thin rules, four-bar mark, SynthFlag, and Inspect the signal."
+20,20-release-card.png,Release announcement,Modular open-source release card,"White and Cloud modular card with cobalt accents, four-bar mark, SynthFlag, and Designed for the wild without version claims."
+21,21-docs-header.png,Documentation header,Technical editorial header,"Wide Cloud and white header with cobalt rail, measurement rules, four-bar mark, SynthFlag, and Confidence with context."
+22,22-blog-header.png,Blog header,Research-journal editorial,"Wide white and Cloud composition with cropped four-bar mark, SynthFlag, and Evidence before certainty."
+23,23-linkedin-landscape.png,LinkedIn landscape,Institutional split field,"White and cobalt two-column social card with four-bar mark, SynthFlag, and From pixels to evidence."
+24,24-x-landscape.png,X landscape,Dark feed-first poster,"Ink frame and cobalt rounded card with large SynthFlag type, four-bar mark, and Inspect the signal."
+25,25-square-social-tile.png,Square social tile,Modular evidence-card grid,"Square nested evidence cards in Cloud and white with cobalt block, four-bar mark, SynthFlag, and Evidence before certainty."
+26,26-story-portrait-tile.png,Story or portrait tile,Vertical signal-field poster,"Approved Signal Field portrait with four-bar mark, monumental SynthFlag wordmark, and a white promise card."
+27,27-presentation-cover.png,Presentation cover,Signal-field title slide,"White-framed approved Signal Field panel with large SynthFlag wordmark, four-bar mark, and From pixels to evidence."
+28,28-closing-slide.png,Presentation closing slide,Deep Signal closing statement,"Approved Deep Signal rounded panel with four-bar mark, SynthFlag wordmark, thin rule, and Evidence before certainty."
+29,29-webinar-cover.png,Webinar cover,Open research-event template,"Cloud and white event cover with cobalt four-bar mark, SynthFlag, Confidence with context, and open space for future details."
+30,30-email-newsletter-header.png,Email or newsletter header,Compact editorial masthead,"Wide Cloud masthead with centered four-bar mark, SynthFlag wordmark, thin rule, and Specific calm qualified."
+31,31-transparent-sticker.png,Transparent die-cut sticker,Compact identity lockup,"Four skewed cobalt bars, exact SynthFlag wordmark, white keyline, genuine transparent background"
+32,32-circular-badge.png,Circular event badge,Institutional roundel,"Cobalt ring, cloud field, four-bar mark, exact SynthFlag wordmark"
+33,33-conference-lanyard-card.png,Conference lanyard credential,Editorial physical mockup,"Front-facing printed credential, cobalt lanyard, cropped signal motif, exact SynthFlag wordmark"
+34,34-research-poster.png,Research poster,Swiss editorial grid,"Portrait measured grid, cropped cobalt bar system, rounded cloud structures, exact SynthFlag wordmark"
+35,35-report-cover.png,Research report cover,Formal evidence system,"Cobalt spine, thin measurement rules, blank rounded evidence panels, exact SynthFlag wordmark"
+36,36-one-page-brief-cover.png,One-page briefing cover,Practical research brief,"Oversized cobalt wordmark, four-bar mark, three empty context panels, generous white space"
+37,37-business-card-front.png,Business card front,Minimal typographic identity,"Horizontal white card, compact four-bar mark, exact SynthFlag wordmark, line-blue rule"
+38,38-business-card-back.png,Business card back,Bold signal field,Oversized cropped four-bar rhythm with a small exact SynthFlag signature
+39,39-conference-slide-title.png,Conference title slide,Calm keynote system,"Large ink wordmark, compact four-bar mark, approved signal-field band, blank evidence panel"
+40,40-meetup-flyer.png,Meetup flyer,Independent studio poster,"Vertical cobalt and cloud bar rhythm, screenprint texture, exact SynthFlag wordmark"
+41,41-laptop-wallpaper.png,Laptop wallpaper,Measured desktop field,"Quiet line-blue modular grid, four large cobalt bars, small exact SynthFlag signature"
+42,42-mobile-wallpaper.png,Mobile wallpaper,Deep signal portrait,"Approved cobalt gradient, four pale bars in the lower half, clear top safe area, exact SynthFlag signature"
+43,43-press-kit-cover.png,Press-kit cover,Institutional communications system,"Identity lockup beside blank rounded components, thin rules, restrained signal-gradient circle"
+44,44-dataset-card.png,Reusable dataset card,Context-first component template,"Rounded cloud evidence card, blank structured fields and chips, four-bar mark, no invented data"
+45,45-thank-you-end-card.png,Presentation closing card,Confident deep-signal finale,"Deep cobalt field, giant cropped white four-bar mark, exact SynthFlag wordmark, pale rule"
+46,46-evidence-card-light.png,Evidence card template,Light evidence card,Design a clean light evidence card for an image provenance detector. Place one abstract source-frame placeholder beside a structured context panel. Use the SynthFlag four skewed rounded-bar mark subtly.
+47,47-evidence-card-cobalt.png,Evidence card template,Cobalt proof block,"Create a cobalt evidence summary card with four small context cells feeding one larger review state, using the SynthFlag four-bar mark."
+48,48-score-context-template.png,Score context template,Reviewable probability,"Design an editorial template that makes a model score inseparable from its threshold, source, condition, and interpretation. Use an empty score line and blank value fields, not fabricated numbers."
+49,49-dataset-comparison-template.png,Dataset comparison template,Conditioned metric frame,Create a rigorous blank comparison figure with three horizontal rows and direct-label spaces. It must look ready for real benchmark data but contain no invented values.
+50,50-operating-points.png,Threshold explainer,"Same scores, different operating points",Explain that changing a threshold changes the operating trade-off but not the underlying score ranking. Show one fixed ordered score line with two clearly different threshold markers; do not claim either detector is better.
+51,51-four-experts-diagram.png,Architecture explainer,"Four experts, one probability","Show four equal expert modules converging into one reviewable probability output. Use the four skewed rounded-bar SynthFlag mark as the organizing metaphor, but keep the diagram flat and simple."
+52,52-review-split.png,Review-state graphic,Flag for review,"Create an abstract two-lane review graphic showing “continue” and “flag for review” as calm operational states, not real-versus-fake verdicts. Use one cobalt signal moving between rounded cards."
+53,53-uncertainty-callout.png,Uncertainty callout,"Specific, calm, qualified",Design a clear editorial callout that keeps uncertainty visible beside a detection result. Use the four-bar mark and one cobalt dot as the signal.
+54,54-method-card.png,Method summary card,Method before claim,"Create a reusable method card that foregrounds method, dataset, split, threshold, and uncertainty before any claim. Leave answer areas blank."
+55,55-source-frame-overlay.png,Image-analysis overlay,Source frame,"Create a clean image-analysis framing overlay with four cobalt corner brackets, a small four-bar mark, and minimal review labels. The center must remain open for a real image to be placed later."
+56,56-signal-pattern-light.png,Light brand background,Four-bar signal field,"Create a calm repeatable-feeling brand background derived only from the SynthFlag four skewed rounded bars, thin measurement rules, and large open fields. No logo lockup and no text."
+57,57-signal-pattern-dark.png,Dark brand background,Deep signal field,Create a restrained dark presentation background derived from the four skewed rounded-bar mark and one measured cobalt signal line. No text.
+58,58-for-review-badge.png,Transparent review badge,Operational state,Create a compact horizontal pill badge using the four skewed cobalt bars and a calm review-state label.
+59,59-report-figure-frame.png,Report figure frame,Evidence figure,"Design a blank publication-ready figure frame with a title zone, plot zone, direct-label column, and caveat footer. It must contain no data."
+60,60-evidence-before-certainty.png,Core promise tile,Evidence before certainty,Create a bold but calm brand tile centered on the evidence-first promise. Use oversized editorial typography and the four skewed rounded-bar mark.
