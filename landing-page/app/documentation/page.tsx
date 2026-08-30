@@ -1,6 +1,6 @@
+/* oxlint-disable next/no-html-link-for-pages -- vinext's production next/link prefetch shim currently breaks route clicks; standard anchors keep public navigation reliable. */
 import { ArrowUpRight, Download, ScanSearch } from 'lucide-react';
 import Image from 'next/image';
-import Link from 'next/link';
 import type { ReactNode } from 'react';
 
 import { PrintButton } from './print-button';
@@ -103,12 +103,12 @@ export default function Documentation() {
 
       <header className="docs-topbar">
         <div className="docs-topbar-inner">
-          <Link className="docs-brand" href="/" aria-label="SynthFlag home">
+          <a className="docs-brand" href="/" aria-label="SynthFlag home">
             <span>
               <ScanSearch aria-hidden="true" />
             </span>
             SynthFlag
-          </Link>
+          </a>
           <nav aria-label="Documentation utilities">
             <a href={paperUrl} rel="noreferrer" target="_blank">
               Paper <ArrowUpRight aria-hidden="true" />
@@ -117,9 +117,9 @@ export default function Documentation() {
               Repository <ArrowUpRight aria-hidden="true" />
             </a>
             <PrintButton />
-            <Link className="docs-try-link" href="/try">
+            <a className="docs-try-link" href="/try">
               Try detector
-            </Link>
+            </a>
           </nav>
         </div>
       </header>
@@ -128,7 +128,7 @@ export default function Documentation() {
         <div className="docs-hero-grid" aria-hidden="true" />
         <div className="docs-hero-inner">
           <nav className="docs-breadcrumb" aria-label="Breadcrumb">
-            <Link href="/">SynthFlag</Link>
+            <a href="/">SynthFlag</a>
             <span aria-hidden="true">/</span>
             <span aria-current="page">Documentation</span>
           </nav>
@@ -838,16 +838,16 @@ export default function Documentation() {
 
       <footer className="docs-footer">
         <div>
-          <Link className="docs-brand" href="/">
+          <a className="docs-brand" href="/">
             <span>
               <ScanSearch aria-hidden="true" />
             </span>
             SynthFlag
-          </Link>
+          </a>
           <p>From pixels to evidence.</p>
         </div>
         <div>
-          <Link href="/try">Try detector</Link>
+          <a href="/try">Try detector</a>
           <a href="#overview">Back to top</a>
         </div>
       </footer>

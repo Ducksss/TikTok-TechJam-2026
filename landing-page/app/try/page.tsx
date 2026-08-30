@@ -1,5 +1,7 @@
 'use client';
 
+/* oxlint-disable next/no-html-link-for-pages -- vinext's production next/link prefetch shim currently breaks route clicks; standard anchors keep public navigation reliable. */
+
 import {
   ArrowLeft,
   ArrowRight,
@@ -15,7 +17,6 @@ import {
   Upload,
   X,
 } from 'lucide-react';
-import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -242,7 +243,7 @@ export default function TryDetector() {
   return (
     <main className="try-shell min-h-screen bg-[#0039ad] text-[#111827]">
       <header className="mx-auto flex max-w-[1540px] items-center justify-between px-4 py-5 text-white sm:px-7 lg:px-10">
-        <Link
+        <a
           className="flex items-center gap-3"
           href="/"
           aria-label="SynthFlag home"
@@ -253,14 +254,14 @@ export default function TryDetector() {
           <span className="font-display text-xl font-semibold tracking-[-0.045em]">
             SynthFlag
           </span>
-        </Link>
-        <Link
+        </a>
+        <a
           className="group flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] text-white/70 transition-colors hover:text-white"
           href="/"
         >
           <ArrowLeft className="size-4 transition-transform group-hover:-translate-x-1" />
           Research page
-        </Link>
+        </a>
       </header>
 
       <section className="mx-auto max-w-[1540px] px-4 pb-4 sm:px-7 lg:px-10 lg:pb-10">
@@ -640,13 +641,13 @@ export default function TryDetector() {
             <ShieldCheck className="size-4 shrink-0 text-[#b9ff66]" />
             Use the score as one signal—not a standalone moderation decision.
           </p>
-          <Link
+          <a
             className="group flex items-center gap-3 text-xs leading-5 transition-colors hover:text-white md:justify-self-end"
             href="/#method"
           >
             How the ensemble works
             <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
-          </Link>
+          </a>
         </div>
       </section>
     </main>

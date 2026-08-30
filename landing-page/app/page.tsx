@@ -1,5 +1,7 @@
 'use client';
 
+/* oxlint-disable next/no-html-link-for-pages -- vinext's production next/link prefetch shim currently breaks route clicks; standard anchors keep public navigation reliable. */
+
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -16,7 +18,6 @@ import {
   Waypoints,
 } from 'lucide-react';
 import Image from 'next/image';
-import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
 
@@ -442,21 +443,21 @@ export default function Home() {
             >
               Responsible use
             </a>
-            <Link
+            <a
               className="transition-colors hover:text-white"
               href="/documentation"
             >
               Documentation
-            </Link>
+            </a>
           </nav>
 
           <Button
             nativeButton={false}
             render={
-              <Link href="/try">
+              <a href="/try">
                 <span className="hidden sm:inline">Try detector</span>
                 <ArrowUpRight className="size-4" />
-              </Link>
+              </a>
             }
             className="h-10 rounded-full bg-white px-4 text-[#0040c1] hover:bg-[#eff4ff]"
           />
@@ -1112,18 +1113,18 @@ export default function Home() {
                   <Button
                     nativeButton={false}
                     render={
-                      <Link href="/try">
+                      <a href="/try">
                         Test an image <ArrowRight className="size-4" />
-                      </Link>
+                      </a>
                     }
                     className="h-13 rounded-full bg-[#0040c1] px-7 text-white hover:bg-[#002f94]"
                   />
                   <Button
                     nativeButton={false}
                     render={
-                      <Link href="/documentation">
+                      <a href="/documentation">
                         Read documentation <ArrowUpRight className="size-4" />
-                      </Link>
+                      </a>
                     }
                     className="h-13 rounded-full border border-[#0040c1]/20 bg-white px-7 text-[#0040c1] hover:bg-[#eff4ff]"
                   />
@@ -1149,12 +1150,9 @@ export default function Home() {
             lineage.
           </p>
           <div className="flex items-center gap-5">
-            <Link
-              className="text-[#0040c1] hover:underline"
-              href="/documentation"
-            >
+            <a className="text-[#0040c1] hover:underline" href="/documentation">
               Documentation
-            </Link>
+            </a>
             <a
               className="flex items-center gap-2 text-[#0040c1] hover:underline"
               href="#top"
