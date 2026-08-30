@@ -1,0 +1,594 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="FeatDistill brand guide: identity, color, typography, components, voice, and evidence design.">
+  <title>FeatDistill Brand Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&amp;family=Poppins:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --signal: #0040c1;
+      --ink: #111827;
+      --slate: #4b5563;
+      --muted: #6b7280;
+      --white: #ffffff;
+      --cloud: #eff4ff;
+      --line: #d1e0ff;
+      --sky: #6199ff;
+      --deep: #00359e;
+      --bright: #2970ff;
+      --signal-field: linear-gradient(120deg, #6199ff 48%, #c0d7ff);
+      --deep-signal: linear-gradient(180deg, #00359e, #0042c5 50%, #2970ff);
+      --display: "Instrument Sans", Arial, Helvetica, sans-serif;
+      --body: "Poppins", Arial, Helvetica, sans-serif;
+      --page: min(1280px, calc(100vw - 32px));
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--white);
+      font-family: var(--body);
+      font-size: 16px;
+      line-height: 1.5;
+      letter-spacing: -0.02em;
+    }
+    a { color: inherit; }
+    button, input { font: inherit; }
+    .page { width: var(--page); margin: 0 auto; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 32px;
+      padding: 5px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--signal);
+      background: rgba(255,255,255,.76);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--signal);
+    }
+    h1, h2, h3, h4, p { margin-top: 0; }
+    h1, h2, h3, h4 {
+      font-family: var(--display);
+      font-weight: 400;
+      letter-spacing: -0.03em;
+    }
+    h2 { margin-bottom: 24px; font-size: clamp(42px, 5vw, 64px); line-height: 1.08; }
+    h3 { margin-bottom: 16px; font-size: clamp(30px, 3.4vw, 40px); line-height: 1.2; }
+    p { color: var(--slate); }
+    .lede { max-width: 680px; font-size: 18px; line-height: 1.5; }
+    .rule { height: 1px; background: var(--line); }
+
+    .topbar {
+      position: sticky;
+      top: 16px;
+      z-index: 10;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 12px;
+      align-items: center;
+      margin-top: 20px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,.9);
+      backdrop-filter: blur(18px);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 0 12px 0 8px;
+      text-decoration: none;
+      font-family: var(--display);
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: -0.03em;
+    }
+    .mark {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(4, 5px);
+      gap: 2px;
+      align-items: center;
+      width: 26px;
+      height: 30px;
+    }
+    .mark span { display: block; width: 5px; border-radius: 5px; background: var(--signal); transform: skewY(-18deg); }
+    .mark span:nth-child(1), .mark span:nth-child(4) { height: 18px; }
+    .mark span:nth-child(2), .mark span:nth-child(3) { height: 28px; }
+    .navlinks { display: flex; justify-content: center; gap: 4px; }
+    .navlinks a {
+      padding: 8px 15px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .navlinks a:first-child { color: var(--signal); background: var(--cloud); }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      min-height: 48px;
+      padding: 6px 6px 6px 22px;
+      border: 0;
+      border-radius: 999px;
+      color: var(--white);
+      background: var(--signal);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .button.secondary { color: var(--ink); background: var(--white); border: 1px solid var(--line); }
+    .button .arrow {
+      display: grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      color: var(--signal);
+      background: var(--white);
+      transition: transform .2s ease-out;
+    }
+    .button.secondary .arrow { color: var(--white); background: var(--signal); }
+    .button:hover .arrow { transform: translate(2px,-2px); }
+
+    .hero {
+      position: relative;
+      min-height: 760px;
+      margin-top: -76px;
+      padding-top: 150px;
+      overflow: hidden;
+      border-radius: 0 0 40px 40px;
+      background: var(--signal-field);
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.22) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.22) 1px, transparent 1px);
+      background-size: 25% 112px;
+      pointer-events: none;
+    }
+    .hero-content { position: relative; z-index: 1; }
+    .display-word {
+      margin: 76px 0 38px;
+      color: var(--signal);
+      font-family: var(--display);
+      font-size: clamp(74px, 16.7vw, 214px);
+      font-weight: 500;
+      line-height: .8;
+      letter-spacing: -.07em;
+      white-space: nowrap;
+    }
+    .hero-foot {
+      display: grid;
+      grid-template-columns: minmax(0, 560px) auto;
+      justify-content: space-between;
+      gap: 40px;
+      align-items: end;
+      padding-top: 32px;
+      border-top: 1px solid rgba(255,255,255,.62);
+    }
+    .hero-foot p { margin-bottom: 0; color: var(--ink); font-size: 18px; }
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+
+    section { padding: 128px 0; }
+    .section-head {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 48px;
+      align-items: start;
+      margin-bottom: 64px;
+    }
+    .section-head .copy { max-width: 760px; }
+    .section-head p:last-child { margin-bottom: 0; }
+    .foundation { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+    .principle {
+      min-height: 260px;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: 32px;
+      background: var(--cloud);
+    }
+    .principle .index { margin-bottom: 80px; color: var(--signal); font-style: italic; }
+    .principle h3 { margin-bottom: 8px; font-size: 28px; line-height: 1.2; }
+    .principle p { margin-bottom: 0; font-size: 14px; }
+    .principle.signal { color: var(--white); background: var(--signal); border-color: var(--signal); }
+    .principle.signal .index, .principle.signal p { color: rgba(255,255,255,.82); }
+
+    .palette { display: grid; grid-template-columns: 2fr repeat(4,1fr); overflow: hidden; border: 1px solid var(--line); border-radius: 40px; }
+    .swatch { display: flex; min-height: 230px; padding: 20px; flex-direction: column; justify-content: flex-end; }
+    .swatch strong { font-weight: 500; }
+    .swatch span { font-size: 13px; opacity: .8; }
+    .swatch.cobalt { color: var(--white); background: var(--signal); }
+    .swatch.ink { color: var(--white); background: var(--ink); }
+    .swatch.slate { color: var(--white); background: var(--slate); }
+    .swatch.muted { color: var(--white); background: var(--muted); }
+    .swatch.white { color: var(--ink); background: var(--white); }
+    .swatch.cloud { color: var(--ink); background: var(--cloud); }
+    .swatch.line { color: var(--ink); background: var(--line); }
+    .swatch.sky { color: var(--ink); background: var(--signal-field); }
+    .swatch.deep {
+      color: var(--white);
+      background: linear-gradient(180deg, transparent 35%, rgba(0,28,84,.9) 100%), var(--deep-signal);
+    }
+    .palette.secondary { grid-template-columns: repeat(4,1fr); margin-top: 16px; }
+    .palette.secondary .swatch { min-height: 155px; }
+
+    .type-board { overflow: hidden; border: 1px solid var(--line); border-radius: 40px; }
+    .type-row { display: grid; grid-template-columns: 240px 1fr 180px; gap: 28px; align-items: center; padding: 28px 32px; border-bottom: 1px solid var(--line); }
+    .type-row:last-child { border-bottom: 0; }
+    .type-meta { color: var(--slate); font-size: 13px; }
+    .type-sample { margin: 0; color: var(--ink); font-family: var(--display); font-weight: 400; letter-spacing: -.03em; }
+    .type-sample.h1 { font-size: 64px; line-height: 1.1; }
+    .type-sample.h2 { font-size: 52px; line-height: 1.2; }
+    .type-sample.h3 { font-size: 40px; line-height: 1.2; }
+    .type-sample.body { font-family: var(--body); font-size: 18px; line-height: 1.5; letter-spacing: -.02em; }
+
+    .components { background: var(--cloud); }
+    .component-grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 16px; }
+    .demo-card { min-height: 440px; padding: 36px; border: 1px solid var(--line); border-radius: 40px; background: var(--white); }
+    .demo-card.blue { color: var(--white); background: var(--signal); border-color: var(--signal); }
+    .demo-card.blue p { color: rgba(255,255,255,.78); }
+    .demo-card .index { color: var(--signal); font-style: italic; }
+    .demo-card.blue .index { color: rgba(255,255,255,.8); }
+    .component-title { display: flex; justify-content: space-between; gap: 20px; align-items: start; margin-top: 110px; }
+    .component-title h3 { margin-bottom: 18px; }
+    .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+    .chip { padding: 6px 13px; border: 1px solid var(--line); border-radius: 999px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0; }
+    .metric-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 64px; }
+    .metric { padding: 22px; border-radius: 24px; background: rgba(255,255,255,.12); }
+    .metric b { display: block; font-family: var(--display); font-size: 48px; font-weight: 400; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+    .metric span { color: rgba(255,255,255,.86); font-size: 13px; }
+
+    .evidence-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 16px; }
+    .specimen {
+      position: relative;
+      min-height: 520px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 40px;
+      background: linear-gradient(145deg, #f9fbff 0 40%, #c2e0ff 40% 62%, #6199ff 62%);
+    }
+    .specimen::before {
+      content: "";
+      position: absolute;
+      width: 280px;
+      height: 420px;
+      right: 12%;
+      bottom: -100px;
+      border: 7px solid var(--signal);
+      border-radius: 150px 150px 28px 28px;
+      background: rgba(255,255,255,.28);
+    }
+    .specimen::after {
+      content: "SOURCE FRAME";
+      position: absolute;
+      left: 28px;
+      top: 28px;
+      padding: 7px 12px;
+      border: 1px solid rgba(0,64,193,.24);
+      border-radius: 999px;
+      color: var(--signal);
+      background: rgba(255,255,255,.75);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0;
+    }
+    .annotation { display: flex; flex-direction: column; gap: 16px; }
+    .score-card { padding: 28px; border: 1px solid var(--line); border-radius: 32px; background: var(--cloud); }
+    .score-card .label { color: var(--slate); font-size: 13px; }
+    .score { margin: 8px 0 24px; font-family: var(--display); font-size: 72px; line-height: 1; letter-spacing: -.05em; font-variant-numeric: tabular-nums; }
+    .score-line { position: relative; height: 10px; overflow: hidden; border-radius: 999px; background: var(--line); }
+    .score-line span { display: block; width: 82%; height: 100%; border-radius: inherit; background: var(--signal); }
+    .meta-list { margin: 0; padding: 0; list-style: none; border: 1px solid var(--line); border-radius: 32px; background: var(--white); }
+    .meta-list li { display: flex; justify-content: space-between; gap: 20px; padding: 17px 22px; border-bottom: 1px solid var(--line); font-size: 14px; }
+    .meta-list li:last-child { border-bottom: 0; }
+    .meta-list span:first-child { color: var(--muted); }
+
+    .voice-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .voice-card { min-height: 330px; padding: 34px; border: 1px solid var(--line); border-radius: 40px; }
+    .voice-card.do { background: var(--cloud); }
+    .voice-card.dont { color: var(--white); background: var(--ink); border-color: var(--ink); }
+    .voice-card.dont p { color: rgba(255,255,255,.72); }
+    .voice-card h3 { margin-top: 72px; }
+    .quote { font-family: var(--display); font-size: 28px; line-height: 1.3; letter-spacing: -.03em; }
+
+    .viz-board { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .chart-card { padding: 32px; border: 1px solid var(--line); border-radius: 40px; background: var(--white); }
+    .chart-head { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; margin-bottom: 30px; }
+    .chart-head h3 { margin-bottom: 0; }
+    .chart-head span { color: var(--muted); font-size: 13px; }
+    .bars { display: grid; gap: 18px; }
+    .bar-row { display: grid; grid-template-columns: 88px 1fr 54px; gap: 12px; align-items: center; font-size: 13px; }
+    .track { height: 14px; overflow: hidden; border-radius: 999px; background: var(--cloud); }
+    .fill { height: 100%; border-radius: inherit; background: var(--signal); }
+    .fill.sky { background: var(--sky); }
+    .fill.ink { background: var(--ink); }
+    .bar-row b { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+    .chart-note { margin: 26px 0 0; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+
+    .closing { padding: 0 0 32px; }
+    .closing-panel {
+      position: relative;
+      min-height: 520px;
+      padding: 64px;
+      overflow: hidden;
+      border-radius: 40px;
+      color: var(--white);
+      background: var(--deep-signal);
+    }
+    .closing-panel::after {
+      content: "";
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      right: -160px;
+      bottom: -240px;
+      border: 48px solid rgba(255,255,255,.22);
+      border-radius: 50%;
+    }
+    .closing-panel .eyebrow { color: var(--white); border-color: rgba(255,255,255,.42); background: rgba(255,255,255,.1); }
+    .closing-panel .eyebrow::before { background: var(--white); }
+    .closing-panel h2 { max-width: 760px; margin-top: 100px; font-size: clamp(52px, 7vw, 92px); line-height: .98; }
+    .closing-panel p { max-width: 620px; color: var(--white); }
+    footer { display: flex; justify-content: space-between; gap: 24px; padding: 28px 0 20px; color: var(--muted); font-size: 13px; }
+
+    @media (max-width: 900px) {
+      .topbar { grid-template-columns: 1fr auto; }
+      .navlinks { display: none; }
+      .hero { min-height: 650px; }
+      .hero-foot, .section-head { grid-template-columns: 1fr; }
+      .actions { justify-content: flex-start; }
+      .foundation { grid-template-columns: 1fr 1fr; }
+      .palette { grid-template-columns: 1fr 1fr; }
+      .palette.secondary { grid-template-columns: 1fr 1fr; }
+      .type-row { grid-template-columns: 130px 1fr; }
+      .type-row > :last-child { display: none; }
+      .component-grid, .evidence-grid, .viz-board { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .topbar .button { width: 48px; padding: 6px; }
+      .topbar .button > span:first-child { display: none; }
+      .hero { min-height: 620px; padding-top: 132px; }
+      .display-word { margin-top: 110px; }
+      section { padding: 88px 0; }
+      .section-head { margin-bottom: 40px; }
+      .foundation, .palette, .palette.secondary, .voice-wrap { grid-template-columns: 1fr; }
+      .swatch { min-height: 140px; }
+      .type-row { grid-template-columns: 1fr; gap: 8px; padding: 24px; }
+      .type-sample.h1 { font-size: 44px; }
+      .type-sample.h2 { font-size: 36px; }
+      .type-sample.h3 { font-size: 30px; }
+      .component-title, .metric-layout { grid-template-columns: 1fr; display: grid; }
+      .closing-panel { padding: 36px 28px; }
+      footer { flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page topbar" aria-label="Brand guide navigation">
+    <a class="brand" href="#top">
+      <span class="mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+      <span>FeatDistill</span>
+    </a>
+    <nav class="navlinks" aria-label="Sections">
+      <a href="#foundation">Foundation</a>
+      <a href="#color">Color</a>
+      <a href="#type">Type</a>
+      <a href="#components">Components</a>
+      <a href="#voice">Voice</a>
+    </nav>
+    <a class="button" href="BRAND_GUIDE.md" aria-label="Full specification"><span>Full specification</span><span class="arrow" aria-hidden="true">↗</span></a>
+  </div>
+
+  <header class="hero" id="top">
+    <div class="page hero-content">
+      <span class="eyebrow">Brand guide · v1.0</span>
+      <h1 class="display-word">EVIDENCE</h1>
+      <div class="hero-foot">
+        <p>Four experts turn image signals into one reviewable probability—built for robust detection in the wild.</p>
+        <div class="actions">
+          <a class="button secondary" href="#foundation"><span>Explore the system</span><span class="arrow" aria-hidden="true">↓</span></a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="foundation">
+      <div class="page">
+        <div class="section-head">
+          <div><span class="eyebrow">01 · Foundation</span></div>
+          <div class="copy">
+            <h2>Evidence before certainty.</h2>
+            <p class="lede">FeatDistill is clear, rigorous, assured, and curious. The identity pairs measured structure with one confident signal: vivid cobalt moving through calm white and pale-blue space.</p>
+          </div>
+        </div>
+        <div class="foundation">
+          <article class="principle signal"><div class="index">01</div><h3>Rigorous</h3><p>Claims stay tied to methods, datasets, counts, thresholds, and uncertainty.</p></article>
+          <article class="principle"><div class="index">02</div><h3>Clear</h3><p>Plain language, visible hierarchy, and one message per section.</p></article>
+          <article class="principle"><div class="index">03</div><h3>Assured</h3><p>Large type and decisive composition without hype or false certainty.</p></article>
+          <article class="principle"><div class="index">04</div><h3>Curious</h3><p>Investigate the signal, edge cases, and limits—not just the headline score.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <div class="page rule"></div>
+
+    <section id="color">
+      <div class="page">
+        <div class="section-head">
+          <div><span class="eyebrow">02 · Color</span></div>
+          <div class="copy">
+            <h2>Cobalt is the signal.</h2>
+            <p class="lede">White and Cloud create breathing room. Ink carries authority. Cobalt marks the action, key number, or state that deserves attention.</p>
+          </div>
+        </div>
+        <div class="palette" aria-label="Primary color palette">
+          <div class="swatch cobalt"><strong>Signal Cobalt</strong><span>#0040C1</span></div>
+          <div class="swatch ink"><strong>Ink</strong><span>#111827</span></div>
+          <div class="swatch slate"><strong>Slate</strong><span>#4B5563</span></div>
+          <div class="swatch muted"><strong>Muted</strong><span>#6B7280</span></div>
+          <div class="swatch white"><strong>White</strong><span>#FFFFFF</span></div>
+        </div>
+        <div class="palette secondary" aria-label="Supporting color palette">
+          <div class="swatch cloud"><strong>Cloud</strong><span>#EFF4FF</span></div>
+          <div class="swatch line"><strong>Line Blue</strong><span>#D1E0FF</span></div>
+          <div class="swatch sky"><strong>Signal Field</strong><span>#6199FF → #C0D7FF</span></div>
+          <div class="swatch deep"><strong>Deep Signal</strong><span>#00359E → #2970FF</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="type" class="components">
+      <div class="page">
+        <div class="section-head">
+          <div><span class="eyebrow">03 · Typography</span></div>
+          <div class="copy">
+            <h2>Editorial scale. Technical detail.</h2>
+            <p class="lede">Instrument Sans speaks. Poppins explains. Tight display spacing gives the system confidence; generous layout spacing keeps it calm.</p>
+          </div>
+        </div>
+        <div class="type-board">
+          <div class="type-row"><div class="type-meta">Instrument Sans<br>64 / 70.4 · 400</div><p class="type-sample h1">Inspect the signal.</p><div class="type-meta">H1<br>−3% tracking</div></div>
+          <div class="type-row"><div class="type-meta">Instrument Sans<br>52 / 62.4 · 400</div><p class="type-sample h2">Confidence, with context.</p><div class="type-meta">H2<br>−3% tracking</div></div>
+          <div class="type-row"><div class="type-meta">Instrument Sans<br>40 / 48 · 400</div><p class="type-sample h3">Designed for the wild.</p><div class="type-meta">H3<br>−3% tracking</div></div>
+          <div class="type-row"><div class="type-meta">Poppins<br>18 / 27 · 400</div><p class="type-sample body">Four experts turn image signals into one reviewable probability.</p><div class="type-meta">Lead<br>−2% tracking</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="components">
+      <div class="page">
+        <div class="section-head">
+          <div><span class="eyebrow">04 · Components</span></div>
+          <div class="copy">
+            <h2>Rounded, structured, reviewable.</h2>
+            <p class="lede">Pill controls make actions approachable. Large-radius cards hold one evidence unit at a time. Thin blue rules preserve a sense of measurement.</p>
+          </div>
+        </div>
+        <div class="component-grid">
+          <article class="demo-card">
+            <div class="index">01</div>
+            <div class="component-title">
+              <div><h3>Evidence card</h3><div class="chips"><span class="chip">CIFAKE</span><span class="chip">Clean</span><span class="chip">n = 3,334</span></div></div>
+              <a class="button secondary" href="#evidence"><span>View detail</span><span class="arrow" aria-hidden="true">↗</span></a>
+            </div>
+          </article>
+          <article class="demo-card blue">
+            <div class="index">02 · Proof block</div>
+            <div class="metric-layout">
+              <div class="metric"><b>4</b><span>independent experts</span></div>
+              <div class="metric"><b>0–1</b><span>reviewable probability</span></div>
+              <div class="metric"><b>2</b><span>vision architectures</span></div>
+              <div class="metric"><b>1</b><span>ensemble output</span></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="evidence" class="components">
+      <div class="page">
+        <div class="section-head">
+          <div><span class="eyebrow">05 · Evidence design</span></div>
+          <div class="copy">
+            <h2>Make context inseparable from the score.</h2>
+            <p class="lede">This specimen uses illustrative values. Production specimens keep the model output, threshold, source, and evaluation state within the same visual unit.</p>
+          </div>
+        </div>
+        <div class="evidence-grid">
+          <div class="specimen" role="img" aria-label="Abstract source image specimen frame"></div>
+          <div class="annotation">
+            <div class="score-card"><span class="label">Fake-image probability</span><div class="score">0.82</div><div class="score-line" aria-label="Score 0.82 out of 1"><span></span></div></div>
+            <ul class="meta-list">
+              <li><span>Operating threshold</span><strong>0.50</strong></li>
+              <li><span>Dataset</span><strong>CIFAKE</strong></li>
+              <li><span>Condition</span><strong>Clean</strong></li>
+              <li><span>Interpretation</span><strong>Supports review</strong></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="voice">
+      <div class="page">
+        <div class="section-head">
+          <div><span class="eyebrow">06 · Voice</span></div>
+          <div class="copy">
+            <h2>Specific, calm, qualified.</h2>
+            <p class="lede">Write with confidence about the method and humility about the conclusion. Never turn a probability into a verdict.</p>
+          </div>
+        </div>
+        <div class="voice-wrap">
+          <article class="voice-card do"><span class="eyebrow">Do say</span><h3 class="quote">“At the selected threshold, the model flags this image for further review.”</h3><p>Names the operating point and the human next step.</p></article>
+          <article class="voice-card dont"><span class="eyebrow">Avoid</span><h3 class="quote">“Our AI proves this image is fake.”</h3><p>Overstates certainty and hides the role of calibration, context, and error.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="components">
+      <div class="page">
+        <div class="section-head">
+          <div><span class="eyebrow">07 · Data visualization</span></div>
+          <div class="copy">
+            <h2>Show the metric and its conditions.</h2>
+            <p class="lede">Cobalt leads, Sky compares, and Ink anchors. Direct labels, tabular numerals, sample counts, and visible caveats matter more than decoration.</p>
+          </div>
+        </div>
+        <div class="viz-board">
+          <article class="chart-card">
+            <div class="chart-head"><h3>Dataset view</h3><span>Illustrative only</span></div>
+            <div class="bars">
+              <div class="bar-row"><span>SID_Set</span><div class="track"><div class="fill" style="width:89%"></div></div><b>0.89</b></div>
+              <div class="bar-row"><span>CIFAKE</span><div class="track"><div class="fill sky" style="width:84%"></div></div><b>0.84</b></div>
+              <div class="bar-row"><span>WildFake</span><div class="track"><div class="fill ink" style="width:78%"></div></div><b>0.78</b></div>
+            </div>
+            <p class="chart-note">Always label the metric, split, sample count, and uncertainty. Never present illustrative values as benchmark results.</p>
+          </article>
+          <article class="chart-card">
+            <div class="chart-head"><h3>Operating points</h3><span>Illustrative · same scores</span></div>
+            <div class="bars">
+              <div class="bar-row"><span>τ = 0.50</span><div class="track"><div class="fill" style="width:72%"></div></div><b>A</b></div>
+              <div class="bar-row"><span>τ = 0.287</span><div class="track"><div class="fill sky" style="width:86%"></div></div><b>B</b></div>
+            </div>
+            <p class="chart-note">A threshold changes the operating trade-off, not the score ranking. Keep ROC-AUC separate from threshold-dependent metrics.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing">
+      <div class="page closing-panel">
+        <span class="eyebrow">Core promise</span>
+        <h2>From pixels to evidence.</h2>
+        <p>Use the system to make FeatDistill feel modern and memorable while keeping every scientific claim inspectable, contextualized, and responsible.</p>
+      </div>
+      <footer class="page"><span>FeatDistill brand guide · v1.0</span><span>Adapted from the visual grammar of Arooth · original assets required</span></footer>
+    </section>
+  </main>
+</body>
+</html>
