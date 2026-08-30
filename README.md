@@ -2,7 +2,7 @@
   <img src="assets/brand/synthflag-primary-wordmark.png" alt="SynthFlag" width="100%">
 </p>
 
-**SynthFlag** is the UESTC solution for the **NTIRE 2026 Challenge on Robust AI‑Generated Image Detection in the Wild**, implemented via a four‑expert ensemble model.
+**SynthFlag** is the UESTC solution for the **NTIRE 2026 Challenge on Robust AI‑Generated Image Detection in the Wild**, powered by the four-expert FeatDistill detector architecture.
 
 ![SynthFlag detector overview](competition.png)
 
@@ -18,7 +18,7 @@ The detector contains four independently trained experts:
 ## Repository Layout
 
 ```text
-Featdistill_infer/
+SynthFlag/
 ├─ infer/
 │  ├─ model.py          # Model definitions, preprocessing, and strict loading
 │  └─ cli.py            # Recursive, resumable batch inference
@@ -69,12 +69,15 @@ The current `infer` package does not require these commands.
 ## Run Inference
 
 ```bash
-python -m infer \
+synthflag-infer \
   --images-dir /path/to/images \
   --out-dir outputs/predictions \
   --weights-dir weights \
   --device auto
 ```
+
+`python -m infer` and the legacy `featdistill-infer` command remain available
+for compatibility with the underlying detector release.
 
 The command recursively reads JPEG, PNG, BMP, WebP, and TIFF images and writes:
 

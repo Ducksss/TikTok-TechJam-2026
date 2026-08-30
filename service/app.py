@@ -1,4 +1,4 @@
-"""Small, stateless HTTP wrapper around the released FeatDistill ensemble."""
+"""SynthFlag's stateless HTTP wrapper around the released FeatDistill ensemble."""
 
 from __future__ import annotations
 

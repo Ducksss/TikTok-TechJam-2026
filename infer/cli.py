@@ -142,7 +142,7 @@ def _prepare_output(
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Run the four-expert FeatDistill inference ensemble."
+        description="Run SynthFlag with the four-expert FeatDistill detector ensemble."
     )
     parser.add_argument("--images-dir", type=Path, required=True)
     parser.add_argument("--out-dir", type=Path, required=True)

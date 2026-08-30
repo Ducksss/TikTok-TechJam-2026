@@ -1,4 +1,4 @@
-"""Inference-only release for the FeatDistill four-expert ensemble."""
+"""SynthFlag inference, powered by the FeatDistill four-expert ensemble."""
 
 from .model import FeatDistillEnsemble, Model
 

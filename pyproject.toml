@@ -3,14 +3,15 @@ requires = ["setuptools>=69"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "featdistill-infer"
+name = "synthflag-infer"
 version = "1.0.0"
-description = "Inference-only four-expert ensemble for robust AI-generated image detection"
+description = "SynthFlag inference package for robust AI-generated image detection"
 readme = "README.md"
 requires-python = ">=3.10"
 dynamic = ["dependencies"]
 
 [project.scripts]
+synthflag-infer = "infer.cli:main"
 featdistill-infer = "infer.cli:main"
 
 [project.optional-dependencies]
