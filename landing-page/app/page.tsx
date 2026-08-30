@@ -65,6 +65,23 @@ const experts = [
   },
 ];
 
+const scanStages = [
+  ['01', 'Capture', 'Read texture, edges, and compression traces.'],
+  ['02', 'Compare', 'Let four independent experts surface distinct signals.'],
+  ['03', 'Resolve', 'Combine the evidence into one reviewable probability.'],
+];
+
+const featurePoints = [
+  ['16%', '24%'],
+  ['32%', '42%'],
+  ['48%', '19%'],
+  ['64%', '54%'],
+  ['78%', '31%'],
+  ['26%', '69%'],
+  ['54%', '76%'],
+  ['83%', '66%'],
+];
+
 export default function Home() {
   const page = useRef<HTMLElement>(null);
 
@@ -77,41 +94,75 @@ export default function Home() {
       const reduceMotion = window.matchMedia(
         '(prefers-reduced-motion: reduce)',
       ).matches;
+      const isMobile = window.matchMedia('(max-width: 899px)').matches;
+      const heroScoreValue = root.querySelector<HTMLElement>(
+        '[data-hero-score-value]',
+      );
+      const scoreValue = root.querySelector<HTMLElement>('[data-score-value]');
+      const showFinalScores = () => {
+        if (heroScoreValue) heroScoreValue.textContent = '0.78';
+        if (scoreValue) scoreValue.textContent = '0.78';
+      };
+
       if (reduceMotion) {
         gsap.set(root.querySelectorAll('[data-motion]'), { clearProps: 'all' });
+        showFinalScores();
         return;
       }
 
       const intro = gsap.timeline({
-        defaults: { duration: 0.9, ease: 'power3.out' },
+        defaults: {
+          duration: isMobile ? 0.62 : 0.9,
+          ease: 'power3.out',
+        },
       });
       intro
-        .from('[data-hero-kicker]', { autoAlpha: 0, y: 24 })
+        .from('[data-hero-kicker]', {
+          autoAlpha: 0,
+          y: isMobile ? 14 : 24,
+        })
         .from(
-          '[data-hero-line]',
-          { rotate: 2, stagger: 0.12, yPercent: 115 },
-          '-=0.58',
+          '[data-hero-word]',
+          {
+            rotate: isMobile ? 0.4 : 2,
+            stagger: isMobile ? 0.055 : 0.1,
+            yPercent: isMobile ? 72 : 115,
+          },
+          '-=0.48',
         )
-        .from('[data-hero-copy]', { autoAlpha: 0, y: 26 }, '-=0.58')
+        .from(
+          '[data-hero-copy]',
+          { autoAlpha: 0, y: isMobile ? 16 : 26 },
+          '-=0.46',
+        )
         .from(
           '[data-hero-card]',
-          { autoAlpha: 0, rotate: 2.5, scale: 0.94, y: 54 },
-          '-=0.72',
+          {
+            autoAlpha: 0,
+            rotate: isMobile ? 0.6 : 2.5,
+            scale: isMobile ? 0.98 : 0.94,
+            y: isMobile ? 24 : 54,
+          },
+          '-=0.6',
         )
-        .from('[data-proof]', { autoAlpha: 0, stagger: 0.07, y: 28 }, '-=0.45');
+        .from(
+          '[data-proof]',
+          { autoAlpha: 0, stagger: 0.07, y: isMobile ? 16 : 28 },
+          '-=0.4',
+        );
 
       gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach((element) => {
         gsap.from(element, {
           autoAlpha: 0,
-          duration: 1,
+          duration: isMobile ? 0.68 : 1,
           ease: 'power3.out',
-          filter: 'blur(9px)',
+          filter: `blur(${isMobile ? 3 : 8}px)`,
           scrollTrigger: {
             start: 'top 84%',
             toggleActions: 'play none none reverse',
             trigger: element,
           },
-          y: 52,
+          y: isMobile ? 24 : 52,
         });
       });
 
@@ -121,13 +172,19 @@ export default function Home() {
           const items = group.querySelectorAll('[data-stagger-item]');
           gsap.fromTo(
             items,
-            { autoAlpha: 0, rotate: 1.2, y: 44 },
+            {
+              autoAlpha: 0,
+              filter: `blur(${isMobile ? 3 : 6}px)`,
+              rotate: isMobile ? 0.35 : 1.2,
+              y: isMobile ? 22 : 44,
+            },
             {
               autoAlpha: 1,
-              duration: 0.85,
+              duration: isMobile ? 0.62 : 0.85,
               ease: 'power3.out',
+              filter: 'blur(0px)',
               rotate: 0,
-              stagger: 0.11,
+              stagger: isMobile ? 0.07 : 0.11,
               scrollTrigger: {
                 start: 'top 82%',
                 toggleActions: 'play none none reverse',
@@ -138,57 +195,118 @@ export default function Home() {
           );
         });
 
-      const score = { value: 0 };
-      const scoreValue = root.querySelector<HTMLElement>('[data-score-value]');
-      if (scoreValue) scoreValue.textContent = '0.00';
-      const scoreTimeline = gsap.timeline({
-        scrollTrigger: {
-          end: 'bottom 58%',
-          scrub: 0.7,
-          start: 'top 82%',
-          trigger: '[data-score-card]',
-        },
-      });
-      scoreTimeline
-        .to(
-          score,
-          {
-            duration: 1,
-            ease: 'none',
-            onUpdate: () => {
-              if (scoreValue) scoreValue.textContent = score.value.toFixed(2);
-            },
-            value: 0.78,
-          },
-          0,
-        )
-        .fromTo(
-          '[data-score-fill]',
-          { width: '0%' },
-          { duration: 1, ease: 'none', width: '78%' },
-          0,
-        )
-        .fromTo(
-          '[data-score-knob]',
-          { left: '0%' },
-          { duration: 1, ease: 'none', left: '78%' },
-          0,
-        );
-
       const media = gsap.matchMedia();
       media.add('(min-width: 900px)', () => {
-        gsap.to('[data-hero-card]', {
-          ease: 'none',
-          rotate: -1.8,
-          scale: 1.035,
+        const heroScore = { value: 0 };
+        const score = { value: 0 };
+        if (heroScoreValue) heroScoreValue.textContent = '0.00';
+        if (scoreValue) scoreValue.textContent = '0.00';
+
+        const scanStageElements =
+          gsap.utils.toArray<HTMLElement>('[data-scan-stage]');
+        gsap.set(scanStageElements, { autoAlpha: 0.38 });
+
+        const scanTimeline = gsap.timeline({
           scrollTrigger: {
-            end: 'bottom top',
+            end: 'bottom bottom',
             scrub: 0.8,
             start: 'top top',
-            trigger: '[data-hero-section]',
+            trigger: '[data-scan-hero]',
           },
-          yPercent: -13,
         });
+        scanTimeline
+          .fromTo(
+            '[data-scan-line]',
+            { autoAlpha: 0.4, top: '7%' },
+            { autoAlpha: 1, duration: 0.62, ease: 'none', top: '76%' },
+            0,
+          )
+          .fromTo(
+            '[data-feature-map]',
+            { autoAlpha: 0, clipPath: 'inset(0 100% 0 0)' },
+            {
+              autoAlpha: 0.82,
+              clipPath: 'inset(0 0% 0 0)',
+              duration: 0.42,
+              ease: 'none',
+            },
+            0.12,
+          )
+          .fromTo(
+            '[data-feature-point]',
+            { autoAlpha: 0, scale: 0.7 },
+            {
+              autoAlpha: 1,
+              duration: 0.25,
+              ease: 'power2.out',
+              scale: 1,
+              stagger: { amount: 0.25, from: 'random' },
+            },
+            0.2,
+          )
+          .fromTo(
+            '[data-scan-result]',
+            { autoAlpha: 0.55, y: 26 },
+            { autoAlpha: 1, duration: 0.34, ease: 'power2.out', y: 0 },
+            0.56,
+          )
+          .to(
+            heroScore,
+            {
+              duration: 0.4,
+              ease: 'none',
+              onUpdate: () => {
+                if (heroScoreValue) {
+                  heroScoreValue.textContent = heroScore.value.toFixed(2);
+                }
+              },
+              value: 0.78,
+            },
+            0.54,
+          );
+
+        if (scanStageElements.length === 3) {
+          scanTimeline
+            .to(scanStageElements[0], { autoAlpha: 1, duration: 0.12 }, 0)
+            .to(scanStageElements[0], { autoAlpha: 0.38, duration: 0.1 }, 0.26)
+            .to(scanStageElements[1], { autoAlpha: 1, duration: 0.12 }, 0.26)
+            .to(scanStageElements[1], { autoAlpha: 0.38, duration: 0.1 }, 0.58)
+            .to(scanStageElements[2], { autoAlpha: 1, duration: 0.12 }, 0.58);
+        }
+
+        const scoreTimeline = gsap.timeline({
+          scrollTrigger: {
+            end: 'bottom 58%',
+            scrub: 0.7,
+            start: 'top 82%',
+            trigger: '[data-score-card]',
+          },
+        });
+        scoreTimeline
+          .to(
+            score,
+            {
+              duration: 1,
+              ease: 'none',
+              onUpdate: () => {
+                if (scoreValue) scoreValue.textContent = score.value.toFixed(2);
+              },
+              value: 0.78,
+            },
+            0,
+          )
+          .fromTo(
+            '[data-score-fill]',
+            { width: '0%' },
+            { duration: 1, ease: 'none', width: '78%' },
+            0,
+          )
+          .fromTo(
+            '[data-score-knob]',
+            { left: '0%' },
+            { duration: 1, ease: 'none', left: '78%' },
+            0,
+          );
 
         gsap.to('[data-hero-orb]', {
           ease: 'none',
@@ -213,11 +331,60 @@ export default function Home() {
           },
           transformOrigin: 'left center',
         });
+
+        const verdictSteps = gsap.utils.toArray<HTMLElement>(
+          '[data-verdict-step]',
+        );
+        gsap.set(verdictSteps, { autoAlpha: 0, y: 34 });
+        const verdictTimeline = gsap.timeline({
+          scrollTrigger: {
+            end: 'bottom bottom',
+            scrub: 0.8,
+            start: 'top top',
+            trigger: '[data-verdict-section]',
+          },
+        });
+        verdictTimeline
+          .fromTo(
+            '[data-verdict-card]',
+            { scale: 0.94 },
+            { duration: 0.2, ease: 'none', scale: 1 },
+            0,
+          )
+          .to(verdictSteps[0], { autoAlpha: 1, duration: 0.12, y: 0 }, 0.06)
+          .to(verdictSteps[0], { autoAlpha: 0, duration: 0.1, y: -24 }, 0.27)
+          .to(verdictSteps[1], { autoAlpha: 1, duration: 0.12, y: 0 }, 0.3)
+          .to(verdictSteps[1], { autoAlpha: 0, duration: 0.1, y: -24 }, 0.52)
+          .to(verdictSteps[2], { autoAlpha: 1, duration: 0.14, y: 0 }, 0.56)
+          .fromTo(
+            '[data-verdict-actions]',
+            { autoAlpha: 0, y: 24 },
+            { autoAlpha: 1, duration: 0.16, y: 0 },
+            0.72,
+          );
+      });
+
+      media.add('(max-width: 899px)', () => {
+        showFinalScores();
+        gsap.fromTo(
+          '[data-feature-map]',
+          { autoAlpha: 0.28 },
+          {
+            autoAlpha: 0.62,
+            duration: 0.7,
+            ease: 'power2.out',
+            scrollTrigger: {
+              start: 'top 78%',
+              toggleActions: 'play none none reverse',
+              trigger: '[data-hero-card]',
+            },
+          },
+        );
       });
 
       cleanupMotion = () => {
         media.revert();
-        if (scoreValue) scoreValue.textContent = '0.78';
+        showFinalScores();
       };
     }, root);
 
@@ -291,7 +458,8 @@ export default function Home() {
 
         <div
           id="top"
-          className="relative z-10 mx-auto grid max-w-[1480px] gap-14 pb-20 pt-20 lg:grid-cols-[minmax(0,1.15fr)_minmax(390px,.62fr)] lg:items-end lg:pb-28 lg:pt-28"
+          data-scan-hero
+          className="relative z-10 mx-auto grid max-w-[1480px] gap-14 pb-20 pt-20 lg:min-h-[150vh] lg:grid-cols-[minmax(0,1.15fr)_minmax(390px,.62fr)] lg:items-start lg:pb-28 lg:pt-28"
         >
           <div>
             <div
@@ -304,17 +472,23 @@ export default function Home() {
             </div>
             <h1 className="font-display text-[clamp(4.2rem,10.6vw,10.8rem)] font-semibold uppercase leading-[0.76] tracking-[-0.075em]">
               <span className="hero-line-mask block">
-                <span data-hero-line data-motion className="block">
-                  From pixels
+                <span data-hero-line className="block">
+                  <span data-hero-word data-motion className="inline-block">
+                    From
+                  </span>{' '}
+                  <span data-hero-word data-motion className="inline-block">
+                    pixels
+                  </span>
                 </span>
               </span>
               <span className="hero-line-mask mt-[.08em] block">
-                <span
-                  data-hero-line
-                  data-motion
-                  className="block text-[#8eb3ff]"
-                >
-                  to evidence.
+                <span data-hero-line className="block text-[#8eb3ff]">
+                  <span data-hero-word data-motion className="inline-block">
+                    to
+                  </span>{' '}
+                  <span data-hero-word data-motion className="inline-block">
+                    evidence.
+                  </span>
                 </span>
               </span>
             </h1>
@@ -337,9 +511,28 @@ export default function Home() {
                 </span>
               </a>
             </div>
+
+            <ol className="mt-20 hidden max-w-3xl border-t border-white/20 lg:grid lg:grid-cols-3">
+              {scanStages.map(([number, label, copy]) => (
+                <li
+                  key={number}
+                  data-scan-stage
+                  data-motion
+                  className="border-white/20 py-6 pr-6 first:border-0 lg:border-l lg:px-6 lg:first:pl-0"
+                >
+                  <p className="font-mono text-[10px] uppercase tracking-[.16em] text-[#8eb3ff]">
+                    {number} / {label}
+                  </p>
+                  <p className="mt-4 text-sm leading-6 text-white/70">{copy}</p>
+                </li>
+              ))}
+            </ol>
           </div>
 
-          <div className="relative lg:pb-2">
+          <div
+            data-hero-visual
+            className="relative lg:sticky lg:top-24 lg:pb-2"
+          >
             <div className="absolute -left-8 -top-8 hidden rounded-full bg-[#b7cfff] px-4 py-2 font-mono text-[10px] uppercase tracking-[.14em] text-[#002c88] lg:block">
               Multi-signal read
             </div>
@@ -358,14 +551,37 @@ export default function Home() {
                   className="absolute inset-0 h-full w-full object-cover opacity-95"
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-[#001a4d]/10 via-[#001a4d]/0 to-[#001a4d]/85" />
-                <div className="scan-line absolute inset-x-0 top-[38%] h-px bg-white shadow-[0_0_22px_4px_rgba(255,255,255,.75)]" />
+                <div
+                  data-feature-map
+                  data-motion
+                  className="feature-map-grid absolute inset-0 opacity-60"
+                  aria-hidden="true"
+                >
+                  {featurePoints.map(([left, top], index) => (
+                    <span
+                      key={`${left}-${top}`}
+                      data-feature-point
+                      className="feature-point absolute size-3 rounded-full border border-white/80 bg-[#8eb3ff]"
+                      style={{ left, top, opacity: 0.55 + index * 0.05 }}
+                    />
+                  ))}
+                </div>
+                <div
+                  data-scan-line
+                  data-motion
+                  className="scan-line absolute inset-x-0 top-[38%] h-px bg-white shadow-[0_0_22px_4px_rgba(255,255,255,.75)]"
+                />
                 <div className="relative flex items-start justify-between">
                   <span className="rounded-full border border-white/60 bg-[#001a4d]/55 px-3 py-2 font-mono text-[10px] uppercase tracking-[.14em] text-white backdrop-blur-md">
                     Signal capture 01
                   </span>
                   <span className="size-3 rounded-full bg-[#b7cfff] shadow-[0_0_0_6px_rgba(183,207,255,.22)]" />
                 </div>
-                <div className="absolute inset-x-5 bottom-5 rounded-[18px] border border-white/45 bg-white/90 p-5 shadow-lg backdrop-blur-xl sm:inset-x-6 sm:bottom-6">
+                <div
+                  data-scan-result
+                  data-motion
+                  className="absolute inset-x-5 bottom-5 rounded-[18px] border border-white/45 bg-white/90 p-5 shadow-lg backdrop-blur-xl sm:inset-x-6 sm:bottom-6"
+                >
                   <div className="mb-5 flex items-center justify-between font-mono text-[10px] uppercase tracking-[.14em] text-[#4b5563]">
                     <span>Illustrative output</span>
                     <span>ensemble / 04</span>
@@ -375,7 +591,10 @@ export default function Home() {
                       <p className="text-xs font-medium uppercase tracking-[.13em] text-[#4b5563]">
                         Fake probability
                       </p>
-                      <p className="font-display text-[4.4rem] font-semibold leading-none tracking-[-.07em] text-[#0040c1]">
+                      <p
+                        data-hero-score-value
+                        className="font-display text-[4.4rem] font-semibold leading-none tracking-[-.07em] text-[#0040c1]"
+                      >
                         0.78
                       </p>
                     </div>
@@ -825,61 +1044,101 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-white px-4 py-24 sm:px-6 sm:py-32 lg:px-8">
-        <div className="mx-auto max-w-[1480px]">
+      <section
+        data-verdict-section
+        className="relative bg-white px-4 py-24 sm:px-6 sm:py-32 lg:min-h-[220vh] lg:px-8 lg:py-0"
+      >
+        <div
+          data-verdict-sticky
+          className="mx-auto max-w-[1480px] lg:sticky lg:top-0 lg:flex lg:min-h-screen lg:items-center"
+        >
           <div
-            data-reveal
+            data-verdict-card
             data-motion
-            className="relative overflow-hidden rounded-[36px] border border-[#d1e0ff] px-6 py-20 text-center sm:px-12 sm:py-28"
+            className="relative w-full overflow-hidden rounded-[36px] border border-[#d1e0ff] px-6 py-16 text-center sm:px-12 sm:py-24"
           >
             <div className="cta-glow absolute inset-0" aria-hidden="true" />
             <div className="relative">
-              <p className="font-mono text-xs uppercase tracking-[.2em] text-[#0040c1]">
-                Open research / reproducible inference
-              </p>
-              <h2 className="mx-auto mt-8 max-w-5xl font-display text-[clamp(4rem,9vw,9.2rem)] font-semibold uppercase leading-[.78] tracking-[-.075em] text-[#111827]">
-                Follow the
-                <br />
-                <span className="text-[#0040c1]">signal.</span>
-              </h2>
-              <p className="mx-auto mt-9 max-w-xl text-base leading-7 text-[#4b5563]">
-                Explore the architecture, expert ensemble, score interpretation,
-                and responsible-use principles behind SynthFlag.
-              </p>
-              <Button
-                nativeButton={false}
-                render={
-                  <Link href="/try">
-                    Test an image <ArrowRight className="size-4" />
-                  </Link>
-                }
-                className="mt-9 h-13 rounded-full bg-[#0040c1] px-7 text-white hover:bg-[#002f94]"
-              />
+              <div className="mx-auto flex max-w-2xl items-center justify-center gap-3 font-mono text-[10px] uppercase tracking-[.18em] text-[#0040c1]">
+                <span className="h-px w-10 bg-[#8eb3ff]" />
+                Verdict sequence / 05
+                <span className="h-px w-10 bg-[#8eb3ff]" />
+              </div>
+
+              <div className="relative mx-auto mt-10 min-h-[13rem] max-w-6xl sm:min-h-[18rem]">
+                <p
+                  data-verdict-step
+                  data-motion
+                  aria-hidden="true"
+                  className="absolute inset-0 grid place-items-center font-display text-[clamp(3.8rem,9vw,9rem)] font-semibold uppercase leading-[.8] tracking-[-.075em] text-[#111827] opacity-0"
+                >
+                  Signal
+                  <br />
+                  located.
+                </p>
+                <p
+                  data-verdict-step
+                  data-motion
+                  aria-hidden="true"
+                  className="absolute inset-0 grid place-items-center font-display text-[clamp(3.8rem,9vw,9rem)] font-semibold uppercase leading-[.8] tracking-[-.075em] text-[#111827] opacity-0"
+                >
+                  Context
+                  <br />
+                  required.
+                </p>
+                <h2
+                  data-verdict-step
+                  data-motion
+                  className="absolute inset-0 grid place-items-center font-display text-[clamp(3.8rem,9vw,9rem)] font-semibold uppercase leading-[.8] tracking-[-.075em] text-[#0040c1]"
+                >
+                  Flag for
+                  <br />
+                  review.
+                </h2>
+              </div>
+
+              <div data-verdict-actions data-motion>
+                <p className="mx-auto mt-4 max-w-xl text-base leading-7 text-[#4b5563]">
+                  Turn the detector signal into a reviewable result—then pair it
+                  with provenance, context, and human judgment.
+                </p>
+                <Button
+                  nativeButton={false}
+                  render={
+                    <Link href="/try">
+                      Test an image <ArrowRight className="size-4" />
+                    </Link>
+                  }
+                  className="mt-9 h-13 rounded-full bg-[#0040c1] px-7 text-white hover:bg-[#002f94]"
+                />
+              </div>
             </div>
           </div>
-
-          <footer className="mt-8 flex flex-col gap-6 border-t border-[#d1e0ff] pt-8 text-sm text-[#6b7280] sm:flex-row sm:items-center sm:justify-between">
-            <a className="flex items-center gap-3 text-[#111827]" href="#top">
-              <span className="grid size-8 place-items-center rounded-full bg-[#0040c1] text-white">
-                <ScanSearch className="size-4" />
-              </span>
-              <span className="font-display text-lg font-semibold tracking-[-.04em]">
-                SynthFlag
-              </span>
-            </a>
-            <p>
-              Powered by the FeatDistill detector architecture and research
-              lineage.
-            </p>
-            <a
-              className="flex items-center gap-2 text-[#0040c1] hover:underline"
-              href="#top"
-            >
-              Back to top <ArrowUpRight className="size-3.5" />
-            </a>
-          </footer>
         </div>
       </section>
+
+      <footer className="bg-white px-4 pb-10 sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-[1480px] flex-col gap-6 border-t border-[#d1e0ff] pt-8 text-sm text-[#6b7280] sm:flex-row sm:items-center sm:justify-between">
+          <a className="flex items-center gap-3 text-[#111827]" href="#top">
+            <span className="grid size-8 place-items-center rounded-full bg-[#0040c1] text-white">
+              <ScanSearch className="size-4" />
+            </span>
+            <span className="font-display text-lg font-semibold tracking-[-.04em]">
+              SynthFlag
+            </span>
+          </a>
+          <p>
+            Powered by the FeatDistill detector architecture and research
+            lineage.
+          </p>
+          <a
+            className="flex items-center gap-2 text-[#0040c1] hover:underline"
+            href="#top"
+          >
+            Back to top <ArrowUpRight className="size-3.5" />
+          </a>
+        </div>
+      </footer>
     </main>
   );
 }

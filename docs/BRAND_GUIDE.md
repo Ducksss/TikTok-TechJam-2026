@@ -378,6 +378,18 @@ browser navigation behavior.
 - Use CSS native scrolling for anchor navigation and preserve normal focus and
   history behavior.
 
+The canonical landing-page sequence is:
+
+1. A desktop sticky scan hero whose detector view develops with scroll.
+2. A word-level reveal for “From pixels to evidence.”
+3. A scrubbed feature-map and probability visualization.
+4. Evidence cards that enter in a restrained stagger with a light blur.
+5. A final desktop-pinned verdict sequence that resolves into the primary CTA.
+
+On mobile, keep the same content hierarchy but remove sticky pinning and
+scroll-scrubbed movement. Under `prefers-reduced-motion: reduce`, present the
+final readable state immediately and disable decorative animation.
+
 ## Design tokens
 
 ```css

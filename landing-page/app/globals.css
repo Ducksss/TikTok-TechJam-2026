@@ -92,13 +92,41 @@ body {
 
 [data-hero-card],
 [data-hero-orb],
+[data-feature-map],
+[data-scan-line],
 [data-reveal],
-[data-stagger-item] {
+[data-stagger-item],
+[data-verdict-card],
+[data-verdict-step] {
   will-change: transform;
 }
 
-.scan-line {
-  animation: scan 4.6s ease-in-out infinite;
+.feature-map-grid {
+  background-image:
+    linear-gradient(rgba(183, 207, 255, 0.42) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(183, 207, 255, 0.42) 1px, transparent 1px),
+    radial-gradient(
+      circle at 72% 28%,
+      rgba(41, 112, 255, 0.72),
+      transparent 22%
+    ),
+    radial-gradient(
+      circle at 34% 62%,
+      rgba(183, 207, 255, 0.68),
+      transparent 28%
+    );
+  background-size:
+    56px 56px,
+    56px 56px,
+    auto,
+    auto;
+  mix-blend-mode: screen;
+}
+
+.feature-point {
+  box-shadow:
+    0 0 0 6px rgba(142, 179, 255, 0.14),
+    0 0 24px rgba(255, 255, 255, 0.72);
 }
 
 .signal-rail::before,
@@ -191,6 +219,12 @@ button:focus-visible {
   }
 }
 
+@media (max-width: 899px) and (prefers-reduced-motion: no-preference) {
+  .scan-line {
+    animation: scan 5.8s ease-in-out infinite;
+  }
+}
+
 @keyframes scan-pass {
   0%,
   100% {
@@ -226,8 +260,12 @@ button:focus-visible {
   }
   [data-hero-card],
   [data-hero-orb],
+  [data-feature-map],
+  [data-scan-line],
   [data-reveal],
-  [data-stagger-item] {
+  [data-stagger-item],
+  [data-verdict-card],
+  [data-verdict-step] {
     will-change: auto;
   }
 }
