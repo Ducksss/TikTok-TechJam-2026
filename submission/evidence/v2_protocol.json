@@ -1,0 +1,355 @@
+{
+  "bootstrap": {
+    "repetitions": 2000,
+    "seed": 20260829,
+    "stratification": "dataset_and_label",
+    "unit": "content_sha256_group"
+  },
+  "claim_boundary": "No new independent images were locally available. V2 results are retrospective development evidence, not protected-final or prospective validation claims.",
+  "development_population": {
+    "datasets": {
+      "cifake": 667,
+      "sid_set": 667,
+      "wildfake": 670
+    },
+    "labels": {
+      "fake": 1002,
+      "real": 1002
+    },
+    "rows": 2004,
+    "source_role": "v1_calibration",
+    "strata": [
+      {
+        "count": 60,
+        "dataset": "cifake",
+        "label": "fake",
+        "subgroup": "test"
+      },
+      {
+        "count": 273,
+        "dataset": "cifake",
+        "label": "fake",
+        "subgroup": "train"
+      },
+      {
+        "count": 51,
+        "dataset": "cifake",
+        "label": "real",
+        "subgroup": "test"
+      },
+      {
+        "count": 283,
+        "dataset": "cifake",
+        "label": "real",
+        "subgroup": "train"
+      },
+      {
+        "count": 167,
+        "dataset": "sid_set",
+        "label": "fake",
+        "subgroup": "full_synthetic"
+      },
+      {
+        "count": 167,
+        "dataset": "sid_set",
+        "label": "fake",
+        "subgroup": "tampered"
+      },
+      {
+        "count": 333,
+        "dataset": "sid_set",
+        "label": "real",
+        "subgroup": "real"
+      },
+      {
+        "count": 56,
+        "dataset": "wildfake",
+        "label": "fake",
+        "subgroup": "adm"
+      },
+      {
+        "count": 56,
+        "dataset": "wildfake",
+        "label": "fake",
+        "subgroup": "dalle"
+      },
+      {
+        "count": 56,
+        "dataset": "wildfake",
+        "label": "fake",
+        "subgroup": "ddim"
+      },
+      {
+        "count": 56,
+        "dataset": "wildfake",
+        "label": "fake",
+        "subgroup": "ddpm"
+      },
+      {
+        "count": 56,
+        "dataset": "wildfake",
+        "label": "fake",
+        "subgroup": "imagen"
+      },
+      {
+        "count": 55,
+        "dataset": "wildfake",
+        "label": "fake",
+        "subgroup": "vqdm"
+      },
+      {
+        "count": 56,
+        "dataset": "wildfake",
+        "label": "real",
+        "subgroup": "afhq"
+      },
+      {
+        "count": 56,
+        "dataset": "wildfake",
+        "label": "real",
+        "subgroup": "celebahq"
+      },
+      {
+        "count": 56,
+        "dataset": "wildfake",
+        "label": "real",
+        "subgroup": "church"
+      },
+      {
+        "count": 56,
+        "dataset": "wildfake",
+        "label": "real",
+        "subgroup": "coco"
+      },
+      {
+        "count": 56,
+        "dataset": "wildfake",
+        "label": "real",
+        "subgroup": "ffhq"
+      },
+      {
+        "count": 55,
+        "dataset": "wildfake",
+        "label": "real",
+        "subgroup": "imagenet"
+      }
+    ],
+    "unique_hashes": 2004
+  },
+  "environment": {
+    "platform": "macOS-15.6-arm64-arm-64bit",
+    "python": "3.12.13 (main, Aug  7 2026, 02:15:23) [Clang 22.1.3 ]"
+  },
+  "existing_pool_audit": {
+    "content_hashes_recomputed": true,
+    "decision": "retrospective_nested_grouped_cv_on_v1_calibration_only",
+    "manifest_identities_sha256": {
+      "cifake": "736851b3c0441b28adcbbebdbba77835ce62d9f1e575ed1b9795872e719c45a0",
+      "sid_set": "e18fd96fcadd6dbd43ff905416367f84ff67e559606ac82816800a9c2189be48",
+      "wildfake": "7e75912ac3c57f2b571e4dbf7ffc62d5f61f64a7118f6fb1fd466e237a3b003a"
+    },
+    "manifest_rows": 10002,
+    "manifest_unique_hashes": 10001,
+    "unused_manifest_hashes": 0,
+    "unused_manifest_rows": 0,
+    "v1_split_rows": 10002,
+    "v1_split_unique_hashes": 10001
+  },
+  "folds": {
+    "assignment": "duplicate-grouped and dataset/label/subgroup stratified",
+    "inner_per_outer_training_partition": 4,
+    "outer": 5,
+    "outer_fold_counts": {
+      "0": 412,
+      "1": 401,
+      "2": 399,
+      "3": 396,
+      "4": 396
+    },
+    "private_folds_file_sha256": "940bd423a862f2a4e57c5d21fc62710239831c9a3cce21bf6a07fefbbd3a01d6",
+    "seed": "20260829-featdistill-retrospective-v2",
+    "semantic_assignment_sha256": "5d651589d75ecd7db315aad872527bf94d0ea4951d52ad41194ac47a4f661900"
+  },
+  "frozen_at_utc": "2026-08-29T04:45:47.451761+00:00",
+  "historical_threshold": 0.2874746155139839,
+  "logistic_l2_grid": [
+    0.001,
+    0.01,
+    0.1,
+    1.0,
+    10.0
+  ],
+  "methods": [
+    {
+      "family": "baseline",
+      "fit": "none",
+      "id": "released_mean"
+    },
+    {
+      "family": "non_negative_simplex_weighting",
+      "features": "four_center_expert_margins",
+      "fit": "outer_train_only",
+      "id": "simplex_logloss"
+    },
+    {
+      "family": "rank_averaging",
+      "id": "rank_mean",
+      "reference_distribution": "outer_train_only"
+    },
+    {
+      "family": "temperature_scaling",
+      "fit": "outer_train_only",
+      "id": "temperature",
+      "input": "released_mean_logit"
+    },
+    {
+      "family": "platt_scaling",
+      "fit": "outer_train_only",
+      "id": "platt",
+      "input": "released_mean_logit"
+    },
+    {
+      "family": "isotonic_calibration",
+      "fit": "outer_train_only",
+      "id": "isotonic",
+      "input": "released_mean_probability"
+    },
+    {
+      "family": "regularized_logistic_stacking",
+      "features": "four_center_expert_margins",
+      "hyperparameter": "inner_grouped_cv",
+      "id": "logistic_experts"
+    },
+    {
+      "family": "regularized_logistic_stacking",
+      "features": "expert_margins_plus_variance_entropy_margin_and_pairwise_disagreement",
+      "hyperparameter": "inner_grouped_cv",
+      "id": "logistic_disagreement"
+    },
+    {
+      "family": "regularized_logistic_stacking",
+      "features": "disagreement_features_plus_cospy_margin",
+      "hyperparameter": "inner_grouped_cv",
+      "id": "logistic_disagreement_cospy"
+    }
+  ],
+  "metrics": [
+    "roc_auc",
+    "pr_auc",
+    "balanced_accuracy",
+    "f1",
+    "recall",
+    "precision",
+    "specificity",
+    "confusion_counts",
+    "recall_at_0.95_specificity",
+    "specificity_at_0.75_recall",
+    "brier_score",
+    "log_loss",
+    "expected_calibration_error",
+    "selective_risk_at_coverage"
+  ],
+  "provenance": {
+    "checkpoint_identity": "812c02d7997e013d7621bc60e72a45f0a7d8f54468047a134c31b0d27d7b4a06",
+    "cospy_calibration_scores": {
+      "checkpoint_identity": null,
+      "device": "mps",
+      "rows": 2004,
+      "sha256": "9132ad26e24e8a3f69e4e09333857f7afafe5e11dd52a2382c00d7e8105b6399",
+      "source_split_file_sha256": "165361a495a5df30f6129aa8ad7a8ac3a538d8474c62c70ddb9f7ba7a2532509"
+    },
+    "featdistill_calibration_scores": {
+      "checkpoint_identity": "812c02d7997e013d7621bc60e72a45f0a7d8f54468047a134c31b0d27d7b4a06",
+      "device": "mps",
+      "rows": 2004,
+      "sha256": "4c0d764e534771142d81cd09dfd0275cae7a01d6f2f061bdf6c6a58027bb2e01",
+      "source_split_file_sha256": "165361a495a5df30f6129aa8ad7a8ac3a538d8474c62c70ddb9f7ba7a2532509"
+    },
+    "v1_split_file_sha256": "165361a495a5df30f6129aa8ad7a8ac3a538d8474c62c70ddb9f7ba7a2532509"
+  },
+  "robustness_transforms": [
+    {
+      "id": "clean",
+      "kind": "identity"
+    },
+    {
+      "id": "jpeg_q95",
+      "kind": "jpeg",
+      "quality": 95,
+      "subsampling": 0
+    },
+    {
+      "id": "jpeg_q80",
+      "kind": "jpeg",
+      "quality": 80,
+      "subsampling": 0
+    },
+    {
+      "id": "jpeg_q60",
+      "kind": "jpeg",
+      "quality": 60,
+      "subsampling": 0
+    },
+    {
+      "id": "jpeg_q40",
+      "kind": "jpeg",
+      "quality": 40,
+      "subsampling": 0
+    },
+    {
+      "down_resample": "bilinear",
+      "id": "downscale_half",
+      "kind": "downscale_upscale",
+      "scale": 0.5,
+      "up_resample": "bicubic"
+    },
+    {
+      "id": "screenshot_like",
+      "jpeg_quality": 85,
+      "jpeg_subsampling": 2,
+      "kind": "screenshot_like",
+      "resample": "bicubic",
+      "scale": 0.75
+    },
+    {
+      "id": "gaussian_blur",
+      "kind": "gaussian_blur",
+      "radius": 0.8
+    },
+    {
+      "id": "additive_noise",
+      "kind": "additive_gaussian_noise",
+      "seed_source": "image_sha256_and_v2_seed",
+      "sigma_8bit": 2.0
+    }
+  ],
+  "schema_version": 2,
+  "selective_prediction_coverages": [
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9,
+    1.0
+  ],
+  "study_design": "retrospective_nested_duplicate_grouped_cross_validation",
+  "success_criteria": {
+    "domain_guardrail": "Reject methods whose pooled gain depends on severe dataset degradation.",
+    "matched_decision": "Higher recall at matched 0.95 specificity or vice versa.",
+    "ranking": "Positive paired ROC-AUC or PR-AUC delta with duplicate-grouped 95% CI excluding zero; retrospective only in this design.",
+    "selective": "Material error reduction at a useful retained coverage."
+  },
+  "threshold_policy": "Every learned threshold is fitted on the corresponding outer-training partition; fixed 0.5 and historical 0.2874746155139839 are reported separately.",
+  "v1_final_policy": {
+    "prohibited_uses": [
+      "fitting",
+      "feature_selection",
+      "method_selection",
+      "threshold_selection",
+      "hyperparameter_selection",
+      "V2_metric_computation"
+    ],
+    "rows": 7998,
+    "status": "excluded"
+  }
+}
