@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/brand/synthflag-primary-wordmark.png" alt="SynthFlag" width="100%">
+</p>
+
 # SynthFlag
 
 **SynthFlag** is the TikTok TechJam 2026 submission for detecting AI-generated
