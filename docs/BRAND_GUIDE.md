@@ -360,6 +360,24 @@ Secondary action: **View benchmark**
 
 > SynthFlag scores indicate model confidence, not proof of origin. Use them alongside provenance, context, and human review.
 
+## Motion and scroll
+
+SynthFlag uses the browser's native document scrolling. Do not add Lenis or
+another virtual-scrolling layer by default. GSAP and ScrollTrigger may observe
+the native scroll position for section reveals, restrained scrubbed progress,
+and desktop-only parallax, but they must not hijack wheel, touch, keyboard, or
+browser navigation behavior.
+
+- Respect `prefers-reduced-motion` by presenting all content immediately and
+  disabling decorative movement.
+- Keep scroll-linked parallax off compact and touch-first layouts unless it has
+  been explicitly tested there.
+- Treat motion as progressive enhancement: navigation, reading order, upload
+  controls, and results must remain complete when JavaScript or animation is
+  unavailable.
+- Use CSS native scrolling for anchor navigation and preserve normal focus and
+  history behavior.
+
 ## Design tokens
 
 ```css

@@ -131,6 +131,10 @@ image up to 10 MB and displays the ensemble’s continuous `P(AI-generated)`
 score. It does not persist uploaded bytes or results. See `service/README.md`
 for the production GPU and origin-allowlisting contract.
 
+The landing page keeps browser-native scrolling and uses GSAP ScrollTrigger as
+a progressive enhancement for reveals and desktop parallax. Lenis and other
+virtual-scroll layers are intentionally excluded.
+
 ## Optional Degradation Utilities
 
 The `distortion/` package is used for controlled robustness experiments and records the degradation operations used during method development. It is

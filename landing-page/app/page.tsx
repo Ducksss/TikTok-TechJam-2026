@@ -20,6 +20,9 @@ import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
 
+// Keep the document on native browser scrolling. ScrollTrigger observes that
+// scroll position; it is intentionally not proxied through Lenis or another
+// virtual-scrolling layer.
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
