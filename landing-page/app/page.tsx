@@ -16,6 +16,7 @@ import {
   Waypoints,
 } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
 
@@ -276,13 +277,10 @@ export default function Home() {
           <Button
             nativeButton={false}
             render={
-              <a href="#method">
-                <span className="font-mono text-[11px]" aria-hidden="true">
-                  &lt;/&gt;
-                </span>
-                <span className="hidden sm:inline">Explore method</span>
-                <ArrowDownRight className="size-4" />
-              </a>
+              <Link href="/try">
+                <span className="hidden sm:inline">Try detector</span>
+                <ArrowUpRight className="size-4" />
+              </Link>
             }
             className="h-10 rounded-full bg-white px-4 text-[#0040c1] hover:bg-[#eff4ff]"
           />
@@ -848,9 +846,9 @@ export default function Home() {
               <Button
                 nativeButton={false}
                 render={
-                  <a href="#method">
-                    Explore the method <ArrowRight className="size-4" />
-                  </a>
+                  <Link href="/try">
+                    Test an image <ArrowRight className="size-4" />
+                  </Link>
                 }
                 className="mt-9 h-13 rounded-full bg-[#0040c1] px-7 text-white hover:bg-[#002f94]"
               />

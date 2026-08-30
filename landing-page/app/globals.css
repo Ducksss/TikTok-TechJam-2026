@@ -136,6 +136,39 @@ body {
     36px 36px;
 }
 
+.try-shell {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 42px 42px;
+}
+
+.drop-field::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 28%,
+    rgba(0, 64, 193, 0.055) 48%,
+    transparent 67%
+  );
+  content: '';
+  opacity: 0;
+  transform: translateX(-45%);
+  transition:
+    opacity 250ms ease,
+    transform 650ms ease;
+}
+
+.drop-field:hover::after {
+  opacity: 1;
+  transform: translateX(45%);
+}
+
+.scan-pass {
+  animation: scan-pass 2.7s ease-in-out infinite;
+}
+
 a,
 button {
   -webkit-tap-highlight-color: transparent;
@@ -159,6 +192,18 @@ button:focus-visible {
   }
 }
 
+@keyframes scan-pass {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: translateY(18px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(320px);
+  }
+}
+
 @media (min-width: 1024px) {
   .evidence-grid {
     min-height: 112vh;
@@ -175,6 +220,10 @@ button:focus-visible {
     scroll-behavior: auto;
   }
   .scan-line {
+    animation: none;
+  }
+
+  .scan-pass {
     animation: none;
   }
 

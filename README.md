@@ -98,6 +98,33 @@ print(float(scores[0]))
 `Model.predict()` also accepts a PyTorch tensor with shape `[B,3,H,W]`. Floating-point inputs must be finite
 and within the range `[0,1]`; `uint8` tensors are also supported.
 
+## SynthFlag Interactive Demo
+
+SynthFlag is the public product experience around this detector architecture.
+Its web interface lives in `landing-page/`; the stateless, checkpoint-backed
+HTTP wrapper lives in `service/`.
+
+```bash
+python -m pip install -e ".[server]"
+export SYNTHFLAG_WEIGHTS_DIR=/absolute/path/to/weights
+export SYNTHFLAG_EAGER_LOAD=1
+uvicorn service.app:app --host 127.0.0.1 --port 8000
+```
+
+In another terminal:
+
+```bash
+cd landing-page
+cp .env.example .env.local
+pnpm install
+pnpm dev
+```
+
+Open `http://localhost:3000/try`. The interface accepts one JPEG, PNG, or WebP
+image up to 10 MB and displays the ensemble’s continuous `P(AI-generated)`
+score. It does not persist uploaded bytes or results. See `service/README.md`
+for the production GPU and origin-allowlisting contract.
+
 ## Optional Degradation Utilities
 
 The `distortion/` package is used for controlled robustness experiments and records the degradation operations used during method development. It is
@@ -144,4 +171,3 @@ Paper: [arXiv:2604.11487](https://arxiv.org/abs/2604.11487) ·
 - Add a `LICENSE` to the repository before making the code public. The appropriate license must be selected by the copyright holder.
 - Review and disclose the upstream model terms and the distribution terms for the fine-tuned expert checkpoints before uploading the weights.
 - This is a research detector. Model scores should not be treated as conclusive evidence about an image's origin.
-

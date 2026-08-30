@@ -19,6 +19,11 @@ distortion = [
   "scipy==1.15.3",
   "kornia==0.8.2",
 ]
+server = [
+  "fastapi==0.116.1",
+  "python-multipart==0.0.20",
+  "uvicorn[standard]==0.35.0",
+]
 
 [tool.setuptools.dynamic]
 dependencies = { file = ["requirements.txt"] }
