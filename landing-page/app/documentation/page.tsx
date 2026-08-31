@@ -112,12 +112,7 @@ export default function Documentation() {
             SynthFlag
           </a>
           <nav aria-label="Documentation utilities">
-            <a href={paperUrl} rel="noreferrer" target="_blank">
-              Paper <ArrowUpRight aria-hidden="true" />
-            </a>
-            <a href={repositoryUrl} rel="noreferrer" target="_blank">
-              Repository <ArrowUpRight aria-hidden="true" />
-            </a>
+            <a href="/journey">Journey</a>
             <PrintButton />
             <a className="docs-try-link" href="/try">
               Try detector
@@ -132,15 +127,15 @@ export default function Documentation() {
           <nav className="docs-breadcrumb" aria-label="Breadcrumb">
             <a href="/">SynthFlag</a>
             <span aria-hidden="true">/</span>
-            <span aria-current="page">Documentation</span>
+            <span aria-current="page">Technical appendix</span>
           </nav>
           <div className="docs-hero-copy">
-            <p className="docs-eyebrow">Technical guide · plain language</p>
+            <p className="docs-eyebrow">Technical appendix · source checked</p>
             <h1>How four vision experts turn pixels into one useful signal.</h1>
             <p>
-              A guided explanation of what SynthFlag does, how the released
-              detector processes an image, where the evidence comes from, and
-              what its score cannot prove.
+              The detailed reference for how the released detector processes an
+              image, where the evidence comes from, and what its score cannot
+              prove. Judges can start with the shorter project journey.
             </p>
           </div>
           <div className="docs-hero-stats" aria-label="System summary">
@@ -180,6 +175,23 @@ export default function Documentation() {
         </aside>
 
         <article id="documentation-content" className="docs-content">
+          <nav className="docs-route-index" aria-label="SynthFlag guides">
+            <a href="/journey">
+              <span>Start here · judge narrative</span>
+              <strong>Project journey</strong>
+              <ArrowUpRight aria-hidden="true" />
+            </a>
+            <a href="/documentation/architecture">
+              <span>Deep reference · 11 diagrams</span>
+              <strong>Architecture atlas</strong>
+              <ArrowUpRight aria-hidden="true" />
+            </a>
+            <a href="/try">
+              <span>Interactive surface</span>
+              <strong>Try detector</strong>
+              <ArrowUpRight aria-hidden="true" />
+            </a>
+          </nav>
           <section id="overview" className="docs-section docs-overview">
             <SectionHeading kicker="Start here">In one minute</SectionHeading>
             <div className="docs-lead-grid">
@@ -863,6 +875,7 @@ export default function Documentation() {
           <p>From pixels to evidence.</p>
         </div>
         <div>
+          <a href="/journey">Journey</a>
           <a href="/try">Try detector</a>
           <a href="#overview">Back to top</a>
         </div>

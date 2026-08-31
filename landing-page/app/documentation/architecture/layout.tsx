@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Engineering architecture — SynthFlag Documentation',
+  title: 'Engineering architecture — SynthFlag technical appendix',
   description:
     'A source-checked architecture atlas for SynthFlag serving, model loading, tensor contracts, operational states, and resumable batch inference.',
   alternates: {

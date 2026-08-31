@@ -205,6 +205,50 @@
   margin-top: 6.5rem;
 }
 
+.atlas-journey-transfer {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  align-items: center;
+  border: 1px solid rgba(67, 223, 201, 0.32);
+  border-radius: 1.1rem;
+  background: rgba(67, 223, 201, 0.045);
+  padding: 1.2rem;
+}
+
+.atlas-journey-transfer > div {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.atlas-journey-transfer span {
+  color: var(--atlas-integrity);
+  font: 700 0.6rem/1.4 var(--font-mono);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.atlas-journey-transfer strong {
+  color: #edf4ff;
+  font: 560 1.05rem/1.35 var(--font-instrument);
+}
+
+.atlas-journey-transfer a {
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 0.5rem;
+  align-items: center;
+  border-radius: 999px;
+  background: #e9f0ff;
+  color: #07101f;
+  font: 700 0.65rem/1 var(--font-mono);
+  padding: 0.8rem 1rem;
+}
+
+.atlas-journey-transfer svg {
+  width: 0.85rem;
+}
+
 .model-journey {
   position: relative;
   min-width: 0;
@@ -733,6 +777,11 @@
 }
 
 @media (max-width: 820px) {
+  .atlas-journey-transfer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
   .atlas-section-dense .docs-explainer,
   .atlas-section-dense .docs-explainer ul {
     grid-template-columns: 1fr;

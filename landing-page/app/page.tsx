@@ -431,23 +431,14 @@ export default function Home() {
             className="hidden items-center gap-7 text-sm text-white/80 md:flex"
             aria-label="Primary navigation"
           >
-            <a className="transition-colors hover:text-white" href="#method">
-              Method
-            </a>
-            <a className="transition-colors hover:text-white" href="#evidence">
-              Evidence
-            </a>
-            <a
-              className="transition-colors hover:text-white"
-              href="#responsible-use"
-            >
-              Responsible use
+            <a className="transition-colors hover:text-white" href="/journey">
+              Journey
             </a>
             <a
               className="transition-colors hover:text-white"
               href="/documentation"
             >
-              Documentation
+              Technical appendix
             </a>
           </nav>
 
@@ -1122,8 +1113,8 @@ export default function Home() {
                   <Button
                     nativeButton={false}
                     render={
-                      <a href="/documentation">
-                        Read documentation <ArrowUpRight className="size-4" />
+                      <a href="/journey">
+                        Explore the journey <ArrowUpRight className="size-4" />
                       </a>
                     }
                     className="h-13 rounded-full border border-[#0040c1]/20 bg-white px-7 text-[#0040c1] hover:bg-[#eff4ff]"
@@ -1150,8 +1141,11 @@ export default function Home() {
             lineage.
           </p>
           <div className="flex items-center gap-5">
+            <a className="text-[#0040c1] hover:underline" href="/journey">
+              Journey
+            </a>
             <a className="text-[#0040c1] hover:underline" href="/documentation">
-              Documentation
+              Technical appendix
             </a>
             <a
               className="flex items-center gap-2 text-[#0040c1] hover:underline"

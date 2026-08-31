@@ -1,14 +1,14 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'How SynthFlag works — Documentation',
+  title: 'Technical appendix — SynthFlag',
   description:
-    'A plain-language, evidence-labeled guide to SynthFlag’s image processing, four-expert architecture, training, robustness results, and responsible use.',
+    'An evidence-labeled technical appendix for SynthFlag image processing, four-expert architecture, training, robustness results, and responsible use.',
   alternates: {
     canonical: '/documentation',
   },
   openGraph: {
-    title: 'How SynthFlag works — Documentation',
+    title: 'SynthFlag technical appendix',
     description:
       'Understand the four-expert AI-image detector, from pixels to a probability-like score.',
     type: 'article',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'How SynthFlag works — Documentation',
+    title: 'SynthFlag technical appendix',
     description:
       'A plain-language guide to SynthFlag’s processing, architecture, training, evidence, and limits.',
     images: ['/og.png'],

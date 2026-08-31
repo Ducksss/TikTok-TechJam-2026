@@ -7,7 +7,6 @@ import { HashAnchorSync } from '../hash-anchor-sync';
 import { PrintButton } from '../print-button';
 import '../documentation.css';
 import './architecture.css';
-import { ModelJourney } from './model-journey';
 
 const paperUrl = 'https://arxiv.org/html/2604.11487v1';
 const repositoryUrl = 'https://github.com/Ducksss/TikTok-TechJam-2026';
@@ -1026,10 +1025,8 @@ export default function ArchitectureAtlas() {
             SynthFlag
           </a>
           <nav aria-label="Architecture utilities">
-            <a href="/documentation">Plain-language guide</a>
-            <a href={repositoryUrl} rel="noreferrer" target="_blank">
-              Repository <ArrowUpRight aria-hidden="true" />
-            </a>
+            <a href="/journey">Journey</a>
+            <a href="/documentation">Technical appendix</a>
             <PrintButton />
             <a className="docs-try-link" href="/try">
               Try detector
@@ -1044,7 +1041,7 @@ export default function ArchitectureAtlas() {
           <nav className="docs-breadcrumb" aria-label="Breadcrumb">
             <a href="/">SynthFlag</a>
             <span aria-hidden="true">/</span>
-            <a href="/documentation">Documentation</a>
+            <a href="/documentation">Technical appendix</a>
             <span aria-hidden="true">/</span>
             <span aria-current="page">Engineering architecture</span>
           </nav>
@@ -1182,7 +1179,21 @@ export default function ArchitectureAtlas() {
                         {section.technical}
                       </details>
                     </div>
-                    {section.id === 'deep-model' ? <ModelJourney /> : null}
+                    {section.id === 'deep-model' ? (
+                      <aside className="atlas-journey-transfer">
+                        <div>
+                          <span>Interactive trace moved</span>
+                          <strong>
+                            Follow image patches through the released model in
+                            the project journey.
+                          </strong>
+                        </div>
+                        <a href="/journey#final-model">
+                          Open interactive trace
+                          <ArrowUpRight aria-hidden="true" />
+                        </a>
+                      </aside>
+                    ) : null}
                     <FigureBlock section={section} />
                   </div>
                 </section>
@@ -1195,8 +1206,13 @@ export default function ArchitectureAtlas() {
               Source guide and existing model figures
             </SectionHeading>
             <div className="docs-source-list">
+              <a href="/journey">
+                <span>Judge narrative</span>
+                <strong>Project journey and experiment decisions</strong>
+                <ArrowUpRight aria-hidden="true" />
+              </a>
               <a href="/documentation">
-                <span>Plain-language guide</span>
+                <span>Technical appendix</span>
                 <strong>
                   Image processing, model, ensemble, training, and results
                 </strong>
@@ -1249,7 +1265,8 @@ export default function ArchitectureAtlas() {
           <p>From pixels to evidence.</p>
         </div>
         <div>
-          <a href="/documentation">Documentation</a>
+          <a href="/journey">Journey</a>
+          <a href="/documentation">Technical appendix</a>
           <a href="#overall">Back to top</a>
         </div>
       </footer>

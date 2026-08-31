@@ -255,13 +255,27 @@ export default function TryDetector() {
             SynthFlag
           </span>
         </a>
-        <a
-          className="group flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] text-white/70 transition-colors hover:text-white"
-          href="/"
+        <nav
+          className="flex items-center gap-4 font-mono text-[10px] uppercase tracking-[0.13em] text-white/70 sm:gap-6 sm:text-[11px] sm:tracking-[0.16em]"
+          aria-label="Primary navigation"
         >
-          <ArrowLeft className="size-4 transition-transform group-hover:-translate-x-1" />
-          Research page
-        </a>
+          <a className="transition-colors hover:text-white" href="/journey">
+            Journey
+          </a>
+          <a
+            className="hidden transition-colors hover:text-white sm:inline-flex"
+            href="/documentation"
+          >
+            Technical appendix
+          </a>
+          <a
+            className="group flex items-center gap-2 transition-colors hover:text-white"
+            href="/"
+          >
+            <ArrowLeft className="size-4 transition-transform group-hover:-translate-x-1" />
+            Home
+          </a>
+        </nav>
       </header>
 
       <section className="mx-auto max-w-[1540px] px-4 pb-4 sm:px-7 lg:px-10 lg:pb-10">
@@ -643,9 +657,9 @@ export default function TryDetector() {
           </p>
           <a
             className="group flex items-center gap-3 text-xs leading-5 transition-colors hover:text-white md:justify-self-end"
-            href="/#method"
+            href="/journey#final-model"
           >
-            How the ensemble works
+            Follow the released model
             <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
           </a>
         </div>
