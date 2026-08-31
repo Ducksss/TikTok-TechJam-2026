@@ -1063,7 +1063,7 @@ export default function TryDetector() {
             )}
           </section>
 
-          <section className="flex min-h-[610px] flex-col bg-white p-4 sm:p-7 lg:p-9">
+          <section className="flex min-h-[610px] min-w-0 flex-col bg-white p-4 sm:p-7 lg:p-9">
             <div className="mb-6 flex items-center gap-3">
               <span className="grid size-8 place-items-center rounded-full bg-[#0040c1] font-mono text-[10px] text-white">
                 02

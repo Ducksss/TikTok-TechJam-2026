@@ -207,7 +207,11 @@ export function VideoPipeline({
   };
 
   return (
-    <div ref={resultRef} className="flex flex-1 flex-col" tabIndex={-1}>
+    <div
+      ref={resultRef}
+      className="flex min-w-0 flex-1 flex-col"
+      tabIndex={-1}
+    >
       <output className="sr-only" aria-live="polite">
         {statusAnnouncement(pipeline)}
       </output>
