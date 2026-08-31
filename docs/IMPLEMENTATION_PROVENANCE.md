@@ -44,6 +44,12 @@ training/degradation code, had no consumer in the released inference, service,
 or public benchmark path, and was not needed to support the fixed-weight
 detector contract. SynthFlag does not claim to reproduce FeatDistill training.
 
+The later `synthflag_augment/` package does not restore that source. It is a
+separately designed development utility with a new namespace, declarative
+recipe API, sample-keyed random streams, normalized strengths, and
+machine-readable operation traces. It remains outside inference and is not
+presented as FeatDistill code or as a reconstruction of its training policy.
+
 ## Reimplementation claim
 
 This is an independently organized reimplementation of the released inference
@@ -85,4 +91,5 @@ The check scans tracked and untracked release candidates and rejects any file
 that is byte-identical to the audited upstream snapshot. The canonical
 Apache-2.0 `LICENSE` text is the sole intentional exception. This guard detects
 exact snapshot reintroduction; it does not replace human authorship review or
-license compliance.
+license compliance. The new augmentation package is covered by the same guard
+and by behavioral tests that exercise its separate public contract.

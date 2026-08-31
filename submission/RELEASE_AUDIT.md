@@ -1,6 +1,6 @@
 # SynthFlag licensing and release audit
 
-Audit date: **2026-08-31**
+Audit date: **2026-09-01**
 
 ## Verdict
 
@@ -22,7 +22,7 @@ This is a technical release-readiness verdict, not a legal opinion.
 |---|---|---|
 | Repository code license | Root `LICENSE` is the Apache License 2.0 text; README links it and separates third-party rights. | **Pass** |
 | Historical source provenance | The initial FeatDistill snapshot is disclosed in `NOTICE` and `docs/IMPLEMENTATION_PROVENANCE.md`; the pinned digest inventory and source-provenance check reject exact upstream files except the canonical license. | **Pass** |
-| Current implementation boundary | Inference, preprocessing, checkpoints, outputs, and CLI were rewritten into repository-authored modules; unused copied distortion utilities were removed. This is expressly not called a clean-room implementation. | **Pass** |
+| Current implementation boundary | Inference, preprocessing, checkpoints, outputs, and CLI were rewritten into repository-authored modules; unused copied distortion utilities were removed. The later `synthflag_augment/` development package uses a separate namespace, API, structure, and reproducibility contract and remains outside inference. This is expressly not called a clean-room implementation. | **Pass** |
 | Dependency attribution | Pinned runtime dependencies are listed with declared licenses and primary license URLs in `THIRD_PARTY_NOTICES.md`. | **Pass** |
 | Base-model attribution | CLIP and SigLIP identifiers, model cards, licenses/limitations, and FeatDistill lineage are documented. | **Pass** |
 | Fine-tuned checkpoint permission | No explicit redistribution license was located; `.gitignore` excludes common model formats and the Git tree contains no checkpoint binary. | **Pass by exclusion** |
@@ -30,7 +30,7 @@ This is a technical release-readiness verdict, not a legal opinion.
 | Dataset redistribution | No dataset pixels, captions, masks, prompts, or private row-level manifests are tracked. Ambiguous sources are non-redistributable by policy. | **Pass by exclusion** |
 | Model card | Intended uses, out-of-scope uses, data statement, metrics, thresholds, limitations, integrity, and responsible operation are documented in `MODEL_CARD.md`. | **Pass** |
 | Responsible-use wording | README, submission overview, and model card state that scores are signals rather than proof and require human review for consequential use. | **Pass** |
-| Public artifact integrity | All 16 entries in `ARTIFACTS.sha256` were verified; checkpoint identity is separately recorded without shipping binaries. | **Pass** |
+| Public artifact integrity | All entries in `ARTIFACTS.sha256` were verified; checkpoint identity is separately recorded without shipping binaries. | **Pass** |
 | Public visual provenance | The project wordmark, architecture diagram, and Devpost thumbnail remain. The thumbnail derives only from project-created SynthFlag brand assets; the unused challenge-site screenshot was removed because its redistribution rights were undocumented. | **Pass** |
 | Vendored research reports | The versioned FeatDistill and NTIRE arXiv HTML pages declare CC BY 4.0. Their snapshots, referenced paper figures, modified plain-text extractions, attribution, source URLs, retrieval times, and hashes are recorded under `docs/references/`. | **Pass** |
 
@@ -40,6 +40,8 @@ Allowed in the public Git release:
 
 - current repository-authored source code, configuration, and documentation
   covered by the root repository license;
+- the optional `synthflag_augment/` development utility and its tests, which
+  do not participate in released inference or reproduce upstream training;
 - the SynthFlag wordmark, project-created architecture diagram, and Devpost
   thumbnail;
 - aggregate benchmark tables, non-row-level reports, protocols, and hashes;

@@ -24,6 +24,7 @@ automation, process, or worktree dirtiness state.
 |---|---|
 | Public identity | **SynthFlag** is the product, repository, demo, submission, Python distribution, and primary CLI. **FeatDistill** is the attributed UESTC detector and checkpoint lineage. |
 | Batch inference | Repository-authored modules under `infer/` implement the checkpoint-verified FeatDistill-compatible four-expert mean and resumable directory inference. |
+| Development augmentation | `synthflag_augment/` provides repository-authored, sample-keyed image variants and audit traces; it is optional, outside inference, and not FeatDistill training reproduction. |
 | Batch artifacts | A completed run produces `predictions.csv`, Track 5 `predictions.json` records with `image_path,pred`, and `predictions.meta.json`. |
 | HTTP service | `service/app.py` exposes checkpoint-backed health, single-image analysis, and bounded sampled-frame analysis with two-frame microbatches; it does not make the public worker available by itself. |
 | Web experience | Primary routes are `/`, `/try`, `/journey`, and the unified `/documentation`; `/documentation/architecture` is a fragment-preserving compatibility route. The `/api/analyze` and `/api/analyze-video` proxies remain unchanged. Raw videos remain in the browser while eight midpoint PNG frames are submitted. |
