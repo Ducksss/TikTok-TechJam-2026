@@ -1,16 +1,16 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'The SynthFlag journey — Decisions, evidence, and final model',
+  title: 'The SynthFlag journey — Three days from research to release',
   description:
-    'A judge-first account of how SynthFlag moved from an open-world detection problem to a released four-expert review signal.',
+    'A judge-first, three-day account of how SynthFlag moved from backbone exploration to a protected result, released four-expert detector, and bounded research roadmap.',
   alternates: {
     canonical: '/journey',
   },
   openGraph: {
-    title: 'How SynthFlag became SynthFlag',
+    title: 'Three days. One defensible detector.',
     description:
-      'Follow the experiments, rejected ideas, protected evidence, and released four-expert model.',
+      'Follow SynthFlag from metric selection and robustness testing to rejected shortcuts, product integration, and the released model.',
     type: 'article',
     url: '/journey',
     images: [
@@ -24,9 +24,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'How SynthFlag became SynthFlag',
+    title: 'Three days. One defensible detector.',
     description:
-      'The decisions and evidence behind SynthFlag’s released review signal.',
+      'The three-day evidence trail behind SynthFlag’s released review signal.',
     images: ['/og.png'],
   },
 };
