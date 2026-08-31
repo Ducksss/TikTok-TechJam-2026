@@ -179,9 +179,13 @@ image-model outputs; they are not a calibrated video-level probability.
 
 The website can call a direct public inference URL or the same-origin
 `/api/analyze` and `/api/analyze-video` proxies. Health uses a 5-second upstream
-timeout; both analysis paths use a 300-second timeout. The video client validates
-1–10 second MP4/WebM files up to 50 MB, samples eight uniform midpoint frames,
-and submits lossless 384 × 384 PNG center crops. Raw video is not submitted.
+timeout; both analysis paths use a 300-second timeout. Before multipart parsing,
+the proxies stream-read within bounded request envelopes while retaining the
+10 MiB image, 2 MiB per-frame, and 16 MiB total-frame limits. The video client
+validates 1–10 second MP4/WebM files up to 50 MB, samples eight uniform midpoint
+frames, and submits lossless 384 × 384 PNG center crops. It accepts a result only
+when the returned duration and timestamps match those submitted samples. Raw
+video is not submitted.
 The public architecture diagrams describe supported configurations, not a
 guarantee about the topology of the current deployment. Authentication,
 platform rate limiting, durable upload/result storage, automatic retry, and

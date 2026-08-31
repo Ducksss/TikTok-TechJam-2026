@@ -1,6 +1,13 @@
 import { NextResponse } from 'next/server';
 
+import {
+  declaredRequestBodyExceedsLimit,
+  readMultipartFormDataWithLimit,
+  RequestBodyTooLargeError,
+} from '@/lib/server/multipart';
+
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
+const MAX_REQUEST_BYTES = MAX_FILE_BYTES + 64 * 1024;
 const ACCEPTED_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp']);
 
 export const runtime = 'edge';
@@ -29,10 +36,34 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  if (declaredRequestBodyExceedsLimit(request, MAX_REQUEST_BYTES)) {
+    return NextResponse.json(
+      { error: 'The image must be 10 MB or smaller.' },
+      { status: 413 },
+    );
+  }
+
+  const endpoint = process.env.SYNTHFLAG_INFERENCE_URL?.replace(/\/$/, '');
+  if (!endpoint) {
+    return NextResponse.json(
+      {
+        error:
+          'The live model service is not connected on this deployment yet. The interface is ready; connect SYNTHFLAG_INFERENCE_URL to activate scoring.',
+      },
+      { status: 503 },
+    );
+  }
+
   let form: FormData;
   try {
-    form = await request.formData();
-  } catch {
+    form = await readMultipartFormDataWithLimit(request, MAX_REQUEST_BYTES);
+  } catch (error) {
+    if (error instanceof RequestBodyTooLargeError) {
+      return NextResponse.json(
+        { error: 'The image must be 10 MB or smaller.' },
+        { status: 413 },
+      );
+    }
     return NextResponse.json(
       { error: 'Send one image as multipart form data.' },
       { status: 400 },
@@ -56,17 +87,6 @@ export async function POST(request: Request) {
     return NextResponse.json(
       { error: 'The image must be 10 MB or smaller.' },
       { status: 413 },
-    );
-  }
-
-  const endpoint = process.env.SYNTHFLAG_INFERENCE_URL?.replace(/\/$/, '');
-  if (!endpoint) {
-    return NextResponse.json(
-      {
-        error:
-          'The live model service is not connected on this deployment yet. The interface is ready; connect SYNTHFLAG_INFERENCE_URL to activate scoring.',
-      },
-      { status: 503 },
     );
   }
 

@@ -43,6 +43,13 @@ function result(overrides = {}) {
   };
 }
 
+function requestContract(payload) {
+  return {
+    durationMs: payload.duration_ms,
+    timestampsMs: payload.frame_scores.map((frame) => frame.timestamp_ms),
+  };
+}
+
 test('calculates eight uniform midpoint timestamps', () => {
   assert.deepEqual(
     midpointTimestamps(10_000),
@@ -73,12 +80,13 @@ test('validates supported video files and limits', () => {
 
 test('accepts a consistent service result and rejects altered aggregates', () => {
   const payload = result();
-  assert.equal(parseVideoAnalysisResult(payload), payload);
+  const expected = requestContract(payload);
+  assert.equal(parseVideoAnalysisResult(payload, expected), payload);
 
   const inconsistent = structuredClone(payload);
   inconsistent.summary.mean_score = 0.1;
   assert.throws(
-    () => parseVideoAnalysisResult(inconsistent),
+    () => parseVideoAnalysisResult(inconsistent, expected),
     /inconsistent video aggregates/,
   );
 
@@ -86,14 +94,35 @@ test('accepts a consistent service result and rejects altered aggregates', () =>
   incomplete.sample_count = 7;
   incomplete.frame_scores = incomplete.frame_scores.slice(0, 7);
   assert.throws(
-    () => parseVideoAnalysisResult(incomplete),
+    () => parseVideoAnalysisResult(incomplete, expected),
     /invalid video report/,
   );
 });
 
+test('rejects response metadata that does not match the submitted samples', () => {
+  const payload = result();
+  const shiftedTimestamp = requestContract(payload);
+  shiftedTimestamp.timestampsMs[3] += 1;
+  assert.throws(
+    () => parseVideoAnalysisResult(payload, shiftedTimestamp),
+    /did not match the submitted video samples/,
+  );
+
+  const shiftedDuration = requestContract(payload);
+  shiftedDuration.durationMs -= 1;
+  assert.throws(
+    () => parseVideoAnalysisResult(payload, shiftedDuration),
+    /did not match the submitted video samples/,
+  );
+});
+
 test('uses an isolated-frame explanation instead of overstating a peak', () => {
+  const serviceResult = result({
+    scores: [0.1, 0.1, 0.1, 0.9, 0.1, 0.1, 0.1, 0.1],
+  });
   const payload = parseVideoAnalysisResult(
-    result({ scores: [0.1, 0.1, 0.1, 0.9, 0.1, 0.1, 0.1, 0.1] }),
+    serviceResult,
+    requestContract(serviceResult),
   );
   assert.equal(
     videoResultLanguage(payload).eyebrow,

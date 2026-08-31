@@ -138,6 +138,11 @@ export type VideoAnalysisResult = {
   version: string;
 };
 
+export type VideoAnalysisRequestContract = {
+  durationMs: number;
+  timestampsMs: readonly number[];
+};
+
 type VideoFileLike = Pick<File, 'name' | 'size' | 'type'>;
 
 function isFiniteProbability(value: unknown): value is number {
@@ -184,6 +189,7 @@ export function validateVideoFile(file: VideoFileLike) {
 
 export function parseVideoAnalysisResult(
   payload: unknown,
+  expected: VideoAnalysisRequestContract,
 ): VideoAnalysisResult {
   if (
     !isRecord(payload) ||
@@ -222,6 +228,18 @@ export function parseVideoAnalysisResult(
       throw new Error('The detector returned an invalid video report.');
     }
     previousTimestamp = frame.timestamp_ms;
+  }
+
+  if (
+    payload.duration_ms !== expected.durationMs ||
+    expected.timestampsMs.length !== frames.length ||
+    frames.some(
+      (frame, index) => frame.timestamp_ms !== expected.timestampsMs[index],
+    )
+  ) {
+    throw new Error(
+      'The detector response did not match the submitted video samples.',
+    );
   }
 
   const summary = payload.summary;

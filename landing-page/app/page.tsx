@@ -19,7 +19,8 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 
-import { Button } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 // Keep the document on native browser scrolling. ScrollTrigger observes that
 // scroll position; it is intentionally not proxied through Lenis or another
@@ -442,16 +443,16 @@ export default function Home() {
             </a>
           </nav>
 
-          <Button
-            nativeButton={false}
-            render={
-              <a href="/try">
-                <span className="hidden sm:inline">Try detector</span>
-                <ArrowUpRight className="size-4" />
-              </a>
-            }
-            className="h-10 rounded-full bg-white px-4 text-[#0040c1] hover:bg-[#eff4ff]"
-          />
+          <a
+            className={cn(
+              buttonVariants(),
+              'h-10 rounded-full bg-white px-4 text-[#0040c1] hover:bg-[#eff4ff]',
+            )}
+            href="/try"
+          >
+            <span className="hidden sm:inline">Try detector</span>
+            <ArrowUpRight className="size-4" />
+          </a>
         </header>
 
         <div
@@ -1101,24 +1102,24 @@ export default function Home() {
                   with provenance, context, and human judgment.
                 </p>
                 <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                  <Button
-                    nativeButton={false}
-                    render={
-                      <a href="/try">
-                        Test an image <ArrowRight className="size-4" />
-                      </a>
-                    }
-                    className="h-13 rounded-full bg-[#0040c1] px-7 text-white hover:bg-[#002f94]"
-                  />
-                  <Button
-                    nativeButton={false}
-                    render={
-                      <a href="/journey">
-                        Explore the journey <ArrowUpRight className="size-4" />
-                      </a>
-                    }
-                    className="h-13 rounded-full border border-[#0040c1]/20 bg-white px-7 text-[#0040c1] hover:bg-[#eff4ff]"
-                  />
+                  <a
+                    className={cn(
+                      buttonVariants(),
+                      'h-13 rounded-full bg-[#0040c1] px-7 text-white hover:bg-[#002f94]',
+                    )}
+                    href="/try"
+                  >
+                    Test an image <ArrowRight className="size-4" />
+                  </a>
+                  <a
+                    className={cn(
+                      buttonVariants(),
+                      'h-13 rounded-full border border-[#0040c1]/20 bg-white px-7 text-[#0040c1] hover:bg-[#eff4ff]',
+                    )}
+                    href="/journey"
+                  >
+                    Explore the journey <ArrowUpRight className="size-4" />
+                  </a>
                 </div>
               </div>
             </div>

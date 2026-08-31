@@ -19,6 +19,9 @@ export const metadata: Metadata = {
   description:
     'A four-expert research detector for robust AI-generated image detection in the wild.',
   metadataBase: new URL('https://synthflag.chaipinzheng353496.chatgpt.site'),
+  icons: {
+    icon: '/favicon.svg',
+  },
   openGraph: {
     title: 'SynthFlag — From pixels to evidence',
     description:

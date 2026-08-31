@@ -715,7 +715,10 @@ export default function TryDetector() {
         await new Promise<void>((resolve) =>
           window.requestAnimationFrame(() => resolve()),
         );
-        const parsed = parseVideoAnalysisResult(payload);
+        const parsed = parseVideoAnalysisResult(payload, {
+          durationMs: media.durationMs,
+          timestampsMs: frames.map((frame) => frame.timestampMs),
+        });
         if (operation !== operationRef.current) return;
         setResult(parsed);
         dispatchVideoPipeline({
@@ -1048,7 +1051,11 @@ export default function TryDetector() {
               ref={inputRef}
               accept={inputAccept}
               className="sr-only"
-              onChange={(event) => void acceptFile(event.target.files?.[0])}
+              onChange={(event) => {
+                const file = event.currentTarget.files?.[0];
+                event.currentTarget.value = '';
+                void acceptFile(file);
+              }}
               type="file"
             />
 
@@ -1134,7 +1141,7 @@ export default function TryDetector() {
           </p>
           <a
             className="group flex items-center gap-3 text-xs leading-5 transition-colors hover:text-white md:justify-self-end"
-            href="/journey#final-model"
+            href="/journey#released-model"
           >
             Follow the released model
             <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />

@@ -41,7 +41,9 @@ appendix, evidence guide, and deepest model and system atlas. The legacy
 `/documentation`.
 The `/try` working surface supports one image or eight browser-extracted
 midpoint frames from a 1–10 second video; the raw video remains local and the
-frame summary is not a video-level probability.
+frame summary is not a video-level probability. Its same-origin proxies bound
+request bodies before multipart parsing, and returned video metadata must match
+the submitted samples.
 
 Verify the maintained context set, route inventory, diagram count, and batch
 output contract with:

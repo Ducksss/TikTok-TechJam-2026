@@ -1,7 +1,14 @@
 import { NextResponse } from 'next/server';
 
+import {
+  declaredRequestBodyExceedsLimit,
+  readMultipartFormDataWithLimit,
+  RequestBodyTooLargeError,
+} from '@/lib/server/multipart';
+
 const MAX_FRAME_BYTES = 2 * 1024 * 1024;
 const MAX_TOTAL_BYTES = 16 * 1024 * 1024;
+const MAX_REQUEST_BYTES = 17 * 1024 * 1024;
 const MAX_FRAMES = 8;
 const ACCEPTED_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp']);
 
@@ -95,21 +102,10 @@ function validationError(form: FormData) {
 }
 
 export async function POST(request: Request) {
-  let form: FormData;
-  try {
-    form = await request.formData();
-  } catch {
+  if (declaredRequestBodyExceedsLimit(request, MAX_REQUEST_BYTES)) {
     return NextResponse.json(
-      { error: 'Send sampled video frames as multipart form data.' },
-      { status: 400 },
-    );
-  }
-
-  const invalid = validationError(form);
-  if (invalid) {
-    return NextResponse.json(
-      { error: invalid.message },
-      { status: invalid.status },
+      { error: 'The sampled-frame payload must be 16 MB or smaller.' },
+      { status: 413 },
     );
   }
 
@@ -121,6 +117,30 @@ export async function POST(request: Request) {
           'The live model service is not connected on this deployment yet. The interface is ready; connect SYNTHFLAG_INFERENCE_URL to activate scoring.',
       },
       { status: 503 },
+    );
+  }
+
+  let form: FormData;
+  try {
+    form = await readMultipartFormDataWithLimit(request, MAX_REQUEST_BYTES);
+  } catch (error) {
+    if (error instanceof RequestBodyTooLargeError) {
+      return NextResponse.json(
+        { error: 'The sampled-frame payload must be 16 MB or smaller.' },
+        { status: 413 },
+      );
+    }
+    return NextResponse.json(
+      { error: 'Send sampled video frames as multipart form data.' },
+      { status: 400 },
+    );
+  }
+
+  const invalid = validationError(form);
+  if (invalid) {
+    return NextResponse.json(
+      { error: invalid.message },
+      { status: invalid.status },
     );
   }
 

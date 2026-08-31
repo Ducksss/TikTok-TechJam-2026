@@ -159,8 +159,9 @@ const sections: AtlasSection[] = [
           prediction call.
         </p>
         <p>
-          The proxy analysis path has a 300-second timeout. Direct browser POST
-          requests have no explicit timeout in the released client code.
+          The browser applies a 300-second timeout to direct and same-origin
+          proxy analysis requests. The proxy separately applies the same limit
+          to its upstream request.
         </p>
       </>
     ),
@@ -851,9 +852,10 @@ const sections: AtlasSection[] = [
         </p>
         <p>
           Browser health aborts after 6 seconds; proxy health aborts after 5
-          seconds; proxy analysis aborts after 300 seconds. No automatic retry
-          is defined. CORS allowlisting exists for direct access, but it is not
-          user authentication.
+          seconds; direct and same-origin browser analysis requests abort after
+          300 seconds, and the proxy applies the same limit upstream. No
+          automatic retry is defined. CORS allowlisting exists for direct
+          access, but it is not user authentication.
         </p>
       </>
     ),

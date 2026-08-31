@@ -80,7 +80,8 @@ research, use the prompt-friendly FeatDistill
   `/documentation/architecture` and the
   same-origin `/api/analyze` and `/api/analyze-video` proxies. Short videos are
   decoded locally into eight midpoint PNG samples; the original video is not
-  uploaded.
+  uploaded. The proxies bound request bodies before multipart parsing, and the
+  video client binds returned duration and timestamps to its submitted samples.
   - `/journey` is the judge-first project and decision narrative.
   - `/documentation` is the unified technical appendix, evidence guide, deep
     model walkthrough, and system atlas.
