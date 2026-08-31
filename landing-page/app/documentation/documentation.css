@@ -505,6 +505,31 @@
 .docs-technical {
   margin-top: 1rem;
 }
+.docs-architecture-link {
+  display: inline-flex;
+  width: 100%;
+  margin-top: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border: 1px solid rgba(77, 141, 255, 0.42);
+  border-radius: 0.75rem;
+  background: rgba(77, 141, 255, 0.08);
+  padding: 0.9rem 1rem;
+  color: #b9d0ff;
+  font: 650 0.69rem/1.5 var(--font-mono);
+}
+.docs-architecture-link:hover,
+.docs-architecture-link:focus-visible {
+  border-color: rgba(77, 141, 255, 0.78);
+  background: rgba(77, 141, 255, 0.14);
+  color: white;
+}
+.docs-architecture-link svg {
+  width: 0.9rem;
+  height: 0.9rem;
+  flex: none;
+}
 .docs-technical summary,
 .docs-text-alternative summary {
   cursor: pointer;

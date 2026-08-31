@@ -3,6 +3,7 @@ import { ArrowUpRight, Download, ScanSearch } from 'lucide-react';
 import Image from 'next/image';
 import type { ReactNode } from 'react';
 
+import { HashAnchorSync } from './hash-anchor-sync';
 import { PrintButton } from './print-button';
 import './documentation.css';
 
@@ -97,6 +98,7 @@ function SectionHeading({
 export default function Documentation() {
   return (
     <main className="docs-page">
+      <HashAnchorSync />
       <a className="docs-skip-link" href="#documentation-content">
         Skip to documentation
       </a>
@@ -426,6 +428,13 @@ export default function Documentation() {
                     from this site.
                   </p>
                 </details>
+                <a
+                  className="docs-architecture-link"
+                  href="/documentation/architecture"
+                >
+                  Explore the engineering architecture atlas
+                  <ArrowUpRight aria-hidden="true" />
+                </a>
               </div>
               <FigureBlock
                 alternative={
@@ -816,6 +825,13 @@ export default function Documentation() {
               <a href={repositoryUrl} rel="noreferrer" target="_blank">
                 <span>Released implementation · team access</span>
                 <strong>TikTok-TechJam-2026 repository</strong>
+                <ArrowUpRight aria-hidden="true" />
+              </a>
+              <a href="/documentation/architecture">
+                <span>Engineering deep dive</span>
+                <strong>
+                  Serving, runtime, integrity, tensor, release, and operations
+                </strong>
                 <ArrowUpRight aria-hidden="true" />
               </a>
               <a href="/diagrams/01-user-flow.svg" download>

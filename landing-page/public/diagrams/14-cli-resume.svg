@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="title desc">
+  <title id="title">SynthFlag command-line resumability and durable output protocol</title>
+  <desc id="desc">The CLI discovers supported images recursively in sorted order, verifies checkpoints, builds run metadata, acquires an exclusive output lock, refuses incompatible prior output, skips completed relative-path resume keys, performs batched inference, and periodically appends CSV rows with flush and fsync. Metadata is written atomically. After a process crash, fsynced rows are revalidated while unflushed images may be reprocessed; a hard crash may leave a stale lock.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#06101d"/><stop offset="1" stop-color="#0b1526"/></linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#7890a9" stroke-opacity="0.07"/></pattern>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="11" stdDeviation="15" flood-color="#000712" flood-opacity="0.42"/></filter>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#8ba7c5"/></marker>
+    <marker id="teal" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#2dd4bf"/></marker>
+    <marker id="coral" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#ff7e79"/></marker>
+    <style>
+      .sans{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.mono{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace}
+      .eyebrow{font-size:15px;font-weight:700;letter-spacing:3px;fill:#65e6d2}.headline{font-size:44px;font-weight:740;letter-spacing:-1.2px;fill:#f5f9ff}.subtitle{font-size:18px;fill:#aabbd0}
+      .label{font-size:12px;font-weight:800;letter-spacing:1.65px}.head{font-size:17px;font-weight:730;fill:#f4f8fd}.body{font-size:13px;fill:#b8c7d8}.small{font-size:11px;fill:#91a6bd}.tiny{font-size:10px;fill:#849ab3}.num{font-size:12px;font-weight:800;fill:#06101d}.code{font-size:12px;font-weight:700;fill:#d7e7f6}
+    </style>
+  </defs>
+  <rect width="1440" height="900" fill="url(#bg)"/><rect width="1440" height="900" fill="url(#grid)"/>
+  <g class="sans">
+    <text x="80" y="76" class="eyebrow">BATCH CLI · RESUME IDENTITY · DURABLE CHECKPOINTING</text>
+    <text x="80" y="130" class="headline">Persist progress, refuse ambiguous history</text>
+    <text x="80" y="168" class="subtitle">A run resumes only when metadata and CSV state are structurally compatible with the current invocation.</text>
+
+    <!-- top sequence -->
+    <g transform="translate(70 222)" filter="url(#shadow)">
+      <rect width="252" height="150" rx="21" fill="#0d1d31" stroke="#446381"/>
+      <circle cx="25" cy="25" r="14" fill="#65e6d2"/><text x="25" y="30" class="num" text-anchor="middle">1</text>
+      <text x="48" y="31" class="label" fill="#65e6d2">DISCOVER</text>
+      <text x="20" y="67" class="head">Recursive + sorted</text>
+      <text x="20" y="92" class="body">JPEG · PNG · BMP · WebP · TIFF</text>
+      <text x="20" y="117" class="mono code">relative/path.ext</text>
+      <text x="20" y="137" class="small">error if directory empty / missing</text>
+    </g>
+    <path d="M322 297H348" stroke="#8ba7c5" stroke-width="2" marker-end="url(#arr)"/>
+    <g transform="translate(356 222)" filter="url(#shadow)">
+      <rect width="252" height="150" rx="21" fill="#151d2c" stroke="#60738a"/>
+      <circle cx="25" cy="25" r="14" fill="#65e6d2"/><text x="25" y="30" class="num" text-anchor="middle">2</text>
+      <text x="48" y="31" class="label" fill="#65e6d2">PREFLIGHT</text>
+      <text x="20" y="67" class="head">Resolve + verify</text>
+      <text x="20" y="92" class="body">device · CUDA autocast · checkpoints</text>
+      <text x="20" y="117" class="body">size + SHA-256 before deserialize</text>
+      <text x="20" y="137" class="small">skip hash only when explicitly requested</text>
+    </g>
+    <path d="M608 297H634" stroke="#8ba7c5" stroke-width="2" marker-end="url(#arr)"/>
+    <g transform="translate(642 222)" filter="url(#shadow)">
+      <rect width="252" height="150" rx="21" fill="#151d2c" stroke="#60738a"/>
+      <circle cx="25" cy="25" r="14" fill="#65e6d2"/><text x="25" y="30" class="num" text-anchor="middle">3</text>
+      <text x="48" y="31" class="label" fill="#65e6d2">IDENTIFY RUN</text>
+      <text x="20" y="67" class="head">Build metadata v2</text>
+      <text x="20" y="92" class="body">input root · checkpoint identity</text>
+      <text x="20" y="115" class="body">runtime · device · AMP · batch size</text>
+      <text x="20" y="137" class="small">protocol + preprocessing + score definition</text>
+    </g>
+    <path d="M894 297H920" stroke="#8ba7c5" stroke-width="2" marker-end="url(#arr)"/>
+    <g transform="translate(928 222)" filter="url(#shadow)">
+      <rect width="202" height="150" rx="21" fill="#1d1c2c" stroke="#8c72ff"/>
+      <circle cx="25" cy="25" r="14" fill="#a78bfa"/><text x="25" y="30" class="num" text-anchor="middle">4</text>
+      <text x="48" y="31" class="label" fill="#b8a8ff">LOCK</text>
+      <text x="20" y="67" class="head">Exclusive create</text>
+      <text x="20" y="94" class="mono code">.inference.lock</text>
+      <text x="20" y="118" class="body">stores current PID</text>
+      <text x="20" y="138" class="small">existing lock → refuse</text>
+    </g>
+    <path d="M1130 297H1156" stroke="#8ba7c5" stroke-width="2" marker-end="url(#arr)"/>
+    <g transform="translate(1164 222)" filter="url(#shadow)">
+      <rect width="206" height="150" rx="21" fill="#0e2926" stroke="#2dd4bf"/>
+      <circle cx="25" cy="25" r="14" fill="#2dd4bf"/><text x="25" y="30" class="num" text-anchor="middle">5</text>
+      <text x="48" y="31" class="label" fill="#65e6d2">MATCH</text>
+      <text x="20" y="67" class="head">Prepare output</text>
+      <text x="20" y="92" class="body">metadata equal?</text>
+      <text x="20" y="115" class="body">CSV structurally valid?</text>
+      <text x="20" y="138" class="small">load completed names</text>
+    </g>
+
+    <!-- decision / refuse -->
+    <g transform="translate(70 405)" filter="url(#shadow)">
+      <rect width="432" height="168" rx="22" fill="#251921" stroke="#ff7e79"/>
+      <text x="22" y="36" class="label" fill="#ff9b97">REFUSE AMBIGUOUS OUTPUT</text>
+      <circle cx="27" cy="72" r="4" fill="#ff7e79"/><text x="42" y="77" class="body">metadata JSON invalid or not exactly equal</text>
+      <circle cx="27" cy="102" r="4" fill="#ff7e79"/><text x="42" y="107" class="body">CSV exists without matching metadata</text>
+      <circle cx="27" cy="132" r="4" fill="#ff7e79"/><text x="42" y="137" class="body">bad header · extra columns · duplicate name</text>
+      <text x="22" y="158" class="small">invalid / nonfinite / out-of-range score also refuses resume</text>
+    </g>
+    <path d="M1164 372V394H934V425" fill="none" stroke="#2dd4bf" stroke-width="2.2" marker-end="url(#teal)"/>
+    <g transform="translate(526 405)" filter="url(#shadow)">
+      <rect width="844" height="168" rx="22" fill="#0c1c2c" stroke="#3f607c"/>
+      <text x="22" y="36" class="label" fill="#65e6d2">VALID RESUME PATH</text>
+      <g transform="translate(22 58)"><rect width="190" height="78" rx="15" fill="#10253a" stroke="#4b708e"/><text x="15" y="28" class="head">Remaining paths</text><text x="15" y="52" class="body">all sorted paths − processed</text><text x="15" y="69" class="tiny">POSIX-relative resume key</text></g>
+      <path d="M222 97H253" stroke="#8ba7c5" stroke-width="2" marker-end="url(#arr)"/>
+      <g transform="translate(260 58)"><rect width="180" height="78" rx="15" fill="#10253a" stroke="#4b708e"/><text x="15" y="28" class="head">Restore model</text><text x="15" y="52" class="body">no second full hash pass</text><text x="15" y="69" class="tiny">preflight already completed</text></g>
+      <path d="M450 97H481" stroke="#8ba7c5" stroke-width="2" marker-end="url(#arr)"/>
+      <g transform="translate(488 58)"><rect width="160" height="78" rx="15" fill="#10253a" stroke="#4b708e"/><text x="15" y="28" class="head">Atomic metadata</text><text x="15" y="52" class="mono small">.partial → replace</text><text x="15" y="69" class="tiny">only when absent</text></g>
+      <path d="M658 97H689" stroke="#8ba7c5" stroke-width="2" marker-end="url(#arr)"/>
+      <g transform="translate(696 58)"><rect width="126" height="78" rx="15" fill="#183022" stroke="#a3e635"/><text x="63" y="28" class="head" text-anchor="middle">Batch loop</text><text x="63" y="52" class="mono small" text-anchor="middle">size B</text><text x="63" y="69" class="tiny" text-anchor="middle">or done</text></g>
+    </g>
+
+    <!-- durable loop -->
+    <g transform="translate(70 610)" filter="url(#shadow)">
+      <rect width="900" height="202" rx="24" fill="#0b192a" stroke="#3e5c79"/>
+      <text x="22" y="38" class="label" fill="#8fa6c0">BATCH EXECUTION + DURABILITY</text>
+      <g transform="translate(22 64)"><rect width="154" height="98" rx="16" fill="#10243a" stroke="#4c6e8e"/><text x="15" y="29" class="head">Decode RGB</text><text x="15" y="53" class="body">whole batch</text><text x="15" y="78" class="small">failure stops run</text></g>
+      <path d="M176 113H208" stroke="#8ba7c5" stroke-width="2" marker-end="url(#arr)"/>
+      <g transform="translate(216 64)"><rect width="154" height="98" rx="16" fill="#10243a" stroke="#4c6e8e"/><text x="15" y="29" class="head">Predict [B]</text><text x="15" y="53" class="body">length + finite</text><text x="15" y="78" class="small">validated</text></g>
+      <path d="M370 113H402" stroke="#8ba7c5" stroke-width="2" marker-end="url(#arr)"/>
+      <g transform="translate(410 64)"><rect width="154" height="98" rx="16" fill="#10243a" stroke="#4c6e8e"/><text x="15" y="29" class="head">Buffer rows</text><text x="15" y="53" class="mono small">image_name,score</text><text x="15" y="78" class="small">relative path</text></g>
+      <path d="M564 113H596" stroke="#8ba7c5" stroke-width="2" marker-end="url(#arr)"/>
+      <g transform="translate(604 64)"><rect width="252" height="98" rx="16" fill="#142b24" stroke="#2dd4bf"/><text x="15" y="29" class="head">When buffer ≥ save_every</text><text x="15" y="53" class="body">append CSV → flush → fsync</text><text x="15" y="78" class="small">final buffer also appended</text></g>
+      <path d="M730 162V181H293V166" fill="none" stroke="#2dd4bf" stroke-width="1.8" stroke-dasharray="6 5" marker-end="url(#teal)"/>
+    </g>
+
+    <g transform="translate(994 610)" filter="url(#shadow)">
+      <rect width="376" height="202" rx="24" fill="#211b23" stroke="#ff7e79"/>
+      <text x="22" y="38" class="label" fill="#ff9b97">CRASH / RESTART</text>
+      <circle cx="29" cy="76" r="5" fill="#a3e635"/><text x="45" y="74" class="small"><tspan x="45">fsynced rows are intended to survive</tspan><tspan x="45" dy="16">a process crash</tspan></text>
+      <circle cx="29" cy="112" r="5" fill="#fbbf24"/><text x="45" y="117" class="body">unflushed images may be reprocessed</text>
+      <text x="45" y="138" class="small">existing CSV is revalidated on restart</text>
+      <circle cx="29" cy="160" r="5" fill="#ff7e79"/><text x="45" y="165" class="body">hard crash may leave stale lock</text>
+      <text x="22" y="190" class="small">verify process stopped before removing it</text>
+    </g>
+
+    <g transform="translate(70 838)">
+      <text x="0" y="0" class="small">Normal exit removes the lock; --overwrite resets history. Relative filenames are resume keys; image content is not hashed.</text>
+      <text x="1300" y="0" class="label" fill="#b7f66e" text-anchor="end">MATCHING RECORDED METADATA</text>
+    </g>
+  </g>
+</svg>

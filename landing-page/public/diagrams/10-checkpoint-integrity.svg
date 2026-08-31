@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="title desc">
+  <title id="title">SynthFlag checkpoint integrity and restoration gates</title>
+  <desc id="desc">Before loading, SynthFlag requires four named checkpoint files and by default validates a schema-version-one manifest, positive byte sizes, and 64-character SHA-256 hashes against the files. It then uses weights-only CPU deserialization, accepts only nonempty string-to-tensor state dictionaries, requires a strict architecture match, moves each expert to the selected device, and sets evaluation mode. These checks establish integrity relative to the local manifest, not publisher authentication or licensing.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#06101d"/><stop offset="1" stop-color="#07131f"/></linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#7891aa" stroke-opacity=".065"/></pattern>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="11" stdDeviation="15" flood-color="#000710" flood-opacity=".44"/></filter>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#93abc4"/></marker>
+    <marker id="green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#a3e635"/></marker>
+    <marker id="red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#fb7185"/></marker>
+    <style>
+      .sans{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.mono{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace}
+      .eyebrow{font-size:15px;font-weight:750;letter-spacing:3px;fill:#65e6d2}.headline{font-size:45px;font-weight:740;letter-spacing:-1.2px;fill:#f5f9ff}.subtitle{font-size:18px;fill:#aabbd0}
+      .kicker{font-size:12px;font-weight:800;letter-spacing:1.5px;fill:#8da5bf}.title{font-size:19px;font-weight:740;fill:#f3f8fd}.body{font-size:13px;fill:#b8c8da}.small{font-size:11px;fill:#8fa5bd}.monoText{font-size:11px;fill:#dce8f5}.num{font-size:13px;font-weight:800;fill:#07111d}
+    </style>
+  </defs>
+  <rect width="1440" height="900" fill="url(#bg)"/><rect width="1440" height="900" fill="url(#grid)"/>
+  <g class="sans">
+    <text x="64" y="70" class="eyebrow">CHECKPOINT INTEGRITY PATH · FAIL-CLOSED GATES</text>
+    <text x="64" y="125" class="headline">Verify the bytes, then verify the architecture.</text>
+    <text x="64" y="161" class="subtitle">All four experts must pass every enabled gate before the ensemble becomes resident.</text>
+    <g transform="translate(1094 54)" filter="url(#shadow)"><rect width="282" height="114" rx="19" fill="#24170f" stroke="#e2763e"/><text x="18" y="27" class="kicker" fill="#ffbb94">IMPORTANT DISTINCTION</text><text x="18" y="53" class="title" font-size="16">Integrity ≠ authentication</text><text x="18" y="78" class="small">A local manifest match does not prove</text><text x="18" y="96" class="small">publisher identity, provenance, or license rights.</text></g>
+
+    <text x="64" y="222" class="kicker">PHASE A · FILE AND MANIFEST PREFLIGHT</text>
+    <!-- phase A cards -->
+    <g transform="translate(64 246)" filter="url(#shadow)">
+      <rect width="278" height="212" rx="22" fill="#101d2c" stroke="#526a83"/>
+      <rect x="18" y="18" width="32" height="32" rx="9" fill="#91a9c4"/><text x="34" y="40" class="num" text-anchor="middle">01</text>
+      <text x="62" y="42" class="kicker">REQUIRE FILES</text>
+      <text x="18" y="78" class="title">Weights directory + four files</text>
+      <g transform="translate(18 98)"><text y="0" class="mono monoText">Expert_1_clip.pth</text><text y="23" class="mono monoText">Expert_2_clip.pth</text><text y="46" class="mono monoText">Expert_3_siglip.pth</text><text y="69" class="mono monoText">Expert_4_siglip.pth</text></g>
+      <text x="18" y="192" class="small">Missing directory/file → stop before load</text>
+    </g>
+    <path d="M342 352H378" stroke="#93abc4" stroke-width="3" marker-end="url(#arr)"/>
+    <g transform="translate(392 246)" filter="url(#shadow)">
+      <rect width="278" height="212" rx="22" fill="#21190b" stroke="#d97706"/>
+      <rect x="18" y="18" width="32" height="32" rx="9" fill="#fbbf24"/><text x="34" y="40" class="num" text-anchor="middle">02</text>
+      <text x="62" y="42" class="kicker" fill="#f2d28c">PARSE MANIFEST</text>
+      <text x="18" y="78" class="title">manifest.json</text>
+      <text x="18" y="106" class="mono monoText">schema_version == 1</text>
+      <text x="18" y="129" class="mono monoText">files is an object</text>
+      <text x="18" y="158" class="body">Each required name must map</text><text x="18" y="178" class="body">to a valid entry.</text>
+      <text x="18" y="198" class="small">Missing/invalid/unsupported → stop</text>
+    </g>
+    <path d="M670 352H706" stroke="#93abc4" stroke-width="3" marker-end="url(#arr)"/>
+    <g transform="translate(720 246)" filter="url(#shadow)">
+      <rect width="278" height="212" rx="22" fill="#21190b" stroke="#d97706"/>
+      <rect x="18" y="18" width="32" height="32" rx="9" fill="#fbbf24"/><text x="34" y="40" class="num" text-anchor="middle">03</text>
+      <text x="62" y="42" class="kicker" fill="#f2d28c">VALIDATE ENTRY</text>
+      <text x="18" y="78" class="title">Expected identity fields</text>
+      <text x="18" y="108" class="mono monoText">size_bytes: positive integer</text>
+      <text x="18" y="132" class="mono monoText">sha256: lowercase-normalized · 64 hex</text>
+      <line x1="18" y1="151" x2="260" y2="151" stroke="#60491f"/>
+      <text x="18" y="176" class="body">Metadata shape is checked</text><text x="18" y="197" class="body">before hashing file contents.</text>
+    </g>
+    <path d="M998 352H1034" stroke="#93abc4" stroke-width="3" marker-end="url(#arr)"/>
+    <g transform="translate(1048 246)" filter="url(#shadow)">
+      <rect width="328" height="212" rx="22" fill="#15240f" stroke="#84cc16"/>
+      <rect x="18" y="18" width="32" height="32" rx="9" fill="#a3e635"/><text x="34" y="40" class="num" text-anchor="middle">04</text>
+      <text x="62" y="42" class="kicker" fill="#d9f3a5">COMPARE BYTES</text>
+      <text x="18" y="78" class="title">Size, then SHA-256</text>
+      <text x="18" y="107" class="body">actual file size = expected size</text>
+      <text x="18" y="132" class="body">stream SHA-256 in 8 MiB chunks</text>
+      <text x="18" y="157" class="body">actual digest = expected digest</text>
+      <g transform="translate(18 177)"><circle cx="7" cy="7" r="7" fill="#a3e635"/><path d="M3 7l3 3 5-6" fill="none" stroke="#14200d" stroke-width="2"/><text x="22" y="11" class="small" fill="#dff7ac">all four pass → deserialize</text></g>
+    </g>
+
+    <!-- trusted bypass -->
+    <path d="M342 438H362V648H342" fill="none" stroke="#fbbf24" stroke-width="2" stroke-dasharray="7 7" marker-end="url(#arr)"/>
+    <rect x="504" y="469" width="514" height="30" rx="15" fill="#221a0d"/><text x="761" y="489" class="small" text-anchor="middle" fill="#f4d28b">Explicit skip-hash mode bypasses manifest size/SHA checks—not the four-file requirement.</text>
+
+    <text x="64" y="536" class="kicker">PHASE B · RESTRICTED RESTORATION OF EACH EXPERT</text>
+    <!-- phase B -->
+    <g transform="translate(64 560)" filter="url(#shadow)">
+      <rect width="278" height="176" rx="22" fill="#0d2137" stroke="#3b82f6"/>
+      <rect x="18" y="18" width="32" height="32" rx="9" fill="#60a5fa"/><text x="34" y="40" class="num" text-anchor="middle">05</text>
+      <text x="62" y="42" class="kicker" fill="#cce3ff">DESERIALIZE</text>
+      <text x="18" y="78" class="title">Weights-only torch.load</text>
+      <text x="18" y="108" class="mono monoText">map_location = &quot;cpu&quot;</text>
+      <text x="18" y="132" class="mono monoText">weights_only = True</text>
+      <text x="18" y="156" class="small">Optional model_state_dict wrapper is unwrapped.</text>
+    </g>
+    <path d="M342 648H378" stroke="#93abc4" stroke-width="3" marker-end="url(#arr)"/>
+    <g transform="translate(392 560)" filter="url(#shadow)">
+      <rect width="278" height="176" rx="22" fill="#0d2137" stroke="#3b82f6"/>
+      <rect x="18" y="18" width="32" height="32" rx="9" fill="#60a5fa"/><text x="34" y="40" class="num" text-anchor="middle">06</text>
+      <text x="62" y="42" class="kicker" fill="#cce3ff">TYPE GATE</text>
+      <text x="18" y="78" class="title">Tensor-only state dict</text>
+      <text x="18" y="108" class="body">non-empty Mapping</text>
+      <text x="18" y="132" class="body">every key is a string</text>
+      <text x="18" y="156" class="body">every value is a Tensor</text>
+    </g>
+    <path d="M670 648H706" stroke="#93abc4" stroke-width="3" marker-end="url(#arr)"/>
+    <g transform="translate(720 560)" filter="url(#shadow)">
+      <rect width="278" height="176" rx="22" fill="#0d2137" stroke="#3b82f6"/>
+      <rect x="18" y="18" width="32" height="32" rx="9" fill="#60a5fa"/><text x="34" y="40" class="num" text-anchor="middle">07</text>
+      <text x="62" y="42" class="kicker" fill="#cce3ff">ARCHITECTURE GATE</text>
+      <text x="18" y="78" class="title">Exact parameter match</text>
+      <text x="18" y="110" class="mono monoText">load_state_dict(</text><text x="18" y="131" class="mono monoText">  strict=True, assign=True)</text>
+      <text x="18" y="156" class="small">Missing/extra/mismatched parameters → stop</text>
+    </g>
+    <path d="M998 648H1034" stroke="#a3e635" stroke-width="3" marker-end="url(#green)"/>
+    <g transform="translate(1048 560)" filter="url(#shadow)">
+      <rect width="328" height="176" rx="22" fill="#15240f" stroke="#84cc16" stroke-width="2"/>
+      <rect x="18" y="18" width="32" height="32" rx="9" fill="#a3e635"/><text x="34" y="40" class="num" text-anchor="middle">08</text>
+      <text x="62" y="42" class="kicker" fill="#d9f3a5">RESTORE EXPERT</text>
+      <text x="18" y="78" class="title">Move to device · eval()</text>
+      <text x="18" y="108" class="body">state dict released after strict load</text>
+      <text x="18" y="132" class="body">expert is set to evaluation mode</text>
+      <text x="18" y="156" class="small">repeat for CLIP 1–2 and SigLIP 3–4</text>
+    </g>
+
+    <!-- failure rail -->
+    <g transform="translate(64 776)">
+      <rect width="1312" height="72" rx="18" fill="#28131b" stroke="#be4056"/>
+      <circle cx="28" cy="36" r="11" fill="#fb7185"/><path d="M23 31l10 10m0-10L23 41" stroke="#320a13" stroke-width="2.5"/>
+      <text x="52" y="29" class="kicker" fill="#ffb2bf">ANY FAILED GATE ABORTS RESTORATION</text>
+      <text x="52" y="52" class="body">No partial ensemble is served: missing files, malformed manifest metadata, size/hash mismatch, invalid state dict, or architecture mismatch raises an error.</text>
+    </g>
+    <path d="M203 458V500H44V812H64" fill="none" stroke="#fb7185" stroke-width="1.8" stroke-dasharray="5 7" marker-end="url(#red)"/><path d="M531 458V776" stroke="#fb7185" stroke-width="1.8" stroke-dasharray="5 7" marker-end="url(#red)"/><path d="M859 458V776" stroke="#fb7185" stroke-width="1.8" stroke-dasharray="5 7" marker-end="url(#red)"/><path d="M1212 458H1394V812H1376" fill="none" stroke="#fb7185" stroke-width="1.8" stroke-dasharray="5 7" marker-end="url(#red)"/><path d="M203 736V776" stroke="#fb7185" stroke-width="1.8" stroke-dasharray="5 7" marker-end="url(#red)"/><path d="M531 736V776" stroke="#fb7185" stroke-width="1.8" stroke-dasharray="5 7" marker-end="url(#red)"/><path d="M859 736V776" stroke="#fb7185" stroke-width="1.8" stroke-dasharray="5 7" marker-end="url(#red)"/>
+    <text x="1376" y="878" class="small" text-anchor="end">Default service behavior verifies hashes unless explicitly disabled for trusted local checkpoints.</text>
+  </g>
+</svg>

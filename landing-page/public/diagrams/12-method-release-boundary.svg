@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="title desc">
+  <title id="title">SynthFlag method, release, rights, and hosting boundaries</title>
+  <desc id="desc">The paper describes two-stage training and a four-expert ensemble. Separately, the repository expects four externally supplied checkpoint files. The public SynthFlag repository distributes source, checkpoint identities, documentation, and aggregate evidence, but not the training implementation, checkpoint binaries, datasets, private rows, or protected per-image scores. Authorized operators may separately mount verified checkpoints for optional inference hosting; inference never retrains the model.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#07111f"/><stop offset="1" stop-color="#0c1426"/></linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#7890a9" stroke-opacity="0.07"/></pattern>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000712" flood-opacity="0.44"/></filter>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#8ba7c5"/></marker>
+    <marker id="violet" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#a78bfa"/></marker>
+    <marker id="lime" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#a3e635"/></marker>
+    <style>
+      .sans{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.mono{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace}
+      .eyebrow{font-size:15px;font-weight:700;letter-spacing:3px;fill:#65e6d2}.headline{font-size:44px;font-weight:740;letter-spacing:-1.2px;fill:#f5f9ff}.subtitle{font-size:18px;fill:#aabbd0}
+      .label{font-size:12px;font-weight:800;letter-spacing:1.65px}.head{font-size:20px;font-weight:730;fill:#f4f8fd}.body{font-size:14px;fill:#b8c7d8}.small{font-size:12px;fill:#91a6bd}.tiny{font-size:11px;fill:#849ab3}.strong{font-size:15px;font-weight:720;fill:#f5f8fc}
+    </style>
+  </defs>
+  <rect width="1440" height="900" fill="url(#bg)"/><rect width="1440" height="900" fill="url(#grid)"/>
+  <g class="sans">
+    <text x="80" y="76" class="eyebrow">METHOD LINEAGE · PUBLIC RELEASE · RIGHTS BOUNDARY</text>
+    <text x="80" y="130" class="headline">The public source release does not ship the weights</text>
+    <text x="80" y="168" class="subtitle">Training, distribution, reproducibility evidence, and optional hosting are separate decisions.</text>
+
+    <g transform="translate(70 218)" filter="url(#shadow)">
+      <rect width="390" height="490" rx="25" fill="#17162a" stroke="#8c72ff"/>
+      <rect width="390" height="7" rx="3.5" fill="#a78bfa"/>
+      <text x="24" y="42" class="label" fill="#b8a8ff">PAPER-DESCRIBED METHOD</text>
+      <text x="24" y="79" class="head">Training lineage</text>
+      <g transform="translate(24 108)">
+        <rect width="342" height="86" rx="17" fill="#211d3b" stroke="#806cea"/>
+        <text x="18" y="31" class="strong">Stage 1 · binary objective</text>
+        <text x="18" y="58" class="body">each expert trained for two epochs</text>
+      </g>
+      <path d="M195 204V234" stroke="#a78bfa" stroke-width="2" marker-end="url(#violet)"/>
+      <g transform="translate(24 243)">
+        <rect width="342" height="100" rx="17" fill="#211d3b" stroke="#806cea"/>
+        <text x="18" y="31" class="strong">Stage 2 · feature self-distillation</text>
+        <text x="18" y="57" class="body">current features align to fixed</text>
+        <text x="18" y="79" class="body">epoch-2 dense feature targets</text>
+      </g>
+      <g transform="translate(24 372)">
+        <rect width="342" height="88" rx="17" fill="#101728" stroke="#ff7e79" stroke-dasharray="6 5"/>
+        <text x="18" y="30" class="label" fill="#ff9b97">PUBLIC PACKAGE BOUNDARY</text>
+        <text x="18" y="56" class="body">trainer and full training provenance</text>
+        <text x="18" y="76" class="body">are not reconstructed in this release</text>
+      </g>
+    </g>
+
+    <path d="M460 450H502" stroke="#a78bfa" stroke-width="2.4" stroke-dasharray="7 6" marker-end="url(#violet)"/>
+
+    <g transform="translate(510 218)" filter="url(#shadow)">
+      <rect width="366" height="490" rx="25" fill="#241a1c" stroke="#ff7e79" stroke-width="1.5"/>
+      <text x="24" y="42" class="label" fill="#ff9b97">EXTERNAL ARTIFACTS</text>
+      <text x="24" y="79" class="head">Four fine-tuned state dicts</text>
+      <g transform="translate(24 108)">
+        <rect width="150" height="72" rx="15" fill="#0f2441" stroke="#60a5fa"/><text x="16" y="29" class="strong">Expert 1 · CLIP</text><text x="16" y="53" class="mono small">1,216,821,587 B</text>
+        <rect x="168" width="150" height="72" rx="15" fill="#0f2441" stroke="#60a5fa"/><text x="184" y="29" class="strong">Expert 2 · CLIP</text><text x="184" y="53" class="mono small">1,216,828,887 B</text>
+        <rect y="90" width="150" height="72" rx="15" fill="#2b2010" stroke="#fbbf24"/><text x="16" y="119" class="strong">Expert 3 · SigLIP</text><text x="16" y="143" class="mono small">1,714,285,115 B</text>
+        <rect x="168" y="90" width="150" height="72" rx="15" fill="#2b2010" stroke="#fbbf24"/><text x="184" y="119" class="strong">Expert 4 · SigLIP</text><text x="184" y="143" class="mono small">1,714,282,825 B</text>
+      </g>
+      <g transform="translate(24 298)">
+        <rect width="318" height="154" rx="18" fill="#301b23" stroke="#ff7e79"/>
+        <text x="18" y="31" class="label" fill="#ff9b97">RIGHTS / DISTRIBUTION GATE</text>
+        <text x="18" y="59" class="body">Not tracked or distributed by Git.</text>
+        <text x="18" y="84" class="body">No explicit redistribution license</text>
+        <text x="18" y="105" class="body">was located in the audited materials.</text>
+        <text x="18" y="135" class="small">Authorized access is required.</text>
+      </g>
+    </g>
+
+    <path d="M876 450H918" stroke="#ff7e79" stroke-width="2.4" stroke-dasharray="7 6" marker-end="url(#arr)"/>
+
+    <g transform="translate(926 218)" filter="url(#shadow)">
+      <rect width="444" height="490" rx="25" fill="#0d1c2e" stroke="#3c607f"/>
+      <text x="24" y="42" class="label" fill="#65e6d2">PUBLIC GIT SOURCE TREE</text>
+      <text x="24" y="79" class="head">What the public source contains</text>
+      <g transform="translate(24 108)">
+        <rect width="396" height="210" rx="18" fill="#0b1728" stroke="#36516e"/>
+        <circle cx="22" cy="29" r="5" fill="#65e6d2"/><text x="38" y="34" class="body">Inference source + pinned interfaces</text>
+        <circle cx="22" cy="67" r="5" fill="#65e6d2"/><text x="38" y="72" class="body">manifest schema 1 · names · sizes · SHA-256</text>
+        <circle cx="22" cy="105" r="5" fill="#65e6d2"/><text x="38" y="110" class="body">model card · reproduce guide · rights audit</text>
+        <circle cx="22" cy="143" r="5" fill="#65e6d2"/><text x="38" y="148" class="body">aggregate benchmark evidence + protocols</text>
+        <circle cx="22" cy="181" r="5" fill="#ff7e79"/><text x="38" y="186" class="body">no datasets, private rows, or protected scores</text>
+      </g>
+      <g transform="translate(24 340)">
+        <rect width="396" height="112" rx="18" fill="#14261f" stroke="#a3e635"/>
+        <text x="18" y="31" class="label" fill="#b7f66e">OPTIONAL HOSTING</text>
+        <text x="18" y="58" class="body">Operator mounts authorized external files,</text>
+        <text x="18" y="79" class="body">verifies identity, then serves inference.</text>
+        <text x="18" y="100" class="small">Source audit ≠ hosted-deployment certification.</text>
+      </g>
+    </g>
+
+    <g transform="translate(70 752)">
+      <rect width="1300" height="86" rx="19" fill="#101a2b" stroke="#44556d"/>
+      <text x="24" y="31" class="label" fill="#b7f66e">RUNTIME INVARIANT</text>
+      <text x="24" y="61" class="head">Inference restores and scores. It never trains, self-distills, updates, or writes checkpoint weights.</text>
+      <rect x="1095" y="21" width="178" height="44" rx="22" fill="#1d3425" stroke="#a3e635"/>
+      <text x="1184" y="48" class="label" fill="#b7f66e" text-anchor="middle">READ-ONLY WEIGHTS</text>
+    </g>
+  </g>
+</svg>
