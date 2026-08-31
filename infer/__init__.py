@@ -1,6 +1,6 @@
-"""SynthFlag inference, powered by the FeatDistill four-expert ensemble."""
+"""SynthFlag's checkpoint-compatible AI-image scoring runtime."""
 
-from .model import FeatDistillEnsemble, Model
+from .model import FeatDistillEnsemble, Model, SynthFlagEnsemble
 
-__all__ = ["FeatDistillEnsemble", "Model"]
-__version__ = "1.0.0"
+__all__ = ["FeatDistillEnsemble", "Model", "SynthFlagEnsemble"]
+__version__ = "2.0.0"

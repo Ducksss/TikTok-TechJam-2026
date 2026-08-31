@@ -28,14 +28,16 @@
 
 ## Overview
 
-**SynthFlag** packages the research-grade FeatDistill detector into a complete
-TikTok TechJam workflow: checkpoint-verified batch inference, a public detector
+**SynthFlag** provides a repository-authored, checkpoint-compatible
+implementation of the published FeatDistill detector method inside a complete
+TikTok TechJam workflow: verified batch inference, a public detector
 experience, protected evaluation, and a submission package whose claims remain
 traceable to their evidence.
 
 SynthFlag is the public product, submission, Python distribution, and primary
 CLI name. **FeatDistill** remains the name of the underlying UESTC detector
-architecture, released checkpoints, and research lineage.
+architecture, external checkpoints, and research lineage. SynthFlag does not
+claim authorship of that model research or those weights.
 
 ### Highlights
 
@@ -133,8 +135,7 @@ synthflag-infer \
   --device auto
 ```
 
-`python -m infer` and the legacy `featdistill-infer` command remain available
-for compatibility with the underlying detector release.
+`python -m infer` invokes the same SynthFlag CLI.
 
 ## Output contract
 
@@ -207,8 +208,7 @@ for the production GPU, health-check, and origin-allowlisting contract.
 ├─ service/        # Optional FastAPI inference service
 ├─ landing-page/   # Public website, detector UI, and visual documentation
 ├─ submission/     # Benchmarks, model card, checksums, and release audit
-├─ docs/           # Project context and versioned research references
-├─ distortion/     # Optional controlled robustness utilities
+├─ docs/           # Project context, provenance, and research references
 ├─ assets/         # Approved SynthFlag identity and evidence graphics
 └─ weights/        # Checkpoint manifest and setup guidance
 ```
@@ -233,6 +233,7 @@ for the production GPU, health-check, and origin-allowlisting contract.
 - [Prompt-ready project context](docs/AI_CONTEXT.md)
 - [Prompting guide for teammates](docs/PROMPTING_GUIDE.md)
 - [Repository instructions for coding agents](AGENTS.md)
+- [Implementation provenance and snapshot audit](docs/IMPLEMENTATION_PROVENANCE.md)
 - [Versioned FeatDistill report snapshot](docs/references/featdistill-report/README.md)
 - [Versioned NTIRE report snapshot](docs/references/ntire-2026-report/README.md)
 
@@ -276,6 +277,12 @@ integration, reproducibility layer, evidence package, and product presentation
 are the submission work; the detector architecture and released checkpoints
 retain their upstream attribution.
 
+The repository began from a copied FeatDistill source snapshot. The current
+runtime is an independently organized, checkpoint-compatible implementation;
+the exact historical finding, non-clean-room boundary, and mechanical overlap
+guard are documented in the
+[implementation provenance record](docs/IMPLEMENTATION_PROVENANCE.md).
+
 Underlying detector report: [FeatDistill, arXiv:2603.21939](https://arxiv.org/abs/2603.21939).
 
 A SynthFlag score is a signal, not conclusive proof of an image's origin,
@@ -303,6 +310,11 @@ Repository code and original project documentation are provided under the
 [Apache License 2.0](LICENSE). That license does **not** grant rights to
 third-party model checkpoints, datasets, benchmark images, dependency code, or
 trademarks.
+
+Earlier Git commits contain the attributed Apache-2.0 FeatDistill snapshot
+described in [NOTICE](NOTICE). The current source-overlap check permits only the
+canonical Apache license text to remain byte-identical to that audited
+snapshot.
 
 This Git repository intentionally excludes the four fine-tuned checkpoints,
 dataset pixels, private split rows, and per-image protected-evaluation scores.

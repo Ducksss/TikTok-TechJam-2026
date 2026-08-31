@@ -23,11 +23,12 @@ automation, process, or worktree dirtiness state.
 | Surface | Contract |
 |---|---|
 | Public identity | **SynthFlag** is the product, repository, demo, submission, Python distribution, and primary CLI. **FeatDistill** is the attributed UESTC detector and checkpoint lineage. |
-| Batch inference | `infer/model.py` and `infer/cli.py` implement the checkpoint-verified four-expert mean and resumable directory inference. |
+| Batch inference | Repository-authored modules under `infer/` implement the checkpoint-verified FeatDistill-compatible four-expert mean and resumable directory inference. |
 | Batch artifacts | A completed run produces `predictions.csv`, Track 5 `predictions.json` records with `image_path,pred`, and `predictions.meta.json`. |
 | HTTP service | `service/app.py` exposes checkpoint-backed health and single-image analysis; it does not make the public worker available by itself. |
 | Web experience | Source routes are `/`, `/try`, `/journey`, `/documentation`, and `/documentation/architecture`, plus the `/api/analyze` proxy. |
 | Submission package | `submission/` contains the evidence-labeled benchmarks, architecture, reproduction guide, rights inventory, model card, release audit, and checksums. |
+| Source provenance | The initial copied snapshot is disclosed; the current runtime is independently organized, exact upstream files are rejected, and historical method/code credit is preserved. |
 
 The long-form web routes are intentionally distinct: `/journey` is the
 judge-first project and decision narrative, `/documentation` is the readable
@@ -86,5 +87,7 @@ refetch before pushing, and never force-push the release branch.
    exclusions documented in `submission/RELEASE_AUDIT.md`.
 4. Validate relevant tests/builds, JSON, SVG, Markdown links, artifact
    checksums, and `scripts/check_repository_context.py`.
-5. Verify deployment, service health, repository metadata, and submission state
+5. Run `scripts/check_source_provenance.py`; only the canonical Apache-2.0
+   license may remain byte-identical to the pinned upstream snapshot.
+6. Verify deployment, service health, repository metadata, and submission state
    live before making public-readiness claims.

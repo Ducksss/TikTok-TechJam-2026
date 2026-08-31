@@ -1,5 +1,6 @@
-from .cli import main
+"""Module entry point for ``python -m infer``."""
 
+from .cli import main as run_cli
 
 if __name__ == "__main__":
-    main()
+    run_cli()

@@ -1,4 +1,4 @@
-"""SynthFlag's stateless HTTP wrapper around the released FeatDistill ensemble."""
+"""Stateless HTTP access to SynthFlag's FeatDistill-compatible runtime."""
 
 from __future__ import annotations
 

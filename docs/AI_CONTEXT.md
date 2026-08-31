@@ -6,17 +6,18 @@ the important technical and evidence boundaries.
 
 ## Executive summary
 
-SynthFlag is the public-facing TikTok TechJam 2026 project. It packages the
-released FeatDistill detector into a reproducible Python inference tool, a
+SynthFlag is the public-facing TikTok TechJam 2026 project. It provides a
+repository-authored, checkpoint-compatible implementation of the published
+FeatDistill detector method as a reproducible Python inference tool, a
 checkpoint-backed HTTP service contract, a public web experience, technical
 documentation, and an evidence-labeled submission package.
 
 FeatDistill is the credited UESTC method described in Section 8.2 of the NTIRE
 2026 challenge report. SynthFlag did not originate the four-expert detector or
-the external fine-tuned checkpoints. The project contribution is the verified
-integration, checkpoint integrity layer, resumable inference workflow, service
-and web interfaces, protected-evaluation discipline, documentation, and public
-presentation.
+the external fine-tuned checkpoints. The project contribution is the rewritten
+integration and inference runtime, checkpoint integrity layer, resumable
+workflow, service and web interfaces, protected-evaluation discipline,
+documentation, and public presentation.
 
 ## Context freshness
 
@@ -31,8 +32,11 @@ change.
 
 | Path | Responsibility | Source-of-truth status |
 |---|---|---|
-| `infer/model.py` | Architecture, preprocessing, checkpoint verification, score computation | Authoritative released inference behavior |
-| `infer/cli.py` | Recursive batch discovery, run locking, resumability, CSV, Track 5 JSON, and metadata output | Authoritative CLI behavior |
+| `infer/architecture.py` | Checkpoint-compatible expert topology and four-score fusion | Authoritative model graph and score behavior |
+| `infer/preprocessing.py` | CLIP and SigLIP RGB/resize/crop/normalization recipes | Authoritative input transformation |
+| `infer/checkpoints.py` | Checkpoint manifest, file verification, identity, and safe state loading | Authoritative checkpoint boundary |
+| `infer/model.py` | Stable Python scoring API and device handling | Authoritative runtime API |
+| `infer/outputs.py` and `infer/cli.py` | Recursive discovery, run locking, resumability, CSV, Track 5 JSON, and metadata | Authoritative batch behavior |
 | `service/app.py` | Optional FastAPI health and single-image analysis service | Authoritative Python HTTP behavior |
 | `landing-page/app/api/analyze/route.ts` | Same-origin proxy and timeout/error mapping | Authoritative web proxy behavior |
 | `landing-page/app/try/page.tsx` | Browser file validation, service state, result presentation | Authoritative UI behavior |
@@ -46,8 +50,9 @@ change.
 | `submission/DATASETS_AND_RIGHTS.md` | Dataset provenance and redistribution policy | Rights inventory |
 | `submission/RELEASE_AUDIT.md` | Public-release inclusions, exclusions, and checks | Release boundary |
 | `STATUS.md` | Release snapshot, evidence state, and external verification gates | Coordination record; recheck before relying on it |
+| `docs/IMPLEMENTATION_PROVENANCE.md` | Initial snapshot finding, current reimplementation boundary, and non-clean-room disclosure | Source-provenance record |
 
-## Exact released model contract
+## Exact SynthFlag model contract
 
 ### Inputs and preprocessing
 
@@ -81,7 +86,7 @@ inference path.
 
 ### Checkpoint loading
 
-The loader requires these external files:
+`infer/checkpoints.py` requires these external files:
 
 - `Expert_1_clip.pth`
 - `Expert_2_clip.pth`
@@ -117,8 +122,9 @@ Primary sources: [FeatDistill Section 4.3](references/featdistill-report/report.
 
 ## CLI contract
 
-The `synthflag-infer` command recursively discovers supported images in sorted
-path order, verifies all checkpoints before constructing the model, acquires an
+The `synthflag-infer` command in `infer/cli.py`, backed by
+`infer/outputs.py`, recursively discovers supported images in sorted path
+order, verifies all checkpoints before constructing the model, acquires an
 exclusive output-directory lock, and writes:
 
 - `predictions.csv` with `image_name,score`;
@@ -203,6 +209,21 @@ without a redistribution grant.
 The vendored FeatDistill and NTIRE report snapshots are separately licensed
 under CC BY 4.0; they are not relicensed under the repository's Apache License
 2.0. Checkpoint and dataset access do not imply redistribution permission.
+
+## Implementation provenance boundary
+
+The repository root commit copied 20 of 21 files byte-for-byte from
+`tzlkkk/FeatDistill` commit `6feb63ef12a3bd38c8d7ade98183c5f727a0c62d`.
+The repositories have separate Git ancestry, but that does not make the
+initial source independent. The current inference and output runtime is a
+repository-authored, checkpoint-compatible reimplementation. The unused copied
+`distortion/` package and moved `competition.png` snapshot were removed.
+
+This is not described as a clean-room implementation because the public method,
+checkpoint schema, and earlier runtime behavior were known. Historical source
+remains attributed under Apache-2.0 in `NOTICE`; exact evidence and the overlap
+guard are in `docs/IMPLEMENTATION_PROVENANCE.md` and
+`scripts/check_source_provenance.py`.
 
 ## Safe language for answers
 

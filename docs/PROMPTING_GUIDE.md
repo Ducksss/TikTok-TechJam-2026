@@ -11,13 +11,14 @@ report when the task needs challenge or method detail.
 | Explain SynthFlag to a stakeholder | `docs/AI_CONTEXT.md`, `submission/MODEL_CARD.md` |
 | Answer a FeatDistill method question | `docs/references/featdistill-report/report.txt`, `docs/AI_CONTEXT.md` |
 | Answer a challenge, team, or leaderboard question | `docs/references/ntire-2026-report/report.txt`, `docs/AI_CONTEXT.md` |
-| Change inference behavior | `AGENTS.md`, `infer/model.py`, `infer/cli.py`, relevant tests |
+| Change inference behavior | `AGENTS.md`, `infer/architecture.py`, `infer/preprocessing.py`, `infer/checkpoints.py`, `infer/model.py`, `infer/cli.py`, relevant tests |
 | Change the service or `/try` flow | `AGENTS.md`, `service/app.py`, `landing-page/app/api/analyze/route.ts`, `landing-page/app/try/page.tsx` |
 | Edit the judge-first `/journey` route | `AGENTS.md`, `docs/AI_CONTEXT.md`, `landing-page/app/journey/`, relevant benchmark and release sources |
 | Edit diagrams or technical documentation | `AGENTS.md`, `docs/AI_CONTEXT.md`, relevant source files, `landing-page/public/diagrams/` |
 | Change CLI output or Track 5 submission JSON | `AGENTS.md`, `infer/cli.py`, `tests/test_cli_outputs.py`, `submission/REPRODUCE.md` |
 | Discuss benchmarks | `submission/BENCHMARKS.md`, relevant files in `submission/evidence/` |
-| Prepare a public release | `submission/RELEASE_AUDIT.md`, `submission/DATASETS_AND_RIGHTS.md`, `submission/THIRD_PARTY_NOTICES.md`, `STATUS.md` |
+| Review source provenance | `docs/IMPLEMENTATION_PROVENANCE.md`, `docs/provenance/featdistill-upstream.json`, `NOTICE`, `scripts/check_source_provenance.py` |
+| Prepare a public release | `docs/IMPLEMENTATION_PROVENANCE.md`, `submission/RELEASE_AUDIT.md`, `submission/DATASETS_AND_RIGHTS.md`, `submission/THIRD_PARTY_NOTICES.md`, `STATUS.md` |
 
 ## Copy-paste prompts
 
@@ -64,10 +65,11 @@ Change requested: <describe change>
 ### Generate new documentation
 
 ```text
-Create documentation for <audience/topic>. Treat infer/model.py, infer/cli.py,
-service/app.py, and the web proxy/UI as code facts; the vendored NTIRE report as
-paper facts; submission/evidence as local-result facts; and the model card as
-guidance. Add an evidence label to every material claim. Do not fabricate
+Create documentation for <audience/topic>. Treat infer/architecture.py,
+infer/preprocessing.py, infer/checkpoints.py, infer/model.py, infer/cli.py,
+service/app.py, and the web proxy/UI as code facts; the vendored NTIRE report
+as paper facts; submission/evidence as local-result facts; and the model card
+as guidance. Add an evidence label to every material claim. Do not fabricate
 calibration, localization, attribution, infrastructure, privacy, or robustness
 guarantees.
 ```
@@ -94,5 +96,7 @@ evidence and human review.
   `/documentation/architecture` is the deep technical atlas.
 - After changing naming, routes, output contracts, evidence status, or context
   files, run `python scripts/check_repository_context.py`.
+- After changing release source or assets, run
+  `python scripts/check_source_provenance.py`.
 - Never paste checkpoint binaries, private rows, per-image protected scores,
   secrets, or restricted dataset content into a prompt.

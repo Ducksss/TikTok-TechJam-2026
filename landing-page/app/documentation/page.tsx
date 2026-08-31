@@ -510,9 +510,9 @@ export default function Documentation() {
                   <p>
                     For two logits <code>z₀</code> and <code>z₁</code>, the
                     fake-class probability is{' '}
-                    <code>exp(z₁) / (exp(z₀) + exp(z₁))</code>. The released
-                    implementation evaluates the arithmetic mean in the order
-                    shown above.
+                    <code>exp(z₁) / (exp(z₀) + exp(z₁))</code>. The SynthFlag
+                    implementation preserves the published runtime&apos;s
+                    arithmetic order shown above.
                   </p>
                   <p>
                     The site calls this a probability-like score because no
@@ -667,10 +667,11 @@ export default function Documentation() {
             </SectionHeading>
             <div className="docs-results-intro">
               <p className="docs-section-lead">
-                SynthFlag packages the released FeatDistill detector; the NTIRE
-                challenge report describes the corresponding submission under
-                the team name UESTC. These challenge results are benchmark
-                evidence, not a promise for every future image.
+                SynthFlag provides a checkpoint-compatible implementation of the
+                published FeatDistill method; the NTIRE challenge report
+                describes the corresponding submission under the team name
+                UESTC. These challenge results are benchmark evidence, not a
+                promise for every future image.
               </p>
               <EvidenceTag kind="paper">Paper fact</EvidenceTag>
             </div>

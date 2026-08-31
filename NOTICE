@@ -1,0 +1,23 @@
+SynthFlag
+Copyright 2026 SynthFlag contributors
+
+Repository history note
+-----------------------
+
+The first Git commit in this repository included a source snapshot from
+tzlkkk/FeatDistill at commit 6feb63ef12a3bd38c8d7ade98183c5f727a0c62d:
+
+https://github.com/tzlkkk/FeatDistill
+
+That historical source was published under the Apache License 2.0. The current
+SynthFlag inference and artifact runtime has been independently reorganized and
+rewritten, while earlier Git commits remain part of the repository history.
+See docs/IMPLEMENTATION_PROVENANCE.md for the audit and exact boundary.
+
+Research and checkpoint attribution
+-----------------------------------
+
+The four-expert detector architecture, training method, and external
+checkpoints are attributed to the FeatDistill authors and UESTC. SynthFlag does
+not claim authorship of that research or those weights. See
+submission/THIRD_PARTY_NOTICES.md and submission/MODEL_CARD.md.
