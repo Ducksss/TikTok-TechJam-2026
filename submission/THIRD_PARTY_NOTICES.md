@@ -16,9 +16,6 @@ packages remain under their own licenses.
 | Transformers | `5.3.0` | Apache-2.0 | [Transformers LICENSE](https://github.com/huggingface/transformers/blob/main/LICENSE) |
 | Pillow | `12.1.0` | MIT-CMU | [Pillow LICENSE](https://github.com/python-pillow/Pillow/blob/main/LICENSE) |
 | tqdm | `4.67.2` | MPL-2.0 AND MIT | [tqdm LICENCE](https://github.com/tqdm/tqdm/blob/master/LICENCE) |
-| NumPy (optional distortion extra) | `2.2.5` | BSD-3-Clause | [NumPy LICENSE](https://github.com/numpy/numpy/blob/main/LICENSE.txt) |
-| SciPy (optional distortion extra) | `1.15.3` | BSD-3-Clause | [SciPy LICENSE](https://github.com/scipy/scipy/blob/main/LICENSE.txt) |
-| Kornia (optional distortion extra) | `0.8.2` | Apache-2.0 | [Kornia LICENSE](https://github.com/kornia/kornia/blob/master/LICENSE) |
 
 Binary wheels may include additional notices for bundled native libraries.
 Distributors of compiled environments must retain the notices supplied by each
@@ -32,6 +29,20 @@ wheel or source distribution.
 | Google SigLIP base model | The [`google/siglip-so400m-patch14-384` model card](https://huggingface.co/google/siglip-so400m-patch14-384) declares Apache-2.0 and identifies WebLI training. | Preserve attribution and the Apache-2.0 terms when redistributing covered base-model material. |
 | Four FeatDistill `Expert_*.pth` files | Architecture and hashes are documented locally; the files are obtained from an external mirror. No explicit fine-tuned-checkpoint redistribution license was located in the audited public materials. | Not included in Git or the submission archive. Do not re-upload or bundle without written permission from the checkpoint rights holder. |
 | FeatDistill method | [Technical report, arXiv:2603.21939](https://arxiv.org/abs/2603.21939) | Cite the authors; do not relabel the detector architecture or checkpoints as original SynthFlag research. |
+
+## Historical source lineage
+
+The repository root commit contained a source snapshot matching 20 of 21 files
+from [`tzlkkk/FeatDistill`](https://github.com/tzlkkk/FeatDistill) commit
+`6feb63ef12a3bd38c8d7ade98183c5f727a0c62d`. The two repositories have separate
+Git ancestry, but the identical-file evidence establishes copying. That
+historical source is covered by the upstream Apache License 2.0 and remains
+attributed in the root [`NOTICE`](../NOTICE).
+
+The current inference and artifact runtime is independently reorganized and
+rewritten. It remains checkpoint-compatible with the published FeatDistill
+method and is not described as a clean-room implementation. See the complete
+[implementation provenance record](../docs/IMPLEMENTATION_PROVENANCE.md).
 
 ## Publications
 

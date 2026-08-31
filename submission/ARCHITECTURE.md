@@ -21,8 +21,8 @@
    head.
 6. Each two-logit output is converted with softmax, and class index 1 is treated
    as `P(fake)`. The final score is the exact arithmetic mean
-   `(P3 + P4 + P1 + P2) / 4`, preserving the released implementation's addition
-   order.
+   `(P3 + P4 + P1 + P2) / 4`, preserving the published runtime's addition
+   order in the SynthFlag implementation.
 7. The CLI writes `predictions.csv` with `image_name,score`, an atomic
    completed-run `predictions.json` array with Track 5 `image_path,pred`
    records, and a `predictions.meta.json` provenance record. Runs can resume
@@ -30,7 +30,7 @@
 
 ## Components
 
-| Component | Released implementation |
+| Component | SynthFlag implementation |
 |---|---|
 | CLIP experts | 24 transformer layers, 16 heads, 14-pixel patches, 224-pixel input |
 | SigLIP experts | 27 transformer layers, 16 heads, 14-pixel patches, 384-pixel input |

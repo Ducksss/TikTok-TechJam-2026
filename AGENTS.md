@@ -20,6 +20,9 @@ research, use the prompt-friendly FeatDistill
   behavior or a substitute for fresh Git, deployment, or service-health checks.
 - Run `python scripts/check_repository_context.py` after changing any context
   surface, public route, diagram inventory, or batch-output contract.
+- Run `python scripts/check_source_provenance.py` after changing release source
+  or assets. Do not reintroduce byte-identical source from the audited upstream
+  FeatDistill snapshot.
 
 ## Naming and attribution
 
@@ -27,13 +30,21 @@ research, use the prompt-friendly FeatDistill
   package, and primary CLI name.
 - **FeatDistill** is the underlying UESTC detector architecture, checkpoint,
   and research lineage. Do not present it as original SynthFlag research.
+- The repository began from a copied FeatDistill snapshot. The current runtime
+  is a repository-authored, checkpoint-compatible reimplementation, not a
+  clean-room claim. Preserve the disclosure and boundary in
+  `docs/IMPLEMENTATION_PROVENANCE.md` and `NOTICE`.
 - The NTIRE report describes many teams. Claims about MICV, Ant International,
   TeleAI, INTSIG, Vincentlc, Reagvis Labs, UESTC, PSU, or Shallow Real are not
   interchangeable.
 
 ## Released inference contract
 
-- Source of truth: `infer/model.py`.
+- Sources of truth: `infer/architecture.py` for expert topology and score
+  fusion, `infer/preprocessing.py` for image transforms,
+  `infer/checkpoints.py` for checkpoint integrity, `infer/model.py` for the
+  public Python API, and `infer/outputs.py` plus `infer/cli.py` for batch
+  artifacts.
 - Four independent experts: two CLIP ViT-L/14 experts at 224 px and two SigLIP
   So400M Patch14-384 experts at 384 px.
 - Each expert has a `feature -> Linear(256) -> ReLU -> Dropout(0.3) ->
@@ -49,7 +60,9 @@ research, use the prompt-friendly FeatDistill
   `predictions.meta.json`. The JSON artifact is atomic at completed-run time;
   CSV and metadata retain the resumable-run contract.
 - The paper's two-stage self-distillation describes training only. Training is
-  not part of the released live inference path.
+  not part of the released live inference path. Do not restore the removed
+  upstream `distortion/` training utilities without a separately scoped,
+  independently implemented requirement.
 
 ## Product surfaces
 
@@ -92,4 +105,5 @@ research, use the prompt-friendly FeatDistill
 - Verify claims against primary source files and label inference as inference.
 - Before release, run the relevant tests/build, validate JSON and SVG files,
   check Markdown links, run `python scripts/check_repository_context.py`,
-  inspect the diff, refetch, and push without force.
+  run `python scripts/check_source_provenance.py`, inspect the diff, refetch,
+  and push without force.

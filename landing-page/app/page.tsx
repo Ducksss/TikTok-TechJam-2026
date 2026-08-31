@@ -541,8 +541,8 @@ export default function Home() {
             >
               <div className="relative min-h-[410px] overflow-hidden rounded-[22px] bg-[#d8e6ff] p-5 sm:min-h-[475px] sm:p-6">
                 <Image
-                  src="/competition.png"
-                  alt="NTIRE challenge collage showing real and synthetic scenes"
+                  src="/architecture/dog-input.jpg"
+                  alt="Illustrative dog image used to demonstrate the detector signal path"
                   fill
                   priority
                   sizes="(min-width: 1024px) 36vw, 100vw"

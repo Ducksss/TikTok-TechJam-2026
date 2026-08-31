@@ -4,10 +4,12 @@ Audit date: **2026-08-31**
 
 ## Verdict
 
-**PASS for public release of the tracked Git source tree, with enforced
-exclusions.** The release is suitable for publication because checkpoint
-binaries, dataset pixels, private split rows, and per-image protected scores
-are not tracked. Those exclusions are mandatory: the audit did not establish a
+**PASS for public release of the current tracked Git tree, with enforced
+exclusions and explicit historical provenance.** The release is suitable for
+publication because byte-identical upstream runtime/training source,
+checkpoint binaries, dataset pixels, private split rows, and per-image
+protected scores are not tracked in the current tree. Those exclusions are
+mandatory: the audit did not establish a
 redistribution grant for the four fine-tuned checkpoints, SID-Set, WildFake as
 a combined dataset, COCO image pixels as a collection, or the private
 organizer DALL-E Advanced set.
@@ -19,7 +21,9 @@ This is a technical release-readiness verdict, not a legal opinion.
 | Requirement or risk | Evidence | Result |
 |---|---|---|
 | Repository code license | Root `LICENSE` is the Apache License 2.0 text; README links it and separates third-party rights. | **Pass** |
-| Dependency attribution | Pinned runtime and optional dependencies are listed with declared licenses and primary license URLs in `THIRD_PARTY_NOTICES.md`. | **Pass** |
+| Historical source provenance | The initial FeatDistill snapshot is disclosed in `NOTICE` and `docs/IMPLEMENTATION_PROVENANCE.md`; the pinned digest inventory and source-provenance check reject exact upstream files except the canonical license. | **Pass** |
+| Current implementation boundary | Inference, preprocessing, checkpoints, outputs, and CLI were rewritten into repository-authored modules; unused copied distortion utilities were removed. This is expressly not called a clean-room implementation. | **Pass** |
+| Dependency attribution | Pinned runtime dependencies are listed with declared licenses and primary license URLs in `THIRD_PARTY_NOTICES.md`. | **Pass** |
 | Base-model attribution | CLIP and SigLIP identifiers, model cards, licenses/limitations, and FeatDistill lineage are documented. | **Pass** |
 | Fine-tuned checkpoint permission | No explicit redistribution license was located; `.gitignore` excludes common model formats and the Git tree contains no checkpoint binary. | **Pass by exclusion** |
 | Dataset attribution | CIFAKE, SID-Set, WildFake, COCO, and organizer DALL-E roles and rights evidence are documented. | **Pass** |
@@ -34,8 +38,8 @@ This is a technical release-readiness verdict, not a legal opinion.
 
 Allowed in the public Git release:
 
-- original source code, configuration, and documentation covered by the root
-  repository license;
+- current repository-authored source code, configuration, and documentation
+  covered by the root repository license;
 - the SynthFlag wordmark, project-created architecture diagram, and Devpost
   thumbnail;
 - aggregate benchmark tables, non-row-level reports, protocols, and hashes;
@@ -50,7 +54,10 @@ Excluded from the public Git release:
 - dataset images, prompts, captions, masks, and private manifests;
 - protected split membership, local paths, and per-image protected scores;
 - the organizer-provided DALL-E Advanced set; and
-- third-party screenshots or promotional artwork without a documented grant.
+- third-party screenshots or promotional artwork without a documented grant;
+  and
+- byte-identical source or assets from the audited upstream FeatDistill
+  snapshot, except the canonical Apache-2.0 license text.
 
 ## Maintainer release checklist
 
@@ -58,12 +65,14 @@ Excluded from the public Git release:
    cache, or local-path artifact is tracked.
 2. Run `cd submission && shasum -a 256 -c ARTIFACTS.sha256`.
 3. Validate every JSON evidence file and parse `ARCHITECTURE.svg` as XML.
-4. Install pinned dependencies in a clean environment and run
+4. Run `python scripts/check_source_provenance.py` and confirm that no
+   prohibited exact upstream file is present.
+5. Install pinned dependencies in a clean environment and run
    `python -m infer --help` plus `python -m pip check`.
-5. Confirm the README, model card, dataset inventory, and third-party notices
+6. Confirm the README, model card, dataset inventory, and third-party notices
    link to current primary sources.
-6. Reconfirm that `origin/main` has not advanced before pushing.
-7. Never attach checkpoints or dataset pixels to a GitHub release unless the
+7. Reconfirm that `origin/main` has not advanced before pushing.
+8. Never attach checkpoints or dataset pixels to a GitHub release unless the
    exact artifact has documented redistribution permission.
 
 ## Residual boundaries

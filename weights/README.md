@@ -1,31 +1,37 @@
-# Weights
+# External checkpoint setup
 
-Place the four complete expert model state dictionaries in this directory.
+SynthFlag does not ship model weights. To run checkpoint-backed inference, an
+authorized user must supply four FeatDistill expert state dictionaries beside
+the checked-in identity manifest:
 
-Download mirror:
+```text
+weights/
+├── manifest.json
+├── Expert_1_clip.pth
+├── Expert_2_clip.pth
+├── Expert_3_siglip.pth
+└── Expert_4_siglip.pth
+```
 
-- Baidu Netdisk: <https://pan.baidu.com/s/1z4FfdeLJOu9PI0wks4vgqQ>
-- Extraction code: `4dqe`
+The current public download location is Baidu Netdisk:
 
-The current inference code uses only the four `.pth` files below.
-The upstream model architectures are available for reference at
-[`openai/clip-vit-large-patch14`](https://huggingface.co/openai/clip-vit-large-patch14)
-and
-[`google/siglip-so400m-patch14-384`](https://huggingface.co/google/siglip-so400m-patch14-384).
+- share URL: <https://pan.baidu.com/s/1z4FfdeLJOu9PI0wks4vgqQ>
+- extraction code: `4dqe`
 
-## License and redistribution boundary
+Before deserialization, SynthFlag checks every required filename, byte count,
+and SHA-256 digest against [`manifest.json`](manifest.json). The implementation
+constructs CLIP ViT-L/14 experts 1 and 2 and SigLIP So400M Patch14-384 experts 3
+and 4 from configuration, then restores the complete expert state dictionaries
+with strict key matching.
 
-The four fine-tuned `Expert_*.pth` files are **not** distributed by this Git
-repository. The external mirror is a download location, not evidence that the
-checkpoint copyright holder granted redistribution rights. No explicit
-license covering those four fine-tuned files was located during the
-2026-08-31 release audit.
+## Rights boundary
 
-Download and use the checkpoints only when you are authorized to do so. Do not
-re-upload, bundle, sell, or mirror them without written permission from the
-checkpoint rights holder. The license of a base architecture or implementation
-does not automatically license a downstream fine-tuned checkpoint.
+The external mirror is an access location, not a redistribution license. The
+2026-08-31 release audit found no explicit permission to redistribute the four
+fine-tuned checkpoint files. Do not upload, bundle, sell, or mirror them without
+authorization from the checkpoint rights holder.
 
-See the [model card](../submission/MODEL_CARD.md),
+Licenses for the CLIP or SigLIP base implementations do not automatically cover
+downstream fine-tuned weights. Review the [model card](../submission/MODEL_CARD.md),
 [third-party notices](../submission/THIRD_PARTY_NOTICES.md), and
-[release audit](../submission/RELEASE_AUDIT.md).
+[release audit](../submission/RELEASE_AUDIT.md) before use or distribution.

@@ -10,6 +10,7 @@ need repository context without reconstructing the project from chat history.
 | One high-signal project brief | [`AI_CONTEXT.md`](AI_CONTEXT.md) |
 | Copy-paste prompt patterns | [`PROMPTING_GUIDE.md`](PROMPTING_GUIDE.md) |
 | Automatic coding-agent guidance | [`../AGENTS.md`](../AGENTS.md) |
+| Implementation provenance and upstream snapshot audit | [`IMPLEMENTATION_PROVENANCE.md`](IMPLEMENTATION_PROVENANCE.md) |
 | Judge-first project and decision journey | [`../landing-page/app/journey/page.tsx`](../landing-page/app/journey/page.tsx) |
 | Full FeatDistill technical report | [`references/featdistill-report/report.txt`](references/featdistill-report/report.txt) |
 | Full NTIRE challenge report as text | [`references/ntire-2026-report/report.txt`](references/ntire-2026-report/report.txt) |
@@ -41,6 +42,12 @@ output contract with:
 
 ```bash
 python scripts/check_repository_context.py
+```
+
+Reject byte-identical files from the pinned upstream source snapshot with:
+
+```bash
+python scripts/check_source_provenance.py
 ```
 
 Verify both vendored reports, their figures, metadata, and checksums with:

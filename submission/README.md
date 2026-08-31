@@ -1,10 +1,10 @@
 # SynthFlag submission package
 
 SynthFlag is the public product name for this robust AI-generated image
-detector. The inference engine remains credited to the released
-**FeatDistill** four-expert detector. The installable distribution and primary
-command in this repository are named `synthflag-infer`; `featdistill-infer`
-remains available as a compatibility command.
+detector. Its repository-authored inference runtime remains compatible with and
+credits the published **FeatDistill** four-expert method and external
+checkpoints. The installable distribution and command in this repository are
+named `synthflag-infer`.
 
 ## Submission index
 
@@ -17,6 +17,7 @@ remains available as a compatibility command.
 - [Dataset attribution and rights](DATASETS_AND_RIGHTS.md)
 - [Third-party notices](THIRD_PARTY_NOTICES.md)
 - [Release audit](RELEASE_AUDIT.md)
+- [Implementation provenance](../docs/IMPLEMENTATION_PROVENANCE.md)
 - [Devpost thumbnail](media/synthflag-devpost-thumbnail.png)
 - [Devpost gallery screenshots](media/devpost-gallery/)
 - [Machine-readable and source-report evidence](evidence/)
