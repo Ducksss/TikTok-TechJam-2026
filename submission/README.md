@@ -17,6 +17,7 @@ remains available as a compatibility command.
 - [Dataset attribution and rights](DATASETS_AND_RIGHTS.md)
 - [Third-party notices](THIRD_PARTY_NOTICES.md)
 - [Release audit](RELEASE_AUDIT.md)
+- [Devpost thumbnail](media/synthflag-devpost-thumbnail.png)
 - [Machine-readable and source-report evidence](evidence/)
 
 ## Result in one sentence

@@ -224,6 +224,7 @@ for the production GPU, health-check, and origin-allowlisting contract.
 - [Dataset attribution and rights](submission/DATASETS_AND_RIGHTS.md)
 - [Third-party notices](submission/THIRD_PARTY_NOTICES.md)
 - [Release audit](submission/RELEASE_AUDIT.md)
+- [Devpost thumbnail](submission/media/synthflag-devpost-thumbnail.png)
 - [Project status and release gates](STATUS.md)
 
 ## Documentation and AI context
