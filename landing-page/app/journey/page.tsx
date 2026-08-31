@@ -369,12 +369,13 @@ export default function JourneyPage() {
                 </article>
               </div>
               <p className="journey-credit-note">
-                The four-expert CLIP/SigLIP detector is the released FeatDistill
-                architecture from UESTC. SynthFlag contributes the validation,
-                evidence boundaries, and public review experience. Different
-                objectives, resolutions, feature widths, and checkpoints make
-                the encoders plausibly complementary; this work does not claim
-                it proved a “semantics versus texture” split.
+                SynthFlag provides a repository-authored, checkpoint-compatible
+                implementation of the published FeatDistill four-expert method
+                from UESTC. It does not claim to originate the architecture,
+                training method, or checkpoints. Different objectives,
+                resolutions, feature widths, and checkpoints make the encoders
+                plausibly complementary; this work does not claim it proved a
+                “semantics versus texture” split.
               </p>
             </div>
 
