@@ -7,6 +7,7 @@ import { HashAnchorSync } from '../hash-anchor-sync';
 import { PrintButton } from '../print-button';
 import '../documentation.css';
 import './architecture.css';
+import { ModelJourney } from './model-journey';
 
 const paperUrl = 'https://arxiv.org/html/2604.11487v1';
 const repositoryUrl = 'https://github.com/Ducksss/TikTok-TechJam-2026';
@@ -1181,6 +1182,7 @@ export default function ArchitectureAtlas() {
                         {section.technical}
                       </details>
                     </div>
+                    {section.id === 'deep-model' ? <ModelJourney /> : null}
                     <FigureBlock section={section} />
                   </div>
                 </section>
