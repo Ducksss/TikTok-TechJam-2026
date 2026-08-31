@@ -1,4 +1,4 @@
-"""Command-line inference with resumable CSV output."""
+"""Command-line inference with resumable CSV and judge-facing JSON output."""
 
 from __future__ import annotations
 
@@ -40,12 +40,17 @@ def _list_images(root: Path) -> list[Path]:
 
 
 def _load_processed(csv_path: Path) -> set[str]:
+    return {name for name, _ in _read_rows(csv_path)}
+
+
+def _read_rows(csv_path: Path) -> list[tuple[str, float]]:
     if not csv_path.exists():
-        return set()
+        return []
     with csv_path.open("r", encoding="utf-8", newline="") as handle:
         reader = csv.DictReader(handle)
         if reader.fieldnames != CSV_FIELDS:
             raise ValueError(f"unexpected CSV header in {csv_path}: {reader.fieldnames}")
+        rows: list[tuple[str, float]] = []
         names: set[str] = set()
         for row in reader:
             if None in row:
@@ -60,7 +65,8 @@ def _load_processed(csv_path: Path) -> set[str]:
             if not math.isfinite(score) or not 0.0 <= score <= 1.0:
                 raise ValueError(f"invalid score for {name!r} in {csv_path}: {score!r}")
             names.add(name)
-        return names
+            rows.append((name, score))
+        return rows
 
 
 def _append_rows(csv_path: Path, rows: list[tuple[str, float]]) -> None:
@@ -84,12 +90,20 @@ def _load_image(path: Path) -> Image.Image:
         raise RuntimeError(f"failed to decode image: {path}") from exc
 
 
-def _save_json_atomic(path: Path, payload: dict) -> None:
+def _save_json_atomic(path: Path, payload: dict | list[dict[str, object]]) -> None:
     temporary = path.with_name(f".{path.name}.{os.getpid()}.partial")
     with temporary.open("w", encoding="utf-8", newline="\n") as handle:
         json.dump(payload, handle, ensure_ascii=False, indent=2, sort_keys=True)
         handle.write("\n")
     os.replace(temporary, path)
+
+
+def _write_submission_json(csv_path: Path, json_path: Path) -> None:
+    payload = [
+        {"image_path": image_name, "pred": score}
+        for image_name, score in _read_rows(csv_path)
+    ]
+    _save_json_atomic(json_path, payload)
 
 
 @contextmanager
@@ -116,11 +130,13 @@ def _prepare_output(
     out_dir: Path,
     overwrite: bool,
     metadata: dict,
-) -> tuple[Path, Path, set[str]]:
+) -> tuple[Path, Path, Path, set[str]]:
     csv_path = out_dir / "predictions.csv"
+    submission_json_path = out_dir / "predictions.json"
     metadata_path = out_dir / "predictions.meta.json"
     if overwrite:
         csv_path.unlink(missing_ok=True)
+        submission_json_path.unlink(missing_ok=True)
         metadata_path.unlink(missing_ok=True)
 
     if metadata_path.exists():
@@ -137,7 +153,7 @@ def _prepare_output(
         raise ValueError(
             f"found {csv_path} without matching metadata; pass --overwrite to replace it"
         )
-    return csv_path, metadata_path, _load_processed(csv_path)
+    return csv_path, submission_json_path, metadata_path, _load_processed(csv_path)
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -163,7 +179,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--overwrite",
         action="store_true",
-        help="replace predictions.csv instead of resuming it",
+        help="replace existing prediction outputs instead of resuming them",
     )
     return parser
 
@@ -219,7 +235,7 @@ def _run(args: argparse.Namespace) -> None:
     )
 
     with _exclusive_output_lock(out_dir):
-        csv_path, metadata_path, processed = _prepare_output(
+        csv_path, submission_json_path, metadata_path, processed = _prepare_output(
             out_dir=out_dir,
             overwrite=args.overwrite,
             metadata=metadata,
@@ -230,9 +246,12 @@ def _run(args: argparse.Namespace) -> None:
             if path.relative_to(images_dir).as_posix() not in processed
         ]
         if not remaining:
+            _write_submission_json(csv_path, submission_json_path)
             print(f"All {len(image_paths)} images are already present in {csv_path}")
+            print(f"Submission JSON: {submission_json_path}")
             return
 
+        submission_json_path.unlink(missing_ok=True)
         print(f"Images: {len(image_paths)} total, {len(processed)} already processed")
         model = Model(
             device=device,
@@ -272,7 +291,9 @@ def _run(args: argparse.Namespace) -> None:
                     buffered_rows.clear()
 
         _append_rows(csv_path, buffered_rows)
+        _write_submission_json(csv_path, submission_json_path)
         print(f"Finished: {csv_path}")
+        print(f"Submission JSON: {submission_json_path}")
 
 
 def main(argv: list[str] | None = None) -> None:

@@ -139,6 +139,7 @@ The CLI recursively reads JPEG, PNG, BMP, WebP, and TIFF files and creates:
 ```text
 outputs/predictions/
 ├─ predictions.csv
+├─ predictions.json
 └─ predictions.meta.json
 ```
 
@@ -147,8 +148,21 @@ image_name,score
 collection/example.jpg,0.873421
 ```
 
+The completed run also writes the Track 5 submission format:
+
+```json
+[
+  {
+    "image_path": "collection/example.jpg",
+    "pred": 0.873421
+  }
+]
+```
+
 - `image_name` is a POSIX-style path relative to `--images-dir`.
 - `score` is the continuous ensemble output in the range `[0, 1]`.
+- `predictions.json` mirrors the completed CSV as `image_path` / `pred`
+  records for the TikTok TechJam evaluator.
 - `predictions.meta.json` binds resumable output to its input root and weight
   manifest.
 - Rerun the same command to resume, or pass `--overwrite` to begin again.
@@ -229,6 +243,25 @@ steps, and evidence limitations are in
 [`submission/REPRODUCE.md`](submission/REPRODUCE.md). Dataset-derived rows,
 individual scores, local paths, and protected data are intentionally excluded
 from the public package.
+
+## Hackathon reflection
+
+The hardest part was not producing another headline accuracy number; it was
+keeping every claim attached to the split and experiment that actually supports
+it. We separated the protected V1 result, retrospective V2 robustness study,
+and blocked V3 plan so calibration data, unavailable organizer data, and final
+test evidence could not silently blend together.
+
+We also learned that robustness is conditional. Compression, resizing, and
+screenshot-like transformations affect datasets differently, while a lower
+threshold improves fake recall by accepting more false positives. That is why
+SynthFlag exposes a continuous score, documents the operating point, and treats
+the output as review evidence rather than an automatic verdict.
+
+Given more time, we would deploy a durable GPU-backed public inference worker,
+evaluate the frozen detector on the exact organizer validation source once it
+is legitimately available, expand representative error slices, and add an
+abstention policy for uncertain or unfamiliar domains.
 
 ## Research, citation, and responsible use
 

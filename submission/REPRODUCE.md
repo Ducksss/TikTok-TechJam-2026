@@ -80,6 +80,8 @@ specific CUDA device, pass `--device cuda:0`.
 The command recursively reads JPEG, PNG, BMP, WebP, and TIFF files. It writes:
 
 - `outputs/predictions/predictions.csv` with `image_name,score`;
+- `outputs/predictions/predictions.json` with the Track 5 `image_path,pred`
+  record contract; and
 - `outputs/predictions/predictions.meta.json` with the input root, checkpoint
   identity, runtime versions, preprocessing ID, device, and batch size.
 
@@ -92,10 +94,14 @@ relative filename.
 ```bash
 head -n 5 outputs/predictions/predictions.csv
 .venv/bin/python -m json.tool \
+  outputs/predictions/predictions.json >/dev/null
+.venv/bin/python -m json.tool \
   outputs/predictions/predictions.meta.json >/dev/null
 ```
 
-Every score must be finite and in `[0, 1]`. The CLI validates this before
+`predictions.json` is written atomically when the directory run completes. It
+is a JSON array whose records have a POSIX-style relative `image_path` and a
+continuous `pred` value in `[0, 1]`. The CLI validates every score before
 writing.
 
 ## 6. Run through the Python API

@@ -23,7 +23,7 @@ presentation.
 | Path | Responsibility | Source-of-truth status |
 |---|---|---|
 | `infer/model.py` | Architecture, preprocessing, checkpoint verification, score computation | Authoritative released inference behavior |
-| `infer/cli.py` | Recursive batch discovery, run locking, resumability, CSV and metadata output | Authoritative CLI behavior |
+| `infer/cli.py` | Recursive batch discovery, run locking, resumability, CSV, Track 5 JSON, and metadata output | Authoritative CLI behavior |
 | `service/app.py` | Optional FastAPI health and single-image analysis service | Authoritative Python HTTP behavior |
 | `landing-page/app/api/analyze/route.ts` | Same-origin proxy and timeout/error mapping | Authoritative web proxy behavior |
 | `landing-page/app/try/page.tsx` | Browser file validation, service state, result presentation | Authoritative UI behavior |
@@ -111,7 +111,9 @@ The `synthflag-infer` command recursively discovers supported images in sorted
 path order, verifies all checkpoints before constructing the model, acquires an
 exclusive output-directory lock, and writes:
 
-- `predictions.csv` with `image_name,score`; and
+- `predictions.csv` with `image_name,score`;
+- `predictions.json` with completed-run `image_path,pred` records for the
+  TikTok TechJam Track 5 evaluator; and
 - `predictions.meta.json` with protocol, package/runtime versions,
   preprocessing identity, checkpoint identity, device, AMP, and batch size.
 
