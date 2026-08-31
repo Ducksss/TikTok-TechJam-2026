@@ -1,5 +1,7 @@
 'use client';
 
+/* oxlint-disable jsx-a11y/prefer-tag-over-role -- A Field may be nested or represent one control; forcing fieldset would create invalid nesting. */
+
 import { useMemo } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 

@@ -1,4 +1,6 @@
 import * as React from 'react';
+
+/* oxlint-disable jsx-a11y/prefer-tag-over-role -- Items support polymorphic render targets, so a fixed ul/li structure would be incorrect. */
 import { mergeProps } from '@base-ui/react/merge-props';
 import { useRender } from '@base-ui/react/use-render';
 import { cva, type VariantProps } from 'class-variance-authority';
