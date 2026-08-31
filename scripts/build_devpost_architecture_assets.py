@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build deterministic SynthFlag Devpost architecture SVG assets.
+"""Build deterministic SynthFlag Devpost technical SVG assets.
 
 The output is intentionally text-first and code-generated: the labels, metrics,
 and diagram routing need to remain exact and reviewable. PNG export is handled
@@ -623,11 +623,316 @@ def build_threshold_tradeoff(theme: Theme) -> str:
     return svg.finish()
 
 
+def build_evidence_boundary_map(theme: Theme) -> str:
+    svg = Svg(
+        theme,
+        "SynthFlag evidence boundary map",
+        "A five-layer map separating research lineage, executed release behavior, protected V1 results, retrospective V2 development evidence, and blocked V3 evidence.",
+    )
+    add_brand_header(
+        svg,
+        "Evidence boundary map",
+        "Five evidence classes. Zero silent promotion.",
+        "Every public claim stays attached to the source that can actually support it.",
+    )
+
+    layers = [
+        (
+            "01",
+            "RESEARCH LINEAGE",
+            ["FeatDistill method", "+ checkpoints"],
+            ["Credits UESTC detector", "architecture + weights", "Not runtime evidence"],
+            theme.sky,
+        ),
+        (
+            "02",
+            "EXECUTED RELEASE",
+            ["Current modules", "under infer/"],
+            ["Defines preprocessing,", "topology, fusion,", "and output behavior"],
+            theme.blue,
+        ),
+        (
+            "03",
+            "V1 • PROTECTED FINAL",
+            ["7,998 held-out", "images"],
+            ["Complete checksum-bound", "protected evidence", "Threshold frozen first"],
+            theme.green,
+        ),
+        (
+            "04",
+            "V2 • RETROSPECTIVE DEV",
+            ["2,004 calibration", "rows"],
+            ["Cross-fitted robustness", "+ transfer study", "Not protected final"],
+            theme.amber,
+        ),
+        (
+            "05",
+            "V3 • BLOCKED",
+            ["Exact organizer", "source absent"],
+            ["No substitute dataset", "No performance metric"],
+            theme.red,
+        ),
+    ]
+    for index, (number, label, title_lines, details, color) in enumerate(layers):
+        x = 64 + index * 282
+        svg.rect(x, 278, 258, 520, stroke=color, stroke_width=2.5, shadow=True)
+        svg.circle(x + 36, 316, 21, fill=color)
+        svg.text(
+            x + 36,
+            322,
+            number,
+            size=14,
+            color="#FFFFFF" if color != theme.amber else "#111827",
+            weight=800,
+            anchor="middle",
+        )
+        svg.pill(
+            x + 24,
+            354,
+            210,
+            label,
+            fill=theme.card_alt,
+            text_color=color,
+            stroke=color,
+            height=38,
+            size=12,
+        )
+        svg.multiline(x + 24, 438, title_lines, size=22, weight=800, leading=1.22)
+        svg.line(x + 24, 492, x + 234, 492, color=theme.line, width=1.5)
+        svg.multiline(x + 24, 532, details, size=15, color=theme.muted, weight=600, leading=1.5)
+        status = (
+            "ATTRIBUTED"
+            if index == 0
+            else "AUTHORITATIVE"
+            if index == 1
+            else "AVAILABLE"
+            if index in (2, 3)
+            else "UNAVAILABLE"
+        )
+        svg.pill(
+            x + 24,
+            716,
+            210,
+            status,
+            fill=color,
+            text_color="#FFFFFF" if color != theme.amber else "#111827",
+            height=40,
+            size=13,
+        )
+        if index < len(layers) - 1:
+            svg.line(x + 260, 538, x + 276, 538, color=theme.sky, width=3, arrow=True)
+
+    svg.rect(150, 836, 1236, 100, fill=theme.card_alt, stroke=theme.line, radius=22)
+    svg.pill(178, 866, 166, "CLAIM RULE", fill=theme.blue, text_color="#FFFFFF", height=38, size=14)
+    svg.text(378, 895, "Paper facts ≠ code behavior ≠ protected results ≠ planned work.", size=25, weight=800)
+    add_footer(svg, "Source: AGENTS.md • submission/BENCHMARKS.md • docs/IMPLEMENTATION_PROVENANCE.md")
+    return svg.finish()
+
+
+def build_output_contract(theme: Theme) -> str:
+    svg = Svg(
+        theme,
+        "SynthFlag reproducible output contract",
+        "The CLI converts a verified image run into resumable CSV, atomic Track 5 JSON, and metadata tied to checkpoint identity without publishing pixels or private scores.",
+    )
+    add_brand_header(
+        svg,
+        "Reproducible output contract",
+        "A score is useful only when its run can be audited.",
+        "Checkpoint identity, resumable rows, evaluator JSON, and provenance metadata travel together.",
+    )
+
+    svg.rect(64, 274, 286, 480, stroke=theme.line, shadow=True)
+    add_section_label(svg, 88, 316, "1", "Run identity")
+    svg.pill(88, 350, 238, "CHECKPOINT SET", fill=theme.blue_soft, text_color=theme.sky, stroke=theme.line, height=38, size=14)
+    svg.text(88, 420, "4 × size + SHA-256", size=26, weight=800)
+    svg.multiline(88, 462, ["Input root identity", "Preprocessing contract", "Device + runtime"], size=18, color=theme.muted, weight=600, leading=1.6)
+    svg.rect(88, 616, 238, 92, fill=theme.card_alt, stroke=theme.amber, radius=16)
+    svg.text(108, 650, "EXCLUSIVE LOCK", size=14, color=theme.amber, weight=800, letter_spacing=1.1)
+    svg.text(108, 682, "one writer per output dir", size=16, weight=700)
+
+    artifacts = [
+        (
+            398,
+            "predictions.csv",
+            ["image_name", "score"],
+            "append + fsync",
+            theme.green,
+        ),
+        (
+            758,
+            "predictions.json",
+            ["image_path", "pred"],
+            "atomic at completion",
+            theme.blue,
+        ),
+        (
+            1118,
+            "predictions.meta.json",
+            ["run configuration", "checkpoint identity"],
+            "resume guard",
+            theme.sky,
+        ),
+    ]
+    for index, (x, filename, fields, behavior, color) in enumerate(artifacts, start=2):
+        svg.rect(x, 274, 306, 480, stroke=color, stroke_width=2.5, shadow=True)
+        add_section_label(svg, x + 22, 316, str(index), "Artifact")
+        svg.text(x + 22, 390, filename, size=23, color=color, weight=800)
+        svg.line(x + 22, 416, x + 284, 416, color=theme.line, width=1.5)
+        for field_index, field in enumerate(fields):
+            field_y = 454 + field_index * 70
+            svg.rect(x + 22, field_y, 262, 50, fill=theme.card_alt, stroke=theme.line, radius=12)
+            svg.text(x + 42, field_y + 32, field, size=17, weight=700, family="SFMono-Regular, Menlo, monospace")
+        svg.pill(x + 22, 626, 262, behavior.upper(), fill=theme.blue_soft, text_color=color, stroke=theme.line, height=38, size=12)
+        svg.text(x + 22, 700, "public contract", size=16, color=theme.muted, weight=600)
+    for x1, x2 in ((350, 398), (704, 758), (1064, 1118)):
+        svg.line(x1 + 6, 514, x2 - 12, 514, color=theme.sky, width=3, arrow=True)
+
+    svg.rect(64, 800, 1408, 136, fill=theme.card_alt, stroke=theme.line, radius=22)
+    svg.pill(88, 828, 174, "PUBLIC OUTPUT", fill=theme.green, text_color="#FFFFFF", height=36, size=13)
+    svg.text(286, 856, "Relative paths + continuous scores + run provenance", size=22, weight=800)
+    svg.pill(88, 878, 174, "EXCLUDED", fill=theme.red, text_color="#FFFFFF", height=36, size=13)
+    svg.text(286, 906, "Dataset pixels • checkpoint binaries • protected split rows • per-image protected scores", size=18, color=theme.muted, weight=600)
+    add_footer(svg, "Source: infer/outputs.py • infer/cli.py • submission/RELEASE_AUDIT.md")
+    return svg.finish()
+
+
+def build_responsible_use_flow(theme: Theme) -> str:
+    svg = Svg(
+        theme,
+        "SynthFlag responsible-use decision flow",
+        "A continuous score passes through explicit threshold policy, context review, and human judgment; it is not proof, generator attribution, or localization.",
+    )
+    add_brand_header(
+        svg,
+        "Responsible-use flow",
+        "Evidence supports a decision. It does not replace one.",
+        "SynthFlag keeps model output, deployment policy, context, and human judgment visibly separate.",
+    )
+
+    steps = [
+        (64, "1", "MODEL SIGNAL", ["Continuous 0 → 1", "score"], ["Same four-expert mean", "No hard label in the CLI"], theme.sky),
+        (414, "2", "POLICY", ["Choose an", "operating point"], ["0.5 or calibrated 0.28747", "Match false-positive costs"], theme.blue),
+        (764, "3", "CONTEXT REVIEW", ["Ask what changed", "the pixels"], ["Compression • resize", "screenshots • new generators", "unfamiliar domains"], theme.amber),
+        (1114, "4", "HUMAN DECISION", ["Use judgment +", "other evidence"], ["Escalate consequential cases", "Record uncertainty"], theme.green),
+    ]
+    for x, number, label, title_lines, details, color in steps:
+        svg.rect(x, 292, 300, 430, stroke=color, stroke_width=2.5, shadow=True)
+        svg.circle(x + 38, 330, 22, fill=color)
+        svg.text(x + 38, 337, number, size=15, color="#FFFFFF" if color != theme.amber else "#111827", weight=800, anchor="middle")
+        svg.text(x + 74, 337, label, size=15, color=color, weight=800, letter_spacing=1.2)
+        svg.multiline(x + 24, 410, title_lines, size=24, weight=800, leading=1.15)
+        svg.line(x + 24, 478, x + 276, 478, color=theme.line, width=1.5)
+        svg.multiline(x + 24, 520, details, size=16, color=theme.muted, weight=600, leading=1.45)
+        if number == "1":
+            svg.text(x + 150, 638, "0 ━━━━━ 1", size=25, color=theme.sky, weight=800, anchor="middle")
+        elif number == "2":
+            svg.pill(x + 52, 608, 196, "THRESHOLD ≠ SCORE", fill=theme.blue_soft, text_color=color, stroke=theme.line, height=38, size=12)
+        elif number == "3":
+            svg.pill(x + 52, 608, 196, "DOMAIN MATTERS", fill=theme.card_alt, text_color=color, stroke=color, height=38, size=12)
+        else:
+            svg.circle(x + 150, 628, 28, fill=theme.green)
+            svg.path(f"M{x + 136} 628 L{x + 147} 639 L{x + 166} 616", stroke="#FFFFFF", width=5)
+    for start in (364, 714, 1064):
+        svg.line(start + 8, 510, start + 38, 510, color=theme.sky, width=4, arrow=True)
+
+    svg.rect(64, 770, 1408, 166, fill=theme.card_alt, stroke=theme.red, radius=22, stroke_width=2.5)
+    svg.pill(90, 798, 170, "NOT A CLAIM", fill=theme.red, text_color="#FFFFFF", height=38, size=14)
+    exclusions = ["PROOF OF ORIGIN", "GENERATOR ATTRIBUTION", "LOCALIZATION", "UNIVERSAL CALIBRATION"]
+    for index, exclusion in enumerate(exclusions):
+        x = 292 + index * 286
+        svg.rect(x, 798, 260, 50, fill=theme.card, stroke=theme.line, radius=14)
+        svg.text(x + 130, 830, exclusion, size=13, color=theme.red, weight=800, anchor="middle", letter_spacing=0.5)
+    svg.text(90, 894, "For consequential use, combine the signal with provenance, policy, and human review.", size=22, weight=800)
+    add_footer(svg, "Source: submission/MODEL_CARD.md • submission/README.md • released CLI contract")
+    return svg.finish()
+
+
+def build_video_pipeline(theme: Theme) -> str:
+    svg = Svg(
+        theme,
+        "SynthFlag short-video sampled-frame pipeline",
+        "A one-to-ten-second MP4 or WebM is decoded in the browser into eight midpoint 384-pixel crops; ordered frames are scored in two-frame microbatches and returned as a timeline plus descriptive summary.",
+    )
+    add_brand_header(
+        svg,
+        "Short-video pipeline",
+        "Eight local samples. One inspectable timeline.",
+        "The raw video stays in the browser; only ordered midpoint crops are sent for image-model scoring.",
+    )
+
+    # Source card.
+    svg.rect(64, 278, 260, 470, stroke=theme.line, shadow=True)
+    add_section_label(svg, 88, 320, "1", "Local video")
+    svg.rect(88, 354, 212, 142, fill=theme.card_alt, stroke=theme.line, radius=16)
+    svg.path("M118 386 L118 464 L184 425 Z", fill=theme.sky)
+    svg.text(210, 408, "MP4 / WebM", size=18, weight=800)
+    svg.text(210, 438, "1–10 seconds", size=16, color=theme.muted, weight=600)
+    svg.text(210, 466, "≤ 50 MB", size=16, color=theme.muted, weight=600)
+    svg.pill(88, 530, 212, "DECODE IN BROWSER", fill=theme.blue, text_color="#FFFFFF", height=38, size=13)
+    svg.multiline(88, 604, ["Original video", "never uploaded"], size=23, color=theme.green, weight=800, leading=1.25)
+
+    # Eight samples.
+    svg.rect(368, 278, 474, 470, stroke=theme.blue, stroke_width=2.5, shadow=True)
+    add_section_label(svg, 392, 320, "2", "Eight midpoint crops")
+    for index in range(8):
+        row = index // 4
+        col = index % 4
+        x = 392 + col * 104
+        y = 368 + row * 128
+        svg.rect(x, y, 88, 88, fill=theme.card_alt, stroke=theme.line, radius=12)
+        svg.text(x + 44, y + 40, f"F{index + 1}", size=17, color=theme.sky, weight=800, anchor="middle")
+        svg.text(x + 44, y + 66, "384²", size=13, color=theme.muted, weight=700, anchor="middle")
+        svg.text(x + 44, y + 110, f"{index + 0.5}/8", size=13, color=theme.muted, weight=600, anchor="middle")
+    svg.line(414, 654, 798, 654, color=theme.line, width=3)
+    for index in range(8):
+        x = 414 + index * 54.8
+        svg.circle(x, 654, 7, fill=theme.sky)
+    svg.text(392, 704, "ordered timestamps + PNG crops", size=17, color=theme.muted, weight=700)
+
+    # Service scoring.
+    svg.rect(886, 278, 290, 470, stroke=theme.sky, stroke_width=2.5, shadow=True)
+    add_section_label(svg, 910, 320, "3", "Score frames")
+    svg.pill(910, 354, 242, "/v1/analyze-frames", fill=theme.blue_soft, text_color=theme.sky, stroke=theme.line, height=38, size=14)
+    svg.text(910, 430, "2-frame microbatches", size=24, weight=800)
+    for batch in range(4):
+        y = 470 + batch * 50
+        svg.rect(910, y, 242, 36, fill=theme.card_alt, stroke=theme.line, radius=10)
+        svg.text(930, y + 24, f"batch {batch + 1}", size=14, color=theme.muted, weight=700)
+        svg.text(1128, y + 24, f"F{batch * 2 + 1} + F{batch * 2 + 2}", size=14, color=theme.sky, weight=800, anchor="end")
+    svg.text(910, 700, "same inference lock", size=16, color=theme.muted, weight=600)
+
+    # Result.
+    svg.rect(1220, 278, 252, 470, stroke=theme.green, stroke_width=2.5, shadow=True)
+    add_section_label(svg, 1244, 320, "4", "Inspect")
+    outputs = ["8 frame scores", "arithmetic mean", "peak + timestamp", "count above threshold"]
+    for index, label in enumerate(outputs):
+        y = 374 + index * 70
+        svg.circle(1264, y - 6, 9, fill=theme.green)
+        svg.text(1288, y, label, size=16, weight=700)
+    svg.pill(1244, 654, 204, "TIMELINE + SUMMARY", fill=theme.green, text_color="#FFFFFF", height=38, size=12)
+    svg.text(1244, 710, "descriptive output", size=16, color=theme.muted, weight=600)
+
+    for x1, x2 in ((324, 368), (842, 886), (1176, 1220)):
+        svg.line(x1 + 6, 514, x2 - 12, 514, color=theme.sky, width=4, arrow=True)
+
+    svg.rect(64, 796, 1408, 140, fill=theme.card_alt, stroke=theme.amber, radius=22, stroke_width=2.5)
+    svg.pill(88, 824, 174, "BOUNDARY", fill=theme.amber, text_color="#111827", height=38, size=14)
+    svg.text(294, 852, "Independent image scores summarized across time", size=24, weight=800)
+    svg.text(294, 894, "Not audio analysis • not motion analysis • not provenance proof • not a calibrated video probability", size=18, color=theme.muted, weight=600)
+    add_footer(svg, "Source: landing-page/lib/video-analysis.ts • /api/analyze-video • service/app.py")
+    return svg.finish()
+
+
 BUILDERS = {
     "06-system-architecture": build_system_architecture,
     "07-ensemble-anatomy": build_ensemble_anatomy,
     "08-decision-register": build_decision_register,
     "09-threshold-tradeoff": build_threshold_tradeoff,
+    "10-evidence-boundary-map": build_evidence_boundary_map,
+    "11-output-contract": build_output_contract,
+    "12-responsible-use-flow": build_responsible_use_flow,
+    "13-video-pipeline": build_video_pipeline,
 }
 
 
