@@ -19,7 +19,7 @@ named `synthflag-infer`.
 - [Release audit](RELEASE_AUDIT.md)
 - [Implementation provenance](../docs/IMPLEMENTATION_PROVENANCE.md)
 - [Devpost thumbnail](media/synthflag-devpost-thumbnail.png)
-- [Devpost gallery screenshots](media/devpost-gallery/)
+- [Devpost gallery screenshots and architecture asset set](media/devpost-gallery/README.md)
 - [Machine-readable and source-report evidence](evidence/)
 
 ## Result in one sentence

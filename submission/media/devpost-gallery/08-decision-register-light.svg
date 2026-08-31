@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1536" height="1024" viewBox="0 0 1536 1024" role="img" aria-labelledby="title desc">
+<title id="title">SynthFlag model decision register</title>
+<desc id="desc">Four evidence-labeled decisions: keep equal-mean fusion, adopt an independently selected threshold, reject learned disagreement fusion after three leave-one-dataset-out failures, and block V3 without the exact organizer dataset.</desc>
+<defs>
+<pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M 32 0 L 0 0 0 32" fill="none" stroke="#DDE7FA" stroke-width="1" opacity="0.55"/></pattern>
+<filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="12" stdDeviation="18" flood-color="#000000" flood-opacity="0.1"/></filter>
+<marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L12,6 L0,12 Z" fill="#2970FF"/></marker>
+</defs>
+<rect width="1536" height="1024" fill="#F4F7FE"/>
+<rect width="1536" height="1024" fill="url(#grid)"/>
+<rect x="64" y="49" width="8" height="20" rx="4" fill="#0040C1"/>
+<rect x="76" y="39" width="8" height="30" rx="4" fill="#0040C1"/>
+<rect x="88" y="27" width="8" height="42" rx="4" fill="#0040C1"/>
+<rect x="100" y="15" width="8" height="54" rx="4" fill="#2970FF"/>
+<text x="124" y="66" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="28" font-weight="800" fill="#111827" text-anchor="start">SynthFlag</text>
+<rect x="1308" y="38" width="164" height="38" rx="19.0" fill="#DCE8FF" stroke="#C4D5F3" stroke-width="1.5"/>
+<text x="1390.0" y="62.1" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="15" font-weight="700" fill="#0040C1" text-anchor="middle" letter-spacing="0.7">TECHJAM 2026</text>
+<text x="64" y="125" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="17" font-weight="800" fill="#2970FF" text-anchor="start" letter-spacing="2.2">MODEL DECISION REGISTER</text>
+<text x="64" y="172" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="43" font-weight="800" fill="#111827" text-anchor="start">What shipped—and what the evidence stopped.</text>
+<text x="64" y="210" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="20" font-weight="500" fill="#53627A" text-anchor="start">Each decision carries its evidence boundary so a promising experiment cannot quietly become a production claim.</text>
+<line x1="64" y1="226" x2="1472" y2="226" stroke="#C4D5F3" stroke-width="2" stroke-linecap="round"/>
+<rect x="64" y="266" width="688" height="264" rx="24" fill="#FFFFFF" stroke="#087A55" stroke-width="2.5" filter="url(#shadow)"/>
+<circle cx="108" cy="312" r="24" fill="#087A55"/>
+<text x="108" y="319" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="15" font-weight="800" fill="#FFFFFF" text-anchor="middle">01</text>
+<rect x="148" y="293" width="136" height="38" rx="19.0" fill="#087A55"/>
+<text x="216.0" y="316.76" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle" letter-spacing="0.7">KEPT</text>
+<text x="92" y="380" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="29" font-weight="800" fill="#111827" text-anchor="start">Transparent equal mean</text>
+<rect x="784" y="266" width="688" height="264" rx="24" fill="#FFFFFF" stroke="#0040C1" stroke-width="2.5" filter="url(#shadow)"/>
+<circle cx="828" cy="312" r="24" fill="#0040C1"/>
+<text x="828" y="319" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="15" font-weight="800" fill="#FFFFFF" text-anchor="middle">02</text>
+<rect x="868" y="293" width="136" height="38" rx="19.0" fill="#0040C1"/>
+<text x="936.0" y="316.76" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle" letter-spacing="0.7">ADOPTED</text>
+<text x="812" y="380" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="29" font-weight="800" fill="#111827" text-anchor="start">Threshold as deployment policy</text>
+<rect x="64" y="568" width="688" height="264" rx="24" fill="#FFFFFF" stroke="#C83349" stroke-width="2.5" filter="url(#shadow)"/>
+<circle cx="108" cy="614" r="24" fill="#C83349"/>
+<text x="108" y="621" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="15" font-weight="800" fill="#FFFFFF" text-anchor="middle">03</text>
+<rect x="148" y="595" width="136" height="38" rx="19.0" fill="#C83349"/>
+<text x="216.0" y="618.76" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle" letter-spacing="0.7">REJECTED</text>
+<text x="92" y="682" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="29" font-weight="800" fill="#111827" text-anchor="start">Learned disagreement fusion</text>
+<rect x="784" y="568" width="688" height="264" rx="24" fill="#FFFFFF" stroke="#A06400" stroke-width="2.5" filter="url(#shadow)"/>
+<circle cx="828" cy="614" r="24" fill="#A06400"/>
+<text x="828" y="621" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="middle">04</text>
+<rect x="868" y="595" width="136" height="38" rx="19.0" fill="#A06400"/>
+<text x="936.0" y="618.76" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="14" font-weight="700" fill="#111827" text-anchor="middle" letter-spacing="0.7">BLOCKED</text>
+<text x="812" y="682" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="29" font-weight="800" fill="#111827" text-anchor="start">V3 performance evidence</text>
+<text x="92" y="424" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="28" font-weight="800" fill="#087A55" text-anchor="start">(P3 + P4 + P1 + P2) / 4</text>
+<text x="92" y="464.0" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="17" font-weight="500" fill="#53627A" text-anchor="start">Auditable • stable across domains</text>
+<text x="92" y="489.5" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="17" font-weight="500" fill="#53627A" text-anchor="start">No learned gate or hidden expert weights</text>
+<text x="812" y="416.0" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="19" font-weight="600" fill="#53627A" text-anchor="start">Continuous model score</text>
+<text x="812" y="441.08" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="19" font-weight="600" fill="#53627A" text-anchor="start">↓</text>
+<text x="812" y="466.16" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="19" font-weight="600" fill="#53627A" text-anchor="start">independently selected operating point</text>
+<rect x="1176" y="404" width="246" height="48" rx="24.0" fill="#DCE8FF" stroke="#C4D5F3" stroke-width="1.5"/>
+<text x="1299.0" y="434.46" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="19" font-weight="700" fill="#0040C1" text-anchor="middle" letter-spacing="0.7">0.2874746155</text>
+<text x="812" y="500" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="17" font-weight="700" fill="#111827" text-anchor="start">Same model; policy changes downstream decisions.</text>
+<text x="92" y="718" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="22" font-weight="800" fill="#C83349" text-anchor="start">Pooled AUC: 0.8661 → 0.8752</text>
+<text x="92" y="754" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="17" font-weight="600" fill="#53627A" text-anchor="start">But every held-out dataset lost:</text>
+<rect x="92" y="780" width="178" height="48" rx="12" fill="#EDF3FF" stroke="#C4D5F3" stroke-width="2"/>
+<text x="106" y="810" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="14" font-weight="700" fill="#111827" text-anchor="start">CIFAKE</text>
+<text x="256" y="810" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="14" font-weight="800" fill="#C83349" text-anchor="end">−0.0614</text>
+<rect x="288" y="780" width="178" height="48" rx="12" fill="#EDF3FF" stroke="#C4D5F3" stroke-width="2"/>
+<text x="302" y="810" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="14" font-weight="700" fill="#111827" text-anchor="start">SID_Set</text>
+<text x="452" y="810" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="14" font-weight="800" fill="#C83349" text-anchor="end">−0.2198</text>
+<rect x="484" y="780" width="178" height="48" rx="12" fill="#EDF3FF" stroke="#C4D5F3" stroke-width="2"/>
+<text x="498" y="810" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="14" font-weight="700" fill="#111827" text-anchor="start">WildFake</text>
+<text x="648" y="810" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="14" font-weight="800" fill="#C83349" text-anchor="end">−0.0842</text>
+<text x="812" y="718" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="22" font-weight="800" fill="#A06400" text-anchor="start">Exact organizer DALL-E Advanced set</text>
+<text x="812" y="752" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="18" font-weight="600" fill="#53627A" text-anchor="start">8,843 required fake images are absent.</text>
+<rect x="812" y="780" width="612" height="48" rx="12" fill="#EDF3FF" stroke="#A06400" stroke-width="2"/>
+<text x="836" y="810" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="start">V3 metric</text>
+<text x="1398" y="810" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="17" font-weight="800" fill="#A06400" text-anchor="end">—  unavailable</text>
+<rect x="64" y="866" width="1408" height="70" rx="18" fill="#EDF3FF" stroke="#C4D5F3" stroke-width="2"/>
+<text x="92" y="909" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="17" font-weight="800" fill="#2970FF" text-anchor="start">Evidence rule</text>
+<text x="226" y="909" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="21" font-weight="700" fill="#111827" text-anchor="start">A pooled gain is not a production win when domain-transfer guardrails fail.</text>
+<line x1="64" y1="970" x2="1472" y2="970" stroke="#C4D5F3" stroke-width="1.5" stroke-linecap="round"/>
+<text x="64" y="998" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="15" font-weight="500" fill="#53627A" text-anchor="start">Source: submission/BENCHMARKS.md • protected V1, retrospective V2, blocked V3</text>
+<text x="1472" y="998" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="15" font-weight="700" fill="#2970FF" text-anchor="end">Evidence before certainty</text>
+</svg>
