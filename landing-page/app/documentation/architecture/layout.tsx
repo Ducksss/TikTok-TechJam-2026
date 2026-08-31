@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'SynthFlag engineering architecture atlas',
     description:
-      'Eight source-checked diagrams covering the detector from browser request to checkpoint-backed inference and durable batch output.',
+      'Eleven source-checked diagrams covering browser requests, exact CLIP and SigLIP internals, external DINOv3 challenge context, checkpoint-backed inference, and durable batch output.',
     type: 'article',
     url: '/documentation/architecture',
     images: [

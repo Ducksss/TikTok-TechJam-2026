@@ -10,6 +10,8 @@ import './architecture.css';
 
 const paperUrl = 'https://arxiv.org/html/2604.11487v1';
 const repositoryUrl = 'https://github.com/Ducksss/TikTok-TechJam-2026';
+const dinoModelCardUrl =
+  'https://github.com/facebookresearch/dinov3/blob/main/MODEL_CARD.md';
 
 const contents = [
   ['overall', 'Overall system'],
@@ -17,6 +19,9 @@ const contents = [
   ['runtime', 'Worker lifecycle'],
   ['checkpoints', 'Checkpoint gates'],
   ['tensors', 'Tensor contract'],
+  ['deep-model', 'Full model graph'],
+  ['expert-anatomy', 'Expert anatomy'],
+  ['dinov3-context', 'DINOv3 context'],
   ['release', 'Release boundary'],
   ['operations', 'Operational states'],
   ['batch', 'Batch durability'],
@@ -36,13 +41,20 @@ type AtlasSection = {
   bullets: ReactNode[];
   evidence: Array<{ kind: EvidenceKind; label: string }>;
   file: string;
-  group: 'System' | 'Runtime and model contract' | 'Release and operations';
+  group:
+    | 'System'
+    | 'Runtime and model contract'
+    | 'Challenge context'
+    | 'Release and operations';
+  height?: number;
   id: (typeof contents)[number][0];
   kicker: string;
   lead: ReactNode;
   number: string;
   technical: ReactNode;
   title: string;
+  width?: number;
+  dense?: boolean;
 };
 
 const sections: AtlasSection[] = [
@@ -404,6 +416,278 @@ const sections: AtlasSection[] = [
     file: '11-tensor-contract.svg',
   },
   {
+    id: 'deep-model',
+    number: '15',
+    group: 'Runtime and model contract',
+    kicker: '06 · Maximal image-to-score trace',
+    title: 'Every released inference operation in one execution graph',
+    evidence: [
+      { kind: 'code', label: 'Released code' },
+      { kind: 'guidance', label: 'DINO boundary' },
+    ],
+    lead: (
+      <>
+        This is the densest single view of SynthFlag: upload gates, RGB decode,
+        both preprocessing lanes, patch embeddings, transformer dimensions,
+        checkpoint-specific heads, four float32 softmax paths, fusion, and the
+        scalar web response.
+      </>
+    ),
+    bullets: [
+      'CLIP turns a 224-pixel crop into 256 patches plus one class token, then runs 24 transformer layers at width 1,024.',
+      'SigLIP turns a 384-pixel crop into 729 patch tokens, then runs 27 transformer layers at width 1,152 and attention-pools with a learned probe.',
+      'The four experts share architecture by family but never share checkpoint parameters or classifier heads.',
+      'No DINO, DINOv2, or DINOv3 module exists in the released inference graph.',
+    ],
+    technical: (
+      <>
+        <p>
+          The four instantiated experts contain 1,465,369,736 parameters in
+          total: 304,163,586 per CLIP expert and 428,521,282 per SigLIP expert.
+          Those counts follow the pinned Transformers 5.3.0 module definitions
+          and the exact configs in <code>infer/model.py</code>.
+        </p>
+        <p>
+          Evaluation mode disables classifier dropout. Optional CUDA autocast
+          wraps the ensemble call, but every expert&apos;s two logits are cast
+          to float32 before <code>softmax(dim=1)</code>. The final operation
+          keeps the released arithmetic order:{' '}
+          <code>(P3 + P4 + P1 + P2) / 4</code>.
+        </p>
+      </>
+    ),
+    alternative: [
+      {
+        stage: 'Input and decode',
+        behavior:
+          'Accept JPEG, PNG, or WebP up to 10 MiB; verify dimensions and decode once to RGB.',
+        boundary: 'At least 32 px per side and at most 50 million pixels.',
+      },
+      {
+        stage: 'CLIP preprocessing',
+        behavior:
+          'Bicubic resize, 224 center crop, tensor conversion, and CLIP channel normalization.',
+        boundary: 'Produces [B,3,224,224] for experts 1 and 2.',
+      },
+      {
+        stage: 'CLIP experts 1 and 2',
+        behavior:
+          '256 patches plus CLS; 24 encoder blocks; CLS pool; 1,024-to-768 projection; 768-to-256-to-2 head.',
+        boundary:
+          'Same architecture, separate full checkpoints and parameters.',
+      },
+      {
+        stage: 'SigLIP preprocessing',
+        behavior:
+          'Bicubic resize, 384 center crop, tensor conversion, and 0.5 mean/std normalization.',
+        boundary: 'Produces [B,3,384,384] for experts 3 and 4.',
+      },
+      {
+        stage: 'SigLIP experts 3 and 4',
+        behavior:
+          '729 patches; 27 encoder blocks; learned-probe attention pool; 1,152-to-256-to-2 head.',
+        boundary:
+          'Same architecture, separate full checkpoints and parameters.',
+      },
+      {
+        stage: 'Fusion and web output',
+        behavior:
+          'Cast logits to float32, take class-1 softmax for each expert, and average four vectors.',
+        boundary:
+          'Web uses B=1 and returns one score; it is not calibrated proof.',
+      },
+      {
+        stage: 'DINO family',
+        behavior: 'No DINO-family module is instantiated or loaded.',
+        boundary:
+          'A future DINO design must be documented as a separate architecture.',
+      },
+    ],
+    alt: 'Maximal SynthFlag inference graph tracing an uploaded image through validation, RGB decoding, separate CLIP and SigLIP preprocessing, exact patch and transformer dimensions, four checkpoint-specific classifier heads, class-one softmax probabilities, arithmetic-mean fusion, and the scalar web response; a dashed boundary states that DINOv3 is not in the released path.',
+    file: '15-full-model-execution.svg',
+    width: 1920,
+    height: 1500,
+    dense: true,
+  },
+  {
+    id: 'expert-anatomy',
+    number: '16',
+    group: 'Runtime and model contract',
+    kicker: '07 · Transformer-level anatomy',
+    title:
+      'The two backbone families diverge at tokens, pooling, and feature width',
+    evidence: [
+      { kind: 'code', label: 'Released code' },
+      { kind: 'code', label: 'Pinned dependency' },
+    ],
+    lead: (
+      <>
+        A second zoomed view opens the repeated transformer blocks. It shows
+        query, key, and value projections, attention-head geometry, residual
+        paths, MLP widths and activations, then the different CLIP and SigLIP
+        pooling routes.
+      </>
+    ),
+    bullets: [
+      'CLIP uses 16 attention heads of width 64 and a 1,024→4,096→1,024 QuickGELU MLP inside each of 24 blocks.',
+      'SigLIP uses 16 attention heads of width 72 and a 1,152→4,304→1,152 GELU-tanh MLP inside each of 27 blocks.',
+      'CLIP selects and post-normalizes the CLS token before a bias-free 1,024→768 projection.',
+      'SigLIP post-normalizes every patch token and applies learned-probe multi-head attention pooling plus a residual MLP.',
+    ],
+    technical: (
+      <>
+        <p>
+          Both encoder families are pre-layer-normalized residual transformers:
+          layer norm → multi-head self-attention → residual add, followed by
+          layer norm → two-layer MLP → residual add. Configured attention
+          dropout is zero in both backbones.
+        </p>
+        <p>
+          The pooling-head detail comes from the pinned Transformers 5.3.0
+          implementation used by the release. The public inference path uses
+          only vision modules—there is no text encoder, contrastive similarity
+          stage, prompt, or generative decoder at scoring time.
+        </p>
+      </>
+    ),
+    alternative: [
+      {
+        stage: 'CLIP tokenization',
+        behavior:
+          '14-by-14 bias-free patch convolution creates 256 tokens; prepend CLS and add 257 learned positions.',
+        boundary: 'Token tensor is [B,257,1024].',
+      },
+      {
+        stage: 'CLIP encoder block ×24',
+        behavior:
+          'Pre-LN, 16-head Q/K/V self-attention, residual, pre-LN, QuickGELU MLP, residual.',
+        boundary: 'Head width 64; MLP width 4,096.',
+      },
+      {
+        stage: 'CLIP pooling',
+        behavior:
+          'Select CLS, post-LN, and apply bias-free 1,024-to-768 visual projection.',
+        boundary: 'Classifier receives [B,768].',
+      },
+      {
+        stage: 'SigLIP tokenization',
+        behavior:
+          '14-by-14 valid patch convolution creates 729 tokens and adds learned positions; no CLS token.',
+        boundary: 'Token tensor is [B,729,1152].',
+      },
+      {
+        stage: 'SigLIP encoder block ×27',
+        behavior:
+          'Pre-LN, 16-head Q/K/V self-attention, residual, pre-LN, GELU-tanh MLP, residual.',
+        boundary: 'Head width 72; MLP width 4,304.',
+      },
+      {
+        stage: 'SigLIP pooling',
+        behavior:
+          'Post-LN tokens; learned probe attends to every token, then layer norm, MLP, residual, and selection.',
+        boundary: 'Classifier receives [B,1152].',
+      },
+    ],
+    alt: 'Detailed comparison of CLIP and SigLIP patch embeddings, repeated pre-normalized transformer blocks with query, key, value attention and residual MLP paths, and their different class-token and learned-probe pooling mechanisms.',
+    file: '16-expert-anatomy.svg',
+    width: 1920,
+    height: 1350,
+    dense: true,
+  },
+  {
+    id: 'dinov3-context',
+    number: '17',
+    group: 'Challenge context',
+    kicker: '08 · External methods, clearly separated',
+    title: 'DINOv3 belongs to other NTIRE submissions—not SynthFlag',
+    evidence: [
+      { kind: 'paper', label: 'Challenge report' },
+      { kind: 'guidance', label: 'External architecture' },
+    ],
+    lead: (
+      <>
+        The challenge report also describes DINOv3 systems from MICV and Ant
+        International. This comparative figure gives their deepest supportable
+        image-to-score breakdown while keeping a hard boundary around the
+        released UESTC/SynthFlag runtime.
+      </>
+    ),
+    bullets: [
+      'MICV reports two committees—four DINOv3 backbones in one stream and two in another—followed by per-stream projection and MLP heads, then probability averaging.',
+      'Ant International reports two independently fine-tuned DINOv3-7B experts: a 512-pixel attention-pooling specialist and a 288-pixel first-token-pooling specialist.',
+      'The official DINOv3 ViT-7B/16 backbone uses width 4,096, 40 blocks, 32 attention heads, patch size 16, four register tokens, RoPE, and a SwiGLU feed-forward path.',
+      'Neither external method, its checkpoints, nor its preprocessing code is present in the SynthFlag repository or served by /try.',
+    ],
+    technical: (
+      <>
+        <p>
+          The NTIRE report gives high-level detector topology but leaves some
+          implementation details undisclosed. MICV does not name the six exact
+          DINOv3 variants or aggregation operator inside each committee. Ant
+          International does not disclose its TTA set, ensemble weights, or
+          binary-head layer dimensions. The diagram marks each omission instead
+          of filling it with assumptions.
+        </p>
+        <p>
+          The DINOv3-7B backbone anatomy comes from Meta&apos;s official model
+          card and reference factory, not from SynthFlag code. UESTC evaluated
+          the earlier DINO family during backbone selection, then chose CLIP and
+          SigLIP for its final four-expert system.
+        </p>
+      </>
+    ),
+    alternative: [
+      {
+        stage: 'MICV input',
+        behavior: 'Directly resize images to 512 by 512 for inference.',
+        boundary: 'Exact normalization and interpolation are not reported.',
+      },
+      {
+        stage: 'MICV committees',
+        behavior:
+          'One stream aggregates four DINOv3 backbones; a second aggregates two; each uses projection and an MLP probability head.',
+        boundary:
+          'Exact variants, feature tensor shapes, committee aggregation, and head dimensions are not reported.',
+      },
+      {
+        stage: 'MICV fusion',
+        behavior: 'Average the two stream probabilities.',
+        boundary: 'This model is external challenge context, not SynthFlag.',
+      },
+      {
+        stage: 'Ant expert 1',
+        behavior:
+          'A fully fine-tuned DINOv3-7B specialist at 512 pixels uses attention pooling and TTA.',
+        boundary: 'TTA transforms and binary-head dimensions are not reported.',
+      },
+      {
+        stage: 'Ant expert 2',
+        behavior:
+          'A second fully fine-tuned DINOv3-7B specialist at 288 pixels uses first-token pooling and TTA.',
+        boundary:
+          'The two experts have independent parameters; total reported size is 14B.',
+      },
+      {
+        stage: 'Ant fusion',
+        behavior:
+          'Aggregate TTA outputs per expert and combine experts by weighted averaging.',
+        boundary: 'Weights and exact TTA policy are not reported.',
+      },
+      {
+        stage: 'Official DINOv3-7B/16 backbone',
+        behavior:
+          'Patch-16 ViT with 4,096 width, 40 blocks, 32 heads, four register tokens, RoPE, and SwiGLU.',
+        boundary:
+          'Official backbone specification contextualizes the named model; the challenge teams may adapt its task head.',
+      },
+    ],
+    alt: 'Comparative architecture diagram for the external NTIRE DINOv3 methods: MICV uses committees of four and two DINOv3 backbones followed by projection and MLP heads; Ant International uses two independently fine-tuned DINOv3-7B experts at 512 and 288 pixels with different pooling and weighted fusion. Unreported details are explicitly marked, and a hard boundary separates both from SynthFlag.',
+    file: '17-dinov3-challenge-context.svg',
+    width: 1920,
+    height: 1400,
+    dense: true,
+  },
+  {
     id: 'release',
     number: '12',
     group: 'Release and operations',
@@ -631,8 +915,13 @@ const groupCopy = {
     description:
       'How a worker loads trusted identities, manages shared model memory, and transforms typed tensors.',
   },
-  'Release and operations': {
+  'Challenge context': {
     number: 'Layer 03',
+    description:
+      'Where DINOv3 appears in the challenge report, which details are public, and why those methods are not the released SynthFlag model.',
+  },
+  'Release and operations': {
+    number: 'Layer 04',
     description:
       'What the public release contains, how failures surface, and how long-running folder jobs recover.',
   },
@@ -685,11 +974,11 @@ function FigureBlock({ section }: { section: AtlasSection }) {
       <div className="docs-figure-frame">
         <Image
           alt={section.alt}
-          height={900}
+          height={section.height ?? 900}
           loading="lazy"
           src={`/diagrams/${section.file}`}
           unoptimized
-          width={1440}
+          width={section.width ?? 1440}
         />
       </div>
       <details className="docs-text-alternative atlas-text-alternative">
@@ -762,18 +1051,18 @@ export default function ArchitectureAtlas() {
             <p className="docs-eyebrow">Engineering architecture atlas</p>
             <h1>See the whole system, then inspect every boundary.</h1>
             <p>
-              Eight source-checked diagrams connect the public interface to its
+              Eleven source-checked diagrams connect the public interface to its
               service runtime, checkpoint gates, tensor contract, release
               boundaries, operational states, and resumable batch workflow.
             </p>
           </div>
           <div className="docs-hero-stats" aria-label="Atlas summary">
             <div>
-              <strong>08</strong>
+              <strong>11</strong>
               <span>downloadable diagrams</span>
             </div>
             <div>
-              <strong>03</strong>
+              <strong>04</strong>
               <span>architecture layers</span>
             </div>
             <div>
@@ -806,7 +1095,7 @@ export default function ArchitectureAtlas() {
         <article id="architecture-content" className="docs-content">
           <section className="docs-section docs-overview atlas-overview">
             <SectionHeading kicker="Read this first">
-              The atlas answers three different questions
+              The atlas answers four different questions
             </SectionHeading>
             <p className="docs-lead">
               A website request, a model prediction, and a public release are
@@ -827,6 +1116,11 @@ export default function ArchitectureAtlas() {
               </div>
               <div>
                 <span>Layer 03</span>
+                <h3>Challenge context</h3>
+                <p>Where DINOv3 belongs—and where it does not—in the report.</p>
+              </div>
+              <div>
+                <span>Layer 04</span>
                 <h3>Operations</h3>
                 <p>What is released, what can fail, and how work resumes.</p>
               </div>
@@ -834,8 +1128,10 @@ export default function ArchitectureAtlas() {
             <div className="atlas-boundary-note">
               <EvidenceTag kind="guidance">How to read the atlas</EvidenceTag>
               <p>
-                Solid arrows show behavior implemented by the released code.
-                Dashed boundaries show configuration, rights, or deployment
+                Solid arrows show source-supported behavior for each figure;
+                evidence badges distinguish released code from challenge-report
+                and external-reference facts. Dashed boundaries mark
+                configuration, uncertainty, rights, or deployment
                 responsibilities. They do not imply hidden services.
               </p>
             </div>
@@ -857,7 +1153,10 @@ export default function ArchitectureAtlas() {
                     </div>
                   </div>
                 ) : null}
-                <section id={section.id} className="docs-section atlas-section">
+                <section
+                  id={section.id}
+                  className={`docs-section atlas-section${section.dense ? ' atlas-section-dense' : ''}`}
+                >
                   <SectionHeading kicker={section.kicker}>
                     {section.title}
                   </SectionHeading>
@@ -911,6 +1210,11 @@ export default function ArchitectureAtlas() {
                 <strong>TikTok-TechJam-2026 repository</strong>
                 <ArrowUpRight aria-hidden="true" />
               </a>
+              <a href={dinoModelCardUrl} rel="noreferrer" target="_blank">
+                <span>External backbone reference</span>
+                <strong>Official Meta DINOv3 model card</strong>
+                <ArrowUpRight aria-hidden="true" />
+              </a>
               <a href="/diagrams/07-overall-system.svg" download>
                 <span>Architecture assets</span>
                 <strong>
@@ -924,8 +1228,9 @@ export default function ArchitectureAtlas() {
               Architecture labels were checked against the released web client,
               edge proxy, Python service, model and CLI implementations,
               checkpoint manifest, reproduction guide, release audit, and paper
-              Section 8.2. No model or service behavior was changed to create
-              this atlas.
+              Sections 3.1, 3.2, and 8.2. DINOv3 backbone details use
+              Meta&apos;s official model card and reference factory. No model or
+              service behavior was changed to create this atlas.
             </p>
           </section>
         </article>

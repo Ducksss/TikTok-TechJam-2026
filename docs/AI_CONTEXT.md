@@ -28,7 +28,7 @@ presentation.
 | `landing-page/app/api/analyze/route.ts` | Same-origin proxy and timeout/error mapping | Authoritative web proxy behavior |
 | `landing-page/app/try/page.tsx` | Browser file validation, service state, result presentation | Authoritative UI behavior |
 | `landing-page/app/documentation/` | Nontechnical and engineering documentation routes | Explanatory public documentation |
-| `landing-page/public/diagrams/` | Fourteen downloadable deterministic SVG diagrams | Explanatory visual assets |
+| `landing-page/public/diagrams/` | Seventeen downloadable deterministic SVG diagrams | Explanatory visual assets |
 | `weights/manifest.json` | Required checkpoint names, sizes, and SHA-256 identities | Machine-readable checkpoint identity |
 | `submission/BENCHMARKS.md` | V1/V2/V3 results and evidence boundaries | Public benchmark summary |
 | `submission/evidence/` | Aggregate machine-readable and narrative evidence | Local result evidence |

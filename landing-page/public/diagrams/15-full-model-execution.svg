@@ -1,0 +1,322 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1500" viewBox="0 0 1920 1500" role="img" aria-labelledby="title desc">
+  <title id="title">SynthFlag maximal image-to-score execution graph</title>
+  <desc id="desc">An uploaded image passes request validation and RGB decoding, then splits into a 224 pixel CLIP lane and a 384 pixel SigLIP lane. Two independently checkpointed experts in each family run exact patch embeddings, transformer stacks, pooling, classifier heads, float32 softmax, and unweighted arithmetic-mean fusion. A boundary note states that DINOv3 is not in the released inference path.</desc>
+  <defs>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#15243a" stroke-width="1"/>
+    </pattern>
+    <linearGradient id="clipBg" x1="0" x2="1">
+      <stop stop-color="#0c2347"/><stop offset="1" stop-color="#0a182e"/>
+    </linearGradient>
+    <linearGradient id="sigBg" x1="0" x2="1">
+      <stop stop-color="#35250b"/><stop offset="1" stop-color="#161a25"/>
+    </linearGradient>
+    <linearGradient id="fusionBg" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#172f2d"/><stop offset="1" stop-color="#0a191d"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10Z" fill="#7186a8"/>
+    </marker>
+    <marker id="arrowClip" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10Z" fill="#62a8ff"/>
+    </marker>
+    <marker id="arrowSig" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10Z" fill="#f0b84e"/>
+    </marker>
+    <marker id="arrowFuse" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10Z" fill="#52dfc9"/>
+    </marker>
+    <style>
+      .title{font:700 40px ui-sans-serif,system-ui,sans-serif;fill:#f4f8ff;letter-spacing:-1.2px}.subtitle{font:400 17px ui-sans-serif,system-ui,sans-serif;fill:#91a3c0}.kicker{font:700 13px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:1.8px}.laneTitle{font:700 24px ui-sans-serif,system-ui,sans-serif;fill:#f4f8ff}.boxTitle{font:700 16px ui-sans-serif,system-ui,sans-serif;fill:#edf4ff}.body{font:400 14px ui-sans-serif,system-ui,sans-serif;fill:#aebbd0}.small{font:400 12px ui-sans-serif,system-ui,sans-serif;fill:#8295b3}.mono{font:600 13px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#d9e6fa}.mini{font:600 11px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#8da2c2}.chip{font:700 11px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:1px}.node{fill:#0c1728;stroke:#31435f;stroke-width:1.5}.clipNode{fill:#0d274e;stroke:#4d8fe8;stroke-width:1.5}.sigNode{fill:#35270e;stroke:#c78c24;stroke-width:1.5}.fuseNode{fill:#102b2b;stroke:#35bda9;stroke-width:1.5}.runtimeNode{fill:#151526;stroke:#7765aa;stroke-width:1.5}.line{fill:none;stroke:#7186a8;stroke-width:2;marker-end:url(#arrow)}.clipLine{fill:none;stroke:#62a8ff;stroke-width:2.25;marker-end:url(#arrowClip)}.sigLine{fill:none;stroke:#f0b84e;stroke-width:2.25;marker-end:url(#arrowSig)}.fuseLine{fill:none;stroke:#52dfc9;stroke-width:2.5;marker-end:url(#arrowFuse)}
+    </style>
+  </defs>
+
+  <rect width="1920" height="1500" fill="#07111f"/>
+  <rect width="1920" height="1500" fill="url(#grid)" opacity=".48"/>
+
+  <text x="60" y="68" class="kicker" fill="#52dfc9">FIGURE 15 · RELEASED INFERENCE · MAXIMAL EXECUTION GRAPH</text>
+  <text x="60" y="116" class="title">One image → two vision families → four experts → one score</text>
+  <text x="60" y="149" class="subtitle">Solid arrows are executable runtime operations. Each expert owns a complete, independently loaded checkpoint.</text>
+
+  <g transform="translate(1445 42)">
+    <rect width="415" height="112" rx="16" fill="#17131d" stroke="#b78575" stroke-dasharray="7 6"/>
+    <text x="18" y="28" class="chip" fill="#ffb49f">ARCHITECTURE BOUNDARY</text>
+    <text x="18" y="55" class="boxTitle">No DINO / DINOv2 / DINOv3 module</text>
+    <text x="18" y="78" class="body">is instantiated, checkpointed, or executed in the</text>
+    <text x="18" y="98" class="body">released SynthFlag inference path.</text>
+  </g>
+
+  <!-- Request and decode rail -->
+  <g transform="translate(60 190)">
+    <rect width="1800" height="132" rx="20" fill="#0a1627" stroke="#2e4563"/>
+    <text x="22" y="27" class="kicker" fill="#8fb3e8">REQUEST + INPUT GATES</text>
+    <g transform="translate(22 44)">
+      <rect class="node" width="214" height="68" rx="13"/>
+      <text x="16" y="27" class="boxTitle">Browser upload</text><text x="16" y="49" class="small">JPEG · PNG · WebP</text>
+    </g>
+    <path class="line" d="M244 78H286"/>
+    <g transform="translate(294 44)">
+      <rect class="node" width="270" height="68" rx="13"/>
+      <text x="16" y="25" class="boxTitle">Bounded validation</text><text x="16" y="47" class="small">≤10 MiB · ≥32 px/side · ≤50M px</text>
+    </g>
+    <path class="line" d="M572 78H614"/>
+    <g transform="translate(622 44)">
+      <rect class="node" width="222" height="68" rx="13"/>
+      <text x="16" y="25" class="boxTitle">Pillow verify + decode</text><text x="16" y="47" class="small">single source → RGB PIL</text>
+    </g>
+    <path class="line" d="M852 78H894"/>
+    <g transform="translate(902 44)">
+      <rect class="node" width="238" height="68" rx="13"/>
+      <text x="16" y="25" class="boxTitle">Batch boundary</text><text x="16" y="47" class="mono">B images · mixed H×W allowed</text>
+    </g>
+    <path d="M1148 78H1190" class="line"/>
+    <g transform="translate(1198 44)">
+      <rect class="runtimeNode" width="258" height="68" rx="13"/>
+      <text x="16" y="25" class="boxTitle">Resident model object</text><text x="16" y="47" class="small">eval() · torch.inference_mode()</text>
+    </g>
+    <path d="M1464 78H1506" class="line"/>
+    <g transform="translate(1514 44)">
+      <rect class="runtimeNode" width="264" height="68" rx="13"/>
+      <text x="16" y="25" class="boxTitle">Four complete state dicts</text><text x="16" y="47" class="small">5.862 GB · hashes checked by default</text>
+    </g>
+  </g>
+
+  <path d="M1081 322V345H190V382" class="clipLine"/>
+  <path d="M1081 322V795H190V832" class="sigLine"/>
+
+  <!-- CLIP lane -->
+  <g transform="translate(60 370)">
+    <rect width="1538" height="408" rx="24" fill="url(#clipBg)" stroke="#2f70c5" stroke-width="2"/>
+    <text x="24" y="36" class="kicker" fill="#76b6ff">CLIP FAMILY · EXPERTS 1 + 2 · OPENAI CLIP ViT-L/14</text>
+    <text x="24" y="67" class="laneTitle">224 px lane</text>
+    <text x="154" y="65" class="small">same architecture · independent full parameters · 304,163,586 parameters each · calls 1 then 2</text>
+
+    <g transform="translate(24 92)">
+      <rect class="clipNode" width="250" height="264" rx="16"/>
+      <text x="16" y="29" class="chip" fill="#9dcaff">PREPROCESS</text>
+      <text x="16" y="58" class="boxTitle">Bicubic short-edge resize</text>
+      <text x="16" y="82" class="body">CenterCrop(224)</text>
+      <text x="16" y="106" class="body">ToTensor → float [0,1]</text>
+      <line x1="16" y1="124" x2="234" y2="124" stroke="#315d91"/>
+      <text x="16" y="149" class="mini">MEAN</text>
+      <text x="16" y="170" class="mono">.48145466 · .4578275</text>
+      <text x="16" y="190" class="mono">.40821073</text>
+      <text x="16" y="216" class="mini">STD</text>
+      <text x="16" y="237" class="mono">.26862954 · .26130258</text>
+      <text x="16" y="257" class="mono">.27577711</text>
+    </g>
+    <path class="clipLine" d="M282 224H316"/>
+
+    <g transform="translate(324 92)">
+      <rect class="clipNode" width="286" height="264" rx="16"/>
+      <text x="16" y="29" class="chip" fill="#9dcaff">PATCH + POSITION EMBEDDING</text>
+      <text x="16" y="58" class="mono">[B,3,224,224]</text>
+      <text x="16" y="88" class="body">Conv2d 3→1024</text>
+      <text x="16" y="110" class="body">kernel 14 · stride 14 · no bias</text>
+      <text x="16" y="140" class="mono">[B,1024,16,16]</text>
+      <text x="16" y="169" class="body">flatten → 256 patch tokens</text>
+      <text x="16" y="191" class="body">prepend learned CLS token</text>
+      <text x="16" y="213" class="body">add 257 learned positions</text>
+      <text x="16" y="245" class="mono" fill="#ddecff">[B,257,1024]</text>
+    </g>
+    <path class="clipLine" d="M618 224H652"/>
+
+    <g transform="translate(660 82)">
+      <rect class="clipNode" width="420" height="284" rx="16"/>
+      <text x="16" y="29" class="chip" fill="#9dcaff">PRE-LN TRANSFORMER ENCODER ×24</text>
+      <text x="16" y="56" class="body">LayerNorm ε=1e−5</text>
+      <g transform="translate(16 75)">
+        <rect width="388" height="86" rx="12" fill="#102f5d" stroke="#4d8fe8"/>
+        <text x="14" y="25" class="mini">SELF-ATTENTION + RESIDUAL</text>
+        <text x="14" y="48" class="body">Q, K, V: 1024→1024 · 16 heads × 64</text>
+        <text x="14" y="69" class="body">scaled attention · dropout 0 · out 1024</text>
+      </g>
+      <g transform="translate(16 173)">
+        <rect width="388" height="86" rx="12" fill="#102f5d" stroke="#4d8fe8"/>
+        <text x="14" y="25" class="mini">MLP + RESIDUAL</text>
+        <text x="14" y="48" class="body">LayerNorm → 1024→4096→1024</text>
+        <text x="14" y="69" class="body">QuickGELU activation</text>
+      </g>
+    </g>
+    <path class="clipLine" d="M1088 224H1122"/>
+
+    <g transform="translate(1130 92)">
+      <rect class="clipNode" width="178" height="264" rx="16"/>
+      <text x="14" y="29" class="chip" fill="#9dcaff">POOL + PROJECT</text>
+      <text x="14" y="62" class="body">select CLS token</text>
+      <text x="14" y="84" class="mono">[B,1024]</text>
+      <text x="14" y="116" class="body">post LayerNorm</text>
+      <text x="14" y="138" class="small">ε=1e−5</text>
+      <text x="14" y="172" class="body">bias-free Linear</text>
+      <text x="14" y="194" class="mono">1024→768</text>
+      <text x="14" y="230" class="body">image_embeds</text>
+      <text x="14" y="251" class="mono">[B,768]</text>
+    </g>
+    <path class="clipLine" d="M1316 224H1340"/>
+
+    <g transform="translate(1348 82)">
+      <rect class="clipNode" width="166" height="132" rx="14"/>
+      <text x="12" y="25" class="chip" fill="#9dcaff">EXPERT 1</text>
+      <text x="12" y="49" class="mini">checkpoint #1</text>
+      <text x="12" y="74" class="mono">768→256→2</text>
+      <text x="12" y="96" class="small">ReLU · Dropout .3*</text>
+      <text x="12" y="119" class="mono" fill="#ddecff">P1 = softmax₁</text>
+    </g>
+    <g transform="translate(1348 224)">
+      <rect class="clipNode" width="166" height="132" rx="14"/>
+      <text x="12" y="25" class="chip" fill="#9dcaff">EXPERT 2</text>
+      <text x="12" y="49" class="mini">checkpoint #2</text>
+      <text x="12" y="74" class="mono">768→256→2</text>
+      <text x="12" y="96" class="small">ReLU · Dropout .3*</text>
+      <text x="12" y="119" class="mono" fill="#ddecff">P2 = softmax₁</text>
+    </g>
+    <text x="1348" y="382" class="small">*disabled by eval()</text>
+  </g>
+
+  <!-- SigLIP lane -->
+  <g transform="translate(60 820)">
+    <rect width="1538" height="438" rx="24" fill="url(#sigBg)" stroke="#ad781f" stroke-width="2"/>
+    <text x="24" y="36" class="kicker" fill="#ffd270">SIGLIP FAMILY · EXPERTS 3 + 4 · GOOGLE SigLIP So400M PATCH14-384</text>
+    <text x="24" y="67" class="laneTitle">384 px lane</text>
+    <text x="154" y="65" class="small">same architecture · independent full parameters · 428,521,282 parameters each · calls 3 then 4</text>
+
+    <g transform="translate(24 102)">
+      <rect class="sigNode" width="250" height="282" rx="16"/>
+      <text x="16" y="29" class="chip" fill="#ffe0a1">PREPROCESS</text>
+      <text x="16" y="59" class="boxTitle">Bicubic short-edge resize</text>
+      <text x="16" y="83" class="body">CenterCrop(384)</text>
+      <text x="16" y="107" class="body">ToTensor → float [0,1]</text>
+      <line x1="16" y1="126" x2="234" y2="126" stroke="#74531d"/>
+      <text x="16" y="154" class="mini">NORMALIZE EVERY CHANNEL</text>
+      <text x="16" y="181" class="mono">mean = (0.5, 0.5, 0.5)</text>
+      <text x="16" y="205" class="mono">std  = (0.5, 0.5, 0.5)</text>
+      <text x="16" y="244" class="body">output tensor</text>
+      <text x="16" y="267" class="mono">[B,3,384,384]</text>
+    </g>
+    <path class="sigLine" d="M282 243H316"/>
+
+    <g transform="translate(324 102)">
+      <rect class="sigNode" width="286" height="282" rx="16"/>
+      <text x="16" y="29" class="chip" fill="#ffe0a1">PATCH + POSITION EMBEDDING</text>
+      <text x="16" y="59" class="mono">[B,3,384,384]</text>
+      <text x="16" y="90" class="body">Conv2d 3→1152</text>
+      <text x="16" y="112" class="body">kernel 14 · stride 14 · valid</text>
+      <text x="16" y="143" class="mono">[B,1152,27,27]</text>
+      <text x="16" y="174" class="body">flatten → 729 patch tokens</text>
+      <text x="16" y="198" class="body">add 729 learned positions</text>
+      <text x="16" y="222" class="body">no class token</text>
+      <text x="16" y="259" class="mono" fill="#fff0c8">[B,729,1152]</text>
+    </g>
+    <path class="sigLine" d="M618 243H652"/>
+
+    <g transform="translate(660 92)">
+      <rect class="sigNode" width="420" height="302" rx="16"/>
+      <text x="16" y="29" class="chip" fill="#ffe0a1">PRE-LN TRANSFORMER ENCODER ×27</text>
+      <text x="16" y="56" class="body">LayerNorm ε=1e−6</text>
+      <g transform="translate(16 75)">
+        <rect width="388" height="94" rx="12" fill="#47340f" stroke="#c78c24"/>
+        <text x="14" y="25" class="mini">SELF-ATTENTION + RESIDUAL</text>
+        <text x="14" y="49" class="body">Q, K, V: 1152→1152 · 16 heads × 72</text>
+        <text x="14" y="72" class="body">scaled attention · dropout 0 · out 1152</text>
+      </g>
+      <g transform="translate(16 181)">
+        <rect width="388" height="94" rx="12" fill="#47340f" stroke="#c78c24"/>
+        <text x="14" y="25" class="mini">MLP + RESIDUAL</text>
+        <text x="14" y="49" class="body">LayerNorm → 1152→4304→1152</text>
+        <text x="14" y="72" class="body">GELU-pytorch-tanh activation</text>
+      </g>
+    </g>
+    <path class="sigLine" d="M1088 243H1122"/>
+
+    <g transform="translate(1130 102)">
+      <rect class="sigNode" width="178" height="282" rx="16"/>
+      <text x="14" y="29" class="chip" fill="#ffe0a1">POST-LN + MAP</text>
+      <text x="14" y="59" class="body">post-normalize all</text>
+      <text x="14" y="81" class="mono">729×1152</text>
+      <text x="14" y="113" class="body">learned probe</text>
+      <text x="14" y="135" class="mono">[1,1,1152]</text>
+      <text x="14" y="167" class="body">16-head attention</text>
+      <text x="14" y="189" class="small">probe Q · tokens K/V</text>
+      <text x="14" y="217" class="body">LN → MLP → residual</text>
+      <text x="14" y="247" class="body">pooler_output</text>
+      <text x="14" y="269" class="mono">[B,1152]</text>
+    </g>
+    <path class="sigLine" d="M1316 243H1340"/>
+
+    <g transform="translate(1348 92)">
+      <rect class="sigNode" width="166" height="141" rx="14"/>
+      <text x="12" y="25" class="chip" fill="#ffe0a1">EXPERT 3</text>
+      <text x="12" y="49" class="mini">checkpoint #3</text>
+      <text x="12" y="76" class="mono">1152→256→2</text>
+      <text x="12" y="100" class="small">ReLU · Dropout .3*</text>
+      <text x="12" y="126" class="mono" fill="#fff0c8">P3 = softmax₁</text>
+    </g>
+    <g transform="translate(1348 243)">
+      <rect class="sigNode" width="166" height="141" rx="14"/>
+      <text x="12" y="25" class="chip" fill="#ffe0a1">EXPERT 4</text>
+      <text x="12" y="49" class="mini">checkpoint #4</text>
+      <text x="12" y="76" class="mono">1152→256→2</text>
+      <text x="12" y="100" class="small">ReLU · Dropout .3*</text>
+      <text x="12" y="126" class="mono" fill="#fff0c8">P4 = softmax₁</text>
+    </g>
+    <text x="1348" y="414" class="small">*disabled by eval()</text>
+  </g>
+
+  <!-- Probability paths to fusion -->
+  <path d="M1574 504H1642" class="clipLine"/>
+  <path d="M1574 646H1618V586H1642" class="clipLine"/>
+  <path d="M1574 1038H1618V758H1642" class="sigLine"/>
+  <path d="M1574 1189H1628V844H1642" class="sigLine"/>
+
+  <g transform="translate(1650 370)">
+    <rect width="210" height="888" rx="24" fill="url(#fusionBg)" stroke="#35bda9" stroke-width="2"/>
+    <text x="18" y="34" class="kicker" fill="#78f1df">FLOAT32 FUSION</text>
+    <text x="18" y="69" class="boxTitle">Four class-1 paths</text>
+    <g transform="translate(18 104)">
+      <rect class="fuseNode" width="174" height="70" rx="12"/><text x="16" y="28" class="mono">P1 [B]</text><text x="16" y="50" class="small">CLIP expert 1</text>
+    </g>
+    <g transform="translate(18 190)">
+      <rect class="fuseNode" width="174" height="70" rx="12"/><text x="16" y="28" class="mono">P2 [B]</text><text x="16" y="50" class="small">CLIP expert 2</text>
+    </g>
+    <g transform="translate(18 362)">
+      <rect class="fuseNode" width="174" height="70" rx="12"/><text x="16" y="28" class="mono">P3 [B]</text><text x="16" y="50" class="small">SigLIP expert 3</text>
+    </g>
+    <g transform="translate(18 448)">
+      <rect class="fuseNode" width="174" height="70" rx="12"/><text x="16" y="28" class="mono">P4 [B]</text><text x="16" y="50" class="small">SigLIP expert 4</text>
+    </g>
+    <path d="M105 532V580" class="fuseLine"/>
+    <g transform="translate(18 594)">
+      <rect class="fuseNode" width="174" height="124" rx="14"/>
+      <text x="87" y="27" text-anchor="middle" class="chip" fill="#78f1df">EXACT ORDER</text>
+      <text x="87" y="58" text-anchor="middle" class="mono">P3 + P4 + P1 + P2</text>
+      <line x1="32" y1="70" x2="142" y2="70" stroke="#78f1df"/>
+      <text x="87" y="98" text-anchor="middle" class="mono">4</text>
+    </g>
+    <path d="M105 726V764" class="fuseLine"/>
+    <g transform="translate(18 778)">
+      <rect class="fuseNode" width="174" height="88" rx="14"/>
+      <text x="87" y="29" text-anchor="middle" class="chip" fill="#78f1df">OUTPUT</text>
+      <text x="87" y="55" text-anchor="middle" class="mono">scores [B] ∈ [0,1]</text>
+      <text x="87" y="76" text-anchor="middle" class="small">web: B=1 → scalar</text>
+    </g>
+  </g>
+
+  <!-- Runtime rail -->
+  <g transform="translate(60 1300)">
+    <rect width="1800" height="148" rx="20" fill="#0d1221" stroke="#584b80"/>
+    <text x="22" y="28" class="kicker" fill="#b6a4f4">PROCESS-LOCAL RUNTIME RAIL</text>
+    <g transform="translate(22 48)"><rect class="runtimeNode" width="245" height="74" rx="13"/><text x="14" y="28" class="boxTitle">_model_lock</text><text x="14" y="51" class="small">one construction · lazy or eager</text></g>
+    <path class="line" d="M275 85H310"/>
+    <g transform="translate(318 48)"><rect class="runtimeNode" width="278" height="74" rx="13"/><text x="14" y="28" class="boxTitle">Integrity + strict restore</text><text x="14" y="51" class="small">manifest · size · SHA-256 · weights_only</text></g>
+    <path class="line" d="M604 85H639"/>
+    <g transform="translate(647 48)"><rect class="runtimeNode" width="252" height="74" rx="13"/><text x="14" y="28" class="boxTitle">Device + eval mode</text><text x="14" y="51" class="small">CPU · CUDA · service MPS option</text></g>
+    <path class="line" d="M907 85H942"/>
+    <g transform="translate(950 48)"><rect class="runtimeNode" width="265" height="74" rx="13"/><text x="14" y="28" class="boxTitle">_inference_lock</text><text x="14" y="51" class="small">serialized predict per service process</text></g>
+    <path class="line" d="M1223 85H1258"/>
+    <g transform="translate(1266 48)"><rect class="runtimeNode" width="252" height="74" rx="13"/><text x="14" y="28" class="boxTitle">Optional CUDA autocast</text><text x="14" y="51" class="small">logits cast to float before softmax</text></g>
+    <path class="line" d="M1526 85H1561"/>
+    <g transform="translate(1569 48)"><rect class="runtimeNode" width="209" height="74" rx="13"/><text x="14" y="28" class="boxTitle">JSON response</text><text x="14" y="51" class="small">score · timing · identity</text></g>
+  </g>
+
+  <text x="60" y="1481" class="small">Execution order: materialize 384 then 224 batches; call CLIP 1 → CLIP 2 → SigLIP 3 → SigLIP 4; paths are logical branches, not concurrent model execution.</text>
+</svg>
