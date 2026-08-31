@@ -1,18 +1,22 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Engineering architecture — SynthFlag technical appendix',
+  title: 'Architecture atlas — SynthFlag documentation',
   description:
-    'A source-checked architecture atlas for SynthFlag serving, model loading, tensor contracts, operational states, and resumable batch inference.',
+    'The SynthFlag engineering architecture atlas now lives inside the unified technical documentation.',
   alternates: {
-    canonical: '/documentation/architecture',
+    canonical: '/documentation',
+  },
+  robots: {
+    index: false,
+    follow: true,
   },
   openGraph: {
     title: 'SynthFlag engineering architecture atlas',
     description:
       'Twelve source-checked diagrams covering browser requests, sampled-video frames, exact CLIP and SigLIP internals, checkpoint-backed inference, and durable batch output.',
     type: 'article',
-    url: '/documentation/architecture',
+    url: '/documentation',
     images: [
       {
         url: '/og.png',

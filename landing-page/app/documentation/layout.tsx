@@ -3,14 +3,14 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Technical appendix — SynthFlag',
   description:
-    'An evidence-labeled technical appendix for SynthFlag image processing, four-expert architecture, training, robustness results, and responsible use.',
+    'A unified, evidence-labeled technical guide to SynthFlag image processing, four-expert architecture, system runtime, results, and responsible use.',
   alternates: {
     canonical: '/documentation',
   },
   openGraph: {
     title: 'SynthFlag technical appendix',
     description:
-      'Understand the four-expert AI-image detector, from pixels to a probability-like score.',
+      'Understand the four-expert AI-image detector from pixels and patch tokens to its runtime and score signal.',
     type: 'article',
     url: '/documentation',
     images: [
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'SynthFlag technical appendix',
     description:
-      'A plain-language guide to SynthFlag’s processing, architecture, training, evidence, and limits.',
+      'A unified guide to SynthFlag’s processing, architecture atlas, runtime, evidence, and limits.',
     images: ['/og.png'],
   },
 };

@@ -1,6 +1,6 @@
 # SynthFlag project status
 
-Last refreshed: **2026-08-31**. This file records durable release state and
+Last refreshed: **2026-09-01**. This file records durable release state and
 verification gates. It intentionally does not mirror volatile Codex task,
 automation, process, or worktree dirtiness state.
 
@@ -26,14 +26,15 @@ automation, process, or worktree dirtiness state.
 | Batch inference | Repository-authored modules under `infer/` implement the checkpoint-verified FeatDistill-compatible four-expert mean and resumable directory inference. |
 | Batch artifacts | A completed run produces `predictions.csv`, Track 5 `predictions.json` records with `image_path,pred`, and `predictions.meta.json`. |
 | HTTP service | `service/app.py` exposes checkpoint-backed health, single-image analysis, and bounded sampled-frame analysis with two-frame microbatches; it does not make the public worker available by itself. |
-| Web experience | Source routes are `/`, `/try`, `/journey`, `/documentation`, and `/documentation/architecture`, plus `/api/analyze` and `/api/analyze-video` proxies. Raw videos remain in the browser while eight midpoint PNG frames are submitted. |
+| Web experience | Primary routes are `/`, `/try`, `/journey`, and the unified `/documentation`; `/documentation/architecture` is a fragment-preserving compatibility route. The `/api/analyze` and `/api/analyze-video` proxies remain unchanged. Raw videos remain in the browser while eight midpoint PNG frames are submitted. |
 | Submission package | `submission/` contains the evidence-labeled benchmarks, architecture, reproduction guide, rights inventory, model card, release audit, and checksums. |
 | Source provenance | The initial copied snapshot is disclosed; the current runtime is independently organized, exact upstream files are rejected, and historical method/code credit is preserved. |
 
-The long-form web routes are intentionally distinct: `/journey` is the
-judge-first project and decision narrative, `/documentation` is the readable
-technical appendix, and `/documentation/architecture` is the deep model and
-system atlas.
+The two long-form web routes are intentionally distinct: `/journey` is the
+judge-first project and decision narrative, while `/documentation` combines
+the readable technical appendix, evidence guide, deep model, and system atlas.
+The legacy `/documentation/architecture` route forwards to the matching anchor
+inside `/documentation`.
 
 ## Evidence state
 

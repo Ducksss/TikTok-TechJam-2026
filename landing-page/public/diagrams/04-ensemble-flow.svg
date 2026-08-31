@@ -3,15 +3,15 @@
   <desc id="desc">Two CLIP experts and two SigLIP experts each output a class-1 softmax probability. The released inference code adds P3, P4, P1, and P2 in that order and divides by four to produce a continuous probability of fake between zero and one.</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#07111f"/>
-      <stop offset="1" stop-color="#0b1729"/>
+      <stop offset="0" stop-color="#f4f8ff"/>
+      <stop offset="1" stop-color="#f4f8ff"/>
     </linearGradient>
     <linearGradient id="out" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#182b27"/>
-      <stop offset="1" stop-color="#10231f"/>
+      <stop offset="0" stop-color="#edf9f7"/>
+      <stop offset="1" stop-color="#edf9f7"/>
     </linearGradient>
     <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="10" stdDeviation="18" flood-color="#020812" flood-opacity="0.48"/>
+      <feDropShadow dx="0" dy="10" stdDeviation="18" flood-color="#f4f8ff" flood-opacity="0.48"/>
     </filter>
     <marker id="arrow" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto">
       <path d="M0 0L11 5.5L0 11Z" fill="#8ea2bd"/>
@@ -31,6 +31,13 @@
       .formula{font-size:25px;font-weight:680;fill:#f7fbff}
       .note{font-size:14px;fill:#b6c7da}
     </style>
+      <style>
+      text,tspan{fill:#111827}
+      .eyebrow,.kicker,.stage,.role,.step,.label,.section{fill:#2448c2}
+      .subtitle,.body,.small,.mini,.note,.sub,.tiny{fill:#52627a}
+      .headline,.title,.laneTitle,.lane-title,.card-title,.cardTitle,.boxTitle,.actor,.head,.strong,.stat,.value,.formula,.eq,.prob,.state{fill:#111827}
+      .mono,.monoText,.chip,.number,.num,.code,.dim{fill:#253651}
+    </style>
   </defs>
   <rect width="1440" height="900" rx="32" fill="url(#bg)"/>
   <rect width="1440" height="900" rx="32" fill="url(#grid)"/>
@@ -40,42 +47,42 @@
   <text x="80" y="143" class="title">Four opinions. One continuous score.</text>
   <text x="80" y="178" class="sub">Each expert votes in probability space; every vote has exactly the same weight.</text>
   <g transform="translate(1190 78)">
-    <rect width="166" height="48" rx="24" fill="#122236" stroke="#39506c"/>
+    <rect width="166" height="48" rx="24" fill="#edf3ff" stroke="#39506c"/>
     <circle cx="25" cy="24" r="6" fill="#b7f66e"/>
     <text x="43" y="29" font-size="14" font-weight="700" fill="#dce8f5">4 EXPERTS · ¼ EACH</text>
   </g>
 
   <g filter="url(#shadow)">
-    <rect x="80" y="244" width="350" height="126" rx="19" fill="#0d1c30" stroke="#56b9ff" stroke-opacity="0.75"/>
+    <rect x="80" y="244" width="350" height="126" rx="19" fill="#edf3ff" stroke="#56b9ff" stroke-opacity="0.75"/>
     <rect x="80" y="244" width="8" height="126" rx="4" fill="#56b9ff"/>
     <text x="112" y="277" class="label" fill="#70c7ff">CLIP LANE</text>
     <text x="112" y="310" class="card-title">Expert 1 · CLIP</text>
     <text x="112" y="339" class="small">ViT-L/14 · softmax → class 1</text>
-    <rect x="340" y="275" width="62" height="62" rx="16" fill="#102b43" stroke="#56b9ff"/>
+    <rect x="340" y="275" width="62" height="62" rx="16" fill="#edf3ff" stroke="#56b9ff"/>
     <text x="371" y="313" class="prob" text-anchor="middle">P1</text>
 
-    <rect x="80" y="390" width="350" height="126" rx="19" fill="#0d1c30" stroke="#56b9ff" stroke-opacity="0.75"/>
+    <rect x="80" y="390" width="350" height="126" rx="19" fill="#edf3ff" stroke="#56b9ff" stroke-opacity="0.75"/>
     <rect x="80" y="390" width="8" height="126" rx="4" fill="#56b9ff"/>
     <text x="112" y="423" class="label" fill="#70c7ff">CLIP LANE</text>
     <text x="112" y="456" class="card-title">Expert 2 · CLIP</text>
     <text x="112" y="485" class="small">ViT-L/14 · softmax → class 1</text>
-    <rect x="340" y="421" width="62" height="62" rx="16" fill="#102b43" stroke="#56b9ff"/>
+    <rect x="340" y="421" width="62" height="62" rx="16" fill="#edf3ff" stroke="#56b9ff"/>
     <text x="371" y="459" class="prob" text-anchor="middle">P2</text>
 
-    <rect x="80" y="536" width="350" height="126" rx="19" fill="#201b19" stroke="#ffbd5c" stroke-opacity="0.8"/>
+    <rect x="80" y="536" width="350" height="126" rx="19" fill="#ffffff" stroke="#ffbd5c" stroke-opacity="0.8"/>
     <rect x="80" y="536" width="8" height="126" rx="4" fill="#ffbd5c"/>
     <text x="112" y="569" class="label" fill="#ffd07f">SIGLIP LANE</text>
     <text x="112" y="602" class="card-title">Expert 3 · SigLIP</text>
     <text x="112" y="631" class="small">So400M Patch14-384 · class 1</text>
-    <rect x="340" y="567" width="62" height="62" rx="16" fill="#342719" stroke="#ffbd5c"/>
+    <rect x="340" y="567" width="62" height="62" rx="16" fill="#fff7e8" stroke="#ffbd5c"/>
     <text x="371" y="605" class="prob" text-anchor="middle">P3</text>
 
-    <rect x="80" y="682" width="350" height="126" rx="19" fill="#201b19" stroke="#ffbd5c" stroke-opacity="0.8"/>
+    <rect x="80" y="682" width="350" height="126" rx="19" fill="#ffffff" stroke="#ffbd5c" stroke-opacity="0.8"/>
     <rect x="80" y="682" width="8" height="126" rx="4" fill="#ffbd5c"/>
     <text x="112" y="715" class="label" fill="#ffd07f">SIGLIP LANE</text>
     <text x="112" y="748" class="card-title">Expert 4 · SigLIP</text>
     <text x="112" y="777" class="small">So400M Patch14-384 · class 1</text>
-    <rect x="340" y="713" width="62" height="62" rx="16" fill="#342719" stroke="#ffbd5c"/>
+    <rect x="340" y="713" width="62" height="62" rx="16" fill="#fff7e8" stroke="#ffbd5c"/>
     <text x="371" y="751" class="prob" text-anchor="middle">P4</text>
   </g>
 
@@ -86,10 +93,10 @@
     <path d="M430 745H575V520H697"/>
   </g>
   <g transform="translate(700 350)" filter="url(#shadow)">
-    <rect width="358" height="252" rx="24" fill="#121b32" stroke="#8c72ff" stroke-opacity="0.86"/>
+    <rect width="358" height="252" rx="24" fill="#edf3ff" stroke="#8c72ff" stroke-opacity="0.86"/>
     <text x="28" y="43" class="label" fill="#ad9aff">UNWEIGHTED FUSION</text>
     <text x="28" y="82" class="card-title">Arithmetic mean</text>
-    <rect x="28" y="108" width="302" height="70" rx="14" fill="#0b1426" stroke="#3b4964"/>
+    <rect x="28" y="108" width="302" height="70" rx="14" fill="#f4f8ff" stroke="#3b4964"/>
     <text x="179" y="151" class="formula" text-anchor="middle">(P3 + P4 + P1 + P2) / 4</text>
     <text x="28" y="208" class="small">Exact released-code order</text>
     <text x="28" y="232" class="small">No expert weighting · no thresholding</text>
@@ -110,7 +117,7 @@
   </g>
 
   <g transform="translate(700 642)">
-    <rect width="656" height="166" rx="20" fill="#0c1829" stroke="#334862"/>
+    <rect width="656" height="166" rx="20" fill="#f4f8ff" stroke="#334862"/>
     <text x="24" y="37" class="label" fill="#90a8c3">HOW TO READ THIS</text>
     <circle cx="30" cy="72" r="4" fill="#b7f66e"/>
     <text x="46" y="77" class="note">Class 1 is the fake-image class in the released implementation.</text>

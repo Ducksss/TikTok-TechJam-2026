@@ -170,15 +170,17 @@ guarantee about the topology of the current deployment. Authentication,
 platform rate limiting, durable upload/result storage, automatic retry, and
 streamed server progress are not implemented by these source files.
 
-The public information architecture has three distinct long-form surfaces:
+The public information architecture has two distinct long-form surfaces:
 
 - `/journey` tells the judge-first story of the problem, V1/V2 decisions,
   final model, and release boundary;
-- `/documentation` is the readable technical appendix and evidence guide; and
-- `/documentation/architecture` is the deepest model and system atlas.
+- `/documentation` is the unified technical appendix, evidence guide, deep
+  model walkthrough, and system atlas.
 
-These routes may reuse the same model-journey component, but they do not have
-interchangeable audience or navigation roles.
+The legacy `/documentation/architecture` route remains as a compatibility
+handoff that preserves fragments such as `#deep-model` and lands on the same
+section in `/documentation`. Journey and Documentation retain distinct audience
+and navigation roles.
 
 ## Scores, thresholds, and claims
 

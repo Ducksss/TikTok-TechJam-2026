@@ -5,22 +5,63 @@ import type { ReactNode } from 'react';
 
 import { HashAnchorSync } from './hash-anchor-sync';
 import { PrintButton } from './print-button';
+import ArchitectureAtlas from './architecture/atlas';
 import './documentation.css';
+import './architecture/architecture.css';
+import './light-theme.css';
 
 const paperUrl = 'https://arxiv.org/html/2604.11487v1';
 const repositoryUrl = 'https://github.com/Ducksss/TikTok-TechJam-2026';
 
-const contents = [
-  ['overview', 'In one minute'],
-  ['user-flow', 'User flow'],
-  ['image-processing', 'Image processing'],
-  ['architecture', 'Architecture'],
-  ['ensemble', 'Ensemble score'],
-  ['training', 'Training'],
-  ['robustness', 'Robustness'],
-  ['results', 'Results'],
-  ['considerations', 'Considerations'],
-  ['sources', 'Sources'],
+const contentGroups = [
+  {
+    label: 'Guide',
+    links: [
+      ['overview', 'In one minute'],
+      ['user-flow', 'User flow'],
+      ['image-processing', 'Image processing'],
+      ['architecture', 'Architecture'],
+      ['ensemble', 'Ensemble score'],
+      ['training', 'Training'],
+      ['robustness', 'Robustness'],
+      ['results', 'Results'],
+      ['considerations', 'Considerations'],
+    ],
+  },
+  {
+    label: 'Model Architecture',
+    links: [
+      ['architecture-atlas', 'Atlas overview'],
+      ['deep-model', 'Full model graph'],
+      ['expert-anatomy', 'Expert anatomy'],
+      ['dinov3-context', 'DINOv3 context'],
+    ],
+  },
+  {
+    label: 'System',
+    links: [
+      ['overall', 'Overall system'],
+      ['request', 'Request sequence'],
+      ['video-sampling', 'Video sampling'],
+    ],
+  },
+  {
+    label: 'Runtime',
+    links: [
+      ['runtime', 'Worker lifecycle'],
+      ['checkpoints', 'Checkpoint gates'],
+      ['tensors', 'Tensor contract'],
+    ],
+  },
+  {
+    label: 'Operations',
+    links: [
+      ['release', 'Release boundary'],
+      ['operations', 'Operational states'],
+      ['batch', 'Batch durability'],
+      ['sources', 'Evidence & downloads'],
+    ],
+  },
 ] as const;
 
 type EvidenceKind = 'paper' | 'code' | 'guidance';
@@ -97,7 +138,7 @@ function SectionHeading({
 
 export default function Documentation() {
   return (
-    <main className="docs-page">
+    <main className="docs-page atlas-page">
       <HashAnchorSync />
       <a className="docs-skip-link" href="#documentation-content">
         Skip to documentation
@@ -158,16 +199,26 @@ export default function Documentation() {
       <div className="docs-shell">
         <aside className="docs-toc" aria-label="On this page">
           <p>On this page</p>
-          <ol>
-            {contents.map(([id, label], index) => (
-              <li key={id}>
-                <a href={`#${id}`}>
-                  <span>{String(index + 1).padStart(2, '0')}</span>
-                  {label}
-                </a>
-              </li>
+          <div className="docs-toc-groups">
+            {contentGroups.map((group, groupIndex) => (
+              <section key={group.label} aria-labelledby={`toc-${groupIndex}`}>
+                <h2 id={`toc-${groupIndex}`}>{group.label}</h2>
+                <ol>
+                  {group.links.map(([id, label], index) => (
+                    <li key={id}>
+                      <a href={`#${id}`}>
+                        <span>
+                          {String(groupIndex + 1).padStart(2, '0')}.
+                          {String(index + 1).padStart(2, '0')}
+                        </span>
+                        {label}
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              </section>
             ))}
-          </ol>
+          </div>
           <div className="docs-toc-note">
             <span aria-hidden="true" />
             Public guide · no setup required
@@ -181,8 +232,8 @@ export default function Documentation() {
               <strong>Project journey</strong>
               <ArrowUpRight aria-hidden="true" />
             </a>
-            <a href="/documentation/architecture">
-              <span>Deep reference · 11 diagrams</span>
+            <a href="#architecture-atlas">
+              <span>Deep reference · 18 diagrams</span>
               <strong>Architecture atlas</strong>
               <ArrowUpRight aria-hidden="true" />
             </a>
@@ -462,7 +513,7 @@ export default function Documentation() {
                 </details>
                 <a
                   className="docs-architecture-link"
-                  href="/documentation/architecture"
+                  href="#architecture-atlas"
                 >
                   Explore the engineering architecture atlas
                   <ArrowUpRight aria-hidden="true" />
@@ -845,6 +896,8 @@ export default function Documentation() {
             </div>
           </section>
 
+          <ArchitectureAtlas />
+
           <section id="sources" className="docs-section docs-sources">
             <SectionHeading kicker="Trace the evidence">
               Sources and reusable assets
@@ -860,26 +913,42 @@ export default function Documentation() {
                 <strong>TikTok-TechJam-2026 repository</strong>
                 <ArrowUpRight aria-hidden="true" />
               </a>
-              <a href="/documentation/architecture">
-                <span>Engineering deep dive</span>
-                <strong>
-                  Serving, runtime, integrity, tensor, release, and operations
-                </strong>
+              <a href="/journey">
+                <span>Judge narrative</span>
+                <strong>Project journey and experiment decisions</strong>
                 <ArrowUpRight aria-hidden="true" />
               </a>
               <a href="/diagrams/01-user-flow.svg" download>
-                <span>Asset directory</span>
+                <span>Guide diagrams</span>
                 <strong>
-                  Download the first SVG, then browse all six figures above
+                  Download Figure 01, then use each toolbar for Figures 01–06
                 </strong>
                 <Download aria-hidden="true" />
               </a>
+              <a href="/diagrams/07-overall-system.svg" download>
+                <span>Architecture atlas</span>
+                <strong>
+                  Download Figure 07, then use each toolbar for Figures 07–18
+                </strong>
+                <Download aria-hidden="true" />
+              </a>
+              <a
+                href="https://github.com/facebookresearch/dinov3/blob/main/MODEL_CARD.md"
+                rel="noreferrer"
+                target="_blank"
+              >
+                <span>External backbone reference</span>
+                <strong>Official Meta DINOv3 model card</strong>
+                <ArrowUpRight aria-hidden="true" />
+              </a>
             </div>
             <p className="docs-source-note">
-              Paper claims in this guide were checked against Sections 2 and
-              8.2, Figure 7, and Table 3 of the challenge report. Implementation
-              details were checked against the released inference model, CLI,
-              architecture notes, and model card.
+              Paper claims were checked against Sections 2, 3.1, 3.2, and 8.2,
+              Figure 7, and Table 3 of the challenge report. Architecture labels
+              were checked against the released web client, proxy, Python
+              service, model, CLI, checkpoint manifest, reproduction guide, and
+              release audit. DINOv3 context uses Meta&apos;s official model
+              card. No model or service behavior changed for this guide.
             </p>
           </section>
         </article>

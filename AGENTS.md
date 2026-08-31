@@ -71,14 +71,17 @@ research, use the prompt-friendly FeatDistill
   one cached model per process, admits one active and one queued analysis, and
   serializes prediction with an inference lock. The image route uses `B=1`;
   the sampled-video frame route uses two-frame microbatches.
-- `landing-page/`: public website with `/`, `/try`, `/journey`,
-  `/documentation`, and `/documentation/architecture`, plus the
+- `landing-page/`: public website with primary routes `/`, `/try`, `/journey`,
+  and `/documentation`, plus the compatibility route
+  `/documentation/architecture` and the
   same-origin `/api/analyze` and `/api/analyze-video` proxies. Short videos are
   decoded locally into eight midpoint PNG samples; the original video is not
   uploaded.
   - `/journey` is the judge-first project and decision narrative.
-  - `/documentation` is the readable technical appendix and evidence guide.
-  - `/documentation/architecture` is the deep model and system atlas.
+  - `/documentation` is the unified technical appendix, evidence guide, deep
+    model walkthrough, and system atlas.
+  - `/documentation/architecture` preserves legacy links by forwarding the
+    current URL fragment to the matching `/documentation` section.
 - `submission/`: evidence-labeled release package, benchmark tables, model card,
   rights inventory, checksums, and reproduction guide.
 - `weights/manifest.json`: identities of the four required external

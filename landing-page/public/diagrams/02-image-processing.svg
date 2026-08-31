@@ -3,22 +3,22 @@
   <desc id="desc">An RGB image splits into a CLIP pipeline using bicubic resize, 224 pixel center crop, tensor conversion, and CLIP channel normalization, and a SigLIP pipeline using bicubic resize, 384 pixel center crop, tensor conversion, and mean and standard deviation of 0.5.</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#07111f"/>
-      <stop offset="1" stop-color="#060d17"/>
+      <stop offset="0" stop-color="#f4f8ff"/>
+      <stop offset="1" stop-color="#f4f8ff"/>
     </linearGradient>
     <linearGradient id="clip-lane" x1="0" x2="1">
-      <stop offset="0" stop-color="#0d2144"/>
-      <stop offset="1" stop-color="#0b192e"/>
+      <stop offset="0" stop-color="#edf3ff"/>
+      <stop offset="1" stop-color="#edf3ff"/>
     </linearGradient>
     <linearGradient id="siglip-lane" x1="0" x2="1">
-      <stop offset="0" stop-color="#302008"/>
-      <stop offset="1" stop-color="#1a160f"/>
+      <stop offset="0" stop-color="#fff7e8"/>
+      <stop offset="1" stop-color="#fff7e8"/>
     </linearGradient>
     <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
       <path d="M40 0H0V40" fill="none" stroke="#7890a9" stroke-opacity="0.07"/>
     </pattern>
     <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="12" stdDeviation="15" flood-color="#000712" flood-opacity="0.4"/>
+      <feDropShadow dx="0" dy="12" stdDeviation="15" flood-color="#f4f8ff" flood-opacity="0.4"/>
     </filter>
     <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
       <path d="M0 0L10 5L0 10Z" fill="#60a5fa"/>
@@ -39,6 +39,13 @@
       .card-title{font-size:18px;font-weight:720;fill:#eef5fc}
       .value{font-size:14px;fill:#cbd9e8}
     </style>
+      <style>
+      text,tspan{fill:#111827}
+      .eyebrow,.kicker,.stage,.role,.step,.label,.section{fill:#2448c2}
+      .subtitle,.body,.small,.mini,.note,.sub,.tiny{fill:#52627a}
+      .headline,.title,.laneTitle,.lane-title,.card-title,.cardTitle,.boxTitle,.actor,.head,.strong,.stat,.value,.formula,.eq,.prob,.state{fill:#111827}
+      .mono,.monoText,.chip,.number,.num,.code,.dim{fill:#253651}
+    </style>
   </defs>
 
   <rect width="1440" height="900" fill="url(#bg)"/>
@@ -50,16 +57,16 @@
 
     <!-- RGB input -->
     <g transform="translate(80 250)" filter="url(#shadow)">
-      <rect width="214" height="400" rx="24" fill="#0a242d" stroke="#2dd4bf" stroke-width="2"/>
+      <rect width="214" height="400" rx="24" fill="#edf9f7" stroke="#2dd4bf" stroke-width="2"/>
       <text x="24" y="41" class="step" fill="#63e6d4">SHARED INPUT</text>
-      <rect x="24" y="72" width="166" height="166" rx="18" fill="#0d3540" stroke="#347a7b"/>
-      <rect x="43" y="91" width="128" height="128" rx="12" fill="#112637"/>
+      <rect x="24" y="72" width="166" height="166" rx="18" fill="#edf9f7" stroke="#347a7b"/>
+      <rect x="43" y="91" width="128" height="128" rx="12" fill="#edf3ff"/>
       <circle cx="84" cy="134" r="24" fill="#2dd4bf" fill-opacity="0.75"/>
       <path d="M43 200l39-40 28 26 25-31 36 45Z" fill="#60a5fa" fill-opacity="0.8"/>
       <text x="24" y="278" class="lane-title">RGB</text>
       <text x="24" y="310" class="body">Three channels</text>
       <text x="24" y="336" class="body">Mixed source sizes</text>
-      <rect x="24" y="358" width="151" height="26" rx="13" fill="#123d46"/>
+      <rect x="24" y="358" width="151" height="26" rx="13" fill="#edf9f7"/>
       <text x="99" y="376" class="mono" font-size="12" text-anchor="middle" fill="#bff8ee">PIL.Image</text>
     </g>
 
@@ -77,27 +84,27 @@
       <text x="186" y="49" class="small">OpenAI CLIP ViT-L/14 image transform</text>
 
       <g transform="translate(26 82)">
-        <rect width="182" height="126" rx="16" fill="#0a1729" stroke="#345b91"/>
+        <rect width="182" height="126" rx="16" fill="#f4f8ff" stroke="#345b91"/>
         <text x="18" y="27" class="step">01</text>
         <text x="18" y="55" class="card-title">Resize</text>
         <text x="18" y="82" class="value">short edge → 224</text>
         <text x="18" y="104" class="small">bicubic interpolation</text>
         <path d="M208 63H230" stroke="#60a5fa" stroke-width="3" marker-end="url(#arr-blue)"/>
 
-        <rect x="238" width="174" height="126" rx="16" fill="#0a1729" stroke="#345b91"/>
+        <rect x="238" width="174" height="126" rx="16" fill="#f4f8ff" stroke="#345b91"/>
         <text x="256" y="27" class="step">02</text>
         <text x="256" y="55" class="card-title">CenterCrop</text>
         <text x="256" y="84" class="mono" font-size="18" font-weight="700" fill="#9fc7ff">224 × 224</text>
         <path d="M412 63H434" stroke="#60a5fa" stroke-width="3" marker-end="url(#arr-blue)"/>
 
-        <rect x="442" width="148" height="126" rx="16" fill="#0a1729" stroke="#345b91"/>
+        <rect x="442" width="148" height="126" rx="16" fill="#f4f8ff" stroke="#345b91"/>
         <text x="460" y="27" class="step">03</text>
         <text x="460" y="55" class="card-title">ToTensor</text>
         <text x="460" y="83" class="value">[3, 224, 224]</text>
         <text x="460" y="104" class="small">float channels</text>
         <path d="M590 63H612" stroke="#60a5fa" stroke-width="3" marker-end="url(#arr-blue)"/>
 
-        <rect x="620" width="302" height="126" rx="16" fill="#0a1729" stroke="#345b91"/>
+        <rect x="620" width="302" height="126" rx="16" fill="#f4f8ff" stroke="#345b91"/>
         <text x="638" y="27" class="step">04 · NORMALIZE</text>
         <text x="638" y="55" class="mono" font-size="13" fill="#d4e6fb">mean = (0.48145466, 0.4578275,</text>
         <text x="638" y="75" class="mono" font-size="13" fill="#d4e6fb">        0.40821073)</text>
@@ -109,33 +116,33 @@
     <!-- SigLIP lane -->
     <g transform="translate(382 520)">
       <rect width="974" height="250" rx="26" fill="url(#siglip-lane)" stroke="#d97706" stroke-width="2"/>
-      <rect x="26" y="24" width="150" height="34" rx="17" fill="#5b3708"/>
+      <rect x="26" y="24" width="150" height="34" rx="17" fill="#fff7e8"/>
       <circle cx="46" cy="41" r="6" fill="#fbbf24"/>
       <text x="62" y="46" class="step" fill="#ffe1a1">SIGLIP LANE</text>
       <text x="206" y="49" class="small">Google SigLIP So400M Patch14-384 image transform</text>
 
       <g transform="translate(26 82)">
-        <rect width="182" height="126" rx="16" fill="#17140e" stroke="#73531e"/>
+        <rect width="182" height="126" rx="16" fill="#fff7e8" stroke="#73531e"/>
         <text x="18" y="27" class="step">01</text>
         <text x="18" y="55" class="card-title">Resize</text>
         <text x="18" y="82" class="value">short edge → 384</text>
         <text x="18" y="104" class="small">bicubic interpolation</text>
         <path d="M208 63H230" stroke="#fbbf24" stroke-width="3" marker-end="url(#arr-amber)"/>
 
-        <rect x="238" width="174" height="126" rx="16" fill="#17140e" stroke="#73531e"/>
+        <rect x="238" width="174" height="126" rx="16" fill="#fff7e8" stroke="#73531e"/>
         <text x="256" y="27" class="step">02</text>
         <text x="256" y="55" class="card-title">CenterCrop</text>
         <text x="256" y="84" class="mono" font-size="18" font-weight="700" fill="#ffd783">384 × 384</text>
         <path d="M412 63H434" stroke="#fbbf24" stroke-width="3" marker-end="url(#arr-amber)"/>
 
-        <rect x="442" width="148" height="126" rx="16" fill="#17140e" stroke="#73531e"/>
+        <rect x="442" width="148" height="126" rx="16" fill="#fff7e8" stroke="#73531e"/>
         <text x="460" y="27" class="step">03</text>
         <text x="460" y="55" class="card-title">ToTensor</text>
         <text x="460" y="83" class="value">[3, 384, 384]</text>
         <text x="460" y="104" class="small">float channels</text>
         <path d="M590 63H612" stroke="#fbbf24" stroke-width="3" marker-end="url(#arr-amber)"/>
 
-        <rect x="620" width="302" height="126" rx="16" fill="#17140e" stroke="#73531e"/>
+        <rect x="620" width="302" height="126" rx="16" fill="#fff7e8" stroke="#73531e"/>
         <text x="638" y="27" class="step">04 · NORMALIZE</text>
         <text x="638" y="60" class="mono" font-size="15" fill="#ffdfa0">mean = (0.5, 0.5, 0.5)</text>
         <text x="638" y="88" class="mono" font-size="15" fill="#ffdfa0">std  = (0.5, 0.5, 0.5)</text>

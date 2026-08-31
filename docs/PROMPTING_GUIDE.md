@@ -91,9 +91,10 @@ evidence and human review.
 - Give the AI the exact evidence JSON/Markdown file for metric questions.
 - Recheck `STATUS.md` and Git state for worktree or release questions because
   coordination facts can become stale.
-- Keep the site roles distinct: `/journey` is the judge narrative,
-  `/documentation` is the readable appendix, and
-  `/documentation/architecture` is the deep technical atlas.
+- Keep the site roles distinct: `/journey` is the judge narrative and
+  `/documentation` is the unified readable appendix, evidence guide, and deep
+  technical atlas. `/documentation/architecture` is a compatibility route for
+  legacy links, not a separate information destination.
 - Keep image scores distinct from sampled-video summaries: the video mean is a
   descriptive aggregate, not motion analysis or a calibrated video probability.
 - After changing naming, routes, output contracts, evidence status, or context

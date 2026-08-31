@@ -2,9 +2,9 @@
   <title id="title">SynthFlag analyze request sequence and timing boundary</title>
   <desc id="desc">A sequence diagram showing browser validation, the optional edge proxy, FastAPI validation and RGB decode, cold or warm model access through the model lock, serialized inference through the inference lock, and the exact interval represented by processing milliseconds.</desc>
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#06101d"/><stop offset="1" stop-color="#07131f"/></linearGradient>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f4f8ff"/><stop offset="1" stop-color="#f4f8ff"/></linearGradient>
     <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#7690aa" stroke-opacity=".065"/></pattern>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#000710" flood-opacity=".42"/></filter>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#f4f8ff" flood-opacity=".42"/></filter>
     <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#93abc4"/></marker>
     <marker id="blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#60a5fa"/></marker>
     <marker id="lime" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#a3e635"/></marker>
@@ -12,6 +12,13 @@
       .sans{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.mono{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace}
       .eyebrow{font-size:15px;font-weight:750;letter-spacing:3px;fill:#65e6d2}.headline{font-size:45px;font-weight:740;letter-spacing:-1.2px;fill:#f5f9ff}.subtitle{font-size:18px;fill:#aabbd0}
       .actor{font-size:17px;font-weight:740;fill:#f0f6fd}.role{font-size:11px;font-weight:800;letter-spacing:1.4px;fill:#8da5bf}.step{font-size:12px;font-weight:780;letter-spacing:1px;fill:#d8e5f3}.body{font-size:13px;fill:#b8c8da}.small{font-size:11px;fill:#8fa5bd}.label{font-size:12px;font-weight:700;fill:#dce8f4}
+    </style>
+      <style>
+      text,tspan{fill:#111827}
+      .eyebrow,.kicker,.stage,.role,.step,.label,.section{fill:#2448c2}
+      .subtitle,.body,.small,.mini,.note,.sub,.tiny{fill:#52627a}
+      .headline,.title,.laneTitle,.lane-title,.card-title,.cardTitle,.boxTitle,.actor,.head,.strong,.stat,.value,.formula,.eq,.prob,.state{fill:#111827}
+      .mono,.monoText,.chip,.number,.num,.code,.dim{fill:#253651}
     </style>
   </defs>
   <rect width="1440" height="900" fill="url(#bg)"/><rect width="1440" height="900" fill="url(#grid)"/>
@@ -21,56 +28,56 @@
     <text x="64" y="161" class="subtitle">The returned <tspan class="mono">processing_ms</tspan> measures queue wait plus model inference—not the whole network request.</text>
 
     <!-- actors -->
-    <g transform="translate(64 202)" filter="url(#shadow)"><rect width="220" height="76" rx="18" fill="#0b2932" stroke="#2dd4bf"/><text x="18" y="28" class="role" fill="#8ff4e4">CLIENT</text><text x="18" y="55" class="actor">Browser /try</text></g>
-    <g transform="translate(344 202)" filter="url(#shadow)"><rect width="220" height="76" rx="18" fill="#101d2d" stroke="#566f89"/><text x="18" y="28" class="role">OPTIONAL HOP</text><text x="18" y="55" class="actor">Next.js edge proxy</text></g>
-    <g transform="translate(624 202)" filter="url(#shadow)"><rect width="220" height="76" rx="18" fill="#101d2d" stroke="#566f89"/><text x="18" y="28" class="role">MODEL SERVICE</text><text x="18" y="55" class="actor">FastAPI request</text></g>
-    <g transform="translate(904 202)" filter="url(#shadow)"><rect width="220" height="76" rx="18" fill="#221b0d" stroke="#d97706"/><text x="18" y="28" class="role" fill="#f7cf7c">SHARED STATE</text><text x="18" y="55" class="actor">Model loader</text></g>
-    <g transform="translate(1184 202)" filter="url(#shadow)"><rect width="192" height="76" rx="18" fill="#0d2144" stroke="#3b82f6"/><text x="18" y="28" class="role" fill="#add0ff">GPU / CPU / MPS</text><text x="18" y="55" class="actor">Resident model</text></g>
+    <g transform="translate(64 202)" filter="url(#shadow)"><rect width="220" height="76" rx="18" fill="#edf9f7" stroke="#2dd4bf"/><text x="18" y="28" class="role" fill="#8ff4e4">CLIENT</text><text x="18" y="55" class="actor">Browser /try</text></g>
+    <g transform="translate(344 202)" filter="url(#shadow)"><rect width="220" height="76" rx="18" fill="#edf3ff" stroke="#566f89"/><text x="18" y="28" class="role">OPTIONAL HOP</text><text x="18" y="55" class="actor">Next.js edge proxy</text></g>
+    <g transform="translate(624 202)" filter="url(#shadow)"><rect width="220" height="76" rx="18" fill="#edf3ff" stroke="#566f89"/><text x="18" y="28" class="role">MODEL SERVICE</text><text x="18" y="55" class="actor">FastAPI request</text></g>
+    <g transform="translate(904 202)" filter="url(#shadow)"><rect width="220" height="76" rx="18" fill="#fff7e8" stroke="#d97706"/><text x="18" y="28" class="role" fill="#f7cf7c">SHARED STATE</text><text x="18" y="55" class="actor">Model loader</text></g>
+    <g transform="translate(1184 202)" filter="url(#shadow)"><rect width="192" height="76" rx="18" fill="#edf3ff" stroke="#3b82f6"/><text x="18" y="28" class="role" fill="#add0ff">GPU / CPU / MPS</text><text x="18" y="55" class="actor">Resident model</text></g>
 
     <!-- lifelines -->
     <g stroke="#436078" stroke-dasharray="5 8" opacity=".78"><path d="M174 278V812"/><path d="M454 278V812"/><path d="M734 278V812"/><path d="M1014 278V812"/><path d="M1280 278V812"/></g>
 
     <!-- local validation -->
-    <g transform="translate(76 304)"><rect width="196" height="48" rx="12" fill="#0a1d27" stroke="#277e79"/><text x="12" y="20" class="step">01 · LOCAL GUARDS</text><text x="12" y="38" class="small">JPEG/PNG/WebP · ≤10 MiB</text></g>
+    <g transform="translate(76 304)"><rect width="196" height="48" rx="12" fill="#edf9f7" stroke="#277e79"/><text x="12" y="20" class="step">01 · LOCAL GUARDS</text><text x="12" y="38" class="small">JPEG/PNG/WebP · ≤10 MiB</text></g>
 
     <!-- routes -->
     <path d="M174 376H734" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-dasharray="7 6" marker-end="url(#blue)"/>
-    <rect x="321" y="357" width="270" height="30" rx="15" fill="#0c2541"/><text x="456" y="377" class="label mono" text-anchor="middle" fill="#b9d8ff">DIRECT · POST /v1/analyze</text>
+    <rect x="321" y="357" width="270" height="30" rx="15" fill="#edf3ff"/><text x="456" y="377" class="label mono" text-anchor="middle" fill="#b9d8ff">DIRECT · POST /v1/analyze</text>
     <path d="M174 418H454" fill="none" stroke="#93abc4" stroke-width="2.5" marker-end="url(#arr)"/>
     <text x="314" y="409" class="small" text-anchor="middle">PROXY PATH · POST /api/analyze</text>
-    <g transform="translate(368 430)"><rect width="172" height="50" rx="12" fill="#0d1927" stroke="#435b75"/><text x="12" y="20" class="step">02 · REVALIDATE</text><text x="12" y="39" class="small">form · file · type · size</text></g>
+    <g transform="translate(368 430)"><rect width="172" height="50" rx="12" fill="#f4f8ff" stroke="#435b75"/><text x="12" y="20" class="step">02 · REVALIDATE</text><text x="12" y="39" class="small">form · file · type · size</text></g>
     <path d="M454 493H734" fill="none" stroke="#93abc4" stroke-width="2.5" marker-end="url(#arr)"/>
     <text x="594" y="484" class="small" text-anchor="middle">multipart forward · 300 s proxy timeout</text>
     <text x="583" y="391" class="small" text-anchor="middle">choose one route</text>
 
     <!-- service validation and decode -->
-    <g transform="translate(636 516)"><rect width="196" height="62" rx="12" fill="#0d1927" stroke="#435b75"/><text x="12" y="20" class="step">03 · SERVICE GUARDS</text><text x="12" y="39" class="small">content type · read up to 10 MiB + 1 byte</text><text x="12" y="54" class="small">close upload · reject oversize</text></g>
+    <g transform="translate(636 516)"><rect width="196" height="62" rx="12" fill="#f4f8ff" stroke="#435b75"/><text x="12" y="20" class="step">03 · SERVICE GUARDS</text><text x="12" y="39" class="small">content type · read up to 10 MiB + 1 byte</text><text x="12" y="54" class="small">close upload · reject oversize</text></g>
     <path d="M734 578V596" stroke="#93abc4" stroke-width="2.5" marker-end="url(#arr)"/>
-    <g transform="translate(636 604)"><rect width="196" height="74" rx="12" fill="#0d1927" stroke="#435b75"/><text x="12" y="20" class="step">04 · DECODE THREAD</text><text x="12" y="39" class="small">≤50M px · verify decodable</text><text x="12" y="56" class="small">minimum 32×32 · convert RGB</text></g>
+    <g transform="translate(636 604)"><rect width="196" height="74" rx="12" fill="#f4f8ff" stroke="#435b75"/><text x="12" y="20" class="step">04 · DECODE THREAD</text><text x="12" y="39" class="small">≤50M px · verify decodable</text><text x="12" y="56" class="small">minimum 32×32 · convert RGB</text></g>
 
     <!-- get model -->
     <path d="M832 640H1014" stroke="#fbbf24" stroke-width="2.5" marker-end="url(#arr)"/>
     <text x="923" y="631" class="small" text-anchor="middle">await _get_model()</text>
-    <g transform="translate(916 516)"><rect width="196" height="108" rx="12" fill="#20180b" stroke="#9a6c18"/><text x="12" y="20" class="step" fill="#f4d28c">05 · WARM OR COLD</text><text x="12" y="43" class="body">warm → return resident</text><text x="12" y="64" class="body">cold → acquire _model_lock</text><text x="12" y="84" class="small">double-check · verify/load once</text><text x="12" y="101" class="small">set 12-char checkpoint digest</text></g>
+    <g transform="translate(916 516)"><rect width="196" height="108" rx="12" fill="#fff7e8" stroke="#9a6c18"/><text x="12" y="20" class="step" fill="#f4d28c">05 · WARM OR COLD</text><text x="12" y="43" class="body">warm → return resident</text><text x="12" y="64" class="body">cold → acquire _model_lock</text><text x="12" y="84" class="small">double-check · verify/load once</text><text x="12" y="101" class="small">set 12-char checkpoint digest</text></g>
     <path d="M1014 624V650H832" fill="none" stroke="#fbbf24" stroke-width="2.5" marker-end="url(#arr)"/>
     <text x="923" y="665" class="small" text-anchor="middle">model reference</text>
 
     <!-- timing boundary -->
     <g transform="translate(584 688)">
-      <rect width="48" height="112" rx="14" fill="#17240f" stroke="#84cc16"/>
+      <rect width="48" height="112" rx="14" fill="#ffffff" stroke="#84cc16"/>
       <path d="M30 14H16V98H30" fill="none" stroke="#a3e635" stroke-width="3"/>
       <text transform="translate(13 94) rotate(-90)" class="small" fill="#dff7a8">processing_ms</text>
     </g>
-    <g transform="translate(646 694)"><rect width="176" height="44" rx="11" fill="#152411" stroke="#84cc16"/><text x="12" y="18" class="step" fill="#dff7a8">06 · START TIMER</text><text x="12" y="35" class="small">immediately before lock</text></g>
+    <g transform="translate(646 694)"><rect width="176" height="44" rx="11" fill="#ffffff" stroke="#84cc16"/><text x="12" y="18" class="step" fill="#dff7a8">06 · START TIMER</text><text x="12" y="35" class="small">immediately before lock</text></g>
     <path d="M822 716H1280" stroke="#a3e635" stroke-width="2.5" marker-end="url(#lime)"/>
     <text x="1047" y="706" class="small" text-anchor="middle" fill="#cfea91">async with _inference_lock → predict_pil in thread</text>
-    <g transform="translate(1196 734)"><rect width="168" height="60" rx="12" fill="#0d2144" stroke="#3b82f6"/><text x="12" y="20" class="step" fill="#cfe3ff">07 · SCORE ONCE</text><text x="12" y="40" class="small">224 + 384 px tensors · 4 experts</text><text x="12" y="54" class="small">mean P(fake)</text></g>
+    <g transform="translate(1196 734)"><rect width="168" height="60" rx="12" fill="#edf3ff" stroke="#3b82f6"/><text x="12" y="20" class="step" fill="#cfe3ff">07 · SCORE ONCE</text><text x="12" y="40" class="small">224 + 384 px tensors · 4 experts</text><text x="12" y="54" class="small">mean P(fake)</text></g>
     <path d="M1280 802H734" stroke="#a3e635" stroke-width="2.5" marker-end="url(#lime)"/>
     <text x="1007" y="822" class="small" text-anchor="middle" fill="#cfea91">stop timer after lock release · round milliseconds</text>
 
     <!-- response rail -->
     <path d="M734 842H174" stroke="#a3e635" stroke-width="2.5" marker-end="url(#lime)"/>
-    <rect x="332" y="826" width="246" height="30" rx="15" fill="#17240f"/><text x="455" y="846" class="label mono" text-anchor="middle" fill="#e3f8b6">JSON · score + runtime metadata</text>
+    <rect x="332" y="826" width="246" height="30" rx="15" fill="#ffffff"/><text x="455" y="846" class="label mono" text-anchor="middle" fill="#e3f8b6">JSON · score + runtime metadata</text>
 
     <!-- exclusions -->
     <g transform="translate(64 862)"><text x="0" y="0" class="small">NOT IN processing_ms:</text><text x="134" y="0" class="body">browser/proxy transit · request validation · byte read · RGB decode · cold model initialization</text></g>

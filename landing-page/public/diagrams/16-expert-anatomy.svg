@@ -2,22 +2,29 @@
   <title id="title">CLIP and SigLIP expert anatomy in the released SynthFlag ensemble</title>
   <desc id="desc">A detailed comparison of CLIP and SigLIP patch embeddings, token tensors, repeated pre-layer-normalized transformer blocks with query, key, value projections, multi-head attention, residual paths, MLP layers, family-specific pooling, binary classifier heads, and float32 class-one softmax outputs.</desc>
   <defs>
-    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#15243a"/></pattern>
-    <linearGradient id="clipBg" x1="0" x2="1"><stop stop-color="#0b244a"/><stop offset="1" stop-color="#091728"/></linearGradient>
-    <linearGradient id="sigBg" x1="0" x2="1"><stop stop-color="#35250a"/><stop offset="1" stop-color="#131826"/></linearGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#edf3ff"/></pattern>
+    <linearGradient id="clipBg" x1="0" x2="1"><stop stop-color="#edf3ff"/><stop offset="1" stop-color="#f4f8ff"/></linearGradient>
+    <linearGradient id="sigBg" x1="0" x2="1"><stop stop-color="#fff7e8"/><stop offset="1" stop-color="#edf3ff"/></linearGradient>
     <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#8194b2"/></marker>
     <marker id="ac" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#65a9ff"/></marker>
     <marker id="as" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#f3b849"/></marker>
     <style>
-      .title{font:700 40px ui-sans-serif,system-ui,sans-serif;fill:#f4f8ff;letter-spacing:-1.2px}.subtitle{font:400 17px ui-sans-serif,system-ui,sans-serif;fill:#92a4c1}.kicker{font:700 13px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:1.7px}.lane{font:700 27px ui-sans-serif,system-ui,sans-serif;fill:#f3f7ff}.boxTitle{font:700 16px ui-sans-serif,system-ui,sans-serif;fill:#edf4ff}.body{font:400 14px ui-sans-serif,system-ui,sans-serif;fill:#aebbd0}.small{font:400 12px ui-sans-serif,system-ui,sans-serif;fill:#8295b3}.mono{font:600 13px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#d9e6fa}.mini{font:700 11px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#8da2c2;letter-spacing:.6px}.clip{fill:#0d284f;stroke:#4d8fe8;stroke-width:1.5}.sig{fill:#39290e;stroke:#bd8524;stroke-width:1.5}.neutral{fill:#0c1728;stroke:#344661;stroke-width:1.5}.clipLine{fill:none;stroke:#65a9ff;stroke-width:2;marker-end:url(#ac)}.sigLine{fill:none;stroke:#f3b849;stroke-width:2;marker-end:url(#as)}.thin{fill:none;stroke:#8194b2;stroke-width:1.6;marker-end:url(#a)}.resClip{fill:none;stroke:#76b6ff;stroke-width:1.5;stroke-dasharray:5 5}.resSig{fill:none;stroke:#ffd173;stroke-width:1.5;stroke-dasharray:5 5}
+      .title{font:700 40px ui-sans-serif,system-ui,sans-serif;fill:#f4f8ff;letter-spacing:-1.2px}.subtitle{font:400 17px ui-sans-serif,system-ui,sans-serif;fill:#92a4c1}.kicker{font:700 13px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:1.7px}.lane{font:700 27px ui-sans-serif,system-ui,sans-serif;fill:#f3f7ff}.boxTitle{font:700 16px ui-sans-serif,system-ui,sans-serif;fill:#edf4ff}.body{font:400 14px ui-sans-serif,system-ui,sans-serif;fill:#aebbd0}.small{font:400 12px ui-sans-serif,system-ui,sans-serif;fill:#8295b3}.mono{font:600 13px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#d9e6fa}.mini{font:700 11px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#8da2c2;letter-spacing:.6px}.clip{fill:#edf3ff;stroke:#4d8fe8;stroke-width:1.5}.sig{fill:#fff7e8;stroke:#bd8524;stroke-width:1.5}.neutral{fill:#f4f8ff;stroke:#344661;stroke-width:1.5}.clipLine{fill:none;stroke:#65a9ff;stroke-width:2;marker-end:url(#ac)}.sigLine{fill:none;stroke:#f3b849;stroke-width:2;marker-end:url(#as)}.thin{fill:none;stroke:#8194b2;stroke-width:1.6;marker-end:url(#a)}.resClip{fill:none;stroke:#76b6ff;stroke-width:1.5;stroke-dasharray:5 5}.resSig{fill:none;stroke:#ffd173;stroke-width:1.5;stroke-dasharray:5 5}
+    </style>
+      <style>
+      text,tspan{fill:#111827}
+      .eyebrow,.kicker,.stage,.role,.step,.label,.section{fill:#2448c2}
+      .subtitle,.body,.small,.mini,.note,.sub,.tiny{fill:#52627a}
+      .headline,.title,.laneTitle,.lane-title,.card-title,.cardTitle,.boxTitle,.actor,.head,.strong,.stat,.value,.formula,.eq,.prob,.state{fill:#111827}
+      .mono,.monoText,.chip,.number,.num,.code,.dim{fill:#253651}
     </style>
   </defs>
 
-  <rect width="1920" height="1350" fill="#07111f"/><rect width="1920" height="1350" fill="url(#grid)" opacity=".48"/>
+  <rect width="1920" height="1350" fill="#f4f8ff"/><rect width="1920" height="1350" fill="url(#grid)" opacity=".48"/>
   <text x="60" y="66" class="kicker" fill="#52dfc9">FIGURE 16 · BACKBONE + HEAD ANATOMY · PINNED TRANSFORMERS 5.3.0</text>
   <text x="60" y="114" class="title">Open the expert: tokens, attention, residuals, pooling, classifier</text>
   <text x="60" y="147" class="subtitle">The encoder block topology is similar; token construction, width, depth, activation, and pooling are not.</text>
-  <g transform="translate(1450 50)"><rect width="410" height="92" rx="15" fill="#121927" stroke="#40516b"/><text x="18" y="28" class="mini">SCORING-TIME MODULES ONLY</text><text x="18" y="53" class="body">Vision backbone + binary head. No text encoder,</text><text x="18" y="75" class="body">prompt, decoder, distillation target, or DINO module.</text></g>
+  <g transform="translate(1450 50)"><rect width="410" height="92" rx="15" fill="#edf3ff" stroke="#40516b"/><text x="18" y="28" class="mini">SCORING-TIME MODULES ONLY</text><text x="18" y="53" class="body">Vision backbone + binary head. No text encoder,</text><text x="18" y="75" class="body">prompt, decoder, distillation target, or DINO module.</text></g>
 
   <!-- CLIP family -->
   <g transform="translate(60 190)">

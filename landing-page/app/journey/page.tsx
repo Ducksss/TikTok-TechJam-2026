@@ -21,6 +21,7 @@ import { ModelJourney } from '../documentation/architecture/model-journey';
 import '../documentation/documentation.css';
 import '../documentation/architecture/architecture.css';
 import './journey.css';
+import '../documentation/light-theme.css';
 
 const contents = [
   ['day-one', 'Day 1 · Trust'],
@@ -411,6 +412,11 @@ export default function JourneyPage() {
             className="journey-section journey-model-section"
             id="released-model"
           >
+            <span
+              aria-hidden="true"
+              className="journey-anchor-alias"
+              id="final-model"
+            />
             <div className="journey-section-heading">
               <p>Released model · Visual walkthrough</p>
               <h2>Follow one image from patches to the score signal.</h2>
@@ -423,7 +429,7 @@ export default function JourneyPage() {
             <ModelJourney />
             <a
               className="journey-static-handoff"
-              href="/documentation/architecture#deep-model"
+              href="/documentation#deep-model"
             >
               <span>
                 <Layers3 aria-hidden="true" />

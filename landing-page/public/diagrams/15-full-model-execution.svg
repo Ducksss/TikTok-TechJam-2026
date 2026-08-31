@@ -3,16 +3,16 @@
   <desc id="desc">An uploaded image passes request validation and RGB decoding, then splits into a 224 pixel CLIP lane and a 384 pixel SigLIP lane. Two independently checkpointed experts in each family run exact patch embeddings, transformer stacks, pooling, classifier heads, float32 softmax, and unweighted arithmetic-mean fusion. A boundary note states that DINOv3 is not in the released inference path.</desc>
   <defs>
     <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
-      <path d="M32 0H0V32" fill="none" stroke="#15243a" stroke-width="1"/>
+      <path d="M32 0H0V32" fill="none" stroke="#edf3ff" stroke-width="1"/>
     </pattern>
     <linearGradient id="clipBg" x1="0" x2="1">
-      <stop stop-color="#0c2347"/><stop offset="1" stop-color="#0a182e"/>
+      <stop stop-color="#edf3ff"/><stop offset="1" stop-color="#f4f8ff"/>
     </linearGradient>
     <linearGradient id="sigBg" x1="0" x2="1">
-      <stop stop-color="#35250b"/><stop offset="1" stop-color="#161a25"/>
+      <stop stop-color="#fff7e8"/><stop offset="1" stop-color="#edf3ff"/>
     </linearGradient>
     <linearGradient id="fusionBg" x1="0" y1="0" x2="0" y2="1">
-      <stop stop-color="#172f2d"/><stop offset="1" stop-color="#0a191d"/>
+      <stop stop-color="#edf9f7"/><stop offset="1" stop-color="#edf9f7"/>
     </linearGradient>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
       <path d="M0 0L10 5L0 10Z" fill="#7186a8"/>
@@ -27,11 +27,18 @@
       <path d="M0 0L10 5L0 10Z" fill="#52dfc9"/>
     </marker>
     <style>
-      .title{font:700 40px ui-sans-serif,system-ui,sans-serif;fill:#f4f8ff;letter-spacing:-1.2px}.subtitle{font:400 17px ui-sans-serif,system-ui,sans-serif;fill:#91a3c0}.kicker{font:700 13px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:1.8px}.laneTitle{font:700 24px ui-sans-serif,system-ui,sans-serif;fill:#f4f8ff}.boxTitle{font:700 16px ui-sans-serif,system-ui,sans-serif;fill:#edf4ff}.body{font:400 14px ui-sans-serif,system-ui,sans-serif;fill:#aebbd0}.small{font:400 12px ui-sans-serif,system-ui,sans-serif;fill:#8295b3}.mono{font:600 13px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#d9e6fa}.mini{font:600 11px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#8da2c2}.chip{font:700 11px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:1px}.node{fill:#0c1728;stroke:#31435f;stroke-width:1.5}.clipNode{fill:#0d274e;stroke:#4d8fe8;stroke-width:1.5}.sigNode{fill:#35270e;stroke:#c78c24;stroke-width:1.5}.fuseNode{fill:#102b2b;stroke:#35bda9;stroke-width:1.5}.runtimeNode{fill:#151526;stroke:#7765aa;stroke-width:1.5}.line{fill:none;stroke:#7186a8;stroke-width:2;marker-end:url(#arrow)}.clipLine{fill:none;stroke:#62a8ff;stroke-width:2.25;marker-end:url(#arrowClip)}.sigLine{fill:none;stroke:#f0b84e;stroke-width:2.25;marker-end:url(#arrowSig)}.fuseLine{fill:none;stroke:#52dfc9;stroke-width:2.5;marker-end:url(#arrowFuse)}
+      .title{font:700 40px ui-sans-serif,system-ui,sans-serif;fill:#f4f8ff;letter-spacing:-1.2px}.subtitle{font:400 17px ui-sans-serif,system-ui,sans-serif;fill:#91a3c0}.kicker{font:700 13px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:1.8px}.laneTitle{font:700 24px ui-sans-serif,system-ui,sans-serif;fill:#f4f8ff}.boxTitle{font:700 16px ui-sans-serif,system-ui,sans-serif;fill:#edf4ff}.body{font:400 14px ui-sans-serif,system-ui,sans-serif;fill:#aebbd0}.small{font:400 12px ui-sans-serif,system-ui,sans-serif;fill:#8295b3}.mono{font:600 13px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#d9e6fa}.mini{font:600 11px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#8da2c2}.chip{font:700 11px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:1px}.node{fill:#f4f8ff;stroke:#31435f;stroke-width:1.5}.clipNode{fill:#edf3ff;stroke:#4d8fe8;stroke-width:1.5}.sigNode{fill:#fff7e8;stroke:#c78c24;stroke-width:1.5}.fuseNode{fill:#edf9f7;stroke:#35bda9;stroke-width:1.5}.runtimeNode{fill:#edf3ff;stroke:#7765aa;stroke-width:1.5}.line{fill:none;stroke:#7186a8;stroke-width:2;marker-end:url(#arrow)}.clipLine{fill:none;stroke:#62a8ff;stroke-width:2.25;marker-end:url(#arrowClip)}.sigLine{fill:none;stroke:#f0b84e;stroke-width:2.25;marker-end:url(#arrowSig)}.fuseLine{fill:none;stroke:#52dfc9;stroke-width:2.5;marker-end:url(#arrowFuse)}
+    </style>
+      <style>
+      text,tspan{fill:#111827}
+      .eyebrow,.kicker,.stage,.role,.step,.label,.section{fill:#2448c2}
+      .subtitle,.body,.small,.mini,.note,.sub,.tiny{fill:#52627a}
+      .headline,.title,.laneTitle,.lane-title,.card-title,.cardTitle,.boxTitle,.actor,.head,.strong,.stat,.value,.formula,.eq,.prob,.state{fill:#111827}
+      .mono,.monoText,.chip,.number,.num,.code,.dim{fill:#253651}
     </style>
   </defs>
 
-  <rect width="1920" height="1500" fill="#07111f"/>
+  <rect width="1920" height="1500" fill="#f4f8ff"/>
   <rect width="1920" height="1500" fill="url(#grid)" opacity=".48"/>
 
   <text x="60" y="68" class="kicker" fill="#52dfc9">FIGURE 15 · RELEASED INFERENCE · MAXIMAL EXECUTION GRAPH</text>
@@ -39,7 +46,7 @@
   <text x="60" y="149" class="subtitle">Solid arrows are executable runtime operations. Each expert owns a complete, independently loaded checkpoint.</text>
 
   <g transform="translate(1445 42)">
-    <rect width="415" height="112" rx="16" fill="#17131d" stroke="#b78575" stroke-dasharray="7 6"/>
+    <rect width="415" height="112" rx="16" fill="#f5f0ff" stroke="#b78575" stroke-dasharray="7 6"/>
     <text x="18" y="28" class="chip" fill="#ffb49f">ARCHITECTURE BOUNDARY</text>
     <text x="18" y="55" class="boxTitle">No DINO / DINOv2 / DINOv3 module</text>
     <text x="18" y="78" class="body">is instantiated, checkpointed, or executed in the</text>
@@ -48,7 +55,7 @@
 
   <!-- Request and decode rail -->
   <g transform="translate(60 190)">
-    <rect width="1800" height="132" rx="20" fill="#0a1627" stroke="#2e4563"/>
+    <rect width="1800" height="132" rx="20" fill="#f4f8ff" stroke="#2e4563"/>
     <text x="22" y="27" class="kicker" fill="#8fb3e8">REQUEST + INPUT GATES</text>
     <g transform="translate(22 44)">
       <rect class="node" width="214" height="68" rx="13"/>
@@ -126,13 +133,13 @@
       <text x="16" y="29" class="chip" fill="#9dcaff">PRE-LN TRANSFORMER ENCODER ×24</text>
       <text x="16" y="56" class="body">LayerNorm ε=1e−5</text>
       <g transform="translate(16 75)">
-        <rect width="388" height="86" rx="12" fill="#102f5d" stroke="#4d8fe8"/>
+        <rect width="388" height="86" rx="12" fill="#edf3ff" stroke="#4d8fe8"/>
         <text x="14" y="25" class="mini">SELF-ATTENTION + RESIDUAL</text>
         <text x="14" y="48" class="body">Q, K, V: 1024→1024 · 16 heads × 64</text>
         <text x="14" y="69" class="body">scaled attention · dropout 0 · out 1024</text>
       </g>
       <g transform="translate(16 173)">
-        <rect width="388" height="86" rx="12" fill="#102f5d" stroke="#4d8fe8"/>
+        <rect width="388" height="86" rx="12" fill="#edf3ff" stroke="#4d8fe8"/>
         <text x="14" y="25" class="mini">MLP + RESIDUAL</text>
         <text x="14" y="48" class="body">LayerNorm → 1024→4096→1024</text>
         <text x="14" y="69" class="body">QuickGELU activation</text>
@@ -214,13 +221,13 @@
       <text x="16" y="29" class="chip" fill="#ffe0a1">PRE-LN TRANSFORMER ENCODER ×27</text>
       <text x="16" y="56" class="body">LayerNorm ε=1e−6</text>
       <g transform="translate(16 75)">
-        <rect width="388" height="94" rx="12" fill="#47340f" stroke="#c78c24"/>
+        <rect width="388" height="94" rx="12" fill="#fff7e8" stroke="#c78c24"/>
         <text x="14" y="25" class="mini">SELF-ATTENTION + RESIDUAL</text>
         <text x="14" y="49" class="body">Q, K, V: 1152→1152 · 16 heads × 72</text>
         <text x="14" y="72" class="body">scaled attention · dropout 0 · out 1152</text>
       </g>
       <g transform="translate(16 181)">
-        <rect width="388" height="94" rx="12" fill="#47340f" stroke="#c78c24"/>
+        <rect width="388" height="94" rx="12" fill="#fff7e8" stroke="#c78c24"/>
         <text x="14" y="25" class="mini">MLP + RESIDUAL</text>
         <text x="14" y="49" class="body">LayerNorm → 1152→4304→1152</text>
         <text x="14" y="72" class="body">GELU-pytorch-tanh activation</text>
@@ -303,7 +310,7 @@
 
   <!-- Runtime rail -->
   <g transform="translate(60 1300)">
-    <rect width="1800" height="148" rx="20" fill="#0d1221" stroke="#584b80"/>
+    <rect width="1800" height="148" rx="20" fill="#f4f8ff" stroke="#584b80"/>
     <text x="22" y="28" class="kicker" fill="#b6a4f4">PROCESS-LOCAL RUNTIME RAIL</text>
     <g transform="translate(22 48)"><rect class="runtimeNode" width="245" height="74" rx="13"/><text x="14" y="28" class="boxTitle">_model_lock</text><text x="14" y="51" class="small">one construction · lazy or eager</text></g>
     <path class="line" d="M275 85H310"/>

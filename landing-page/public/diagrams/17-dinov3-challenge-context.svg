@@ -2,23 +2,30 @@
   <title id="title">DINOv3 architectures described for external NTIRE challenge teams</title>
   <desc id="desc">A source-bounded comparison of two external DINOv3 challenge methods. MICV uses a four-backbone committee and a two-backbone committee with projection and MLP heads, then averages stream probabilities; its DINOv3 variants are not reported. Ant International uses two independently fine-tuned DINOv3-7B experts at 512 and 288 pixels with attention and first-token pooling, test-time augmentation, and weighted fusion. The official DINOv3-7B backbone anatomy contextualizes Ant's named model only, while undisclosed detector details and the separation from SynthFlag are explicit.</desc>
   <defs>
-    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#17253b"/></pattern>
-    <linearGradient id="dino" x1="0" x2="1"><stop stop-color="#251c45"/><stop offset="1" stop-color="#11182a"/></linearGradient>
-    <linearGradient id="micv" x1="0" x2="1"><stop stop-color="#0d2c3a"/><stop offset="1" stop-color="#0b1827"/></linearGradient>
-    <linearGradient id="ant" x1="0" x2="1"><stop stop-color="#33250e"/><stop offset="1" stop-color="#141827"/></linearGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#edf3ff"/></pattern>
+    <linearGradient id="dino" x1="0" x2="1"><stop stop-color="#edf3ff"/><stop offset="1" stop-color="#edf3ff"/></linearGradient>
+    <linearGradient id="micv" x1="0" x2="1"><stop stop-color="#edf9f7"/><stop offset="1" stop-color="#f4f8ff"/></linearGradient>
+    <linearGradient id="ant" x1="0" x2="1"><stop stop-color="#fff7e8"/><stop offset="1" stop-color="#edf3ff"/></linearGradient>
     <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#8597b4"/></marker>
     <marker id="teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#42d5c5"/></marker>
     <marker id="amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#f4bb4f"/></marker>
     <style>
-      .title{font:700 40px ui-sans-serif,system-ui,sans-serif;fill:#f4f8ff;letter-spacing:-1.2px}.subtitle{font:400 17px ui-sans-serif,system-ui,sans-serif;fill:#93a5c1}.kicker{font:700 13px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:1.7px}.section{font:700 25px ui-sans-serif,system-ui,sans-serif;fill:#f3f7ff}.boxTitle{font:700 16px ui-sans-serif,system-ui,sans-serif;fill:#edf4ff}.body{font:400 14px ui-sans-serif,system-ui,sans-serif;fill:#aebbd0}.small{font:400 12px ui-sans-serif,system-ui,sans-serif;fill:#8497b5}.mono{font:600 13px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#dce8fa}.mini{font:700 11px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#8ea3c3;letter-spacing:.6px}.dinoNode{fill:#211a3b;stroke:#a78bfa;stroke-width:1.5}.micvNode{fill:#0d2b37;stroke:#32b8aa;stroke-width:1.5}.antNode{fill:#35270f;stroke:#d3992f;stroke-width:1.5}.neutral{fill:#0c1728;stroke:#354760;stroke-width:1.5}.unknown{fill:#1b1720;stroke:#d38f7e;stroke-width:1.5;stroke-dasharray:6 5}.line{fill:none;stroke:#8597b4;stroke-width:2;marker-end:url(#a)}.micvLine{fill:none;stroke:#42d5c5;stroke-width:2;marker-end:url(#teal)}.antLine{fill:none;stroke:#f4bb4f;stroke-width:2;marker-end:url(#amber)}
+      .title{font:700 40px ui-sans-serif,system-ui,sans-serif;fill:#f4f8ff;letter-spacing:-1.2px}.subtitle{font:400 17px ui-sans-serif,system-ui,sans-serif;fill:#93a5c1}.kicker{font:700 13px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:1.7px}.section{font:700 25px ui-sans-serif,system-ui,sans-serif;fill:#f3f7ff}.boxTitle{font:700 16px ui-sans-serif,system-ui,sans-serif;fill:#edf4ff}.body{font:400 14px ui-sans-serif,system-ui,sans-serif;fill:#aebbd0}.small{font:400 12px ui-sans-serif,system-ui,sans-serif;fill:#8497b5}.mono{font:600 13px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#dce8fa}.mini{font:700 11px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#8ea3c3;letter-spacing:.6px}.dinoNode{fill:#edf3ff;stroke:#a78bfa;stroke-width:1.5}.micvNode{fill:#edf9f7;stroke:#32b8aa;stroke-width:1.5}.antNode{fill:#fff7e8;stroke:#d3992f;stroke-width:1.5}.neutral{fill:#f4f8ff;stroke:#354760;stroke-width:1.5}.unknown{fill:#ffffff;stroke:#d38f7e;stroke-width:1.5;stroke-dasharray:6 5}.line{fill:none;stroke:#8597b4;stroke-width:2;marker-end:url(#a)}.micvLine{fill:none;stroke:#42d5c5;stroke-width:2;marker-end:url(#teal)}.antLine{fill:none;stroke:#f4bb4f;stroke-width:2;marker-end:url(#amber)}
+    </style>
+      <style>
+      text,tspan{fill:#111827}
+      .eyebrow,.kicker,.stage,.role,.step,.label,.section{fill:#2448c2}
+      .subtitle,.body,.small,.mini,.note,.sub,.tiny{fill:#52627a}
+      .headline,.title,.laneTitle,.lane-title,.card-title,.cardTitle,.boxTitle,.actor,.head,.strong,.stat,.value,.formula,.eq,.prob,.state{fill:#111827}
+      .mono,.monoText,.chip,.number,.num,.code,.dim{fill:#253651}
     </style>
   </defs>
 
-  <rect width="1920" height="1400" fill="#07111f"/><rect width="1920" height="1400" fill="url(#grid)" opacity=".5"/>
+  <rect width="1920" height="1400" fill="#f4f8ff"/><rect width="1920" height="1400" fill="url(#grid)" opacity=".5"/>
   <text x="60" y="66" class="kicker" fill="#d1bfff">FIGURE 17 · NTIRE CHALLENGE CONTEXT · EXTERNAL DINOv3 METHODS</text>
   <text x="60" y="114" class="title">DINOv3 appears in the report—but outside SynthFlag</text>
   <text x="60" y="147" class="subtitle">ViT-7B/16 anatomy contextualizes Ant’s named backbone only; MICV variants remain unreported and are not assumed.</text>
-  <g transform="translate(1472 48)"><rect width="388" height="94" rx="15" fill="#1a1418" stroke="#df8e7d" stroke-dasharray="7 6"/><text x="18" y="28" class="mini" fill="#ffb09f">NOT DEPLOYED BY SYNTHFLAG</text><text x="18" y="55" class="body">No DINOv3 module is imported, instantiated,</text><text x="18" y="76" class="body">checkpoint-loaded, or executed by its inference path.</text></g>
+  <g transform="translate(1472 48)"><rect width="388" height="94" rx="15" fill="#ffffff" stroke="#df8e7d" stroke-dasharray="7 6"/><text x="18" y="28" class="mini" fill="#ffb09f">NOT DEPLOYED BY SYNTHFLAG</text><text x="18" y="55" class="body">No DINOv3 module is imported, instantiated,</text><text x="18" y="76" class="body">checkpoint-loaded, or executed by its inference path.</text></g>
 
   <!-- Backbone anatomy -->
   <g transform="translate(60 185)">
@@ -131,7 +138,7 @@
   </g>
 
   <g transform="translate(60 1285)">
-    <rect width="1800" height="70" rx="14" fill="#1a1418" stroke="#df8e7d" stroke-dasharray="7 6"/>
+    <rect width="1800" height="70" rx="14" fill="#ffffff" stroke="#df8e7d" stroke-dasharray="7 6"/>
     <text x="18" y="28" class="mini" fill="#ffb09f">HARD RELEASE BOUNDARY</text>
     <text x="18" y="51" class="body">These are comparative summaries of other NTIRE submissions. SynthFlag/UESTC executes CLIP ×2 + SigLIP ×2; it does not ship, load, call, or claim the DINOv3 systems above.</text>
   </g>

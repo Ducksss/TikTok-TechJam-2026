@@ -58,7 +58,7 @@ claim authorship of that model research or those weights.
 - [Open the current `/try` deployment](https://synthflag.chaipinzheng353496.chatgpt.site/try)
 - [Follow the project journey](https://synthflag.chaipinzheng353496.chatgpt.site/journey)
 - [Read the visual documentation](https://synthflag.chaipinzheng353496.chatgpt.site/documentation)
-- [Explore the deep architecture atlas](https://synthflag.chaipinzheng353496.chatgpt.site/documentation/architecture)
+- [Explore the deep architecture atlas](https://synthflag.chaipinzheng353496.chatgpt.site/documentation#architecture-atlas)
 
 The source `/try` route provides the complete image and sampled-video file-drop
 experience and reports whether a checkpoint-backed model service is connected.
@@ -95,7 +95,7 @@ threshold `0.2874746155` to that unchanged score.
 Read the [architecture explanation](submission/ARCHITECTURE.md), follow the
 [project and decision journey](https://synthflag.chaipinzheng353496.chatgpt.site/journey),
 or explore the
-[interactive model journey](https://synthflag.chaipinzheng353496.chatgpt.site/documentation/architecture).
+[interactive model journey](https://synthflag.chaipinzheng353496.chatgpt.site/journey#released-model).
 
 ## Quick start
 

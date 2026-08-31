@@ -16,7 +16,7 @@ need repository context without reconstructing the project from chat history.
 | Full NTIRE challenge report as text | [`references/ntire-2026-report/report.txt`](references/ntire-2026-report/report.txt) |
 | Original arXiv HTML snapshots and figures | [`references/featdistill-report/README.md`](references/featdistill-report/README.md) and [`references/ntire-2026-report/README.md`](references/ntire-2026-report/README.md) |
 | Public submission evidence | [`../submission/README.md`](../submission/README.md) |
-| Detailed architecture diagrams | [`../landing-page/app/documentation/architecture/page.tsx`](../landing-page/app/documentation/architecture/page.tsx) and [`../landing-page/public/diagrams/`](../landing-page/public/diagrams/) |
+| Detailed architecture diagrams | [`../landing-page/app/documentation/architecture/atlas.tsx`](../landing-page/app/documentation/architecture/atlas.tsx) and [`../landing-page/public/diagrams/`](../landing-page/public/diagrams/) |
 | Brand system | [`BRAND_GUIDE.md`](BRAND_GUIDE.md) |
 
 ## Evidence hierarchy
@@ -33,9 +33,11 @@ Always preserve evidence labels. A paper claim is not automatically a released
 code behavior; a local benchmark is not the organizer leaderboard; and a
 planned evaluation is not a completed result.
 
-The public routes have separate jobs: `/journey` is the judge-first project
-narrative, `/documentation` is the readable technical appendix, and
-`/documentation/architecture` is the deepest model and system atlas.
+The primary public routes have separate jobs: `/journey` is the judge-first
+project narrative and `/documentation` is the unified readable technical
+appendix, evidence guide, and deepest model and system atlas. The legacy
+`/documentation/architecture` route forwards fragments to the same section in
+`/documentation`.
 The `/try` working surface supports one image or eight browser-extracted
 midpoint frames from a 1–10 second video; the raw video remains local and the
 frame summary is not a video-level probability.
