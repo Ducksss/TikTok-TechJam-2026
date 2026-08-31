@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "title": "FeatDistill: A Feature Distillation Enhanced Multi-Expert Ensemble Framework for Robust AI-generated Image Detection",
+  "authors": [
+    "Zhilin Tu",
+    "Kemou Li",
+    "Fengpeng Li",
+    "Jianwei Fei",
+    "Jiamin Zhang",
+    "Haiwei Wu"
+  ],
+  "arxiv_id": "2603.21939",
+  "version": "v1",
+  "version_published": "2026-03-23",
+  "source_url": "https://arxiv.org/html/2603.21939v1",
+  "retrieved_at": "2026-08-31T14:59:03+08:00",
+  "license": {
+    "spdx": "CC-BY-4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0/",
+    "declared_on_source": true
+  },
+  "files": {
+    "report.html": {
+      "bytes": 155027,
+      "sha256": "4da4b200a4dd49538955ef45c1874010872b7bff4dcac3569a1c5b20160425f5",
+      "modification": "None; byte-for-byte HTTP response body from the versioned source URL."
+    },
+    "report.txt": {
+      "bytes": 43463,
+      "sha256": "85158f7c428afd78de571384e42eb99df3c942f68f64dd1e76a00072293f7235",
+      "modification": "Generated from the HTML article; page chrome, scripts, styles, and markup removed."
+    }
+  },
+  "figure_base_url": "https://arxiv.org/html/2603.21939v1/",
+  "figure_files": [
+    "2603.21939v1/method.png",
+    "2603.21939v1/task.jpg"
+  ]
+}

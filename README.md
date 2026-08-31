@@ -26,6 +26,20 @@ distribution, and primary CLI name.
 - [Release audit](submission/RELEASE_AUDIT.md)
 - [Project status and worktree register](STATUS.md)
 
+## Documentation and AI context
+
+- [Documentation hub](docs/README.md)
+- [Prompt-ready project context](docs/AI_CONTEXT.md)
+- [Prompting guide for teammates](docs/PROMPTING_GUIDE.md)
+- [Repository instructions for coding agents](AGENTS.md)
+- [Versioned FeatDistill report snapshot](docs/references/featdistill-report/README.md)
+- [Versioned NTIRE report snapshot](docs/references/ntire-2026-report/README.md)
+
+For a fast handoff, give an AI assistant `docs/AI_CONTEXT.md`. Add
+`docs/references/featdistill-report/report.txt` for method details, and add
+`docs/references/ntire-2026-report/report.txt` for the complete challenge
+context, other team methods, official results table, or citations.
+
 ## Benchmark snapshot
 
 The protected V1 final partition contains 7,998 images: 3,999 real and 3,999

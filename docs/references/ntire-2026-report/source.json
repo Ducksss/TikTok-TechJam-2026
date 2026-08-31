@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "title": "NTIRE 2026 Challenge on Robust AI-Generated Image Detection in the Wild",
+  "authors_short": "Aleksandr Gushchin et al.",
+  "arxiv_id": "2604.11487",
+  "version": "v1",
+  "version_published": "2026-04-13",
+  "source_url": "https://arxiv.org/html/2604.11487v1",
+  "retrieved_at": "2026-08-31T14:56:16+08:00",
+  "license": {
+    "spdx": "CC-BY-4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0/",
+    "declared_on_source": true
+  },
+  "files": {
+    "report.html": {
+      "bytes": 426355,
+      "sha256": "1c039b52794d8355ee4554e24f9bae644e75831eea0851c1df84e4b163f44786",
+      "modification": "None; byte-for-byte HTTP response body from the versioned source URL."
+    },
+    "report.txt": {
+      "bytes": 81796,
+      "sha256": "2de92b7cd114fd447f35fd0de434fb6586ddad9761e300e1f4ce1386592aeb99",
+      "modification": "Generated from the HTML article; page chrome, scripts, styles, and markup removed."
+    }
+  },
+  "figure_base_url": "https://arxiv.org/html/2604.11487v1/",
+  "figure_files": [
+    "2604.11487v1/intsig.png",
+    "2604.11487v1/method_architecture.png",
+    "2604.11487v1/team_figures/MICV/_page_2_Figure_4.jpeg",
+    "2604.11487v1/team_figures/PSU/_page_1_Figure_0.jpeg",
+    "2604.11487v1/team_figures/Shallow_Real/_page_0_Figure_2.jpeg",
+    "2604.11487v1/team_figures/TeleAI-TeleGuard/_page_0_Figure_10.jpeg",
+    "2604.11487v1/x1.png",
+    "2604.11487v1/x2.png",
+    "2604.11487v1/x3.png"
+  ]
+}

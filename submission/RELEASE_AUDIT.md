@@ -28,6 +28,7 @@ This is a technical release-readiness verdict, not a legal opinion.
 | Responsible-use wording | README, submission overview, and model card state that scores are signals rather than proof and require human review for consequential use. | **Pass** |
 | Public artifact integrity | All 15 entries in `ARTIFACTS.sha256` were verified; checkpoint identity is separately recorded without shipping binaries. | **Pass** |
 | Public visual provenance | The project wordmark and architecture diagram remain. The unused challenge-site screenshot was removed because its redistribution rights were undocumented. | **Pass** |
+| Vendored research reports | The versioned FeatDistill and NTIRE arXiv HTML pages declare CC BY 4.0. Their snapshots, referenced paper figures, modified plain-text extractions, attribution, source URLs, retrieval times, and hashes are recorded under `docs/references/`. | **Pass** |
 
 ## Release contents
 
@@ -39,6 +40,8 @@ Allowed in the public Git release:
 - aggregate benchmark tables, non-row-level reports, protocols, and hashes;
 - checkpoint filenames, expected sizes, and SHA-256 identities; and
 - citations and links to separately hosted upstream material.
+- the attributed, version-pinned FeatDistill and NTIRE report snapshots and
+  figures under their declared CC BY 4.0 licenses.
 
 Excluded from the public Git release:
 

@@ -33,6 +33,13 @@ wheel or source distribution.
 | Four FeatDistill `Expert_*.pth` files | Architecture and hashes are documented locally; the files are obtained from an external mirror. No explicit fine-tuned-checkpoint redistribution license was located in the audited public materials. | Not included in Git or the submission archive. Do not re-upload or bundle without written permission from the checkpoint rights holder. |
 | FeatDistill method | [Technical report, arXiv:2603.21939](https://arxiv.org/abs/2603.21939) | Cite the authors; do not relabel the detector architecture or checkpoints as original SynthFlag research. |
 
+## Publications
+
+| Publication | Declared license | Release treatment |
+|---|---|---|
+| “FeatDistill: A Feature Distillation Enhanced Multi-Expert Ensemble Framework for Robust AI-generated Image Detection,” arXiv:2603.21939v1 | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) on the [versioned arXiv HTML](https://arxiv.org/html/2603.21939v1) | A versioned HTML snapshot, its referenced paper figures, and a modified plain-text extraction are included under CC BY 4.0 with source, full author list, version, change, and license attribution in `docs/references/featdistill-report/README.md`. They are not relicensed under Apache-2.0. |
+| “NTIRE 2026 Challenge on Robust AI-Generated Image Detection in the Wild,” arXiv:2604.11487v1 | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) on the [versioned arXiv HTML](https://arxiv.org/html/2604.11487v1) | A versioned HTML snapshot, its referenced paper figures, and a modified plain-text extraction are included under CC BY 4.0 with source, author, version, change, and license attribution in `docs/references/ntire-2026-report/README.md`. They are not relicensed under Apache-2.0. |
+
 ## Dataset and benchmark materials
 
 No dataset pixels or protected row-level results are redistributed. Dataset
