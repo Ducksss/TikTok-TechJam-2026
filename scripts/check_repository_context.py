@@ -24,6 +24,14 @@ PROVENANCE_FILES = (
     "scripts/check_source_provenance.py",
 )
 
+AUGMENTATION_CONTEXT_FILES = (
+    "AGENTS.md",
+    "README.md",
+    "STATUS.md",
+    "docs/AI_CONTEXT.md",
+    "docs/AUGMENTATION_TOOLKIT.md",
+)
+
 SITE_ROUTES = {
     "/": "landing-page/app/page.tsx",
     "/try": "landing-page/app/try/page.tsx",
@@ -123,6 +131,18 @@ def main() -> int:
                     "{} omits naming contract term {}".format(relative_path, name)
                 )
 
+    if (ROOT / "synthflag_augment").is_dir():
+        for relative_path in AUGMENTATION_CONTEXT_FILES:
+            if not (ROOT / relative_path).is_file():
+                errors.append(
+                    "missing augmentation context file: {}".format(relative_path)
+                )
+                continue
+            if "synthflag_augment" not in read(relative_path):
+                errors.append(
+                    "{} omits synthflag_augment boundary".format(relative_path)
+                )
+
     diagrams = sorted((ROOT / "landing-page/public/diagrams").glob("*.svg"))
     if len(diagrams) != 18:
         errors.append(
@@ -159,6 +179,8 @@ def main() -> int:
     print("- {} public route sources".format(len(SITE_ROUTES)))
     print("- {} SVG diagrams".format(len(diagrams)))
     print("- Track 5 CSV/JSON/metadata output contract documented")
+    if (ROOT / "synthflag_augment").is_dir():
+        print("- optional augmentation boundary documented")
     print("- no prohibited byte-identical upstream source")
     return 0
 

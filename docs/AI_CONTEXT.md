@@ -37,6 +37,7 @@ change.
 | `infer/checkpoints.py` | Checkpoint manifest, file verification, identity, and safe state loading | Authoritative checkpoint boundary |
 | `infer/model.py` | Stable Python scoring API and device handling | Authoritative runtime API |
 | `infer/outputs.py` and `infer/cli.py` | Recursive discovery, run locking, resumability, CSV, Track 5 JSON, and metadata | Authoritative batch behavior |
+| `synthflag_augment/` | Sample-keyed, deterministic image variants with JSON-ready traces | Optional development utility; not inference or FeatDistill training reproduction |
 | `service/app.py` | Optional FastAPI health, single-image, and sampled-frame analysis service | Authoritative Python HTTP behavior |
 | `landing-page/app/api/analyze*/` | Same-origin image/video-frame proxies and timeout/error mapping | Authoritative web proxy behavior |
 | `landing-page/app/try/page.tsx` | Browser file validation, service state, result presentation | Authoritative UI behavior |
@@ -119,6 +120,22 @@ diagram or imply that inference performs self-distillation.
 Primary sources: [FeatDistill Section 4.3](references/featdistill-report/report.html#S4.SS3),
 [FeatDistill Section 4.7](references/featdistill-report/report.html#S4.SS7), and
 [NTIRE Section 8.2](references/ntire-2026-report/report.html#S8.SS2).
+
+## Repository-authored augmentation toolkit
+
+`synthflag_augment/` is a separate development utility with seventeen Pillow-
+and PyTorch-based operations, deterministic sample-keyed random streams,
+normalized strengths, and JSON-ready traces. It covers common repost,
+compression, blur, display-capture, color/exposure, noise, quantization, and
+occlusion effects. It always returns a new RGB image at the input dimensions and
+leaves the source image unchanged. Its moderate `robustness_recipe` preset is a
+starting configuration, not training evidence.
+
+The toolkit is not imported by `infer/` or `service/`, does not use external
+weights, and is not a reconstruction of the historical upstream `distortion/`
+package or FeatDistill's training policy. Use only development data with an
+appropriate rights and split role; never tune it on protected final-evaluation
+rows. The public contract and examples are in `docs/AUGMENTATION_TOOLKIT.md`.
 
 ## CLI contract
 
@@ -229,7 +246,9 @@ The repository root commit copied 20 of 21 files byte-for-byte from
 The repositories have separate Git ancestry, but that does not make the
 initial source independent. The current inference and output runtime is a
 repository-authored, checkpoint-compatible reimplementation. The unused copied
-`distortion/` package and moved `competition.png` snapshot were removed.
+`distortion/` package and moved `competition.png` snapshot were removed. The
+later `synthflag_augment/` package is separately designed SynthFlag development
+code with a different namespace, API, structure, and reproducibility contract.
 
 This is not described as a clean-room implementation because the public method,
 checkpoint schema, and earlier runtime behavior were known. Historical source

@@ -60,13 +60,17 @@ research, use the prompt-friendly FeatDistill
   `predictions.meta.json`. The JSON artifact is atomic at completed-run time;
   CSV and metadata retain the resumable-run contract.
 - The paper's two-stage self-distillation describes training only. Training is
-  not part of the released live inference path. Do not restore the removed
-  upstream `distortion/` training utilities without a separately scoped,
-  independently implemented requirement.
+  not part of the released live inference path.
+- The former upstream `distortion/` package remains removed.
+  `synthflag_augment/` is a separately designed, repository-authored
+  development utility with its own API and audit trace. It is not used by
+  inference and is not a reproduction of FeatDistill's training policy.
 
 ## Product surfaces
 
 - `infer/`: authoritative Python model and resumable batch CLI.
+- `synthflag_augment/`: optional deterministic development-data augmentation;
+  never use protected final-evaluation rows to tune its recipes.
 - `service/`: optional FastAPI wrapper. It lazy-loads or optionally eager-loads
   one cached model per process, admits one active and one queued analysis, and
   serializes prediction with an inference lock. The image route uses `B=1`;

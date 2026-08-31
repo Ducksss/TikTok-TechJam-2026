@@ -12,6 +12,7 @@ report when the task needs challenge or method detail.
 | Answer a FeatDistill method question | `docs/references/featdistill-report/report.txt`, `docs/AI_CONTEXT.md` |
 | Answer a challenge, team, or leaderboard question | `docs/references/ntire-2026-report/report.txt`, `docs/AI_CONTEXT.md` |
 | Change inference behavior | `AGENTS.md`, `infer/architecture.py`, `infer/preprocessing.py`, `infer/checkpoints.py`, `infer/model.py`, `infer/cli.py`, relevant tests |
+| Change development augmentation | `AGENTS.md`, `docs/AUGMENTATION_TOOLKIT.md`, `synthflag_augment/`, `tests/test_augmentation_toolkit.py` |
 | Change the service or `/try` flow | `AGENTS.md`, `service/app.py`, both `landing-page/app/api/analyze*` routes, `landing-page/app/try/page.tsx`, `landing-page/app/try/video-pipeline.tsx`, `landing-page/lib/video-analysis.ts` |
 | Edit the judge-first `/journey` route | `AGENTS.md`, `docs/AI_CONTEXT.md`, `landing-page/app/journey/`, relevant benchmark and release sources |
 | Edit diagrams or technical documentation | `AGENTS.md`, `docs/AI_CONTEXT.md`, relevant source files, `landing-page/public/diagrams/` |
@@ -100,5 +101,7 @@ evidence and human review.
   files, run `python scripts/check_repository_context.py`.
 - After changing release source or assets, run
   `python scripts/check_source_provenance.py`.
+- Keep `synthflag_augment` out of inference diagrams and protected-final tuning;
+  it is an optional development utility, not FeatDistill training reproduction.
 - Never paste checkpoint binaries, private rows, per-image protected scores,
   secrets, or restricted dataset content into a prompt.

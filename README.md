@@ -45,6 +45,8 @@ claim authorship of that model research or those weights.
   SigLIP So400M Patch14-384 experts at 384 px.
 - **Reliable batch inference:** recursive image discovery, resumable outputs,
   checkpoint integrity verification, and an exclusive writer lock.
+- **Auditable robustness inputs:** an optional, sample-keyed augmentation
+  toolkit produces deterministic RGB variants and JSON-ready transform traces.
 - **Evidence before certainty:** benchmark, calibration, and deployment claims
   are separated; unavailable evidence stays unavailable instead of being
   inferred or filled in.
@@ -178,6 +180,35 @@ The completed run also writes the Track 5 submission format:
 If input bytes change while filenames stay the same, use a new output directory
 or `--overwrite` so old and new predictions are never mixed.
 
+## Optional augmentation toolkit
+
+`synthflag_augment` is a repository-authored development utility for building
+reproducible robustness inputs. It is not imported by inference and does not
+reconstruct FeatDistill's paper-described training policy.
+
+```python
+from PIL import Image
+
+from synthflag_augment import robustness_recipe
+
+source = Image.open("example.png")
+result = robustness_recipe(seed="study-v1").apply(
+    source,
+    sample_key="dataset/example.png",
+)
+result.image.save("example-augmented.png")
+print(result.manifest)
+```
+
+Under the pinned dependencies, the same seed, recipe, and sample key produce
+the same pixels without changing Python's global random state. Each result
+records applied and skipped steps, resolved strengths, operation parameters,
+and a stable pipeline identifier. The inventory includes practical repost,
+compression, motion, screen-capture, color/exposure, and sensor-noise families
+without restoring the historical upstream distortion package. See the
+[augmentation toolkit guide](docs/AUGMENTATION_TOOLKIT.md) for the transform
+inventory and protected-evaluation boundary.
+
 ## Local detector experience
 
 Install the optional service dependencies and start the checkpoint-backed API:
@@ -214,6 +245,7 @@ bounded-queue, and origin-allowlisting contract.
 ```text
 .
 ├─ infer/          # Authoritative model and resumable batch CLI
+├─ synthflag_augment/ # Optional deterministic development-data augmentation
 ├─ service/        # Optional FastAPI inference service
 ├─ landing-page/   # Public website, detector UI, and visual documentation
 ├─ submission/     # Benchmarks, model card, checksums, and release audit
@@ -243,6 +275,7 @@ bounded-queue, and origin-allowlisting contract.
 - [Prompting guide for teammates](docs/PROMPTING_GUIDE.md)
 - [Repository instructions for coding agents](AGENTS.md)
 - [Implementation provenance and snapshot audit](docs/IMPLEMENTATION_PROVENANCE.md)
+- [Repository-authored augmentation toolkit](docs/AUGMENTATION_TOOLKIT.md)
 - [Versioned FeatDistill report snapshot](docs/references/featdistill-report/README.md)
 - [Versioned NTIRE report snapshot](docs/references/ntire-2026-report/README.md)
 
