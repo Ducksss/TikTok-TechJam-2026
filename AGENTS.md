@@ -6,6 +6,21 @@ research, use the prompt-friendly FeatDistill
 [`report.txt`](docs/references/featdistill-report/report.txt) and NTIRE
 [`report.txt`](docs/references/ntire-2026-report/report.txt) snapshots.
 
+## Context freshness contract
+
+- This root `AGENTS.md` is the repository's only automatic coding-agent
+  instruction file. Do not add a nested `AGENTS.md` unless a directory truly
+  needs narrower instructions and the context checker is updated with it.
+- `AGENTS.md`, `docs/AI_CONTEXT.md`, `docs/PROMPTING_GUIDE.md`, `docs/README.md`,
+  and `STATUS.md` form the maintained context set. Update them together when a
+  change affects naming, public routes, inference outputs, evidence status, or
+  release procedure.
+- Executed code and machine-readable manifests outrank explanatory copy.
+  `STATUS.md` is a refreshable release snapshot, never authority for model
+  behavior or a substitute for fresh Git, deployment, or service-health checks.
+- Run `python scripts/check_repository_context.py` after changing any context
+  surface, public route, diagram inventory, or batch-output contract.
+
 ## Naming and attribution
 
 - **SynthFlag** is the public product, repository, demo, submission, Python
@@ -29,6 +44,10 @@ research, use the prompt-friendly FeatDistill
 - The score is the exact unweighted arithmetic mean of four class-index-1
   softmax probabilities. It is a signal, not proof, generator attribution,
   localization, or a calibrated probability for every deployment population.
+- A completed CLI run writes `predictions.csv`, Track 5-compatible
+  `predictions.json` records with exactly `image_path` and `pred`, and
+  `predictions.meta.json`. The JSON artifact is atomic at completed-run time;
+  CSV and metadata retain the resumable-run contract.
 - The paper's two-stage self-distillation describes training only. Training is
   not part of the released live inference path.
 
@@ -37,8 +56,12 @@ research, use the prompt-friendly FeatDistill
 - `infer/`: authoritative Python model and resumable batch CLI.
 - `service/`: optional FastAPI wrapper. It lazy-loads or optionally eager-loads
   one cached model per process and serializes prediction with an inference lock.
-- `landing-page/`: public website with `/`, `/try`, `/documentation`, and
-  `/documentation/architecture`.
+- `landing-page/`: public website with `/`, `/try`, `/journey`,
+  `/documentation`, and `/documentation/architecture`, plus the
+  same-origin `/api/analyze` proxy.
+  - `/journey` is the judge-first project and decision narrative.
+  - `/documentation` is the readable technical appendix and evidence guide.
+  - `/documentation/architecture` is the deep model and system atlas.
 - `submission/`: evidence-labeled release package, benchmark tables, model card,
   rights inventory, checksums, and reproduction guide.
 - `weights/manifest.json`: identities of the four required external
@@ -68,4 +91,5 @@ research, use the prompt-friendly FeatDistill
 - Do not change model/API behavior while editing documentation.
 - Verify claims against primary source files and label inference as inference.
 - Before release, run the relevant tests/build, validate JSON and SVG files,
-  check Markdown links, inspect the diff, refetch, and push without force.
+  check Markdown links, run `python scripts/check_repository_context.py`,
+  inspect the diff, refetch, and push without force.

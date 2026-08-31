@@ -16,6 +16,7 @@
 <p align="center">
   <a href="https://synthflag.chaipinzheng353496.chatgpt.site/"><strong>Live demo</strong></a> ·
   <a href="https://synthflag.chaipinzheng353496.chatgpt.site/try">Try an image</a> ·
+  <a href="https://synthflag.chaipinzheng353496.chatgpt.site/journey">Project journey</a> ·
   <a href="https://synthflag.chaipinzheng353496.chatgpt.site/documentation">Documentation</a> ·
   <a href="submission/BENCHMARKS.md">Benchmarks</a> ·
   <a href="submission/REPRODUCE.md">Reproduce</a>
@@ -52,8 +53,9 @@ architecture, released checkpoints, and research lineage.
 
 - [Open the SynthFlag landing page](https://synthflag.chaipinzheng353496.chatgpt.site/)
 - [Try the image detector](https://synthflag.chaipinzheng353496.chatgpt.site/try)
+- [Follow the project journey](https://synthflag.chaipinzheng353496.chatgpt.site/journey)
 - [Read the visual documentation](https://synthflag.chaipinzheng353496.chatgpt.site/documentation)
-- [Explore the architecture](https://synthflag.chaipinzheng353496.chatgpt.site/documentation/architecture)
+- [Explore the deep architecture atlas](https://synthflag.chaipinzheng353496.chatgpt.site/documentation/architecture)
 
 The hosted `/try` route provides the complete file-drop experience and reports
 whether a checkpoint-backed model service is connected. It never fabricates a
@@ -85,7 +87,9 @@ path takes their exact unweighted arithmetic mean, producing one score from 0
 to 1. SynthFlag's balanced operating point applies the calibration-frozen
 threshold `0.2874746155` to that unchanged score.
 
-Read the [architecture explanation](submission/ARCHITECTURE.md) or follow the
+Read the [architecture explanation](submission/ARCHITECTURE.md), follow the
+[project and decision journey](https://synthflag.chaipinzheng353496.chatgpt.site/journey),
+or explore the
 [interactive model journey](https://synthflag.chaipinzheng353496.chatgpt.site/documentation/architecture).
 
 ## Quick start
@@ -220,7 +224,7 @@ for the production GPU, health-check, and origin-allowlisting contract.
 - [Dataset attribution and rights](submission/DATASETS_AND_RIGHTS.md)
 - [Third-party notices](submission/THIRD_PARTY_NOTICES.md)
 - [Release audit](submission/RELEASE_AUDIT.md)
-- [Project status and worktree register](STATUS.md)
+- [Project status and release gates](STATUS.md)
 
 ## Documentation and AI context
 

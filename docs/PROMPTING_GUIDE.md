@@ -13,7 +13,9 @@ report when the task needs challenge or method detail.
 | Answer a challenge, team, or leaderboard question | `docs/references/ntire-2026-report/report.txt`, `docs/AI_CONTEXT.md` |
 | Change inference behavior | `AGENTS.md`, `infer/model.py`, `infer/cli.py`, relevant tests |
 | Change the service or `/try` flow | `AGENTS.md`, `service/app.py`, `landing-page/app/api/analyze/route.ts`, `landing-page/app/try/page.tsx` |
+| Edit the judge-first `/journey` route | `AGENTS.md`, `docs/AI_CONTEXT.md`, `landing-page/app/journey/`, relevant benchmark and release sources |
 | Edit diagrams or technical documentation | `AGENTS.md`, `docs/AI_CONTEXT.md`, relevant source files, `landing-page/public/diagrams/` |
+| Change CLI output or Track 5 submission JSON | `AGENTS.md`, `infer/cli.py`, `tests/test_cli_outputs.py`, `submission/REPRODUCE.md` |
 | Discuss benchmarks | `submission/BENCHMARKS.md`, relevant files in `submission/evidence/` |
 | Prepare a public release | `submission/RELEASE_AUDIT.md`, `submission/DATASETS_AND_RIGHTS.md`, `submission/THIRD_PARTY_NOTICES.md`, `STATUS.md` |
 
@@ -87,5 +89,10 @@ evidence and human review.
 - Give the AI the exact evidence JSON/Markdown file for metric questions.
 - Recheck `STATUS.md` and Git state for worktree or release questions because
   coordination facts can become stale.
+- Keep the site roles distinct: `/journey` is the judge narrative,
+  `/documentation` is the readable appendix, and
+  `/documentation/architecture` is the deep technical atlas.
+- After changing naming, routes, output contracts, evidence status, or context
+  files, run `python scripts/check_repository_context.py`.
 - Never paste checkpoint binaries, private rows, per-image protected scores,
   secrets, or restricted dataset content into a prompt.

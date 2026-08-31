@@ -23,9 +23,10 @@
    as `P(fake)`. The final score is the exact arithmetic mean
    `(P3 + P4 + P1 + P2) / 4`, preserving the released implementation's addition
    order.
-7. The CLI writes `predictions.csv` with `image_name,score` and a
-   `predictions.meta.json` provenance record. Runs can resume safely when the
-   input root and checkpoint identity are unchanged.
+7. The CLI writes `predictions.csv` with `image_name,score`, an atomic
+   completed-run `predictions.json` array with Track 5 `image_path,pred`
+   records, and a `predictions.meta.json` provenance record. Runs can resume
+   safely when the input root and checkpoint identity are unchanged.
 
 ## Components
 

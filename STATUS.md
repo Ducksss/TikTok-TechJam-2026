@@ -1,69 +1,90 @@
 # SynthFlag project status
 
-Last refreshed: **2026-08-31** from the live Git worktree registry, Codex task list, and local automation definitions.
+Last refreshed: **2026-08-31**. This file records durable release state and
+verification gates. It intentionally does not mirror volatile Codex task,
+automation, process, or worktree dirtiness state.
 
-## Naming contract
+## Current authority
 
-- **SynthFlag** is the final public product, repository, demo, and submission name.
-- **FeatDistill** remains the technically accurate name of the underlying model, released checkpoints, package/inference lineage, and historical experiment evidence. Do not relabel third-party research as SynthFlag.
-- New public-facing copy and assets must say SynthFlag; preserve FeatDistill attribution in architecture, methods, and citations.
+- `origin/main` is the public release integration line. No feature branch or
+  historical worktree is a permanent integration authority.
+- The root `AGENTS.md` is the repository's only automatic coding-agent
+  instruction file. `docs/AI_CONTEXT.md`, `docs/PROMPTING_GUIDE.md`, and
+  `docs/README.md` are its maintained human- and prompt-facing companions.
+- Executed code and machine-readable manifests define current behavior.
+  Explanatory docs, diagrams, this status file, and hosted surfaces must be
+  checked against those sources.
+- Run `python scripts/check_repository_context.py` after changing naming,
+  routes, output contracts, diagram inventory, evidence state, or agent
+  context.
 
-## Status definitions
+## Released product surfaces
 
-| State | Definition |
+| Surface | Contract |
 |---|---|
-| **Planned** | Scope and owner are identified, but no reviewable artifact exists yet. |
-| **Running** | A task or automation is actively producing or checking the artifact. |
-| **Artifact ready** | A reviewable artifact exists in its source worktree but is not integrated. |
-| **Integrated** | The selected artifact has been reconciled into `codex/synthflag-submission`. |
-| **Verified** | The integrated artifact passed its stated checks with fresh evidence and is submission-ready. |
-| **Blocked** | A named dependency is unavailable; no substitute may silently change the contract. |
+| Public identity | **SynthFlag** is the product, repository, demo, submission, Python distribution, and primary CLI. **FeatDistill** is the attributed UESTC detector and checkpoint lineage. |
+| Batch inference | `infer/model.py` and `infer/cli.py` implement the checkpoint-verified four-expert mean and resumable directory inference. |
+| Batch artifacts | A completed run produces `predictions.csv`, Track 5 `predictions.json` records with `image_path,pred`, and `predictions.meta.json`. |
+| HTTP service | `service/app.py` exposes checkpoint-backed health and single-image analysis; it does not make the public worker available by itself. |
+| Web experience | Source routes are `/`, `/try`, `/journey`, `/documentation`, and `/documentation/architecture`, plus the `/api/analyze` proxy. |
+| Submission package | `submission/` contains the evidence-labeled benchmarks, architecture, reproduction guide, rights inventory, model card, release audit, and checksums. |
 
-Codex app states such as `active` and `idle` describe task execution only; the project states above describe deliverable maturity.
+The long-form web routes are intentionally distinct: `/journey` is the
+judge-first project and decision narrative, `/documentation` is the readable
+technical appendix, and `/documentation/architecture` is the deep model and
+system atlas.
 
-## Worktree register
+## Evidence state
 
-| Workspace | Named branch | Git state | Linked Codex task(s) | Project state | Deliverable and integration decision |
-|---|---|---|---|---|---|
-| Primary checkout | `main` | **Dirty:** `.gitignore`, `README.md`, `infer/model.py`; untracked `.DS_Store`, `experiments/`, `tests/` | `Finetune model head` — **active**; `Read goal objective file` — **idle**; `Read goal objective file (2)` — **idle** | **Running** | Head fine-tuning, holdout evaluation, follow-up analysis, experiment reports, and tests. Integrate only freshly verified code/results; never tune on protected evaluation data. **Multiple writers currently target this checkout; serialize them before checkpoint or handoff.** |
-| Frozen-head experiment worktree | `codex/frozen-encoder-head-finetune` | **Dirty:** `.gitignore`, `README.md`, `infer/model.py`; untracked `.DS_Store`, `experiments/`, `tests/` | `Finetune model head (2)` — **active** | **Running** | Frozen-encoder classifier-head fine-tuning in its own named branch. Reconcile its inherited experiment tree with `main` before accepting results; preserve protected-evaluation isolation and require a fresh report/checksum/test handoff. |
-| Brand-site worktree | `codex/synthflag-brand-site` | **Clean:** committed at `644f048` before main integration | `Create Arooth brand guide` — **idle** | **Integrated**; deployment **Verified** | SynthFlag brand guide, animated landing page, and `/try` interface are integrated with the submission package. The live unauthenticated deployment returns HTTP 200; FeatDistill remains only as technical architecture/research credit. |
-| Brand-assets branch (worktree retired) | `codex/synthflag-brand-assets` | **Clean:** committed at `57f3a40`, synchronized with its upstream; no linked worktree remains | None active; the originating assets task is no longer present | **Artifact ready** | SynthFlag core identity and evidence-system assets are preserved on the named branch. Select and verify the final small public set; do not publish the full historical FeatDistill exploration dump by default. |
-| Benchmark-evidence worktree | `codex/benchmark-evidence` | **Dirty:** `.gitignore`, `README.md`, `infer/model.py`; untracked `.DS_Store`, `experiments/`, `tests/` | `Read goal objective file (3)` — **idle** | **Artifact ready**; V3 **Blocked** | V2 benchmark DOCX, reports, metrics, protocols, and verification code. Integrate the evidence-labeled benchmark table only after rerunning its checks. V3 remains blocked on the exact organizer-provided 8,843-image DALL·E Advanced source; do not substitute another dataset. |
-| Repository-reskin worktree | `codex/repository-reskin` | **Dirty:** `README.md`, inference/package files; untracked `assets/` | `GitHub` — **idle** | **Artifact ready** | Public README/reskin, CLI/package copy, and hero artwork. Treat as a candidate patch: reconcile with SynthFlag naming and current inference behavior before integration. |
-| Corpus-preparation worktree | `codex/wildfake-like-corpus` | **Dirty:** `README.md`, `pyproject.toml`; untracked `config/`, `dataset-requirements.txt`, `docs/`, `scripts/`, `tests/` | `Find WildFake-like datasets` — **active** | **Running** | Commercial-use 25,000-image corpus contract, provenance inventory, preparation script, and tests. Integrate code/manifests/docs only after rights, exact counts, decode, deduplication, overlap, and hash checks; keep pixels and protected benchmarks out of the public package. |
-| Submission integration worktree | `codex/synthflag-submission` | **Clean:** definitive package committed for publication | `Find gaps across worktrees` — **active** | **Verified** | Sole integration lane. The README, live demo link, evidence-labeled benchmark table, architecture diagram, reproduction guide, public evidence subset, and checksum manifest are assembled and verified. |
+| Evidence | State | Boundary |
+|---|---|---|
+| V1 calibration | Available | 2,004 development rows; configuration and threshold selection permitted. |
+| V1 protected final | Available | 7,998 rows; not used for fitting, checkpoint choice, or threshold selection. |
+| V2 retrospective development study | Available | Duplicate-grouped cross-validation and corruptions on the 2,004-row development evidence; not a second protected final test. |
+| V3 | **Blocked** | Exact organizer 8,843-image DALL-E Advanced source absent; no substitute and no metric. |
 
-## Active automations
+A dash in the public benchmark table means unavailable, never zero. Partial
+caches, framework tests, package checks, one-image scores, or planned protocols
+are not benchmark results.
 
-| Automation | Schedule | Target task / checkout | Coordination rule |
-|---|---|---|---|
-| `Finish FeatDistill follow-up` | Active, hourly | `Read goal objective file` on `main` | May resume scoring and later write analyses/reports. |
-| `WildFake holdout progress` | Active, every 10 minutes | `Finetune model head` on `main` | Monitors the holdout run and may drive its completion workflow. |
+## External-state boundary
 
-**Main-checkout warning:** these automations and the active fine-tuning task share the primary checkout. Do not add another writer there. Confirm processes are quiescent, inspect the combined diff, and make one named checkpoint before handoff.
+Repository source does not prove that a deployment is reachable, its inference
+worker is connected, the GitHub repository is public, its About fields are
+saved, or a Devpost draft is complete. Recheck those systems at action time.
 
-## Definitive submission package
+- Verify the deployed routes over HTTP and inspect `/api/analyze` health before
+  calling the demo live.
+- `connected: false` or `ready: false` means the UI cannot provide a live
+  checkpoint-backed score, even when the page itself loads.
+- Never claim a GitHub visibility/About change, media upload, or Devpost save or
+  submission until the external service confirms it.
 
-The submission branch is the assembly point; source artifacts remain authoritative until selectively integrated.
+## Worktree and release discipline
 
-| Required item | Current source | State | Acceptance gate |
-|---|---|---|---|
-| README | Root `README.md` and `submission/README.md` | **Verified** | Public name is SynthFlag; FeatDistill attribution, limitations, install, inference, benchmark, live demo, and reproduction links were checked. |
-| Benchmark table | `submission/BENCHMARKS.md` plus copied public evidence | **Verified** | V1/V2/V3 evidence status is explicit; unavailable values use `-`; threshold effects are separated from ranking/model claims; protected-data boundaries remain visible. |
-| Demo link | [Live SynthFlag landing page](https://synthflag.chaipinzheng353496.chatgpt.site/), [`/try`](https://synthflag.chaipinzheng353496.chatgpt.site/try), and source in `landing-page/` | **Verified** | Unauthenticated requests returned HTTP 200 with SynthFlag title/metadata/content. `/try` provides the file-drop interface and clearly reports model-service availability instead of fabricating a score. |
-| Architecture diagram | `submission/ARCHITECTURE.svg` and `submission/ARCHITECTURE.md` | **Verified** | Valid XML, accessible text companion, technically accurate four-expert flow, and explicit SynthFlag/FeatDistill naming boundary. |
-| Reproduction commands | `submission/REPRODUCE.md` | **Verified** | Covers package hashes, environment setup, checkpoint verification, inference, output validation, score interpretation, and private benchmark boundaries. |
-| Artifact checksums | `submission/ARTIFACTS.sha256` and `submission/evidence/weights-manifest.json` | **Verified** | All 15 static-package checksum entries pass; checkpoint sizes and hashes are separately preserved without shipping checkpoint binaries. |
-| Licensing and model card | `submission/MODEL_CARD.md`, `submission/DATASETS_AND_RIGHTS.md`, `submission/THIRD_PARTY_NOTICES.md`, and `submission/RELEASE_AUDIT.md` | **Verified with exclusions** | Code and original documentation are covered by the repository license; unlicensed or separately licensed checkpoints, dataset pixels, private rows, and per-image scores are excluded. |
+Worktree state changes too quickly to copy here. Before editing or integrating,
+inspect it directly:
 
-## Operating and safety rules
+```bash
+git status --short --branch
+git worktree list --porcelain
+git fetch origin
+git rev-parse HEAD
+git rev-parse origin/main
+```
 
-1. One task per worktree; one owner per write surface.
-2. Create the named branch immediately, then commit or checkpoint before handoff. Never hand off valuable work on a detached HEAD.
-3. Integrate by reviewed commits or narrow patches into `codex/synthflag-submission`; resolve branding and experiment overlaps deliberately.
-4. Never train, select features, tune thresholds, or choose checkpoints from protected evaluation data. Keep demo/test/organizer data inaccessible to training.
-5. Require commercial-use evidence, pinned provenance, complete omit-source checks, exact balance/count checks, decode validation, hashes, and duplicate/overlap checks before accepting a new corpus.
-6. Do not replace the exact organizer DALL·E Advanced set with a convenient substitute, and do not claim blocked or planned work as executed.
-7. Keep private data and caches out of Git and the public submission; publish only reproducibility metadata and redistributable artifacts.
-8. **No CI is requested.** Verification remains explicit local commands with recorded fresh results.
+Use one named `codex/` branch and one owner per write surface. Preserve unrelated
+changes. Integrate reviewed commits into fresh `origin/main`, rerun checks,
+refetch before pushing, and never force-push the release branch.
+
+## Release gates
+
+1. Preserve SynthFlag/FeatDistill naming and research attribution.
+2. Preserve the exact released four-expert score unless a code change is
+   explicitly requested and verified.
+3. Preserve protected-evaluation, privacy, checkpoint, dataset, and licensing
+   exclusions documented in `submission/RELEASE_AUDIT.md`.
+4. Validate relevant tests/builds, JSON, SVG, Markdown links, artifact
+   checksums, and `scripts/check_repository_context.py`.
+5. Verify deployment, service health, repository metadata, and submission state
+   live before making public-readiness claims.

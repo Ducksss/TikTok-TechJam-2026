@@ -299,7 +299,9 @@ export default function Documentation() {
                     The web API returns JSON for one image. The CLI discovers
                     JPEG, PNG, BMP, WebP, and TIFF files, then writes{' '}
                     <code>predictions.csv</code> with
-                    <code>image_name,score</code> and a{' '}
+                    <code>image_name,score</code>, an atomic completed-run{' '}
+                    <code>predictions.json</code> with Track 5{' '}
+                    <code>image_path,pred</code> records, and a{' '}
                     <code>predictions.meta.json</code> sidecar. Checkpoint
                     verification happens in the released CLI before
                     deserialization.

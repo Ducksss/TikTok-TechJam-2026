@@ -18,6 +18,15 @@ integration, checkpoint integrity layer, resumable inference workflow, service
 and web interfaces, protected-evaluation discipline, documentation, and public
 presentation.
 
+## Context freshness
+
+The repository maintains one automatic coding-agent instruction file at
+`/AGENTS.md`. This context pack, `PROMPTING_GUIDE.md`, `README.md`, and the root
+`STATUS.md` expand that contract for people and AI tools. Code and manifests
+remain authoritative. Run `python scripts/check_repository_context.py` when
+public routes, batch outputs, evidence status, naming, or these context files
+change.
+
 ## Repository map
 
 | Path | Responsibility | Source-of-truth status |
@@ -27,6 +36,7 @@ presentation.
 | `service/app.py` | Optional FastAPI health and single-image analysis service | Authoritative Python HTTP behavior |
 | `landing-page/app/api/analyze/route.ts` | Same-origin proxy and timeout/error mapping | Authoritative web proxy behavior |
 | `landing-page/app/try/page.tsx` | Browser file validation, service state, result presentation | Authoritative UI behavior |
+| `landing-page/app/journey/` | Judge-first project narrative, experiments, decisions, and release boundary | Explanatory public narrative |
 | `landing-page/app/documentation/` | Nontechnical and engineering documentation routes | Explanatory public documentation |
 | `landing-page/public/diagrams/` | Seventeen downloadable deterministic SVG diagrams | Explanatory visual assets |
 | `weights/manifest.json` | Required checkpoint names, sizes, and SHA-256 identities | Machine-readable checkpoint identity |
@@ -35,7 +45,7 @@ presentation.
 | `submission/MODEL_CARD.md` | Intended use, limitations, thresholds, responsible operation | Deployment guidance |
 | `submission/DATASETS_AND_RIGHTS.md` | Dataset provenance and redistribution policy | Rights inventory |
 | `submission/RELEASE_AUDIT.md` | Public-release inclusions, exclusions, and checks | Release boundary |
-| `STATUS.md` | Worktree ownership and current project-state vocabulary | Coordination record; recheck before relying on it |
+| `STATUS.md` | Release snapshot, evidence state, and external verification gates | Coordination record; recheck before relying on it |
 
 ## Exact released model contract
 
@@ -141,6 +151,16 @@ analysis timeout. The public architecture diagrams describe supported
 configurations, not a guarantee about the topology of the current deployment.
 Authentication, rate limiting, durable upload/result storage, automatic retry,
 and streamed progress are not implemented by these source files.
+
+The public information architecture has three distinct long-form surfaces:
+
+- `/journey` tells the judge-first story of the problem, V1/V2 decisions,
+  final model, and release boundary;
+- `/documentation` is the readable technical appendix and evidence guide; and
+- `/documentation/architecture` is the deepest model and system atlas.
+
+These routes may reuse the same model-journey component, but they do not have
+interchangeable audience or navigation roles.
 
 ## Scores, thresholds, and claims
 
