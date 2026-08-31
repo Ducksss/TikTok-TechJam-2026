@@ -12,6 +12,108 @@ export type SampledFrame = {
   timestampMs: number;
 };
 
+export type VideoPipelineStatus =
+  | 'idle'
+  | 'decoding'
+  | 'sampling'
+  | 'sampling_error'
+  | 'ready'
+  | 'requesting'
+  | 'preparing'
+  | 'complete';
+
+export type VideoPipelineState = {
+  sampledCount: number;
+  selectedFrame: number;
+  status: VideoPipelineStatus;
+};
+
+export type VideoPipelineEvent =
+  | { type: 'decode_started' }
+  | { type: 'metadata_ready' }
+  | { index: number; type: 'frame_sampled' }
+  | { type: 'sampling_completed' }
+  | { type: 'sampling_failed' }
+  | { type: 'analysis_started' }
+  | { type: 'analysis_received' }
+  | { peakFrameIndex: number; type: 'analysis_completed' }
+  | { type: 'analysis_failed' }
+  | { index: number; type: 'frame_selected' }
+  | { type: 'reset' };
+
+export const INITIAL_VIDEO_PIPELINE_STATE: VideoPipelineState = {
+  sampledCount: 0,
+  selectedFrame: 0,
+  status: 'idle',
+};
+
+export function canAnalyzeSampledVideo(state: VideoPipelineState) {
+  return state.status === 'ready' && state.sampledCount === VIDEO_FRAME_COUNT;
+}
+
+export function videoPipelineReducer(
+  state: VideoPipelineState,
+  event: VideoPipelineEvent,
+): VideoPipelineState {
+  switch (event.type) {
+    case 'decode_started':
+      return { ...INITIAL_VIDEO_PIPELINE_STATE, status: 'decoding' };
+    case 'metadata_ready':
+      return { ...INITIAL_VIDEO_PIPELINE_STATE, status: 'sampling' };
+    case 'frame_sampled': {
+      const selectedFrame = Math.max(
+        0,
+        Math.min(VIDEO_FRAME_COUNT - 1, event.index),
+      );
+      return {
+        sampledCount: Math.max(
+          state.sampledCount,
+          Math.min(VIDEO_FRAME_COUNT, selectedFrame + 1),
+        ),
+        selectedFrame,
+        status: 'sampling',
+      };
+    }
+    case 'sampling_completed':
+      return {
+        ...state,
+        sampledCount: VIDEO_FRAME_COUNT,
+        status: 'ready',
+      };
+    case 'sampling_failed':
+      return { ...INITIAL_VIDEO_PIPELINE_STATE, status: 'sampling_error' };
+    case 'analysis_started':
+      return { ...state, status: 'requesting' };
+    case 'analysis_received':
+      return { ...state, status: 'preparing' };
+    case 'analysis_completed':
+      return {
+        sampledCount: VIDEO_FRAME_COUNT,
+        selectedFrame: Math.max(
+          0,
+          Math.min(VIDEO_FRAME_COUNT - 1, event.peakFrameIndex),
+        ),
+        status: 'complete',
+      };
+    case 'analysis_failed':
+      return {
+        ...state,
+        sampledCount: VIDEO_FRAME_COUNT,
+        status: 'ready',
+      };
+    case 'frame_selected':
+      return {
+        ...state,
+        selectedFrame: Math.max(
+          0,
+          Math.min(VIDEO_FRAME_COUNT - 1, event.index),
+        ),
+      };
+    case 'reset':
+      return INITIAL_VIDEO_PIPELINE_STATE;
+  }
+}
+
 export type VideoAnalysisResult = {
   aggregation: 'arithmetic_mean';
   analysis_type: 'sampled_video_frames';

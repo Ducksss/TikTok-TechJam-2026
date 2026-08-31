@@ -18,11 +18,12 @@ import {
   Upload,
   X,
 } from 'lucide-react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
-  formatTimestamp,
+  canAnalyzeSampledVideo,
+  INITIAL_VIDEO_PIPELINE_STATE,
   MAX_VIDEO_DURATION_MS,
   midpointTimestamps,
   parseVideoAnalysisResult,
@@ -31,15 +32,17 @@ import {
   VIDEO_FRAME_COUNT,
   VIDEO_FRAME_SIZE,
   type VideoAnalysisResult,
-  videoResultLanguage,
+  videoPipelineReducer,
 } from '@/lib/video-analysis';
+
+import { VideoPipeline } from './video-pipeline';
 
 const MAX_IMAGE_BYTES = 10 * 1024 * 1024;
 const ACCEPTED_IMAGE_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp']);
 const ANALYSIS_TIMEOUT_MS = 300_000;
 
 type MediaMode = 'image' | 'video';
-type WorkStatus = 'idle' | 'sampling' | 'requesting' | 'preparing' | 'complete';
+type ImageWorkStatus = 'complete' | 'idle' | 'requesting';
 type ServiceState = 'checking' | 'offline' | 'ready' | 'warming';
 
 type ImageDetails = {
@@ -136,8 +139,16 @@ function fileMode(file: File): MediaMode | null {
   return null;
 }
 
-function seekVideo(video: HTMLVideoElement, timestampMs: number) {
+function seekVideo(
+  video: HTMLVideoElement,
+  timestampMs: number,
+  signal: AbortSignal,
+) {
   return new Promise<void>((resolve, reject) => {
+    if (signal.aborted) {
+      reject(new DOMException('Sampling was cancelled.', 'AbortError'));
+      return;
+    }
     const targetSeconds = timestampMs / 1000;
     if (
       video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA &&
@@ -148,8 +159,13 @@ function seekVideo(video: HTMLVideoElement, timestampMs: number) {
     }
     const cleanup = () => {
       window.clearTimeout(timeout);
+      signal.removeEventListener('abort', onAbort);
       video.removeEventListener('error', onError);
       video.removeEventListener('seeked', onSeeked);
+    };
+    const onAbort = () => {
+      cleanup();
+      reject(new DOMException('Sampling was cancelled.', 'AbortError'));
     };
     const onError = () => {
       cleanup();
@@ -164,10 +180,61 @@ function seekVideo(video: HTMLVideoElement, timestampMs: number) {
       reject(new Error('A sampled frame took too long to decode.'));
     }, 8_000);
 
+    signal.addEventListener('abort', onAbort, { once: true });
     video.addEventListener('error', onError, { once: true });
     video.addEventListener('seeked', onSeeked, { once: true });
     video.currentTime = targetSeconds;
   });
+}
+
+function loadVideoDecoder(objectUrl: string, signal: AbortSignal) {
+  return new Promise<HTMLVideoElement>((resolve, reject) => {
+    const video = document.createElement('video');
+    video.preload = 'auto';
+    video.muted = true;
+    video.playsInline = true;
+
+    const cleanup = () => {
+      window.clearTimeout(timeout);
+      signal.removeEventListener('abort', onAbort);
+      video.removeEventListener('error', onError);
+      video.removeEventListener('loadedmetadata', onLoadedMetadata);
+    };
+    const onAbort = () => {
+      cleanup();
+      video.removeAttribute('src');
+      video.load();
+      reject(new DOMException('Video decoding was cancelled.', 'AbortError'));
+    };
+    const onError = () => {
+      cleanup();
+      reject(
+        new Error(
+          'This browser could not decode the video. Use an H.264 MP4, or a WebM supported by this browser.',
+        ),
+      );
+    };
+    const onLoadedMetadata = () => {
+      cleanup();
+      resolve(video);
+    };
+    const timeout = window.setTimeout(() => {
+      cleanup();
+      reject(new Error('Video metadata took too long to decode.'));
+    }, 12_000);
+
+    signal.addEventListener('abort', onAbort, { once: true });
+    video.addEventListener('error', onError, { once: true });
+    video.addEventListener('loadedmetadata', onLoadedMetadata, { once: true });
+    video.src = objectUrl;
+    video.load();
+  });
+}
+
+function releaseVideoDecoder(video: HTMLVideoElement) {
+  video.pause();
+  video.removeAttribute('src');
+  video.load();
 }
 
 function canvasPng(canvas: HTMLCanvasElement) {
@@ -182,7 +249,8 @@ function canvasPng(canvas: HTMLCanvasElement) {
 async function extractVideoFrames(
   video: HTMLVideoElement,
   durationMs: number,
-  onProgress: (count: number) => void,
+  signal: AbortSignal,
+  onFrame: (frame: SampledFrame) => void,
 ) {
   const timestamps = midpointTimestamps(durationMs);
   const frames: SampledFrame[] = [];
@@ -195,38 +263,37 @@ async function extractVideoFrames(
   context.imageSmoothingQuality = 'high';
 
   video.pause();
-  try {
-    for (const [index, timestampMs] of timestamps.entries()) {
-      await seekVideo(video, timestampMs);
-      const cropSize = Math.min(video.videoWidth, video.videoHeight);
-      const sourceX = (video.videoWidth - cropSize) / 2;
-      const sourceY = (video.videoHeight - cropSize) / 2;
-      context.clearRect(0, 0, VIDEO_FRAME_SIZE, VIDEO_FRAME_SIZE);
-      context.drawImage(
-        video,
-        sourceX,
-        sourceY,
-        cropSize,
-        cropSize,
-        0,
-        0,
-        VIDEO_FRAME_SIZE,
-        VIDEO_FRAME_SIZE,
-      );
-      const blob = await canvasPng(canvas);
-      frames.push({
-        blob,
-        index,
-        objectUrl: URL.createObjectURL(blob),
-        timestampMs,
-      });
-      onProgress(index + 1);
+  for (const [index, timestampMs] of timestamps.entries()) {
+    if (signal.aborted) {
+      throw new DOMException('Sampling was cancelled.', 'AbortError');
     }
-    return frames;
-  } catch (reason) {
-    for (const frame of frames) URL.revokeObjectURL(frame.objectUrl);
-    throw reason;
+    await seekVideo(video, timestampMs, signal);
+    const cropSize = Math.min(video.videoWidth, video.videoHeight);
+    const sourceX = (video.videoWidth - cropSize) / 2;
+    const sourceY = (video.videoHeight - cropSize) / 2;
+    context.clearRect(0, 0, VIDEO_FRAME_SIZE, VIDEO_FRAME_SIZE);
+    context.drawImage(
+      video,
+      sourceX,
+      sourceY,
+      cropSize,
+      cropSize,
+      0,
+      0,
+      VIDEO_FRAME_SIZE,
+      VIDEO_FRAME_SIZE,
+    );
+    const blob = await canvasPng(canvas);
+    const frame = {
+      blob,
+      index,
+      objectUrl: URL.createObjectURL(blob),
+      timestampMs,
+    };
+    frames.push(frame);
+    onFrame(frame);
   }
+  return frames;
 }
 
 async function responsePayload(response: Response) {
@@ -248,17 +315,22 @@ export default function TryDetector() {
   const resultRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const requestControllerRef = useRef<AbortController | null>(null);
+  const samplingControllerRef = useRef<AbortController | null>(null);
+  const pendingMediaUrlRef = useRef<string | null>(null);
+  const frameUrlsRef = useRef(new Set<string>());
   const operationRef = useRef(0);
   const [mode, setMode] = useState<MediaMode>('image');
   const [media, setMedia] = useState<MediaDetails | null>(null);
   const [sampledFrames, setSampledFrames] = useState<SampledFrame[]>([]);
-  const [selectedFrame, setSelectedFrame] = useState(0);
-  const [samplingCount, setSamplingCount] = useState(0);
+  const [videoPipeline, dispatchVideoPipeline] = useReducer(
+    videoPipelineReducer,
+    INITIAL_VIDEO_PIPELINE_STATE,
+  );
   const [dragging, setDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [serviceState, setServiceState] = useState<ServiceState>('checking');
-  const [status, setStatus] = useState<WorkStatus>('idle');
+  const [imageStatus, setImageStatus] = useState<ImageWorkStatus>('idle');
   const [videoCapability, setVideoCapability] = useState(false);
 
   useEffect(() => {
@@ -300,29 +372,48 @@ export default function TryDetector() {
     };
   }, [media]);
 
-  useEffect(() => {
-    return () => {
-      for (const frame of sampledFrames) URL.revokeObjectURL(frame.objectUrl);
-    };
-  }, [sampledFrames]);
+  const revokeFrameUrls = useCallback(() => {
+    for (const objectUrl of frameUrlsRef.current) {
+      URL.revokeObjectURL(objectUrl);
+    }
+    frameUrlsRef.current.clear();
+  }, []);
+
+  const clearSampledFrames = useCallback(() => {
+    revokeFrameUrls();
+    setSampledFrames([]);
+  }, [revokeFrameUrls]);
 
   useEffect(() => {
-    return () => requestControllerRef.current?.abort();
-  }, []);
+    return () => {
+      requestControllerRef.current?.abort();
+      samplingControllerRef.current?.abort();
+      revokeFrameUrls();
+      if (pendingMediaUrlRef.current) {
+        URL.revokeObjectURL(pendingMediaUrlRef.current);
+        pendingMediaUrlRef.current = null;
+      }
+    };
+  }, [revokeFrameUrls]);
 
   const reset = useCallback(() => {
     operationRef.current += 1;
     requestControllerRef.current?.abort();
     requestControllerRef.current = null;
+    samplingControllerRef.current?.abort();
+    samplingControllerRef.current = null;
+    if (pendingMediaUrlRef.current) {
+      URL.revokeObjectURL(pendingMediaUrlRef.current);
+      pendingMediaUrlRef.current = null;
+    }
     setMedia(null);
-    setSampledFrames([]);
-    setSelectedFrame(0);
-    setSamplingCount(0);
+    clearSampledFrames();
     setError(null);
     setResult(null);
-    setStatus('idle');
+    setImageStatus('idle');
+    dispatchVideoPipeline({ type: 'reset' });
     if (inputRef.current) inputRef.current.value = '';
-  }, []);
+  }, [clearSampledFrames]);
 
   const chooseMode = useCallback(
     (nextMode: MediaMode) => {
@@ -333,109 +424,211 @@ export default function TryDetector() {
     [mode, reset],
   );
 
-  const acceptFile = useCallback((file?: File) => {
-    setError(null);
-    setResult(null);
-    setStatus('idle');
-    setSampledFrames([]);
-    setSamplingCount(0);
-    if (!file) return;
+  const sampleVideo = useCallback(
+    async (details: VideoDetails, suppliedDecoder?: HTMLVideoElement) => {
+      samplingControllerRef.current?.abort();
+      const operation = ++operationRef.current;
+      const controller = new AbortController();
+      samplingControllerRef.current = controller;
+      clearSampledFrames();
+      setError(null);
+      setResult(null);
+      dispatchVideoPipeline({ type: 'metadata_ready' });
+      let decoder = suppliedDecoder;
 
-    const detectedMode = fileMode(file);
-    if (!detectedMode) {
-      setError('Choose a JPEG, PNG, WebP, H.264 MP4, or WebM file.');
-      return;
-    }
-    setMode(detectedMode);
+      try {
+        decoder ??= await loadVideoDecoder(
+          details.objectUrl,
+          controller.signal,
+        );
+        await extractVideoFrames(
+          decoder,
+          details.durationMs,
+          controller.signal,
+          (frame) => {
+            if (
+              operation !== operationRef.current ||
+              controller.signal.aborted
+            ) {
+              URL.revokeObjectURL(frame.objectUrl);
+              throw new DOMException('Sampling was cancelled.', 'AbortError');
+            }
+            frameUrlsRef.current.add(frame.objectUrl);
+            setSampledFrames((current) => [...current, frame]);
+            dispatchVideoPipeline({
+              index: frame.index,
+              type: 'frame_sampled',
+            });
+          },
+        );
+        if (operation !== operationRef.current) return;
+        dispatchVideoPipeline({ type: 'sampling_completed' });
+      } catch (reason) {
+        if (operation !== operationRef.current) return;
+        clearSampledFrames();
+        dispatchVideoPipeline({ type: 'sampling_failed' });
+        setError(
+          reason instanceof Error
+            ? reason.message
+            : 'The browser could not prepare all eight sampled frames.',
+        );
+      } finally {
+        if (decoder) releaseVideoDecoder(decoder);
+        if (samplingControllerRef.current === controller) {
+          samplingControllerRef.current = null;
+        }
+      }
+    },
+    [clearSampledFrames],
+  );
 
-    if (detectedMode === 'image') {
-      if (!ACCEPTED_IMAGE_TYPES.has(file.type)) {
-        setError('Choose a JPEG, PNG, or WebP image.');
+  const acceptFile = useCallback(
+    async (file?: File) => {
+      const operation = ++operationRef.current;
+      requestControllerRef.current?.abort();
+      requestControllerRef.current = null;
+      samplingControllerRef.current?.abort();
+      samplingControllerRef.current = null;
+      if (pendingMediaUrlRef.current) {
+        URL.revokeObjectURL(pendingMediaUrlRef.current);
+        pendingMediaUrlRef.current = null;
+      }
+      setMedia(null);
+      clearSampledFrames();
+      setError(null);
+      setResult(null);
+      setImageStatus('idle');
+      dispatchVideoPipeline({ type: 'reset' });
+      if (!file) return;
+
+      const detectedMode = fileMode(file);
+      if (!detectedMode) {
+        setError('Choose a JPEG, PNG, WebP, H.264 MP4, or WebM file.');
         return;
       }
-      if (file.size > MAX_IMAGE_BYTES) {
-        setError(
-          'That image is over 10 MB. Choose a smaller file and try again.',
-        );
+      setMode(detectedMode);
+
+      if (detectedMode === 'image') {
+        if (!ACCEPTED_IMAGE_TYPES.has(file.type)) {
+          setError('Choose a JPEG, PNG, or WebP image.');
+          return;
+        }
+        if (file.size > MAX_IMAGE_BYTES) {
+          setError(
+            'That image is over 10 MB. Choose a smaller file and try again.',
+          );
+          return;
+        }
+
+        const objectUrl = URL.createObjectURL(file);
+        pendingMediaUrlRef.current = objectUrl;
+        const image = new window.Image();
+        image.onload = () => {
+          if (operation !== operationRef.current) {
+            URL.revokeObjectURL(objectUrl);
+            return;
+          }
+          pendingMediaUrlRef.current = null;
+          setMedia({
+            file,
+            height: image.naturalHeight,
+            kind: 'image',
+            objectUrl,
+            width: image.naturalWidth,
+          });
+        };
+        image.onerror = () => {
+          if (pendingMediaUrlRef.current === objectUrl) {
+            pendingMediaUrlRef.current = null;
+          }
+          URL.revokeObjectURL(objectUrl);
+          if (operation === operationRef.current) {
+            setError('We could not decode that image. Try exporting it again.');
+          }
+        };
+        image.src = objectUrl;
+        return;
+      }
+
+      const fileError = validateVideoFile(file);
+      if (fileError) {
+        setError(fileError);
         return;
       }
 
       const objectUrl = URL.createObjectURL(file);
-      const image = new window.Image();
-      image.onload = () => {
-        setMedia({
+      pendingMediaUrlRef.current = objectUrl;
+      const controller = new AbortController();
+      samplingControllerRef.current = controller;
+      dispatchVideoPipeline({ type: 'decode_started' });
+      let decoder: HTMLVideoElement | undefined;
+      try {
+        decoder = await loadVideoDecoder(objectUrl, controller.signal);
+        if (operation !== operationRef.current) {
+          releaseVideoDecoder(decoder);
+          return;
+        }
+        const exactDurationMs = decoder.duration * 1000;
+        if (
+          !Number.isFinite(exactDurationMs) ||
+          exactDurationMs < 1_000 ||
+          exactDurationMs > MAX_VIDEO_DURATION_MS
+        ) {
+          throw new Error('Choose a video between 1 and 10 seconds long.');
+        }
+        if (
+          decoder.videoWidth < 32 ||
+          decoder.videoHeight < 32 ||
+          decoder.videoWidth * decoder.videoHeight > 50_000_000
+        ) {
+          throw new Error(
+            'That video has unsupported or excessively large dimensions.',
+          );
+        }
+        const details: VideoDetails = {
+          durationMs: Math.round(exactDurationMs),
           file,
-          height: image.naturalHeight,
-          kind: 'image',
+          height: decoder.videoHeight,
+          kind: 'video',
           objectUrl,
-          width: image.naturalWidth,
-        });
-      };
-      image.onerror = () => {
-        URL.revokeObjectURL(objectUrl);
-        setError('We could not decode that image. Try exporting it again.');
-      };
-      image.src = objectUrl;
-      return;
-    }
-
-    const fileError = validateVideoFile(file);
-    if (fileError) {
-      setError(fileError);
-      return;
-    }
-    const objectUrl = URL.createObjectURL(file);
-    const video = document.createElement('video');
-    video.preload = 'metadata';
-    video.muted = true;
-    video.onloadedmetadata = () => {
-      const exactDurationMs = video.duration * 1000;
-      if (
-        !Number.isFinite(exactDurationMs) ||
-        exactDurationMs < 1_000 ||
-        exactDurationMs > MAX_VIDEO_DURATION_MS
-      ) {
-        URL.revokeObjectURL(objectUrl);
-        setError('Choose a video between 1 and 10 seconds long.');
-        return;
+          width: decoder.videoWidth,
+        };
+        pendingMediaUrlRef.current = null;
+        setMedia(details);
+        await sampleVideo(details, decoder);
+        decoder = undefined;
+      } catch (reason) {
+        if (decoder) releaseVideoDecoder(decoder);
+        if (pendingMediaUrlRef.current === objectUrl) {
+          pendingMediaUrlRef.current = null;
+          URL.revokeObjectURL(objectUrl);
+        }
+        if (operation !== operationRef.current) return;
+        dispatchVideoPipeline({ type: 'reset' });
+        setError(
+          reason instanceof Error
+            ? reason.message
+            : 'The browser could not decode that video.',
+        );
+      } finally {
+        if (samplingControllerRef.current === controller) {
+          samplingControllerRef.current = null;
+        }
       }
-      const durationMs = Math.round(exactDurationMs);
-      if (
-        video.videoWidth < 32 ||
-        video.videoHeight < 32 ||
-        video.videoWidth * video.videoHeight > 50_000_000
-      ) {
-        URL.revokeObjectURL(objectUrl);
-        setError('That video has unsupported or excessively large dimensions.');
-        return;
-      }
-      setMedia({
-        durationMs,
-        file,
-        height: video.videoHeight,
-        kind: 'video',
-        objectUrl,
-        width: video.videoWidth,
-      });
-    };
-    video.onerror = () => {
-      URL.revokeObjectURL(objectUrl);
-      setError(
-        'This browser could not decode the video. Use an H.264 MP4, or a WebM supported by this browser.',
-      );
-    };
-    video.src = objectUrl;
-    video.load();
-  }, []);
+    },
+    [clearSampledFrames, sampleVideo],
+  );
 
   const analyze = useCallback(async () => {
     if (
       !media ||
-      status === 'sampling' ||
-      status === 'requesting' ||
       serviceState === 'checking' ||
       serviceState === 'offline' ||
-      (media.kind === 'video' && !videoCapability)
+      (media.kind === 'image' && imageStatus === 'requesting') ||
+      (media.kind === 'video' &&
+        (!videoCapability ||
+          sampledFrames.length !== VIDEO_FRAME_COUNT ||
+          !canAnalyzeSampledVideo(videoPipeline)))
     ) {
       return;
     }
@@ -443,7 +636,6 @@ export default function TryDetector() {
     const operation = ++operationRef.current;
     setError(null);
     setResult(null);
-    setSelectedFrame(0);
     const directEndpoint =
       process.env.NEXT_PUBLIC_SYNTHFLAG_INFERENCE_URL?.replace(/\/$/, '');
     const controller = new AbortController();
@@ -455,7 +647,7 @@ export default function TryDetector() {
 
     try {
       if (media.kind === 'image') {
-        setStatus('requesting');
+        setImageStatus('requesting');
         const body = new FormData();
         body.append('image', media.file);
         const endpoint = directEndpoint
@@ -485,27 +677,10 @@ export default function TryDetector() {
         }
         if (operation !== operationRef.current) return;
         setResult(payload as ImageAnalysisResult);
+        setImageStatus('complete');
       } else {
-        let frames = sampledFrames;
-        if (frames.length !== VIDEO_FRAME_COUNT) {
-          if (!videoRef.current) {
-            throw new Error('The video preview is not ready yet.');
-          }
-          setStatus('sampling');
-          setSamplingCount(0);
-          frames = await extractVideoFrames(
-            videoRef.current,
-            media.durationMs,
-            setSamplingCount,
-          );
-          if (operation !== operationRef.current) {
-            for (const frame of frames) URL.revokeObjectURL(frame.objectUrl);
-            return;
-          }
-          setSampledFrames(frames);
-        }
-
-        setStatus('requesting');
+        const frames = sampledFrames;
+        dispatchVideoPipeline({ type: 'analysis_started' });
         const body = new FormData();
         for (const frame of frames) {
           body.append(
@@ -536,23 +711,34 @@ export default function TryDetector() {
             ),
           );
         }
-        setStatus('preparing');
+        dispatchVideoPipeline({ type: 'analysis_received' });
         await new Promise<void>((resolve) =>
           window.requestAnimationFrame(() => resolve()),
         );
         const parsed = parseVideoAnalysisResult(payload);
         if (operation !== operationRef.current) return;
-        setSelectedFrame(parsed.summary.peak_frame_index);
         setResult(parsed);
+        dispatchVideoPipeline({
+          peakFrameIndex: parsed.summary.peak_frame_index,
+          type: 'analysis_completed',
+        });
+        const peakFrame = frames[parsed.summary.peak_frame_index];
+        if (peakFrame && videoRef.current) {
+          videoRef.current.pause();
+          videoRef.current.currentTime = peakFrame.timestampMs / 1000;
+        }
       }
 
-      setStatus('complete');
       window.setTimeout(() => {
         resultRef.current?.focus({ preventScroll: true });
       }, 0);
     } catch (reason) {
       if (operation !== operationRef.current) return;
-      setStatus('idle');
+      if (media.kind === 'video') {
+        dispatchVideoPipeline({ type: 'analysis_failed' });
+      } else {
+        setImageStatus('idle');
+      }
       setError(
         reason instanceof DOMException && reason.name === 'AbortError'
           ? 'Analysis reached the five-minute limit. Your selection is preserved so you can retry.'
@@ -566,22 +752,63 @@ export default function TryDetector() {
         requestControllerRef.current = null;
       }
     }
-  }, [media, sampledFrames, serviceState, status, videoCapability]);
+  }, [
+    imageStatus,
+    media,
+    sampledFrames,
+    serviceState,
+    videoCapability,
+    videoPipeline,
+  ]);
+
+  const retryVideoSampling = useCallback(() => {
+    if (media?.kind !== 'video') return;
+    void sampleVideo(media);
+  }, [media, sampleVideo]);
+
+  const selectVideoFrame = useCallback(
+    (index: number) => {
+      const frame = sampledFrames.find((sample) => sample.index === index);
+      if (!frame) return;
+      dispatchVideoPipeline({ index, type: 'frame_selected' });
+      const video = videoRef.current;
+      if (!video) return;
+      const seekPreview = () => {
+        video.pause();
+        video.currentTime = frame.timestampMs / 1000;
+      };
+      if (video.readyState >= HTMLMediaElement.HAVE_METADATA) {
+        seekPreview();
+      } else {
+        video.addEventListener('loadedmetadata', seekPreview, { once: true });
+      }
+    },
+    [sampledFrames],
+  );
 
   const working =
-    status === 'sampling' || status === 'requesting' || status === 'preparing';
+    imageStatus === 'requesting' ||
+    videoPipeline.status === 'decoding' ||
+    videoPipeline.status === 'sampling' ||
+    videoPipeline.status === 'requesting' ||
+    videoPipeline.status === 'preparing';
   const videoResult = result && isVideoResult(result) ? result : null;
   const imageResult = result && !isVideoResult(result) ? result : null;
-  const videoLanguage = videoResult ? videoResultLanguage(videoResult) : null;
   const imageLanguage = imageResult
     ? imageResultLanguage(imageResult.score)
     : null;
-  const buttonDisabled =
+  const imageButtonDisabled =
     !media ||
     working ||
     serviceState === 'checking' ||
-    serviceState === 'offline' ||
-    (media?.kind === 'video' && !videoCapability);
+    serviceState === 'offline';
+  const videoCanAnalyze =
+    media?.kind === 'video' &&
+    canAnalyzeSampledVideo(videoPipeline) &&
+    sampledFrames.length === VIDEO_FRAME_COUNT &&
+    serviceState !== 'checking' &&
+    serviceState !== 'offline' &&
+    videoCapability;
   const inputAccept =
     mode === 'image'
       ? 'image/jpeg,image/png,image/webp'
@@ -679,7 +906,13 @@ export default function TryDetector() {
           ))}
         </div>
 
-        <div className="grid overflow-hidden rounded-[30px] border border-white/25 bg-[#eff4ff] shadow-[0_32px_100px_rgba(0,14,65,.32)] lg:min-h-[700px] lg:grid-cols-[minmax(0,1.04fr)_minmax(450px,.76fr)]">
+        <div
+          className={`grid overflow-hidden rounded-[30px] border border-white/25 bg-[#eff4ff] shadow-[0_32px_100px_rgba(0,14,65,.32)] lg:min-h-[700px] ${
+            mode === 'video'
+              ? 'lg:grid-cols-[minmax(360px,.72fr)_minmax(600px,1.28fr)]'
+              : 'lg:grid-cols-[minmax(0,1.04fr)_minmax(450px,.76fr)]'
+          }`}
+        >
           <section className="flex min-h-[610px] flex-col border-b border-[#c8d8fb] p-4 sm:p-7 lg:border-b-0 lg:border-r lg:p-9">
             <div className="mb-6 flex items-center justify-between gap-4">
               <div className="flex items-center gap-3">
@@ -729,7 +962,7 @@ export default function TryDetector() {
                 onDrop={(event) => {
                   event.preventDefault();
                   setDragging(false);
-                  acceptFile(event.dataTransfer.files[0]);
+                  void acceptFile(event.dataTransfer.files[0]);
                 }}
                 type="button"
               >
@@ -808,20 +1041,6 @@ export default function TryDetector() {
                     {media.kind}
                   </span>
                 </div>
-                {media.kind === 'video' && (
-                  <div className="mt-3 grid grid-cols-4 gap-2 border-t border-white/10 pt-3 sm:grid-cols-8">
-                    {midpointTimestamps(media.durationMs).map(
-                      (timestamp, index) => (
-                        <span
-                          className="rounded-lg bg-white/8 px-2 py-2 text-center font-mono text-[8px] uppercase tracking-[0.08em] text-white/55"
-                          key={timestamp}
-                        >
-                          F{index + 1} · {formatTimestamp(timestamp)}
-                        </span>
-                      ),
-                    )}
-                  </div>
-                )}
               </div>
             )}
 
@@ -829,7 +1048,7 @@ export default function TryDetector() {
               ref={inputRef}
               accept={inputAccept}
               className="sr-only"
-              onChange={(event) => acceptFile(event.target.files?.[0])}
+              onChange={(event) => void acceptFile(event.target.files?.[0])}
               type="file"
             />
 
@@ -851,22 +1070,37 @@ export default function TryDetector() {
               </span>
               <div>
                 <h2 className="font-display text-xl font-semibold tracking-[-0.035em]">
-                  Signal report
+                  {mode === 'image' ? 'Signal report' : 'Frame pipeline'}
                 </h2>
                 <p className="text-xs text-[#667085]">
                   {mode === 'image'
                     ? 'Probability, not provenance'
-                    : 'Descriptive frame summary, not a video probability'}
+                    : 'Local samples first · model scores second'}
                 </p>
               </div>
             </div>
 
-            {working ? (
-              <ProgressReport
-                mediaKind={media?.kind ?? mode}
-                samplingCount={samplingCount}
-                status={status}
+            {mode === 'video' && media?.kind === 'video' ? (
+              <VideoPipeline
+                canAnalyze={videoCanAnalyze}
+                durationMs={media.durationMs}
+                error={error}
+                fileName={media.file.name}
+                onAnalyze={analyze}
+                onReset={reset}
+                onRetrySampling={retryVideoSampling}
+                onSelectFrame={selectVideoFrame}
+                pipeline={videoPipeline}
+                result={videoResult}
+                resultRef={resultRef}
+                sampledFrames={sampledFrames}
+                serviceState={serviceState}
+                videoCapability={videoCapability}
               />
+            ) : mode === 'video' && videoPipeline.status === 'decoding' ? (
+              <ProgressReport mediaKind="video" status="decoding" />
+            ) : mode === 'image' && imageStatus === 'requesting' ? (
+              <ProgressReport mediaKind="image" status="requesting" />
             ) : imageResult && imageLanguage ? (
               <ImageReport
                 language={imageLanguage}
@@ -874,19 +1108,9 @@ export default function TryDetector() {
                 result={imageResult}
                 resultRef={resultRef}
               />
-            ) : videoResult && videoLanguage ? (
-              <VideoReport
-                language={videoLanguage}
-                onReset={reset}
-                onSelectFrame={setSelectedFrame}
-                result={videoResult}
-                resultRef={resultRef}
-                sampledFrames={sampledFrames}
-                selectedFrame={selectedFrame}
-              />
             ) : (
               <EmptyReport
-                buttonDisabled={buttonDisabled}
+                buttonDisabled={imageButtonDisabled}
                 media={media}
                 mode={mode}
                 onAnalyze={analyze}
@@ -923,24 +1147,17 @@ export default function TryDetector() {
 
 function ProgressReport({
   mediaKind,
-  samplingCount,
   status,
 }: {
   mediaKind: MediaMode;
-  samplingCount: number;
-  status: WorkStatus;
+  status: 'decoding' | 'requesting';
 }) {
   const steps =
     mediaKind === 'video'
       ? [
-          ['Decode', 'Video metadata validated'],
-          [
-            'Sample',
-            status === 'sampling'
-              ? `${samplingCount} of 8 local frames ready`
-              : 'Eight local frames ready',
-          ],
-          ['Inspect', 'Worker availability and four-expert inference'],
+          ['Decode', 'Reading duration and dimensions locally'],
+          ['Sample', 'Prepare eight midpoint PNG crops'],
+          ['Inspect', 'Four-expert frame analysis'],
           ['Resolve', 'Verify aggregates and timeline'],
         ]
       : [
@@ -948,16 +1165,7 @@ function ProgressReport({
           ['Inspect', 'Worker availability and four experts'],
           ['Resolve', 'Validate the returned probability'],
         ];
-  const activeIndex =
-    mediaKind === 'video'
-      ? status === 'sampling'
-        ? 1
-        : status === 'requesting'
-          ? 2
-          : 3
-      : status === 'requesting'
-        ? 1
-        : 2;
+  const activeIndex = mediaKind === 'video' ? 0 : 1;
 
   return (
     <div className="flex flex-1 flex-col justify-center" aria-live="polite">
@@ -967,16 +1175,12 @@ function ProgressReport({
             Analysis in progress
           </p>
           <p className="mt-2 font-display text-3xl font-semibold tracking-[-0.05em] sm:text-4xl">
-            {status === 'sampling'
-              ? `Sampling frame ${Math.min(VIDEO_FRAME_COUNT, samplingCount + 1)} of ${VIDEO_FRAME_COUNT}`
-              : status === 'preparing'
-                ? 'Preparing the timeline'
-                : mediaKind === 'video'
-                  ? 'Waiting for the model'
-                  : 'Reading the frame'}
+            {status === 'decoding'
+              ? 'Decoding video metadata'
+              : 'Reading the frame'}
           </p>
         </div>
-        <LoaderCircle className="size-8 animate-spin text-[#0040c1]" />
+        <LoaderCircle className="size-8 animate-spin text-[#0040c1] motion-reduce:animate-none" />
       </div>
       <ol className="space-y-3">
         {steps.map(([label, description], index) => {
@@ -1018,12 +1222,6 @@ function ProgressReport({
           );
         })}
       </ol>
-      {status === 'requesting' && mediaKind === 'video' && (
-        <p className="mt-4 text-xs leading-5 text-[#667085]">
-          The service serializes GPU work, so this state honestly covers queue
-          waiting and frame inference without inventing an ETA.
-        </p>
-      )}
     </div>
   );
 }
@@ -1104,185 +1302,6 @@ function ImageReport({
         onClick={onReset}
       >
         Analyze another image
-        <RotateCcw className="size-4" />
-      </Button>
-    </div>
-  );
-}
-
-function VideoReport({
-  language,
-  onReset,
-  onSelectFrame,
-  result,
-  resultRef,
-  sampledFrames,
-  selectedFrame,
-}: {
-  language: ReturnType<typeof videoResultLanguage>;
-  onReset: () => void;
-  onSelectFrame: (index: number) => void;
-  result: VideoAnalysisResult;
-  resultRef: React.RefObject<HTMLDivElement | null>;
-  sampledFrames: SampledFrame[];
-  selectedFrame: number;
-}) {
-  const selectedSample = sampledFrames[selectedFrame];
-  return (
-    <div
-      ref={resultRef}
-      className="flex flex-1 flex-col"
-      tabIndex={-1}
-      aria-live="polite"
-    >
-      <div className="rounded-[24px] bg-[#0040c1] p-5 text-white sm:p-7">
-        <div className="flex items-start justify-between gap-4">
-          <span className="rounded-full bg-[#b9ff66] px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.14em] text-[#102600]">
-            8-frame report complete
-          </span>
-          <Sparkles className="size-5 text-[#b9ff66]" />
-        </div>
-        <div className="mt-7 flex items-end justify-between gap-4">
-          <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/55">
-              Mean sampled-frame signal
-            </p>
-            <p className="mt-1 font-display text-[clamp(4.6rem,9vw,7rem)] font-semibold leading-none tracking-[-0.08em]">
-              {Math.round(result.summary.mean_score * 100)}
-              <span className="ml-1 text-[.32em] tracking-[-0.02em] text-[#a9c4ff]">
-                %
-              </span>
-            </p>
-          </div>
-          <span className="pb-3 font-mono text-[10px] text-white/55">
-            mean {result.summary.mean_score.toFixed(4)}
-          </span>
-        </div>
-        <div className="relative mt-5 h-2 rounded-full bg-white/16">
-          <div
-            className="h-full rounded-full bg-[#b9ff66] transition-[width] duration-1000 ease-out"
-            style={{ width: `${result.summary.mean_score * 100}%` }}
-          />
-          <span
-            className="absolute top-1/2 h-5 w-px -translate-y-1/2 bg-white/60"
-            style={{ left: `${result.threshold * 100}%` }}
-          />
-        </div>
-      </div>
-      <div className="mt-4 rounded-[18px] border border-[#c8d8fb] bg-[#f6f9ff] p-4">
-        <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-[#0040c1]">
-          {language.eyebrow}
-        </p>
-        <p className="mt-2 text-sm leading-5 text-[#405071]">
-          {language.detail}
-        </p>
-      </div>
-      <dl className="mt-4 grid grid-cols-2 gap-px overflow-hidden rounded-[16px] border border-[#d7e2f8] bg-[#d7e2f8] text-xs sm:grid-cols-4">
-        <div className="bg-white p-3">
-          <dt className="text-[#667085]">Peak frame</dt>
-          <dd className="mt-1 font-medium">
-            {(result.summary.peak_score * 100).toFixed(0)}% at{' '}
-            {formatTimestamp(result.summary.peak_timestamp_ms)}
-            <span className="mt-0.5 block font-mono text-[9px] text-[#667085]">
-              {result.summary.peak_score.toFixed(4)} raw score
-            </span>
-          </dd>
-        </div>
-        <div className="bg-white p-3">
-          <dt className="text-[#667085]">At threshold</dt>
-          <dd className="mt-1 font-medium">
-            {result.summary.above_threshold_count} of {result.sample_count}{' '}
-            frames
-          </dd>
-        </div>
-        <div className="bg-white p-3">
-          <dt className="text-[#667085]">Processing</dt>
-          <dd className="mt-1 font-medium">
-            {(result.processing_ms / 1000).toFixed(1)} sec
-          </dd>
-        </div>
-        <div className="bg-white p-3">
-          <dt className="text-[#667085]">Architecture</dt>
-          <dd className="mt-1 font-medium">FeatDistill 4-expert</dd>
-        </div>
-      </dl>
-      {selectedSample && (
-        <div className="mt-4 grid gap-3 rounded-[16px] border border-[#d7e2f8] bg-white p-3 sm:grid-cols-[112px_1fr]">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            alt={`Selected sampled frame at ${formatTimestamp(selectedSample.timestampMs)}`}
-            className="aspect-square w-full rounded-xl object-cover sm:w-28"
-            src={selectedSample.objectUrl}
-          />
-          <div className="self-center">
-            <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-[#667085]">
-              Selected frame {selectedFrame + 1} ·{' '}
-              {formatTimestamp(selectedSample.timestampMs)}
-            </p>
-            <p className="mt-2 font-display text-3xl font-semibold tracking-[-0.05em] text-[#0040c1]">
-              {((result.frame_scores[selectedFrame]?.score ?? 0) * 100).toFixed(
-                0,
-              )}
-              % frame score
-            </p>
-          </div>
-        </div>
-      )}
-      <div
-        className="mt-4 flex gap-2 overflow-x-auto pb-2"
-        aria-label="Sampled frame timeline"
-      >
-        {result.frame_scores.map((frame) => {
-          const sample = sampledFrames[frame.index];
-          return (
-            <button
-              aria-pressed={selectedFrame === frame.index}
-              className={`min-w-[92px] rounded-xl border p-2 text-left transition-colors ${
-                selectedFrame === frame.index
-                  ? 'border-[#0040c1] bg-[#edf3ff]'
-                  : 'border-[#d7e2f8] bg-white hover:border-[#8eacf0]'
-              }`}
-              key={frame.index}
-              onClick={() => onSelectFrame(frame.index)}
-              type="button"
-            >
-              {sample && (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  alt=""
-                  className="mb-2 aspect-square w-full rounded-lg object-cover"
-                  src={sample.objectUrl}
-                />
-              )}
-              <span className="block font-mono text-[8px] uppercase tracking-[0.08em] text-[#667085]">
-                F{frame.index + 1} · {formatTimestamp(frame.timestamp_ms)}
-              </span>
-              <span className="mt-1 block text-sm font-semibold text-[#111827]">
-                {(frame.score * 100).toFixed(0)}%
-              </span>
-              <span className="block font-mono text-[8px] text-[#667085]">
-                raw {frame.score.toFixed(4)}
-              </span>
-              <span className="mt-1 block h-1.5 rounded-full bg-[#e4ebf8]">
-                <span
-                  className="block h-full rounded-full bg-[#0040c1]"
-                  style={{ width: `${frame.score * 100}%` }}
-                />
-              </span>
-            </button>
-          );
-        })}
-      </div>
-      <p className="mt-3 rounded-xl bg-[#fff8dc] px-3 py-2 text-xs leading-5 text-[#735c13]">
-        This is a descriptive summary of eight image-model scores. SynthFlag
-        does not inspect audio or motion, and the mean is not a calibrated
-        probability that the video is AI-generated.
-      </p>
-      <Button
-        className="mt-4 h-13 rounded-full bg-[#111827] px-5 text-white hover:bg-[#0040c1]"
-        onClick={onReset}
-      >
-        Analyze another video
         <RotateCcw className="size-4" />
       </Button>
     </div>

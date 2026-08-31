@@ -2,9 +2,12 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import {
+  canAnalyzeSampledVideo,
+  INITIAL_VIDEO_PIPELINE_STATE,
   midpointTimestamps,
   parseVideoAnalysisResult,
   validateVideoFile,
+  videoPipelineReducer,
   videoResultLanguage,
 } from '../lib/video-analysis.ts';
 
@@ -95,5 +98,78 @@ test('uses an isolated-frame explanation instead of overstating a peak', () => {
   assert.equal(
     videoResultLanguage(payload).eyebrow,
     'Isolated elevated sample',
+  );
+});
+
+test('tracks truthful local decoding and incremental frame sampling', () => {
+  let state = videoPipelineReducer(INITIAL_VIDEO_PIPELINE_STATE, {
+    type: 'decode_started',
+  });
+  assert.equal(state.status, 'decoding');
+  assert.equal(canAnalyzeSampledVideo(state), false);
+
+  state = videoPipelineReducer(state, { type: 'metadata_ready' });
+  assert.equal(state.status, 'sampling');
+
+  for (let index = 0; index < 8; index += 1) {
+    state = videoPipelineReducer(state, { index, type: 'frame_sampled' });
+    assert.equal(state.sampledCount, index + 1);
+    assert.equal(state.selectedFrame, index);
+    assert.equal(canAnalyzeSampledVideo(state), false);
+  }
+
+  state = videoPipelineReducer(state, { type: 'sampling_completed' });
+  assert.equal(state.status, 'ready');
+  assert.equal(state.sampledCount, 8);
+  assert.equal(canAnalyzeSampledVideo(state), true);
+});
+
+test('resets partial sampling for retry but preserves complete frames after scoring errors', () => {
+  let partial = videoPipelineReducer(INITIAL_VIDEO_PIPELINE_STATE, {
+    type: 'metadata_ready',
+  });
+  partial = videoPipelineReducer(partial, {
+    index: 0,
+    type: 'frame_sampled',
+  });
+  partial = videoPipelineReducer(partial, {
+    index: 1,
+    type: 'frame_sampled',
+  });
+  partial = videoPipelineReducer(partial, { type: 'sampling_failed' });
+  assert.deepEqual(partial, {
+    sampledCount: 0,
+    selectedFrame: 0,
+    status: 'sampling_error',
+  });
+
+  let ready = {
+    sampledCount: 8,
+    selectedFrame: 7,
+    status: 'ready',
+  };
+  ready = videoPipelineReducer(ready, { type: 'analysis_started' });
+  ready = videoPipelineReducer(ready, { type: 'analysis_received' });
+  ready = videoPipelineReducer(ready, { type: 'analysis_failed' });
+  assert.deepEqual(ready, {
+    sampledCount: 8,
+    selectedFrame: 7,
+    status: 'ready',
+  });
+  assert.equal(canAnalyzeSampledVideo(ready), true);
+
+  ready = videoPipelineReducer(ready, { type: 'analysis_started' });
+  ready = videoPipelineReducer(ready, { type: 'analysis_received' });
+  ready = videoPipelineReducer(ready, {
+    peakFrameIndex: 3,
+    type: 'analysis_completed',
+  });
+  assert.equal(ready.status, 'complete');
+  assert.equal(ready.selectedFrame, 3);
+  assert.equal(ready.sampledCount, 8);
+
+  assert.deepEqual(
+    videoPipelineReducer(ready, { type: 'reset' }),
+    INITIAL_VIDEO_PIPELINE_STATE,
   );
 });
