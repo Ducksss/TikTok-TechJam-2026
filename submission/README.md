@@ -18,6 +18,7 @@ remains available as a compatibility command.
 - [Third-party notices](THIRD_PARTY_NOTICES.md)
 - [Release audit](RELEASE_AUDIT.md)
 - [Devpost thumbnail](media/synthflag-devpost-thumbnail.png)
+- [Devpost gallery screenshots](media/devpost-gallery/)
 - [Machine-readable and source-report evidence](evidence/)
 
 ## Result in one sentence
