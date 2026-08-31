@@ -33,6 +33,7 @@ SITE_ROUTES = {
         "landing-page/app/documentation/architecture/page.tsx"
     ),
     "/api/analyze": "landing-page/app/api/analyze/route.ts",
+    "/api/analyze-video": "landing-page/app/api/analyze-video/route.ts",
 }
 
 OUTPUT_DOCS = (
@@ -123,9 +124,9 @@ def main() -> int:
                 )
 
     diagrams = sorted((ROOT / "landing-page/public/diagrams").glob("*.svg"))
-    if len(diagrams) != 17:
+    if len(diagrams) != 18:
         errors.append(
-            "diagram inventory changed from 17; refresh context before release "
+            "diagram inventory changed from 18; refresh context before release "
             "(found {})".format(len(diagrams))
         )
 

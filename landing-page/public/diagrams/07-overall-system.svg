@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="title desc">
   <title id="title">SynthFlag supported web system configuration</title>
-  <desc id="desc">The SynthFlag try page validates and previews an image in the browser, then either calls the FastAPI inference service directly or uses the optional Next.js edge proxy. The service validates and decodes the upload in memory, uses a checkpoint-backed resident four-expert model, and returns a JSON score and runtime metadata.</desc>
+  <desc id="desc">The SynthFlag try page validates an image or short video in the browser. Videos remain local while eight derived frames are sampled. The browser then calls the FastAPI inference service directly or through the optional edge proxy. The service validates and decodes image or frame bytes in memory, uses a checkpoint-backed resident four-expert model, and returns an image score or ordered frame report.</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#06101d"/><stop offset="1" stop-color="#071522"/></linearGradient>
     <linearGradient id="service" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#101d2d"/><stop offset="1" stop-color="#0a1725"/></linearGradient>
@@ -27,24 +27,24 @@
       <rect width="306" height="526" rx="28" fill="#09232d" stroke="#2dd4bf" stroke-width="2"/>
       <rect x="22" y="22" width="112" height="31" rx="15" fill="#10424a"/><circle cx="41" cy="37" r="6" fill="#2dd4bf"/><text x="57" y="42" class="kicker" fill="#bdf8ee">BROWSER</text>
       <text x="22" y="91" class="title">Public <tspan class="mono">/try</tspan> page</text>
-      <text x="22" y="118" class="body">One image · local interaction</text>
+      <text x="22" y="118" class="body">One image or short video · local interaction</text>
       <g transform="translate(22 148)">
         <rect width="262" height="88" rx="16" fill="#0b1826" stroke="#2b5660"/>
         <text x="16" y="25" class="kicker">01 · SELECT + PREVIEW</text>
-        <text x="16" y="53" class="body">JPEG · PNG · WebP</text>
-        <text x="16" y="75" class="small">type + ≤10 MiB checked client-side</text>
+        <text x="16" y="53" class="body">Image or MP4/WebM video</text>
+        <text x="16" y="75" class="small">video stays local · eight PNG samples</text>
         <path d="M131 88V108" stroke="#2dd4bf" stroke-width="2.5" marker-end="url(#teal)"/>
         <rect y="116" width="262" height="88" rx="16" fill="#0b1826" stroke="#2b5660"/>
         <text x="16" y="141" class="kicker">02 · ROUTE REQUEST</text>
-        <text x="16" y="169" class="body">multipart form data</text>
+        <text x="16" y="169" class="body">multipart image or sampled frames</text>
         <text x="16" y="191" class="small">direct endpoint if configured</text>
         <path d="M131 204V224" stroke="#2dd4bf" stroke-width="2.5" marker-end="url(#teal)"/>
         <rect y="232" width="262" height="104" rx="16" fill="#152411" stroke="#84cc16"/>
         <text x="16" y="257" class="kicker" fill="#badd80">05 · RESULT CARD</text>
-        <text x="16" y="288" class="title" fill="#dcf7a1">P(fake) · 0–1</text>
-        <text x="16" y="315" class="small">contextual reading, not provenance proof</text>
+        <text x="16" y="288" class="title" fill="#dcf7a1">score or frame timeline</text>
+        <text x="16" y="315" class="small">descriptive signal, not provenance proof</text>
       </g>
-      <g transform="translate(22 486)"><rect width="262" height="38" rx="12" fill="#0e3940"/><text x="131" y="24" class="small" text-anchor="middle" fill="#bdf8ee">object URL revoked when replaced/unmounted</text></g>
+      <g transform="translate(22 486)"><rect width="262" height="38" rx="12" fill="#0e3940"/><text x="131" y="24" class="small" text-anchor="middle" fill="#bdf8ee">media + frame URLs revoked after use</text></g>
     </g>
 
     <!-- route choices -->
@@ -55,16 +55,16 @@
         <rect x="18" y="18" width="78" height="28" rx="14" fill="#153f78"/><text x="57" y="37" class="chip" text-anchor="middle" fill="#d4e7ff">DIRECT</text>
         <text x="18" y="75" class="title">Browser → service</text>
         <text x="18" y="102" class="mono monoText">NEXT_PUBLIC_SYNTHFLAG_INFERENCE_URL</text>
-        <text x="18" y="125" class="small">POST /v1/analyze · GET /health</text>
+        <text x="18" y="125" class="small">POST /v1/analyze[-frames] · GET /health</text>
       </g>
       <g transform="translate(0 212)" filter="url(#shadow)">
         <rect width="360" height="182" rx="22" fill="#101c2c" stroke="#647b95" stroke-width="2"/>
         <rect x="18" y="18" width="78" height="28" rx="14" fill="#293e57"/><text x="57" y="37" class="chip" text-anchor="middle" fill="#dce8f5">PROXY</text>
         <text x="18" y="74" class="title">Next.js edge route</text>
-        <text x="18" y="100" class="mono monoText">POST /api/analyze</text>
+        <text x="18" y="100" class="mono monoText">POST /api/analyze[-video]</text>
         <line x1="18" y1="116" x2="342" y2="116" stroke="#2c435e"/>
-        <text x="18" y="140" class="small">revalidates form · type · ≤10 MiB</text>
-        <text x="18" y="162" class="mono monoText">SYNTHFLAG_INFERENCE_URL → /v1/analyze</text>
+        <text x="18" y="140" class="small">revalidates image or bounded frame batch</text>
+        <text x="18" y="162" class="mono monoText">SYNTHFLAG_INFERENCE_URL → analysis endpoint</text>
       </g>
       <g transform="translate(0 422)" filter="url(#shadow)">
         <rect width="360" height="104" rx="20" fill="#17170e" stroke="#b58a28"/>
@@ -82,12 +82,12 @@
     <g transform="translate(824 224)" filter="url(#shadow)">
       <rect width="552" height="526" rx="28" fill="url(#service)" stroke="#3b536d" stroke-width="2"/>
       <rect x="22" y="22" width="150" height="31" rx="15" fill="#23364b"/><circle cx="42" cy="37" r="6" fill="#91a9c4"/><text x="58" y="42" class="kicker" fill="#dae7f4">MODEL SERVICE</text>
-      <text x="22" y="90" class="title">FastAPI <tspan class="mono">/v1/analyze</tspan></text>
+      <text x="22" y="90" class="title">FastAPI analysis endpoints</text>
       <text x="22" y="117" class="body">Checkpoint-backed HTTP wrapper · no upload/result store</text>
       <g transform="translate(22 146)">
         <rect width="238" height="98" rx="16" fill="#0a1725" stroke="#344b65"/>
         <text x="16" y="26" class="kicker">03 · REQUEST GUARDS</text>
-        <text x="16" y="54" class="body">type · bytes · dimensions</text>
+        <text x="16" y="54" class="body">type · bytes · dimensions · timestamps</text>
         <text x="16" y="78" class="small">verify decodable → convert RGB in memory</text>
         <path d="M238 49H270" stroke="#91a9c4" stroke-width="3" marker-end="url(#arrow)"/>
         <rect x="280" width="226" height="98" rx="16" fill="#0a1725" stroke="#344b65"/>
@@ -109,7 +109,7 @@
       <g transform="translate(22 446)">
         <rect width="506" height="56" rx="16" fill="#17240f" stroke="#84cc16"/>
         <text x="16" y="23" class="kicker" fill="#c8ec89">JSON RESPONSE</text>
-        <text x="16" y="43" class="mono monoText" fill="#e4f8b9">score · processing_ms · checkpoint · model · version · threshold</text>
+        <text x="16" y="43" class="mono monoText" fill="#e4f8b9">score or frame_scores + summary · timing · model identity</text>
       </g>
     </g>
 
@@ -121,7 +121,7 @@
     <path d="M824 722H806V796H218V750" fill="none" stroke="#a3e635" stroke-width="3" marker-end="url(#lime)"/>
     <text x="510" y="820" class="small" text-anchor="middle" fill="#cfea91">same JSON payload returns directly or through the proxy</text>
 
-    <g transform="translate(824 790)"><circle cx="6" cy="8" r="6" fill="#2dd4bf"/><text x="20" y="11" class="small">Uploaded bytes are decoded in memory, scored once, and discarded.</text><text x="20" y="30" class="small">The service does not write uploads or results to disk.</text></g>
+    <g transform="translate(824 790)"><circle cx="6" cy="8" r="6" fill="#2dd4bf"/><text x="20" y="11" class="small">Image or derived-frame bytes are decoded in memory, scored, and discarded.</text><text x="20" y="30" class="small">Raw video is not submitted; the service writes no upload or result files.</text></g>
     <text x="1376" y="866" class="small" text-anchor="end">Source: current /try, edge route, FastAPI service, and inference model</text>
   </g>
 </svg>

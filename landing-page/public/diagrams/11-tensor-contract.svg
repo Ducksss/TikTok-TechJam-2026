@@ -91,7 +91,7 @@
       <text x="22" y="263" class="label" fill="#91aa9d">PYTHON API</text>
       <text x="22" y="290" class="mono shape">returns [B]</text>
       <line x1="22" y1="316" x2="206" y2="316" stroke="#416252"/>
-      <text x="22" y="347" class="label" fill="#91aa9d">HTTP SERVICE · B=1</text>
+      <text x="22" y="347" class="label" fill="#91aa9d">HTTP · B=1 IMAGE / B≤2 FRAME MICRO-BATCH</text>
       <text x="22" y="378" class="mono shape">scores.cpu()[0]</text>
       <text x="22" y="398" class="tiny">scalar JSON score</text>
     </g>

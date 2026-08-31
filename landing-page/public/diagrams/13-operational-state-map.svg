@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="title desc">
   <title id="title">SynthFlag public detector operational state map</title>
-  <desc id="desc">On page load the user interface performs one health check and enters checking, ready, warming, or offline service state. A valid image can move analysis from idle to analyzing and then complete, while errors return to idle with a message. Client, edge proxy, and model service validation produce documented HTTP statuses. The implementation performs no automatic retry; authentication and rate limiting remain external deployment responsibilities.</desc>
+  <desc id="desc">On page load the user interface performs one health check and enters checking, ready, warming, or offline service state, while also reading advertised video capability. A valid image proceeds to a model request; a valid video is locally sampled before its frame request. Errors return to idle with the selection preserved. Client, edge proxy, and model service validation produce documented statuses. The client has a five-minute abort and no automatic retry; authentication and rate limiting remain external deployment responsibilities.</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#06101d"/><stop offset="1" stop-color="#0a1527"/></linearGradient>
     <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#7890a9" stroke-opacity="0.07"/></pattern>
@@ -46,12 +46,12 @@
       <text x="24" y="40" class="label" fill="#65e6d2">B · ANALYSIS LIFECYCLE</text>
       <g transform="translate(24 74)"><rect width="128" height="72" rx="17" fill="#152337" stroke="#60758e"/><text x="64" y="43" class="state" text-anchor="middle">idle</text></g>
       <path d="M152 110H207" stroke="#a3e635" stroke-width="2.2" marker-end="url(#lime)"/>
-      <g transform="translate(215 74)"><rect width="168" height="72" rx="17" fill="#102844" stroke="#60a5fa"/><text x="84" y="32" class="state" text-anchor="middle">analyzing</text><text x="84" y="55" class="tiny" text-anchor="middle">3 UI steps are timed animation</text></g>
+      <g transform="translate(215 74)"><rect width="168" height="72" rx="17" fill="#102844" stroke="#60a5fa"/><text x="84" y="32" class="state" text-anchor="middle">sample / request</text><text x="84" y="55" class="tiny" text-anchor="middle">real client work states</text></g>
       <path d="M383 110H438" stroke="#a3e635" stroke-width="2.2" marker-end="url(#lime)"/>
-      <g transform="translate(446 74)"><rect width="168" height="72" rx="17" fill="#183022" stroke="#a3e635"/><text x="84" y="32" class="state" text-anchor="middle">complete</text><text x="84" y="55" class="tiny" text-anchor="middle">finite score in [0,1]</text></g>
+      <g transform="translate(446 74)"><rect width="168" height="72" rx="17" fill="#183022" stroke="#a3e635"/><text x="84" y="32" class="state" text-anchor="middle">complete</text><text x="84" y="55" class="tiny" text-anchor="middle">score or frame timeline</text></g>
       <path d="M299 146V194H108V154" fill="none" stroke="#ff7e79" stroke-width="2" marker-end="url(#coral)"/>
       <g transform="translate(336 176)"><rect width="278" height="64" rx="16" fill="#2c1921" stroke="#ff7e79"/><text x="16" y="27" class="state">error → idle + message</text><text x="16" y="49" class="tiny">user may submit again manually</text></g>
-      <text x="24" y="266" class="label" fill="#ff9b97">NO AUTOMATIC RETRY · NO POST ABORT TIMER IN CLIENT</text>
+      <text x="24" y="266" class="label" fill="#ff9b97">NO AUTOMATIC RETRY · CLIENT ABORTS THE REQUEST AT 300 S</text>
     </g>
 
     <g transform="translate(70 528)" filter="url(#shadow)">
@@ -60,9 +60,9 @@
       <g transform="translate(24 68)">
         <rect width="254" height="174" rx="18" fill="#102138" stroke="#4a6c90"/>
         <text x="18" y="30" class="label" fill="#79c5ff">BROWSER</text>
-        <text x="18" y="59" class="body">JPEG · PNG · WebP</text>
-        <text x="18" y="82" class="body">10 MiB maximum</text>
-        <text x="18" y="105" class="body">browser image decode preview</text>
+        <text x="18" y="59" class="body">image or MP4/WebM video</text>
+        <text x="18" y="82" class="body">10 MiB image · 50 MB / 10 s video</text>
+        <text x="18" y="105" class="body">local decode + eight video samples</text>
         <text x="18" y="137" class="small">invalid type / size / decode</text>
         <text x="18" y="157" class="small">shown locally; no request</text>
       </g>
@@ -72,7 +72,7 @@
         <text x="18" y="30" class="label" fill="#aebed1">EDGE PROXY · OPTIONAL</text>
         <text x="18" y="59" class="body"><tspan class="mono code" fill="#ff9b97">400</tspan> malformed / missing file</text>
         <text x="18" y="84" class="body"><tspan class="mono code" fill="#ff9b97">415</tspan> unsupported MIME</text>
-        <text x="18" y="109" class="body"><tspan class="mono code" fill="#ff9b97">413</tspan> over 10 MiB</text>
+        <text x="18" y="109" class="body"><tspan class="mono code" fill="#ff9b97">413</tspan> image or frame byte limit</text>
         <text x="18" y="134" class="body"><tspan class="mono code" fill="#ff9b97">503</tspan> no service configured</text>
         <text x="18" y="159" class="body"><tspan class="mono code" fill="#ff9b97">502</tspan> upstream / 300 s timeout</text>
       </g>
@@ -82,8 +82,8 @@
         <text x="18" y="30" class="label" fill="#ff9b97">MODEL SERVICE</text>
         <text x="18" y="59" class="body"><tspan class="mono code" fill="#ff9b97">415</tspan> unsupported MIME</text>
         <text x="18" y="84" class="body"><tspan class="mono code" fill="#ff9b97">413</tspan> over 10 MiB / 50 MP</text>
-        <text x="18" y="109" class="body"><tspan class="mono code" fill="#ff9b97">422</tspan> decode failure</text>
-        <text x="18" y="134" class="body"><tspan class="mono code" fill="#ff9b97">422</tspan> width or height under 32 px</text>
+        <text x="18" y="109" class="body"><tspan class="mono code" fill="#ff9b97">422</tspan> decode / duration / timestamp failure</text>
+        <text x="18" y="134" class="body"><tspan class="mono code" fill="#ff9b97">422</tspan> dimensions or frame count invalid</text>
         <text x="18" y="159" class="small">upstream status passes through proxy</text>
       </g>
     </g>
@@ -98,6 +98,6 @@
       <circle cx="30" cy="230" r="5" fill="#a3e635"/><text x="46" y="235" class="body">Service writes no upload or result files.</text>
     </g>
 
-    <text x="70" y="848" class="small">Routing choice: direct browser → /v1/analyze, or same-origin browser → /api/analyze → model service.</text>
+    <text x="70" y="848" class="small">Routing choice: direct → /v1/analyze[-frames], or same-origin → /api/analyze[-video] → model service.</text>
   </g>
 </svg>

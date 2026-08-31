@@ -25,8 +25,8 @@ automation, process, or worktree dirtiness state.
 | Public identity | **SynthFlag** is the product, repository, demo, submission, Python distribution, and primary CLI. **FeatDistill** is the attributed UESTC detector and checkpoint lineage. |
 | Batch inference | Repository-authored modules under `infer/` implement the checkpoint-verified FeatDistill-compatible four-expert mean and resumable directory inference. |
 | Batch artifacts | A completed run produces `predictions.csv`, Track 5 `predictions.json` records with `image_path,pred`, and `predictions.meta.json`. |
-| HTTP service | `service/app.py` exposes checkpoint-backed health and single-image analysis; it does not make the public worker available by itself. |
-| Web experience | Source routes are `/`, `/try`, `/journey`, `/documentation`, and `/documentation/architecture`, plus the `/api/analyze` proxy. |
+| HTTP service | `service/app.py` exposes checkpoint-backed health, single-image analysis, and bounded sampled-frame analysis with two-frame microbatches; it does not make the public worker available by itself. |
+| Web experience | Source routes are `/`, `/try`, `/journey`, `/documentation`, and `/documentation/architecture`, plus `/api/analyze` and `/api/analyze-video` proxies. Raw videos remain in the browser while eight midpoint PNG frames are submitted. |
 | Submission package | `submission/` contains the evidence-labeled benchmarks, architecture, reproduction guide, rights inventory, model card, release audit, and checksums. |
 | Source provenance | The initial copied snapshot is disclosed; the current runtime is independently organized, exact upstream files are rejected, and historical method/code credit is preserved. |
 
@@ -54,8 +54,8 @@ Repository source does not prove that a deployment is reachable, its inference
 worker is connected, the GitHub repository is public, its About fields are
 saved, or a Devpost draft is complete. Recheck those systems at action time.
 
-- Verify the deployed routes over HTTP and inspect `/api/analyze` health before
-  calling the demo live.
+- Verify the deployed routes over HTTP and inspect `/api/analyze` health and
+  advertised `sampled_video_frames` capability before calling the demo live.
 - `connected: false` or `ready: false` means the UI cannot provide a live
   checkpoint-backed score, even when the page itself loads.
 - Never claim a GitHub visibility/About change, media upload, or Devpost save or

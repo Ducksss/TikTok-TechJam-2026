@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Test an image — SynthFlag',
+  title: 'Test an image or video — SynthFlag',
   description:
-    'Upload an image and inspect SynthFlag’s four-expert AI-generation probability.',
+    'Analyze an image or eight locally sampled video frames with SynthFlag’s four-expert detector.',
 };
 
 export default function TryLayout({

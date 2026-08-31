@@ -196,10 +196,11 @@ export default function Documentation() {
             <SectionHeading kicker="Start here">In one minute</SectionHeading>
             <div className="docs-lead-grid">
               <p className="docs-lead">
-                SynthFlag is a research detector that compares an image with
-                patterns learned from real and AI-generated examples. It asks
-                four independently trained models for a fake-class probability
-                and averages their answers.
+                SynthFlag is a research detector that compares images with
+                patterns learned from real and AI-generated examples. The web
+                experience can score one image or eight visual frames sampled
+                from a short video. Each frame still passes through the same
+                four-expert image detector.
               </p>
               <div className="docs-score-card">
                 <span>Example output</span>
@@ -217,8 +218,8 @@ export default function Documentation() {
                 <span>01</span>
                 <h3>What goes in?</h3>
                 <p>
-                  One image in the website, or a folder of images in the
-                  released CLI.
+                  One image or a 1–10 second video in the website, or a folder
+                  of images in the released CLI.
                 </p>
               </div>
               <div>
@@ -233,8 +234,8 @@ export default function Documentation() {
                 <span>03</span>
                 <h3>What comes out?</h3>
                 <p>
-                  A continuous, probability-like <code>P(fake)</code> score from
-                  0 to 1.
+                  An image score from 0 to 1, or a descriptive timeline and
+                  arithmetic mean across eight sampled video frames.
                 </p>
               </div>
               <div>
@@ -271,14 +272,21 @@ export default function Documentation() {
               <div className="docs-explainer">
                 <EvidenceTag kind="code">Released code</EvidenceTag>
                 <p className="docs-section-lead">
-                  The website is designed for a quick, single-image check. The
-                  command-line workflow is built for folders and traceable batch
-                  output. Both reach the same four-expert model, but their input
-                  and output interfaces differ.
+                  The website is designed for a quick image check or a visual
+                  sample of a short video. The command-line workflow is built
+                  for folders and traceable batch output. All three paths reach
+                  the same four-expert image model, but their input and output
+                  interfaces differ.
                 </p>
                 <ul>
                   <li>
-                    <strong>Web:</strong> JPEG, PNG, or WebP up to 10 MB.
+                    <strong>Web image:</strong> JPEG, PNG, or WebP up to 10 MB.
+                  </li>
+                  <li>
+                    <strong>Web video:</strong> 1–10 second H.264 MP4, or WebM
+                    where the browser supports it, up to 50 MB. Eight 384 px
+                    midpoint crops are extracted locally; the video is never
+                    uploaded.
                   </li>
                   <li>
                     <strong>CLI:</strong> recursive folder discovery across five
@@ -296,8 +304,11 @@ export default function Documentation() {
                 <details className="docs-technical">
                   <summary>Technical details · interfaces and outputs</summary>
                   <p>
-                    The web API returns JSON for one image. The CLI discovers
-                    JPEG, PNG, BMP, WebP, and TIFF files, then writes{' '}
+                    The image web API returns one score. The sampled-video API
+                    returns ordered frame scores plus an arithmetic mean, peak,
+                    and threshold count. It does not analyze audio or motion,
+                    and the mean is not a calibrated video probability. The CLI
+                    discovers JPEG, PNG, BMP, WebP, and TIFF files, then writes{' '}
                     <code>predictions.csv</code> with
                     <code>image_name,score</code>, an atomic completed-run{' '}
                     <code>predictions.json</code> with Track 5{' '}
@@ -311,7 +322,14 @@ export default function Documentation() {
               <FigureBlock
                 alternative={
                   <ol>
-                    <li>Choose a single web image or a CLI folder.</li>
+                    <li>
+                      Choose a web image, a 1–10 second web video, or a CLI
+                      folder.
+                    </li>
+                    <li>
+                      For video, the browser extracts eight midpoint center
+                      crops and sends only those PNG frames.
+                    </li>
                     <li>
                       The CLI verifies four checkpoint files against its
                       manifest.
@@ -326,7 +344,7 @@ export default function Documentation() {
                     </li>
                   </ol>
                 }
-                alt="Two entry paths—single web image and CLI folder—converge on checkpoint verification, RGB decoding, dual preprocessing, four experts, and a continuous fake-class score."
+                alt="Web image, browser-sampled video frames, and CLI folder paths converge on checkpoint verification, RGB decoding, dual preprocessing, four experts, and image-level scores."
                 file="01-user-flow.svg"
                 number="01"
                 title="Released inference user flow"

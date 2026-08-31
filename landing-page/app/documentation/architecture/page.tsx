@@ -16,6 +16,7 @@ const dinoModelCardUrl =
 const contents = [
   ['overall', 'Overall system'],
   ['request', 'Request sequence'],
+  ['video-sampling', 'Video frame sampling'],
   ['runtime', 'Worker lifecycle'],
   ['checkpoints', 'Checkpoint gates'],
   ['tensors', 'Tensor contract'],
@@ -81,16 +82,16 @@ const sections: AtlasSection[] = [
         analysis requests from the browser.
       </>,
       <>
-        <strong>Proxy mode:</strong> <code>/api/analyze</code> forwards to the
-        configured service URL.
+        <strong>Proxy mode:</strong> <code>/api/analyze</code> and{' '}
+        <code>/api/analyze-video</code> forward to the configured service URL.
       </>,
       <>
         <strong>Model boundary:</strong> four externally supplied checkpoints
         are mounted beside the inference service, not shipped in the website.
       </>,
       <>
-        <strong>Output:</strong> the browser receives score, timing, model,
-        version, threshold, and checkpoint-identity fields.
+        <strong>Output:</strong> image requests return one score; sampled-video
+        requests return ordered frame scores and descriptive aggregates.
       </>,
     ],
     technical: (
@@ -98,8 +99,9 @@ const sections: AtlasSection[] = [
         <p>
           Direct routing uses <code>NEXT_PUBLIC_SYNTHFLAG_INFERENCE_URL</code>.
           Proxy routing uses server-side <code>SYNTHFLAG_INFERENCE_URL</code>.
-          Both converge on FastAPI <code>GET /health</code> and{' '}
-          <code>POST /v1/analyze</code>.
+          Both converge on FastAPI <code>GET /health</code>,{' '}
+          <code>POST /v1/analyze</code>, and{' '}
+          <code>POST /v1/analyze-frames</code>.
         </p>
         <p>
           This is the topology supported by the released code, not a claim about
@@ -112,7 +114,8 @@ const sections: AtlasSection[] = [
     alternative: [
       {
         stage: 'Browser',
-        behavior: 'The /try interface validates and previews one image.',
+        behavior:
+          'The /try interface validates an image or short video; video decoding and sampling stay in the browser.',
         boundary:
           'Selects direct service or same-origin proxy from configuration.',
       },
@@ -128,7 +131,8 @@ const sections: AtlasSection[] = [
       },
       {
         stage: 'Response',
-        behavior: 'Returns a JSON result to the browser.',
+        behavior:
+          'Returns one image score or an ordered sampled-frame JSON report.',
         boundary: 'A score is a review signal, not provenance proof.',
       },
     ],
@@ -195,6 +199,69 @@ const sections: AtlasSection[] = [
     ],
     alt: 'Sequence diagram comparing cold and warm SynthFlag requests from browser validation through service decode, model acquisition, serialized prediction, and JSON response.',
     file: '08-request-sequence.svg',
+  },
+  {
+    id: 'video-sampling',
+    number: '18',
+    group: 'System',
+    kicker: '03 · Browser-sampled video path',
+    title: 'Only eight model-visible frames cross the upload boundary',
+    evidence: [{ kind: 'code', label: 'Released code' }],
+    lead: (
+      <>
+        A short MP4 or WebM is decoded locally at eight uniform midpoint
+        timestamps. The original video is never submitted; the service receives
+        lossless center-cropped PNG frames and their timestamps.
+      </>
+    ),
+    bullets: [
+      'The client accepts 1–10 second videos up to 50 MB and samples exactly eight midpoint timestamps.',
+      'Each sampled image is a lossless 384 × 384 center crop, matching the model-visible spatial region without an extra lossy encode.',
+      'The service accepts at most eight frames, 2 MB each and 16 MB total, then runs two-frame microbatches under the existing inference lock.',
+      'The returned mean, peak, and threshold count summarize image-model scores; they are not a calibrated video probability.',
+    ],
+    technical: (
+      <>
+        <p>
+          Timestamp <code>i</code> is <code>duration × (i + 0.5) / 8</code>.
+          Direct mode posts to <code>/v1/analyze-frames</code>; proxy mode posts
+          to <code>/api/analyze-video</code>. Both send repeated{' '}
+          <code>frames</code>, <code>timestamps_ms</code>, and{' '}
+          <code>duration_ms</code> fields.
+        </p>
+        <p>
+          FeatDistill still evaluates independent images. The video path does
+          not inspect audio, model motion, detect scenes, retain results, or use
+          uploads for training or calibration.
+        </p>
+      </>
+    ),
+    alternative: [
+      {
+        stage: 'Local media validation',
+        behavior: 'Decode duration and dimensions without uploading the video.',
+        boundary:
+          'Unsupported codecs, size, duration, and dimensions fail locally.',
+      },
+      {
+        stage: 'Deterministic sampling',
+        behavior: 'Seek eight midpoint timestamps and encode 384 px PNG crops.',
+        boundary: 'Only derived visual frames become request bytes.',
+      },
+      {
+        stage: 'Frame inference',
+        behavior: 'Validate, decode, and score four two-frame microbatches.',
+        boundary: 'Uses the unchanged four-expert image model and threshold.',
+      },
+      {
+        stage: 'Descriptive report',
+        behavior: 'Return ordered scores, mean, peak, and count at threshold.',
+        boundary:
+          'Summary is not provenance proof or a video-level calibration.',
+      },
+    ],
+    alt: 'Video analysis contract showing a short video remaining in the browser while eight midpoint frames are center-cropped into lossless PNG files, posted directly or through the edge proxy, scored in two-frame microbatches by unchanged FeatDistill inference, and summarized without audio, motion, provenance, or video-probability claims.',
+    file: '18-video-frame-sampling.svg',
   },
   {
     id: 'runtime',
@@ -370,8 +437,9 @@ const sections: AtlasSection[] = [
         <code>[B,2]</code>.
       </>,
       <>
-        Four class-1 vectors <code>[B]</code> are averaged; the web path returns
-        one scalar because <code>B=1</code>.
+        Four class-1 vectors <code>[B]</code> are averaged; image HTTP requests
+        use <code>B=1</code>, while sampled video frames use <code>B≤2</code>{' '}
+        microbatches.
       </>,
     ],
     technical: (
@@ -494,7 +562,7 @@ const sections: AtlasSection[] = [
         behavior:
           'Cast logits to float32, take class-1 softmax for each expert, and average four vectors.',
         boundary:
-          'Web uses B=1 and returns one score; it is not calibrated proof.',
+          'Image HTTP uses B=1; sampled-video HTTP uses B≤2 microbatches and retains one score per frame.',
       },
       {
         stage: 'DINO family',
@@ -1049,14 +1117,14 @@ export default function ArchitectureAtlas() {
             <p className="docs-eyebrow">Engineering architecture atlas</p>
             <h1>See the whole system, then inspect every boundary.</h1>
             <p>
-              Eleven source-checked diagrams connect the public interface to its
+              Twelve source-checked diagrams connect the public interface to its
               service runtime, checkpoint gates, tensor contract, release
               boundaries, operational states, and resumable batch workflow.
             </p>
           </div>
           <div className="docs-hero-stats" aria-label="Atlas summary">
             <div>
-              <strong>11</strong>
+              <strong>12</strong>
               <span>downloadable diagrams</span>
             </div>
             <div>
@@ -1064,7 +1132,7 @@ export default function ArchitectureAtlas() {
               <span>architecture layers</span>
             </div>
             <div>
-              <strong>00</strong>
+              <strong>02</strong>
               <span>runtime API changes</span>
             </div>
           </div>

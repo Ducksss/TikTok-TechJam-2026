@@ -37,12 +37,12 @@ change.
 | `infer/checkpoints.py` | Checkpoint manifest, file verification, identity, and safe state loading | Authoritative checkpoint boundary |
 | `infer/model.py` | Stable Python scoring API and device handling | Authoritative runtime API |
 | `infer/outputs.py` and `infer/cli.py` | Recursive discovery, run locking, resumability, CSV, Track 5 JSON, and metadata | Authoritative batch behavior |
-| `service/app.py` | Optional FastAPI health and single-image analysis service | Authoritative Python HTTP behavior |
-| `landing-page/app/api/analyze/route.ts` | Same-origin proxy and timeout/error mapping | Authoritative web proxy behavior |
+| `service/app.py` | Optional FastAPI health, single-image, and sampled-frame analysis service | Authoritative Python HTTP behavior |
+| `landing-page/app/api/analyze*/` | Same-origin image/video-frame proxies and timeout/error mapping | Authoritative web proxy behavior |
 | `landing-page/app/try/page.tsx` | Browser file validation, service state, result presentation | Authoritative UI behavior |
 | `landing-page/app/journey/` | Judge-first project narrative, experiments, decisions, and release boundary | Explanatory public narrative |
 | `landing-page/app/documentation/` | Nontechnical and engineering documentation routes | Explanatory public documentation |
-| `landing-page/public/diagrams/` | Seventeen downloadable deterministic SVG diagrams | Explanatory visual assets |
+| `landing-page/public/diagrams/` | Eighteen downloadable deterministic SVG diagrams | Explanatory visual assets |
 | `weights/manifest.json` | Required checkpoint names, sizes, and SHA-256 identities | Machine-readable checkpoint identity |
 | `submission/BENCHMARKS.md` | V1/V2/V3 results and evidence boundaries | Public benchmark summary |
 | `submission/evidence/` | Aggregate machine-readable and narrative evidence | Local result evidence |
@@ -141,22 +141,34 @@ the same relative path, use a new output directory or `--overwrite`.
 ## HTTP and web contract
 
 The FastAPI service accepts one JPEG, PNG, or WebP image, at most 10 MiB, with
-dimensions of at least 32 px and at most 50,000,000 decoded pixels. It may
-eager-load at process startup or lazy-load on first analysis. Model creation is
-guarded by `_model_lock`; one model is cached per process; prediction is guarded
-by `_inference_lock`, so model execution is serialized within a process.
+dimensions of at least 32 px and at most 50,000,000 decoded pixels. It also
+accepts 1–8 ordered sampled frames for a 1–10 second video, at most 2 MiB each
+and 16 MiB total. It may eager-load at process startup or lazy-load on first
+analysis. Model creation is guarded by `_model_lock`; one model is cached per
+process; prediction is guarded by `_inference_lock`, so model execution is
+serialized within a process. Admission is bounded to one active and one queued
+analysis; further requests receive `429` with `Retry-After: 5`.
 
 `POST /v1/analyze` returns `score`, a service threshold of `0.5`, model/version,
 a short checkpoint identity, and `processing_ms`. The timer begins after image
 decode and model acquisition, so it includes inference-lock waiting and
 prediction but excludes upload reading, decode, and cold model loading.
 
-The website can call a direct public inference URL or its same-origin
-`/api/analyze` proxy. The proxy uses a 5-second health timeout and a 300-second
-analysis timeout. The public architecture diagrams describe supported
-configurations, not a guarantee about the topology of the current deployment.
-Authentication, rate limiting, durable upload/result storage, automatic retry,
-and streamed progress are not implemented by these source files.
+`POST /v1/analyze-frames` accepts repeated `frames`, ordered JSON
+`timestamps_ms`, and `duration_ms`. It scores two frames per microbatch with the
+unchanged model and returns ordered frame scores plus arithmetic mean, peak,
+peak timestamp, and count at the service threshold. Those aggregates summarize
+image-model outputs; they are not a calibrated video-level probability.
+
+The website can call a direct public inference URL or the same-origin
+`/api/analyze` and `/api/analyze-video` proxies. Health uses a 5-second upstream
+timeout; both analysis paths use a 300-second timeout. The video client validates
+1–10 second MP4/WebM files up to 50 MB, samples eight uniform midpoint frames,
+and submits lossless 384 × 384 PNG center crops. Raw video is not submitted.
+The public architecture diagrams describe supported configurations, not a
+guarantee about the topology of the current deployment. Authentication,
+platform rate limiting, durable upload/result storage, automatic retry, and
+streamed server progress are not implemented by these source files.
 
 The public information architecture has three distinct long-form surfaces:
 

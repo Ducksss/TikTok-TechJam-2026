@@ -12,7 +12,7 @@ report when the task needs challenge or method detail.
 | Answer a FeatDistill method question | `docs/references/featdistill-report/report.txt`, `docs/AI_CONTEXT.md` |
 | Answer a challenge, team, or leaderboard question | `docs/references/ntire-2026-report/report.txt`, `docs/AI_CONTEXT.md` |
 | Change inference behavior | `AGENTS.md`, `infer/architecture.py`, `infer/preprocessing.py`, `infer/checkpoints.py`, `infer/model.py`, `infer/cli.py`, relevant tests |
-| Change the service or `/try` flow | `AGENTS.md`, `service/app.py`, `landing-page/app/api/analyze/route.ts`, `landing-page/app/try/page.tsx` |
+| Change the service or `/try` flow | `AGENTS.md`, `service/app.py`, both `landing-page/app/api/analyze*` routes, `landing-page/app/try/page.tsx`, `landing-page/app/try/video-pipeline.tsx`, `landing-page/lib/video-analysis.ts` |
 | Edit the judge-first `/journey` route | `AGENTS.md`, `docs/AI_CONTEXT.md`, `landing-page/app/journey/`, relevant benchmark and release sources |
 | Edit diagrams or technical documentation | `AGENTS.md`, `docs/AI_CONTEXT.md`, relevant source files, `landing-page/public/diagrams/` |
 | Change CLI output or Track 5 submission JSON | `AGENTS.md`, `infer/cli.py`, `tests/test_cli_outputs.py`, `submission/REPRODUCE.md` |
@@ -94,6 +94,8 @@ evidence and human review.
 - Keep the site roles distinct: `/journey` is the judge narrative,
   `/documentation` is the readable appendix, and
   `/documentation/architecture` is the deep technical atlas.
+- Keep image scores distinct from sampled-video summaries: the video mean is a
+  descriptive aggregate, not motion analysis or a calibrated video probability.
 - After changing naming, routes, output contracts, evidence status, or context
   files, run `python scripts/check_repository_context.py`.
 - After changing release source or assets, run

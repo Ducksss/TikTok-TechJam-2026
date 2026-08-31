@@ -68,10 +68,14 @@ research, use the prompt-friendly FeatDistill
 
 - `infer/`: authoritative Python model and resumable batch CLI.
 - `service/`: optional FastAPI wrapper. It lazy-loads or optionally eager-loads
-  one cached model per process and serializes prediction with an inference lock.
+  one cached model per process, admits one active and one queued analysis, and
+  serializes prediction with an inference lock. The image route uses `B=1`;
+  the sampled-video frame route uses two-frame microbatches.
 - `landing-page/`: public website with `/`, `/try`, `/journey`,
   `/documentation`, and `/documentation/architecture`, plus the
-  same-origin `/api/analyze` proxy.
+  same-origin `/api/analyze` and `/api/analyze-video` proxies. Short videos are
+  decoded locally into eight midpoint PNG samples; the original video is not
+  uploaded.
   - `/journey` is the judge-first project and decision narrative.
   - `/documentation` is the readable technical appendix and evidence guide.
   - `/documentation/architecture` is the deep model and system atlas.

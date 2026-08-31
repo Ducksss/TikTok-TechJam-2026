@@ -36,6 +36,9 @@ planned evaluation is not a completed result.
 The public routes have separate jobs: `/journey` is the judge-first project
 narrative, `/documentation` is the readable technical appendix, and
 `/documentation/architecture` is the deepest model and system atlas.
+The `/try` working surface supports one image or eight browser-extracted
+midpoint frames from a 1–10 second video; the raw video remains local and the
+frame summary is not a video-level probability.
 
 Verify the maintained context set, route inventory, diagram count, and batch
 output contract with:

@@ -34,15 +34,18 @@ operating point, not the score ranking.
 ## Demo
 
 [Open the verified SynthFlag landing page](https://synthflag.chaipinzheng353496.chatgpt.site/)
-or [open the image-testing experience](https://synthflag.chaipinzheng353496.chatgpt.site/try).
+or [open the current `/try` deployment](https://synthflag.chaipinzheng353496.chatgpt.site/try).
 
 On 2026-08-31, an unauthenticated production request returned HTTP 200 with the
 SynthFlag page title, metadata, method, evidence, and responsible-use content.
 FeatDistill appears only as the credited detector architecture and research
-lineage. The hosted `/try` route exposes the file-drop and result interface and
-reports whether its checkpoint-backed model service is connected. When that
-worker is unavailable it does not fabricate a score; executable local inference
-is documented in [REPRODUCE.md](REPRODUCE.md).
+lineage. The updated `/try` source exposes image scoring plus an eight-midpoint
+sampled-frame video interface and reports whether its checkpoint-backed model
+service advertises the required capability. Raw video remains in the browser;
+the frame mean is descriptive, not a calibrated video probability. Deployment
+and worker health must be verified live before calling the feature available to
+judges. When the worker is unavailable the UI does not fabricate a score;
+executable local inference is documented in [REPRODUCE.md](REPRODUCE.md).
 
 ## Evidence status
 

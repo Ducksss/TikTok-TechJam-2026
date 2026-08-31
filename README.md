@@ -15,7 +15,7 @@
 
 <p align="center">
   <a href="https://synthflag.chaipinzheng353496.chatgpt.site/"><strong>Live demo</strong></a> ·
-  <a href="https://synthflag.chaipinzheng353496.chatgpt.site/try">Try an image</a> ·
+  <a href="https://synthflag.chaipinzheng353496.chatgpt.site/try">Try the current detector</a> ·
   <a href="https://synthflag.chaipinzheng353496.chatgpt.site/journey">Project journey</a> ·
   <a href="https://synthflag.chaipinzheng353496.chatgpt.site/documentation">Documentation</a> ·
   <a href="submission/BENCHMARKS.md">Benchmarks</a> ·
@@ -49,20 +49,23 @@ claim authorship of that model research or those weights.
   are separated; unavailable evidence stays unavailable instead of being
   inferred or filled in.
 - **Product-ready surfaces:** Python API, CLI, optional FastAPI service, public
-  landing page, image-upload experience, and technical documentation.
+  landing page, image and sampled-video source experience, and technical
+  documentation.
 
 ## Live demo
 
 - [Open the SynthFlag landing page](https://synthflag.chaipinzheng353496.chatgpt.site/)
-- [Try the image detector](https://synthflag.chaipinzheng353496.chatgpt.site/try)
+- [Open the current `/try` deployment](https://synthflag.chaipinzheng353496.chatgpt.site/try)
 - [Follow the project journey](https://synthflag.chaipinzheng353496.chatgpt.site/journey)
 - [Read the visual documentation](https://synthflag.chaipinzheng353496.chatgpt.site/documentation)
 - [Explore the deep architecture atlas](https://synthflag.chaipinzheng353496.chatgpt.site/documentation/architecture)
 
-The hosted `/try` route provides the complete file-drop experience and reports
-whether a checkpoint-backed model service is connected. It never fabricates a
-score when the public worker is unavailable. Use the local service setup below
-for executable checkpoint-backed scoring.
+The source `/try` route provides the complete image and sampled-video file-drop
+experience and reports whether a checkpoint-backed model service is connected.
+The hosted route reflects the latest deployed saved version, so verify its
+health capability before claiming video is live. It never fabricates a score
+when the public worker is unavailable. Use the local service setup below for
+executable checkpoint-backed scoring.
 
 ## Benchmark snapshot
 
@@ -195,10 +198,16 @@ pnpm install
 pnpm dev
 ```
 
-Open `http://localhost:3000/try`. The interface accepts one JPEG, PNG, or WebP
-image up to 10 MB and displays the continuous `P(AI-generated)` score. It does
-not persist uploaded bytes or results. See [`service/README.md`](service/README.md)
-for the production GPU, health-check, and origin-allowlisting contract.
+Open `http://localhost:3000/try`. Image mode accepts one JPEG, PNG, or WebP up
+to 10 MB and displays the continuous `P(AI-generated)` score. Video mode accepts
+a 1–10 second H.264 MP4 or browser-supported WebM up to 50 MB, extracts eight
+uniform midpoint frames locally, and displays ordered frame scores with mean,
+peak, and threshold-count summaries. The raw video is never uploaded; only
+lossless 384 × 384 PNG center crops are sent for in-memory scoring. The video
+summary is descriptive—not audio or motion analysis, provenance proof, or a
+calibrated probability that the video is AI-generated. See
+[`service/README.md`](service/README.md) for the production GPU, health-check,
+bounded-queue, and origin-allowlisting contract.
 
 ## Repository structure
 

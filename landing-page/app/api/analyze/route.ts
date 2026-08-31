@@ -17,8 +17,12 @@ export async function GET() {
     if (!response.ok) {
       return NextResponse.json({ connected: false, ready: false });
     }
-    const health = (await response.json()) as { ready?: boolean };
-    return NextResponse.json({ connected: true, ready: health.ready === true });
+    const health = (await response.json()) as Record<string, unknown>;
+    return NextResponse.json({
+      ...health,
+      connected: true,
+      ready: health.ready === true,
+    });
   } catch {
     return NextResponse.json({ connected: false, ready: false });
   }
@@ -76,7 +80,11 @@ export async function POST(request: Request) {
       signal: AbortSignal.timeout(300_000),
     });
     const payload = await response.json();
-    return NextResponse.json(payload, { status: response.status });
+    const retryAfter = response.headers.get('retry-after');
+    return NextResponse.json(payload, {
+      headers: retryAfter ? { 'Retry-After': retryAfter } : undefined,
+      status: response.status,
+    });
   } catch {
     return NextResponse.json(
       {
