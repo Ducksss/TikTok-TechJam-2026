@@ -2,7 +2,8 @@
 
 ## Upstream research and software
 
-- The frozen Expert 4 dependency follows the Tu et al. detector report and its
+- The frozen Expert 4 dependency follows the upstream Expert 4 detector report and
+  its
   attributed source lineage. Its separately hosted checkpoint remains external;
   redistribution authorization is unproven.
 - SigLIP So400M Patch14-384: [Google model card](https://huggingface.co/google/siglip-so400m-patch14-384), Apache-2.0 base model. A base-model licence does not automatically license a later detector fine-tune.

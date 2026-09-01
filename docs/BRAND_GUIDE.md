@@ -42,7 +42,7 @@ SynthFlag should feel technically credible without looking clinical, and progres
 
 ### Core messages
 
-1. **One teacher. Three specialist heads.** SynthFlag combines Tu et al. Expert 4 features with native-size routing and three residual heads.
+1. **One teacher. Three specialist heads.** SynthFlag combines Expert 4 features with native-size routing and three residual heads.
 2. **Designed for the wild.** The system is designed to be evaluated across real-world datasets, generators, and controlled distortions.
 3. **Evidence, not a verdict.** The score supports review; it is not conclusive proof of an image's origin.
 4. **Performance you can inspect.** Report thresholds, datasets, sample counts, uncertainty, and failure cases beside headline metrics.

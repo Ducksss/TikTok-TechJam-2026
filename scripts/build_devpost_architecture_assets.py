@@ -665,7 +665,7 @@ def build_evidence_boundary_map(theme: Theme) -> str:
             "01",
             "RESEARCH LINEAGE",
             ["Published method", "+ checkpoints"],
-            ["Credits Tu et al.", "architecture + weights", "Not runtime evidence"],
+            ["Credits upstream work", "architecture + weights", "Not runtime evidence"],
             theme.sky,
         ),
         (

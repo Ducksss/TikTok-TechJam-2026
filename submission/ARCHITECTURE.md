@@ -5,7 +5,7 @@
 1. Record each input's native longest side before resizing.
 2. Convert to RGB, bicubic-resize the short edge to 384 px, center-crop, and
    apply SigLIP normalization.
-3. Frozen Tu et al. Expert 4 emits a 1,152-dimensional pooled feature and
+3. Frozen Expert 4 emits a 1,152-dimensional pooled feature and
    two teacher logits. The teacher margin is `logit[1] - logit[0]`.
 4. Three project heads each compute a scalar correction from the same feature.
 5. Native longest side `<=64` uses the CIFAKE head at alpha `1.25` and sigmoid.
@@ -16,7 +16,7 @@
 
 | Contract | Value |
 |---|---|
-| Teacher | Tu et al. Expert 4, SigLIP So400M Patch14-384 |
+| Teacher | Expert 4, SigLIP So400M Patch14-384 |
 | Feature | `[B,1152]` pooled output |
 | Project head | `LayerNorm -> Linear(256) -> GELU -> Dropout -> Linear(1)` |
 | Low route | Native longest side `<=64`, alpha `1.25` |

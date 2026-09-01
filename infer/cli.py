@@ -29,7 +29,7 @@ def build_parser() -> argparse.ArgumentParser:
         prog="synthflag-infer",
         description=(
             "Score an image directory with SynthFlag's selected TEST1 graph: "
-            "Tu et al. Expert 4 plus three routed residual heads."
+            "Expert 4 plus three routed residual heads."
         ),
     )
     parser.add_argument("--images-dir", required=True, type=Path)

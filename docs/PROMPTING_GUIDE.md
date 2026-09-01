@@ -9,7 +9,7 @@ consult the papers when the task needs challenge or method detail.
 | Task | Attach or reference |
 |---|---|
 | Explain SynthFlag to a stakeholder | `docs/AI_CONTEXT.md`, `submission/MODEL_CARD.md`, and [**SynthFlag demo v8**](https://youtu.be/X5-J4NmNHl0) when a recorded walkthrough helps |
-| Answer a Tu et al. method question | [arXiv:2603.21939](https://arxiv.org/abs/2603.21939), `docs/AI_CONTEXT.md` |
+| Answer an Expert 4 method question | [arXiv:2603.21939](https://arxiv.org/abs/2603.21939), `docs/AI_CONTEXT.md` |
 | Answer a challenge, team, or leaderboard question | [arXiv:2604.11487](https://arxiv.org/abs/2604.11487), `docs/AI_CONTEXT.md` |
 | Change inference behavior | `AGENTS.md`, `training_eval/scripts/model.py`, `training_eval/configs/selected_test1.yaml`, `training_eval/tests/`, then the `infer/` product adapter and relevant tests |
 | Change development augmentation | `AGENTS.md`, `docs/AUGMENTATION_TOOLKIT.md`, `synthflag_augment/`, `tests/test_augmentation_toolkit.py` |
@@ -35,7 +35,8 @@ behavior, and local benchmark evidence clearly labeled.
 ### Answer from the paper
 
 ```text
-Use Tu et al., arXiv:2603.21939, for method details; Gushchin et al.,
+Use the Expert 4 detector report, arXiv:2603.21939, for method details;
+Gushchin et al.,
 arXiv:2604.11487, for challenge/team/results context; and docs/AI_CONTEXT.md for
 the repository boundary. Name the source and section used. Do not transfer
 claims between NTIRE teams. Distinguish paper-described training from released

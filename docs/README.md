@@ -13,7 +13,7 @@ need repository context without reconstructing the project from chat history.
 | Automatic coding-agent guidance | [`../AGENTS.md`](../AGENTS.md) |
 | Deterministic development-data augmentation | [`AUGMENTATION_TOOLKIT.md`](AUGMENTATION_TOOLKIT.md) |
 | Judge-first project and decision journey | [`../landing-page/app/journey/page.tsx`](../landing-page/app/journey/page.tsx) |
-| Detector technical report | [Tu et al., arXiv:2603.21939](https://arxiv.org/abs/2603.21939) |
+| Expert 4 detector technical report | [arXiv:2603.21939](https://arxiv.org/abs/2603.21939) |
 | NTIRE challenge report | [Gushchin et al., arXiv:2604.11487](https://arxiv.org/abs/2604.11487) |
 | Public submission evidence | [`../submission/README.md`](../submission/README.md) |
 | Selected TEST1 aggregate evidence | [`../submission/evidence/test1/`](../submission/evidence/test1/) |

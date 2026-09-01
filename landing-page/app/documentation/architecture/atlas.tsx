@@ -691,8 +691,9 @@ const sections: AtlasSection[] = [
         </p>
         <p>
           The DINOv3-7B backbone anatomy comes from Meta&apos;s official model
-          card and reference factory, not from SynthFlag code. Tu et al.
-          evaluated the earlier DINO family during backbone selection, then
+          card and reference factory, not from SynthFlag code. The Expert 4
+          detector report evaluated the earlier DINO family during backbone
+          selection, then
           chose CLIP and SigLIP for its final four-expert system.
         </p>
       </>
@@ -775,7 +776,8 @@ const sections: AtlasSection[] = [
       <>
         <p>
           SynthFlag is the public product name. The underlying detector lineage
-          remains attributed to Tu et al., while the NTIRE report records the
+          remains attributed in the third-party notice, while the NTIRE report
+          records the
           challenge submission separately. Those evidence classes must remain
           distinct.
         </p>

@@ -315,7 +315,7 @@ bounded-queue, and origin-allowlisting contract.
 - [Prompting guide for teammates](docs/PROMPTING_GUIDE.md)
 - [Repository instructions for coding agents](AGENTS.md)
 - [Repository-authored augmentation toolkit](docs/AUGMENTATION_TOOLKIT.md)
-- [Tu et al. detector report](https://arxiv.org/abs/2603.21939)
+- [Expert 4 detector report — Tu et al., arXiv:2603.21939](https://arxiv.org/abs/2603.21939)
 - [NTIRE challenge report](https://arxiv.org/abs/2604.11487)
 
 For a fast handoff, give an AI assistant `docs/AI_CONTEXT.md`. Add the primary
@@ -350,13 +350,13 @@ abstention policy for uncertain or unfamiliar domains.
 
 ## Research, citation, and responsible use
 
-SynthFlag builds on the detector research by Tu et al. Expert 4 and its teacher
-head retain upstream attribution; the three residual heads, native-size router,
-evaluation harness, integration, and product are project work.
+SynthFlag builds on the released Expert 4 detector checkpoint. Expert 4 and its
+teacher head retain upstream attribution; the three residual heads, native-size
+router, evaluation harness, integration, and product are project work.
 Dependency, checkpoint, and source licensing details are kept in the
 [third-party notices](submission/THIRD_PARTY_NOTICES.md).
 
-Underlying detector report: [Tu et al., arXiv:2603.21939](https://arxiv.org/abs/2603.21939).
+Underlying detector report: [arXiv:2603.21939](https://arxiv.org/abs/2603.21939).
 
 A SynthFlag score is a signal, not conclusive proof of an image's origin,
 generator identity, or manipulated region. Decisions with real consequences

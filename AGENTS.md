@@ -2,8 +2,9 @@
 
 Read this file before proposing or changing repository content. For a fuller
 project brief, read [`docs/AI_CONTEXT.md`](docs/AI_CONTEXT.md). For primary
-research, use [Tu et al., arXiv:2603.21939](https://arxiv.org/abs/2603.21939)
-and [Gushchin et al., arXiv:2604.11487](https://arxiv.org/abs/2604.11487).
+research, use the Expert 4 detector report
+([arXiv:2603.21939](https://arxiv.org/abs/2603.21939)) and
+[Gushchin et al., arXiv:2604.11487](https://arxiv.org/abs/2604.11487).
 
 ## Context freshness contract
 
@@ -32,7 +33,8 @@ and [Gushchin et al., arXiv:2604.11487](https://arxiv.org/abs/2604.11487).
 - **SynthFlag** is the public product, repository, demo, submission, Python
   package, and primary CLI name.
 - The underlying detector lineage and frozen Expert 4 checkpoint are credited
-  to Tu et al. Do not present that encoder, its teacher head, or its training as
+  to their upstream authors in `submission/THIRD_PARTY_NOTICES.md`. Do not
+  present that encoder, its teacher head, or its training as
   original SynthFlag research.
 - The current runtime is repository-maintained and checkpoint-compatible.
   Preserve method, checkpoint, dependency, and source attribution in
@@ -49,7 +51,7 @@ and [Gushchin et al., arXiv:2604.11487](https://arxiv.org/abs/2604.11487).
   `infer/checkpoints.py` for checkpoint integrity, `infer/model.py` for the
   public Python API, and `infer/outputs.py` plus `infer/cli.py` for batch
   artifacts.
-- The selected TEST1 graph has one frozen Tu et al. Expert 4 SigLIP So400M
+- The selected TEST1 graph has one frozen Expert 4 SigLIP So400M
   Patch14-384 teacher plus three project-trained residual heads. Expert 4 emits
   a 1,152-dimensional pooled feature and two teacher logits.
 - Each residual head is `LayerNorm(1152) -> Linear(256) -> GELU -> Dropout ->

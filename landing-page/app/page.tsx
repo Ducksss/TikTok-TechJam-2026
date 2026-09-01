@@ -746,7 +746,7 @@ export default function Home() {
               </h2>
             </div>
             <p className="max-w-2xl text-lg leading-8 text-[#4b5563] lg:justify-self-end">
-              A frozen Tu et al. Expert 4 supplies a 1,152-dimensional feature
+              A frozen Expert 4 supplies a 1,152-dimensional feature
               and teacher margin. Three compact residual heads correct that
               margin through a deterministic native-size route before sigmoid
               produces a signal in the range 0–1.
@@ -1285,7 +1285,7 @@ export default function Home() {
             </span>
           </a>
           <p>
-            Built on the detector architecture and research of Tu et al.
+            Built on the released Expert 4 detector architecture and
             lineage.
           </p>
           <div className="flex items-center gap-5">

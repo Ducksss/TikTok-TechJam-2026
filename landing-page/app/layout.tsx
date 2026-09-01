@@ -17,7 +17,7 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: 'SynthFlag — From pixels to evidence',
   description:
-    'A routed residual research detector built on a frozen Tu et al. Expert 4 representation.',
+    'A routed residual research detector built on a frozen Expert 4 representation.',
   metadataBase: new URL('https://synthflag.chaipinzheng353496.chatgpt.site'),
   icons: {
     icon: '/favicon.svg',

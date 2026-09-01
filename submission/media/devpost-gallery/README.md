@@ -96,4 +96,5 @@ is not an evidence-source diagram; it is not part of the final Devpost gallery.
   probability.
 
 SynthFlag is the product and repository-authored inference implementation.
-The detector architecture and checkpoint lineage remain credited to Tu et al.
+The detector architecture and checkpoint lineage remain credited in the
+[third-party notice](../../THIRD_PARTY_NOTICES.md).

@@ -88,7 +88,8 @@ operations were requested; it does not prove dataset provenance, model
 robustness, or performance.
 
 The package has a new namespace, public API, implementation structure, and
-reproducibility model. Attribution to Tu et al. remains required for
+reproducibility model. Attribution to the upstream Expert 4 report remains
+required for
 the detector architecture and external checkpoints, but these augmentation
 utilities are not presented as upstream source or as a reconstruction of the
 paper-described training library. The repository source-hygiene check covers

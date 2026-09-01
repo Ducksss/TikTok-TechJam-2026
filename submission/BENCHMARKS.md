@@ -1,8 +1,8 @@
 # SynthFlag benchmark evidence
 
-The selected runtime is the TEST1 routed residual detector: frozen Tu et al.
-Expert 4 plus three project-trained heads. TEST1 is a completed public
-development diagnostic, not TikTok's hidden test or an organizer score.
+The selected runtime is the TEST1 routed residual detector: frozen Expert 4
+plus three project-trained heads. TEST1 is a completed public development
+diagnostic, not TikTok's hidden test or an organizer score.
 
 ## Evidence boundary
 

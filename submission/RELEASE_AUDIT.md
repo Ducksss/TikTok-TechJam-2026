@@ -25,7 +25,7 @@ This is a technical release-readiness verdict, not a legal opinion.
 | Source attribution and hygiene | `THIRD_PARTY_NOTICES.md` records upstream attribution; the embedded digest inventory and source check reject prohibited upstream files except the canonical license. | **Pass** |
 | Current implementation boundary | `training_eval/` contains the collaborator-authoritative residual-head model, training, deterministic augmentation, evaluation, configs, tests, and complete TEST1 record. `infer/` imports that head implementation and adapts it to the product encoder/service/CLI contract. | **Pass** |
 | Dependency attribution | Pinned runtime dependencies are listed with declared licenses and primary license URLs in `THIRD_PARTY_NOTICES.md`. | **Pass** |
-| Base-model attribution | SigLIP identifiers, model card, license/limitations, and Tu et al. Expert 4 lineage are documented. | **Pass** |
+| Base-model attribution | SigLIP identifiers, model card, license/limitations, and Expert 4 lineage are documented. | **Pass** |
 | Checkpoint and head permission | Expert 4 redistribution is unproven. The final three-head bundle remains a team artifact under the collaborator attestation accepted by the project owner. All checkpoint bytes are excluded from Git and distributed from the hash-pinned team Google Drive release. | **Pass by binary exclusion; head attestation accepted** |
 | Dataset attribution | CIFAKE, SID-Set, WildFake, COCO, and organizer DALL-E roles and rights evidence are documented. | **Pass** |
 | Dataset redistribution | No dataset pixels, captions, masks, prompts, or private row-level manifests are tracked. Ambiguous sources are non-redistributable by policy. | **Pass by exclusion** |
@@ -35,7 +35,7 @@ This is a technical release-readiness verdict, not a legal opinion.
 | Day 3 interview evidence | The team supplied a call image and automated transcript. The public copy ends with the researcher interview, excludes later internal chatter, and is labeled as research input rather than performance evidence or endorsement. Publication/likeness permission for every depicted or named participant was not independently verified. | **Conditional: maintainers must confirm consent** |
 | Public artifact integrity | All entries in `ARTIFACTS.sha256` and `training_eval/ARTIFACTS.sha256` were verified. Drive file IDs, bundle size and hash, and all four checkpoint identities are recorded without shipping checkpoint bytes in Git. | **Pass** |
 | Public visual provenance | The project wordmark, architecture diagram, and Devpost thumbnail remain. The thumbnail derives only from project-created SynthFlag brand assets; the unused challenge-site screenshot was removed because its redistribution rights were undocumented. | **Pass** |
-| External research reports | The Tu et al. detector report and NTIRE challenge report are cited through their primary publication pages; no copies are included in this repository. | **Pass** |
+| External research reports | The Expert 4 detector report and NTIRE challenge report are cited through their primary publication pages; no copies are included in this repository. | **Pass** |
 
 ## Release contents
 

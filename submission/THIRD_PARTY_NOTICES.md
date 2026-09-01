@@ -26,16 +26,16 @@ wheel or source distribution.
 | Component | Evidence | Release treatment |
 |---|---|---|
 | Google SigLIP base model | The [`google/siglip-so400m-patch14-384` model card](https://huggingface.co/google/siglip-so400m-patch14-384) declares Apache-2.0 and identifies WebLI training. | Preserve attribution and the Apache-2.0 terms when redistributing covered base-model material. |
-| Tu et al. `Expert_4_siglip.pth` | Architecture and hash are documented locally; the file is obtained from an authorized external source. No explicit fine-tuned-checkpoint redistribution license was located in the audited public materials. | Required by the selected graph, but not included in Git or the submission archive. Do not re-upload or bundle without permission. |
+| Expert 4 checkpoint (`Expert_4_siglip.pth`) | Architecture and hash are documented locally; the file is obtained from an authorized external source. No explicit fine-tuned-checkpoint redistribution license was located in the audited public materials. | Required by the selected graph, but not included in Git or the submission archive. Do not re-upload or bundle without permission. |
 | Three SynthFlag residual heads | Project-trained head artifacts supplied by the collaborator together with implementation, configuration, tests, and evidence. The collaborator attests that the heads and their training inputs are rights-cleared, and the project owner accepts that attestation. | Distributed through the hash-pinned team Google Drive release and excluded from Git. Treat rights as teammate-attested rather than independently audited; this does not clear upstream Expert 4 redistribution or organizer eligibility. |
-| Tu et al. method | [Technical report, arXiv:2603.21939](https://arxiv.org/abs/2603.21939) | Cite the authors; do not relabel the detector architecture or checkpoints as original SynthFlag research. |
+| Expert 4 method | [Technical report, arXiv:2603.21939](https://arxiv.org/abs/2603.21939) | Cite the authors; do not relabel the detector architecture or checkpoints as original SynthFlag research. |
 
 ## Source attribution
 
 Earlier revisions incorporated Apache-2.0 source from the public repository
 maintained by GitHub user `tzlkkk`. The current release retains that attribution
 while excluding prohibited upstream source overlap. The selected runtime remains
-checkpoint-compatible with Tu et al. Expert 4 and adds project-trained routed
+checkpoint-compatible with Expert 4 and adds project-trained routed
 residual heads.
 
 ## Publications

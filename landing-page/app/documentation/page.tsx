@@ -175,7 +175,7 @@ export default function Documentation() {
             <SectionHeading kicker="Start here">In one minute</SectionHeading>
             <div className="docs-lead-grid">
               <p className="docs-lead">
-                SynthFlag uses a frozen upstream Tu et al. Expert 4 SigLIP
+                SynthFlag uses a frozen upstream Expert 4 SigLIP
                 encoder and teacher head. Three project-trained lightweight
                 heads correct that teacher margin. Native images at most 64 px
                 use a specialist; larger images use a fixed two-head stack.
@@ -266,7 +266,7 @@ export default function Documentation() {
                 </p>
                 <ul>
                   <li>
-                    <strong>Teacher:</strong> Tu et al. Expert 4, SigLIP So400M
+                    <strong>Teacher:</strong> Expert 4, SigLIP So400M
                     Patch14-384.
                   </li>
                   <li>
@@ -496,7 +496,7 @@ export default function Documentation() {
                 target="_blank"
               >
                 <span>Upstream method</span>
-                <strong>Tu et al. technical report</strong>
+                <strong>Expert 4 technical report</strong>
                 <ArrowUpRight aria-hidden="true" />
               </a>
               <a

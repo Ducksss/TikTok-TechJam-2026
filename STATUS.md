@@ -86,7 +86,8 @@ refetch before pushing, and never force-push the release branch.
 
 ## Release gates
 
-1. Preserve SynthFlag public naming and Tu et al. research attribution.
+1. Preserve SynthFlag public naming and the upstream Expert 4 research
+   attribution.
 2. Preserve the exact selected TEST1 route, `1.25` low-resolution alpha,
    `0.65 / 0.35` large-image blend, and `-1.557959395647049` boundary unless a
    code change is explicitly requested and verified.

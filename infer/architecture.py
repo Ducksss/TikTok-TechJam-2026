@@ -26,7 +26,7 @@ LARGE_IMAGE_MARGIN_BOUNDARY = -1.557959395647049
 
 
 def siglip_vision_config() -> SiglipVisionConfig:
-    """Describe the frozen Tu et al. Expert 4 SigLIP encoder."""
+    """Describe the frozen Expert 4 SigLIP encoder."""
 
     return SiglipVisionConfig(
         hidden_size=FEATURE_WIDTH,

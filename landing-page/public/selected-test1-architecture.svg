@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
   <title id="title">SynthFlag selected TEST1 routed residual architecture</title>
-  <desc id="desc">An RGB image records its native size, passes through frozen Tu et al. Expert 4, and routes its pooled feature and teacher margin to a low-resolution residual head or a fixed blend of two large-image residual heads before sigmoid scoring.</desc>
+  <desc id="desc">An RGB image records its native size, passes through frozen Expert 4, and routes its pooled feature and teacher margin to a low-resolution residual head or a fixed blend of two large-image residual heads before sigmoid scoring.</desc>
   <defs>
     <style>
       .bg{fill:#f7f9fe}.card{fill:#fff;stroke:#b8c8e8;stroke-width:2}.accent{fill:#eef4ff;stroke:#3975ea;stroke-width:2}.warn{fill:#fff8e8;stroke:#d79523;stroke-width:2}.title{font:700 34px Arial,sans-serif;fill:#14213d}.sub{font:16px Arial,sans-serif;fill:#53627a}.label{font:700 17px Arial,sans-serif;fill:#14213d}.body{font:14px Arial,sans-serif;fill:#42516a}.mono{font:13px ui-monospace,SFMono-Regular,Menlo,monospace;fill:#244c9b}.arrow{stroke:#3975ea;stroke-width:3;fill:none;marker-end:url(#arrow)}
@@ -22,7 +22,7 @@
   <text x="389" y="240" class="body">center crop · mean/std 0.5</text>
 
   <rect x="700" y="135" width="420" height="150" rx="18" class="accent"/>
-  <text x="724" y="174" class="label">3 · Frozen Tu et al. Expert 4</text>
+  <text x="724" y="174" class="label">3 · Frozen Expert 4</text>
   <text x="724" y="204" class="body">SigLIP So400M Patch14-384 · upstream checkpoint</text>
   <text x="724" y="232" class="mono">pooled feature [B,1152]</text>
   <text x="724" y="257" class="mono">teacher margin = logit[1] - logit[0]</text>

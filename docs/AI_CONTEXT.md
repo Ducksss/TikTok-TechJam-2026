@@ -67,7 +67,7 @@ changes. Run `python scripts/check_repository_context.py` afterward.
 
 ### Frozen teacher and project heads
 
-- Teacher: upstream Tu et al. `Expert_4_siglip.pth`, a SigLIP So400M
+- Teacher: upstream `Expert_4_siglip.pth`, a SigLIP So400M
   Patch14-384 vision encoder plus its original two-logit binary classifier.
 - Per image, the teacher supplies a pooled feature `[1152]` and margin
   `teacher_logit[1] - teacher_logit[0]`.
@@ -189,7 +189,7 @@ TEST1. See `docs/INTERVIEW_PROF_NG.md` for the maintained evidence boundary.
 
 Prefer:
 
-- “SynthFlag uses a frozen Tu et al. Expert 4 representation with three
+- “SynthFlag uses a frozen Expert 4 representation with three
   project-trained residual heads.”
 - “TEST1 is a completed public development diagnostic.”
 - “Residual-head rights are collaborator-attested and accepted by the project
