@@ -122,8 +122,6 @@ sprint time remaining, the early prototype was not strong or stable enough for
 final use. It did not enter the selected runtime, TEST1, model selection, or
 final claims, and the interview is not performance evidence or an endorsement.
 
-[Download the interview-only transcript](landing-page/public/interviews/prof-ng-teck-khim-day3-transcript.txt).
-
 ## Architecture
 
 ![SynthFlag selected TEST1 architecture: Expert 4 plus three routed residual heads](submission/ARCHITECTURE.svg)
