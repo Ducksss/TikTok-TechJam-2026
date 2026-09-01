@@ -17,6 +17,7 @@ CHECKPOINT_FILENAMES = (
     "general_epoch08_head.pt",
 )
 CHECKPOINT_MANIFEST = "manifest.json"
+PACKAGED_CHECKPOINT_MANIFEST = Path(__file__).with_name("checkpoint_manifest.json")
 _HASH_BUFFER_BYTES = 8 * 1024 * 1024
 
 
@@ -31,11 +32,17 @@ def file_sha256(file_path: str | Path) -> str:
 
 
 def _read_manifest(directory: Path) -> dict[str, object]:
-    manifest_path = directory / CHECKPOINT_MANIFEST
+    local_manifest = directory / CHECKPOINT_MANIFEST
+    manifest_path = (
+        local_manifest if local_manifest.is_file() else PACKAGED_CHECKPOINT_MANIFEST
+    )
     try:
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     except FileNotFoundError as exc:
-        raise FileNotFoundError(f"checkpoint manifest not found: {manifest_path}") from exc
+        raise FileNotFoundError(
+            "checkpoint manifest not found in the weights directory or package: "
+            f"{local_manifest}, {PACKAGED_CHECKPOINT_MANIFEST}"
+        ) from exc
     except (OSError, json.JSONDecodeError) as exc:
         raise ValueError(f"checkpoint manifest is not valid JSON: {manifest_path}") from exc
     if manifest.get("schema_version") != 2 or not isinstance(manifest.get("files"), dict):

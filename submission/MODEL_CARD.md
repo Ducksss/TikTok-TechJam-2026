@@ -30,6 +30,9 @@ parameters: `428,521,282` in Expert 4 and `893,187` across the three heads.
 
 ## Artifact identities
 
+Checkpoint bytes are excluded from Git and distributed through the hash-pinned
+team Google Drive release documented in `weights/README.md`.
+
 | Component | Role | SHA-256 |
 |---|---|---|
 | `Expert_4_siglip.pth` | Frozen upstream encoder and teacher | `a7d2297e7fecace8ae95d8bbdca023b697cc395d7fde0d1bd90b23d0cf130ff4` |

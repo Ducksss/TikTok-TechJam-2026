@@ -17,7 +17,7 @@ need repository context without reconstructing the project from chat history.
 | NTIRE challenge report | [Gushchin et al., arXiv:2604.11487](https://arxiv.org/abs/2604.11487) |
 | Public submission evidence | [`../submission/README.md`](../submission/README.md) |
 | Selected TEST1 aggregate evidence | [`../submission/evidence/test1/`](../submission/evidence/test1/) |
-| Authoritative model-development, exact head bundle, and full TEST1 record | [`../training_eval/`](../training_eval/) |
+| Authoritative model-development, final Drive bundle identity, and full TEST1 record | [`../training_eval/`](../training_eval/) |
 | Professor Ng interview and research boundary | [`INTERVIEW_PROF_NG.md`](INTERVIEW_PROF_NG.md) |
 | Selected architecture diagram | [`../submission/ARCHITECTURE.svg`](../submission/ARCHITECTURE.svg) and [`../submission/ARCHITECTURE.md`](../submission/ARCHITECTURE.md) |
 | Historical four-expert atlas | [`../landing-page/public/diagrams/README.md`](../landing-page/public/diagrams/README.md) |
@@ -46,6 +46,10 @@ unless they have been explicitly revised for the selected graph.
 Residual-head rights are collaborator-attested and accepted by the project
 owner. That status does not independently audit licenses, grant Expert 4
 redistribution, or establish organizer eligibility.
+
+Checkpoint bytes are excluded from Git. The hash-pinned team Google Drive
+release linked from [`../weights/README.md`](../weights/README.md) is the final
+distribution source.
 
 The Professor Ng interview is research input for a future camera-statistics
 study. Its early prototype is absent from the selected runtime and TEST1; the

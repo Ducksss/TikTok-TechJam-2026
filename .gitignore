@@ -220,20 +220,13 @@ __marimo__/
 # Local model artifacts and inference output
 weights/*
 !weights/README.md
-!weights/manifest.json
 outputs/
 
-# The three collaborator-trained residual heads are first-party project artifacts.
-# The large upstream Expert 4 checkpoint, dataset pixels, and private evaluation
-# rows remain excluded.
+# All checkpoint bytes are distributed from the hash-pinned team Google Drive
+# release and remain outside Git. Dataset pixels and private evaluation rows are
+# likewise excluded.
 *.pth
 *.pt
-!weights/cifake_router_head.pt
-!weights/general_epoch05_head.pt
-!weights/general_epoch08_head.pt
-!training_eval/weights/cifake_router_head.pt
-!training_eval/weights/general_epoch05_head.pt
-!training_eval/weights/general_epoch08_head.pt
 *.ckpt
 *.safetensors
 data/

@@ -23,12 +23,12 @@ Each project head is implemented in `scripts/model.py`:
 LayerNorm(1152) -> Linear(256) -> GELU -> Dropout -> Linear(1)
 ```
 
-The exact collaborator Drive ZIP and its three extracted head binaries are
-tracked in `weights/`; identical head copies are tracked under `../weights/`
-for product inference. They are hash-pinned by
-`weights/head_bundle_manifest.json`, `../weights/manifest.json`, and
-`ARTIFACTS.sha256`. The external Expert 4 dependency is not part of the
-collaborator Drive bundle and remains outside Git.
+The team Google Drive ZIP is the final distribution source for the three head
+binaries. No checkpoint bytes are tracked in Git. The Drive file, bundle hash,
+per-head hashes, and routing metadata are pinned by
+`weights/head_bundle_manifest.json`, `../infer/checkpoint_manifest.json`, and
+`ARTIFACTS.sha256`. The external Expert 4 dependency is downloaded separately
+from the same team Drive folder.
 
 ## Contents
 
@@ -49,8 +49,6 @@ collaborator Drive bundle and remains outside Git.
 ```bash
 python -m pip install -r training_eval/requirements.txt
 python -m pytest -q training_eval/tests
-python training_eval/scripts/verify_bundle.py \
-  training_eval/weights/head_bundle_manifest.json
 python training_eval/scripts/evaluate_predictions.py \
   training_eval/benchmarks/test1/predictions.csv \
   --label-column label \

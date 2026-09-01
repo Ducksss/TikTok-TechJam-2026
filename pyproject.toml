@@ -33,3 +33,6 @@ test = [
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["infer*", "synthflag_augment*", "training_eval*"]
+
+[tool.setuptools.package-data]
+infer = ["checkpoint_manifest.json"]

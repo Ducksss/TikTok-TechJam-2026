@@ -118,7 +118,8 @@ evidence and human review.
   `python scripts/check_source_provenance.py`.
 - Keep `synthflag_augment` out of inference diagrams and protected-final tuning;
   it is an optional development utility, not paper-described training reproduction.
-- Never paste the external Expert 4 binary, private rows, per-image protected
-  scores, secrets, or restricted dataset content into a prompt. The exact
-  collaborator head ZIP, three project residual heads, and public TEST1
-  predictions are tracked artifacts.
+- Never paste checkpoint binaries, private rows, per-image protected scores,
+  secrets, or restricted dataset content into a prompt. All checkpoint bytes
+  are excluded from Git; the three project heads and Expert 4 are distributed
+  through the hash-pinned team Google Drive release. Public TEST1 predictions
+  remain tracked evidence.

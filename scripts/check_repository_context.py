@@ -2,6 +2,7 @@
 """Check the maintained SynthFlag agent/context contract for obvious drift."""
 
 import hashlib
+import json
 import re
 import sys
 from pathlib import Path
@@ -44,39 +45,46 @@ COLLABORATOR_TECHNICAL_FILES = (
     "training_eval/scripts/verify_bundle.py",
     "training_eval/configs/selected_test1.yaml",
     "training_eval/weights/head_bundle_manifest.json",
-    "training_eval/weights/SynthFlag_TEST1_head_bundle_v1.zip",
+    "infer/checkpoint_manifest.json",
+    "weights/README.md",
     "training_eval/benchmarks/test1/predictions.csv",
     "training_eval/benchmarks/test1/paired_bootstrap_auc.json",
     "training_eval/benchmarks/test1/TEST1_BENCHMARK_PACKAGE.zip",
 )
 
 PROJECT_ARTIFACT_HASHES = {
-    "weights/cifake_router_head.pt": (
-        "da8cdd81a14d112a7531837762fe3aad97ebfe07c8cdaa69da6d3c7dfe08b48e"
-    ),
-    "weights/general_epoch05_head.pt": (
-        "98e03c194fc902560d965d1b28d4b1e245e3580d792ff2c086d5ab515588479c"
-    ),
-    "weights/general_epoch08_head.pt": (
-        "b6a8d13d71ab05d0bb43477a4721a74e60d54d289ef483129e857b525dd08526"
-    ),
-    "training_eval/weights/cifake_router_head.pt": (
-        "da8cdd81a14d112a7531837762fe3aad97ebfe07c8cdaa69da6d3c7dfe08b48e"
-    ),
-    "training_eval/weights/general_epoch05_head.pt": (
-        "98e03c194fc902560d965d1b28d4b1e245e3580d792ff2c086d5ab515588479c"
-    ),
-    "training_eval/weights/general_epoch08_head.pt": (
-        "b6a8d13d71ab05d0bb43477a4721a74e60d54d289ef483129e857b525dd08526"
-    ),
     "training_eval/benchmarks/test1/predictions.csv": (
         "112b7b948aef9250534306486833aee74e85f4058f6d8c105b9de7b12e879016"
     ),
     "training_eval/benchmarks/test1/TEST1_BENCHMARK_PACKAGE.zip": (
         "d9d5f79eb65b723fb322940cc62ec6dcaccd5f7ef6c6e7f9ed4e3bc174a79c6b"
     ),
-    "training_eval/weights/SynthFlag_TEST1_head_bundle_v1.zip": (
-        "7a8acf6823cc08ba5e7a55def6c2147f95456a3e9f94c8d60d199e503208be54"
+}
+
+CHECKPOINT_BINARY_PATHS = {
+    "weights/Expert_4_siglip.pth",
+    "weights/cifake_router_head.pt",
+    "weights/general_epoch05_head.pt",
+    "weights/general_epoch08_head.pt",
+    "weights/SynthFlag_TEST1_head_bundle_v1.zip",
+    "training_eval/weights/SynthFlag_TEST1_head_bundle_v1.zip",
+    "training_eval/weights/cifake_router_head.pt",
+    "training_eval/weights/general_epoch05_head.pt",
+    "training_eval/weights/general_epoch08_head.pt",
+}
+
+CHECKPOINT_FILE_HASHES = {
+    "Expert_4_siglip.pth": (
+        "a7d2297e7fecace8ae95d8bbdca023b697cc395d7fde0d1bd90b23d0cf130ff4"
+    ),
+    "cifake_router_head.pt": (
+        "da8cdd81a14d112a7531837762fe3aad97ebfe07c8cdaa69da6d3c7dfe08b48e"
+    ),
+    "general_epoch05_head.pt": (
+        "98e03c194fc902560d965d1b28d4b1e245e3580d792ff2c086d5ab515588479c"
+    ),
+    "general_epoch08_head.pt": (
+        "b6a8d13d71ab05d0bb43477a4721a74e60d54d289ef483129e857b525dd08526"
     ),
 }
 
@@ -176,6 +184,44 @@ def read(relative_path: str) -> str:
 def main() -> int:
     errors = []
 
+    release_candidates = {
+        path.relative_to(ROOT).as_posix() for path in candidate_files()
+    }
+    tracked_checkpoint_bytes = sorted(CHECKPOINT_BINARY_PATHS & release_candidates)
+    if tracked_checkpoint_bytes:
+        errors.append(
+            "checkpoint bytes must remain outside Git: "
+            + ", ".join(tracked_checkpoint_bytes)
+        )
+
+    checkpoint_manifest_path = ROOT / "infer/checkpoint_manifest.json"
+    if checkpoint_manifest_path.is_file():
+        checkpoint_manifest = json.loads(
+            checkpoint_manifest_path.read_text(encoding="utf-8")
+        )
+        distribution = checkpoint_manifest.get("distribution")
+        if not isinstance(distribution, dict):
+            errors.append("checkpoint manifest omits distribution metadata")
+        else:
+            if distribution.get("provider") != "google_drive":
+                errors.append("checkpoint distribution is not google_drive")
+            if distribution.get("head_bundle_size_bytes") != 3323126:
+                errors.append("checkpoint manifest has wrong head bundle size")
+            if distribution.get("head_bundle_sha256") != (
+                "7a8acf6823cc08ba5e7a55def6c2147f95456a3e9f94c8d60d199e503208be54"
+            ):
+                errors.append("checkpoint manifest has wrong head bundle SHA-256")
+        manifest_files = checkpoint_manifest.get("files")
+        if not isinstance(manifest_files, dict):
+            errors.append("checkpoint manifest omits file identities")
+        else:
+            for filename, expected_hash in CHECKPOINT_FILE_HASHES.items():
+                record = manifest_files.get(filename)
+                if not isinstance(record, dict) or record.get("sha256") != expected_hash:
+                    errors.append(
+                        "checkpoint manifest has wrong SHA-256 for " + filename
+                    )
+
     retired_patterns = (
         re.compile(("feat" + "distill").encode("utf-8"), re.IGNORECASE),
         re.compile(
@@ -263,9 +309,9 @@ def main() -> int:
     for token in (
         "Optional eligibility-hardening path",
         "No replacement retraining is required",
-        PROJECT_ARTIFACT_HASHES["weights/cifake_router_head.pt"],
-        PROJECT_ARTIFACT_HASHES["weights/general_epoch05_head.pt"],
-        PROJECT_ARTIFACT_HASHES["weights/general_epoch08_head.pt"],
+        CHECKPOINT_FILE_HASHES["cifake_router_head.pt"],
+        CHECKPOINT_FILE_HASHES["general_epoch05_head.pt"],
+        CHECKPOINT_FILE_HASHES["general_epoch08_head.pt"],
     ):
         if token not in training_model_card:
             errors.append(

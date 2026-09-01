@@ -15,26 +15,26 @@ Place these files together:
 
 ```text
 weights/
-├── manifest.json
 ├── Expert_4_siglip.pth
 ├── cifake_router_head.pt
 ├── general_epoch05_head.pt
 └── general_epoch08_head.pt
 ```
 
-The three project heads are already tracked in `weights/`. Obtain only the
-external Expert 4 dependency from an authorized source. Its expected byte size
-and SHA-256, together with the three head identities, are pinned in
-`weights/manifest.json`; the runtime rejects any mismatch.
+Download the final three-head bundle and Expert 4 file from the team Google
+Drive links in `weights/README.md`. Extract the three heads into `weights/` and
+place Expert 4 beside them. No checkpoint bytes are tracked in Git. Expected
+byte sizes and SHA-256 digests are pinned in
+`infer/checkpoint_manifest.json`; the runtime rejects any mismatch.
 
-The collaborator's original three-head bundle is recorded in
-`training_eval/weights/head_bundle_manifest.json`. Its exact source links,
-bundle hash, per-file hashes, and all three extracted binaries are included in
-that directory. Verify it unchanged with:
+The final three-head Drive bundle is recorded in
+`training_eval/weights/head_bundle_manifest.json`, including its Drive file ID,
+bundle hash, per-file hashes, and routing roles. After downloading and
+extracting the bundle, verify its included manifest with:
 
 ```bash
 python training_eval/scripts/verify_bundle.py \
-  training_eval/weights/head_bundle_manifest.json
+  /path/to/extracted/head_bundle_manifest.json
 ```
 
 ## 3. Run batch inference
@@ -106,9 +106,10 @@ rerun image pixels through Expert 4 and does not establish latency or VRAM.
 - TEST1 is public development evidence, not a locked organizer test.
 - No fitting, threshold selection, or checkpoint selection may use protected
   final-evaluation rows.
-- The three project head binaries and public TEST1 prediction rows are tracked
-  and hash-pinned. The external Expert 4 checkpoint, dataset pixels, local
-  paths, private rows, and protected per-image scores must remain outside Git.
+- All checkpoint binaries and archives remain outside Git and are distributed
+  through the hash-pinned team Google Drive release. Public TEST1 prediction
+  rows remain tracked evidence. Dataset pixels, local paths, private rows, and
+  protected per-image scores must remain outside Git.
 - Residual-head rights are collaborator-attested and project-owner accepted,
   not independently license-audited here. Expert 4 redistribution and
   organizer eligibility remain separate.

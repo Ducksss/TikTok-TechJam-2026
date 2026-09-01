@@ -19,10 +19,10 @@ not establish that the separately hosted checkpoint-backed worker is currently
 reachable.
 
 `training_eval/` is authoritative for the project contribution: residual-head
-implementation, exact collaborator head ZIP and extracted binaries, training,
-augmentation, routing config, TEST1 predictions, metrics, bootstrap evidence,
-and tests. Expert 4 remains a frozen dependency with required attribution; it
-is not the project contribution.
+implementation, final Google Drive bundle identity, training, augmentation,
+routing config, TEST1 predictions, metrics, bootstrap evidence, and tests.
+Checkpoint bytes remain outside Git. Expert 4 is a frozen dependency with
+required attribution; it is not the project contribution.
 
 ## Context freshness
 
@@ -39,7 +39,7 @@ changes. Run `python scripts/check_repository_context.py` afterward.
 | `training_eval/configs/selected_test1.yaml` | Selected route, blend, alpha, boundary, and artifact contract | Project graph selection |
 | `training_eval/scripts/`, `training_eval/tests/` | Training, augmentation, evaluation, bundle verification, and regression tests | Project development stack |
 | `training_eval/benchmarks/test1/` | Public row-level predictions, metrics, bootstrap evidence, figures, and integrity | Primary TEST1 evidence |
-| `training_eval/weights/` | Exact Drive ZIP, extracted project heads, and bundle manifest | Primary project artifacts |
+| `training_eval/weights/` | Final Drive bundle manifest and download record; no checkpoint bytes | Artifact identity |
 | `infer/architecture.py` | Frozen encoder adapter, route execution, and score conversion | Product runtime graph |
 | `infer/preprocessing.py` | RGB, 384 px resize/crop, and SigLIP normalization | Pixel transform |
 | `infer/checkpoints.py` | Manifest verification, identity, and safe tensor loading | Checkpoint boundary |
@@ -47,7 +47,8 @@ changes. Run `python scripts/check_repository_context.py` afterward.
 | `infer/outputs.py`, `infer/cli.py` | Discovery, locking, resumability, CSV, Track 5 JSON, metadata | Batch behavior |
 | `service/app.py` | Health, image analysis, and sampled-frame analysis | HTTP behavior |
 | `landing-page/app/` | `/`, `/try`, `/journey`, `/documentation`, compatibility route, and proxies | Public product source |
-| `weights/manifest.json` | Expert 4 and three residual-head hashes/sizes | Artifact identity |
+| `infer/checkpoint_manifest.json` | Packaged Drive locations plus Expert 4 and three-head hashes/sizes | Runtime artifact identity |
+| `weights/README.md` | Final Google Drive download and local-install guide | Artifact setup |
 | `submission/BENCHMARKS.md` | TEST1 primary evidence and historical-study boundaries | Benchmark summary |
 | `submission/evidence/test1/` | Aggregate TEST1 report, metrics, deltas, and integrity | Selected-graph result evidence |
 | `submission/MODEL_CARD.md` | Intended use, limitations, rights, and eligibility | Deployment guidance |
@@ -102,18 +103,17 @@ probability for every population.
 
 ```text
 weights/
-├── manifest.json
 ├── Expert_4_siglip.pth
 ├── cifake_router_head.pt
 ├── general_epoch05_head.pt
 └── general_epoch08_head.pt
 ```
 
-The three-head ZIP has SHA-256
+The final Google Drive three-head ZIP has SHA-256
 `7a8acf6823cc08ba5e7a55def6c2147f95456a3e9f94c8d60d199e503208be54`.
-The exact ZIP and three project `.pt` heads are tracked in Git and verified by
-the collaborator manifest plus the runtime manifest. Only the upstream
-`Expert_4_siglip.pth` binary remains external.
+All four checkpoint files remain outside Git. The runtime verifies local
+downloads against `infer/checkpoint_manifest.json`; `weights/README.md` links
+the final team Google Drive bundle and Expert 4 file.
 
 ## Batch and service contracts
 

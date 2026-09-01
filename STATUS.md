@@ -25,7 +25,7 @@ automation, process, or worktree dirtiness state.
 |---|---|
 | Public identity | **SynthFlag** is the product, repository, demo, submission, Python distribution, and primary CLI. The project-trained heads, routing, training/evaluation harness, and TEST1 record are the primary technical contribution; Expert 4 retains dependency attribution. |
 | Recorded demo | [**SynthFlag demo v8**](https://youtu.be/X5-J4NmNHl0) is the canonical video walkthrough. It is distinct from current hosted-service reachability. |
-| Model development | `training_eval/` is authoritative for the project residual-head implementation, training, deterministic augmentation, route configuration, tests, exact collaborator Drive head ZIP and extracted binaries, public TEST1 predictions, bootstrap evidence, and reports. |
+| Model development | `training_eval/` is authoritative for the project residual-head implementation, training, deterministic augmentation, route configuration, tests, final three-head Google Drive bundle identity, public TEST1 predictions, bootstrap evidence, and reports. Checkpoint bytes are not tracked in Git. |
 | Batch inference | `infer/` uses the authoritative `training_eval.scripts.model.ResidualHead` implementation with the frozen Expert 4 adapter, native-size routing, and resumable directory inference. |
 | Development augmentation | `synthflag_augment/` provides repository-authored, sample-keyed image variants and audit traces; it is optional, outside inference, and not paper-described training reproduction. |
 | Batch artifacts | A completed run produces `predictions.csv`, Track 5 `predictions.json` records with `image_path,pred`, and `predictions.meta.json`. |
@@ -90,10 +90,11 @@ refetch before pushing, and never force-push the release branch.
 2. Preserve the exact selected TEST1 route, `1.25` low-resolution alpha,
    `0.65 / 0.35` large-image blend, and `-1.557959395647049` boundary unless a
    code change is explicitly requested and verified.
-3. Keep the exact collaborator head ZIP, three extracted project-head
-   binaries, and public TEST1 technical record tracked; preserve the separate
-   upstream-checkpoint, protected-data, privacy, dataset, and licensing
-   exclusions in `submission/RELEASE_AUDIT.md`.
+3. Keep every checkpoint binary and archive outside Git; use the hash-pinned
+   team Google Drive release as the final distribution source. Keep the public
+   TEST1 technical record tracked and preserve the separate upstream-checkpoint,
+   protected-data, privacy, dataset, and licensing exclusions in
+   `submission/RELEASE_AUDIT.md`.
 4. Validate relevant tests/builds, JSON, SVG, Markdown links, artifact
    checksums, and `scripts/check_repository_context.py`.
 5. Run `scripts/check_source_provenance.py`; only the canonical Apache-2.0

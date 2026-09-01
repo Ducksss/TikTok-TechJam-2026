@@ -54,5 +54,6 @@ selected runtime or TEST1.
 
 The external Expert 4 binary, dataset pixels, private split rows, protected
 per-image scores, local paths, secrets, and unlicensed third-party material are
-excluded. The three project residual-head binaries and public TEST1 row-level
-predictions are tracked, hash-pinned project artifacts.
+excluded. All checkpoint binaries and archives are distributed through the
+hash-pinned team Google Drive release and remain outside Git. Public TEST1
+row-level predictions are tracked project evidence.

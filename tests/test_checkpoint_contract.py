@@ -5,6 +5,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 import torch
 
@@ -52,6 +53,21 @@ class CheckpointContractTest(unittest.TestCase):
                 json.dumps(manifest), encoding="utf-8"
             )
             self.assertEqual(checkpoint_identity_digest(root), first)
+
+    def test_uses_packaged_manifest_when_weights_directory_has_none(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            root = Path(temporary_directory)
+            fallback = root / "packaged-manifest.json"
+            manifest = self._make_checkpoint_set(root)
+            (root / "manifest.json").replace(fallback)
+            with patch(
+                "infer.checkpoints.PACKAGED_CHECKPOINT_MANIFEST", fallback
+            ):
+                paths = verify_checkpoint_files(root)
+                self.assertEqual(tuple(paths), CHECKPOINT_FILENAMES)
+                digest = checkpoint_identity_digest(root)
+                self.assertEqual(len(digest), 64)
+            self.assertEqual(manifest["schema_version"], 2)
 
     def test_rejects_checkpoint_content_mismatch(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:

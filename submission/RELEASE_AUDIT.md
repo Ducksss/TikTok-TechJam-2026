@@ -6,8 +6,8 @@ Audit date: **2026-09-01**
 
 **PASS for public release of the current tracked Git tree, with enforced
 exclusions and third-party attribution.** The release is suitable for
-publication because prohibited upstream runtime/training source, the external
-Expert 4 binary, dataset pixels, private split rows, and per-image
+publication because prohibited upstream runtime/training source, all checkpoint
+binaries and archives, dataset pixels, private split rows, and per-image
 protected scores are not tracked in the current tree. Those exclusions are
 mandatory: the audit did not establish a redistribution grant for Expert 4,
 SID-Set, WildFake as a combined dataset, COCO image pixels as a collection, or
@@ -26,14 +26,14 @@ This is a technical release-readiness verdict, not a legal opinion.
 | Current implementation boundary | `training_eval/` contains the collaborator-authoritative residual-head model, training, deterministic augmentation, evaluation, configs, tests, and complete TEST1 record. `infer/` imports that head implementation and adapts it to the product encoder/service/CLI contract. | **Pass** |
 | Dependency attribution | Pinned runtime dependencies are listed with declared licenses and primary license URLs in `THIRD_PARTY_NOTICES.md`. | **Pass** |
 | Base-model attribution | SigLIP identifiers, model card, license/limitations, and Tu et al. Expert 4 lineage are documented. | **Pass** |
-| Checkpoint and head permission | Expert 4 redistribution is unproven and its binary remains excluded. The exact collaborator Drive ZIP and three extracted residual heads are tracked first-party project artifacts under the collaborator attestation accepted by the project owner; ZIP identity, file hashes, and tensor shapes are verified. | **Pass by exclusion for Expert 4; head attestation accepted** |
+| Checkpoint and head permission | Expert 4 redistribution is unproven. The final three-head bundle remains a team artifact under the collaborator attestation accepted by the project owner. All checkpoint bytes are excluded from Git and distributed from the hash-pinned team Google Drive release. | **Pass by binary exclusion; head attestation accepted** |
 | Dataset attribution | CIFAKE, SID-Set, WildFake, COCO, and organizer DALL-E roles and rights evidence are documented. | **Pass** |
 | Dataset redistribution | No dataset pixels, captions, masks, prompts, or private row-level manifests are tracked. Ambiguous sources are non-redistributable by policy. | **Pass by exclusion** |
 | Model card | Intended uses, out-of-scope uses, data statement, metrics, thresholds, limitations, integrity, and responsible operation are documented in `MODEL_CARD.md`. | **Pass** |
 | Responsible-use wording | README, submission overview, and model card state that scores are signals rather than proof and require human review for consequential use. | **Pass** |
 | TEST1 evidence boundary | `training_eval/benchmarks/test1/` publishes the 30,000 public-development prediction rows, metrics, paired bootstrap, figures, reports, and integrity record. Dataset pixels, local manifests, cached features/logits, protected rows, and the external checkpoint remain excluded. | **Pass by public technical record** |
 | Day 3 interview evidence | The team supplied a call image and automated transcript. The public copy ends with the researcher interview, excludes later internal chatter, and is labeled as research input rather than performance evidence or endorsement. Publication/likeness permission for every depicted or named participant was not independently verified. | **Conditional: maintainers must confirm consent** |
-| Public artifact integrity | All entries in `ARTIFACTS.sha256` and `training_eval/ARTIFACTS.sha256` were verified. The three project-head binaries are shipped and hash-pinned; the external Expert 4 identity is recorded without shipping that binary. | **Pass** |
+| Public artifact integrity | All entries in `ARTIFACTS.sha256` and `training_eval/ARTIFACTS.sha256` were verified. Drive file IDs, bundle size and hash, and all four checkpoint identities are recorded without shipping checkpoint bytes in Git. | **Pass** |
 | Public visual provenance | The project wordmark, architecture diagram, and Devpost thumbnail remain. The thumbnail derives only from project-created SynthFlag brand assets; the unused challenge-site screenshot was removed because its redistribution rights were undocumented. | **Pass** |
 | External research reports | The Tu et al. detector report and NTIRE challenge report are cited through their primary publication pages; no copies are included in this repository. | **Pass** |
 
@@ -57,13 +57,14 @@ Allowed in the public Git release:
 - the team-supplied Day 3 interview image and interview-only transcript, after
   maintainers confirm publication and likeness consent for depicted and named
   participants;
-- the exact collaborator Drive head ZIP, three extracted residual-head
-  binaries, checkpoint filenames, expected sizes, and SHA-256 identities; and
+- the final Google Drive locations, checkpoint filenames, expected sizes,
+  bundle hash, and per-file SHA-256 identities; and
 - citations and links to separately hosted upstream material.
 
 Excluded from the public Git release:
 
-- `Expert_4_siglip.pth` and other external or unverified model binaries;
+- every checkpoint binary and archive, including `Expert_4_siglip.pth` and the
+  three project residual heads;
 - dataset images, prompts, captions, masks, and private manifests;
 - protected split membership, local paths, and per-image protected scores;
 - private or protected row-level predictions, local source manifests, cached
@@ -77,9 +78,8 @@ Excluded from the public Git release:
 
 ## Maintainer release checklist
 
-1. Run `git ls-files` and confirm the three expected project heads are tracked
-   while no external checkpoint, dataset pixel, private score, secret, cache,
-   or local-path artifact is tracked.
+1. Run `git ls-files` and confirm no checkpoint binary or archive, dataset
+   pixel, private score, secret, cache, or local-path artifact is tracked.
 2. Run `cd submission && shasum -a 256 -c ARTIFACTS.sha256`.
    Then run `cd ../training_eval && shasum -a 256 -c ARTIFACTS.sha256`.
 3. Validate every JSON evidence file and parse `ARCHITECTURE.svg` as XML.
@@ -90,9 +90,9 @@ Excluded from the public Git release:
 6. Confirm the README, model card, dataset inventory, and third-party notices
    link to current primary sources.
 7. Reconfirm that `origin/main` has not advanced before pushing.
-8. Never attach the external Expert 4 checkpoint or dataset pixels to a GitHub
-   release without a documented redistribution grant. Preserve the three
-   project-head hashes on every release.
+8. Never attach checkpoint bytes or dataset pixels to a GitHub release. Keep
+   the final Google Drive locations and all checkpoint hashes pinned on every
+   release.
 9. Confirm publication and likeness consent for every depicted or named
    participant before broadly redistributing the interview image or transcript.
 

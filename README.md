@@ -38,8 +38,8 @@ traceable to their evidence.
 
 SynthFlag is the public product, submission, Python distribution, and primary
 CLI name. Our `training_eval/` package is authoritative for head training,
-augmentation, routing, TEST1 evaluation, and the shipped head binaries. The
-frozen Expert 4 dependency retains its required upstream attribution.
+augmentation, routing, TEST1 evaluation, and the final checkpoint identities.
+The frozen Expert 4 dependency retains its required upstream attribution.
 
 ### Highlights
 
@@ -48,8 +48,7 @@ frozen Expert 4 dependency retains its required upstream attribution.
   same frozen Expert 4 feature and teacher margin.
 - **Project model-development stack:** checked-in training and evaluation code,
   configs, tests, raw public TEST1 predictions, bootstrap evidence, figures,
-  the exact collaborator Drive ZIP, and all three residual-head binaries live
-  under `training_eval/` and `weights/`.
+  and hash-pinned identities for the final Google Drive checkpoint release.
 - **Reliable batch inference:** recursive image discovery, resumable outputs,
   checkpoint integrity verification, and an exclusive writer lock.
 - **Auditable robustness inputs:** an optional, sample-keyed augmentation
@@ -148,23 +147,22 @@ python -m pip install -e .
 
 ### 2. Add checkpoints
 
-The three project residual heads are included. Add only the external upstream
-Expert 4 checkpoint to `weights/`:
+Download the final three-head bundle and Expert 4 checkpoint from the team
+Google Drive links in [`weights/README.md`](weights/README.md), then place the
+four extracted files in `weights/`:
 
 ```text
 weights/
-├─ manifest.json
 ├─ Expert_4_siglip.pth
 ├─ cifake_router_head.pt
 ├─ general_epoch05_head.pt
 └─ general_epoch08_head.pt
 ```
 
-Expected filenames, sizes, and SHA-256 digests are recorded in
-[`weights/manifest.json`](weights/manifest.json). The three `.pt` heads are
-tracked and hash-pinned; the exact original head ZIP is preserved under
-[`training_eval/weights/`](training_eval/weights/). Only
-`Expert_4_siglip.pth` remains external.
+No checkpoint bytes are tracked in Git. Expected filenames, sizes, SHA-256
+digests, and Drive locations are recorded in
+[`infer/checkpoint_manifest.json`](infer/checkpoint_manifest.json); runtime
+verification rejects mismatched downloads.
 
 ### 3. Run inference
 
@@ -280,7 +278,7 @@ bounded-queue, and origin-allowlisting contract.
 
 ```text
 .
-├─ training_eval/  # Authoritative project model, heads, tests, and TEST1 record
+├─ training_eval/  # Authoritative model development, bundle identity, TEST1
 ├─ infer/          # Product adapter and resumable batch CLI
 ├─ synthflag_augment/ # Optional deterministic development-data augmentation
 ├─ service/        # Optional FastAPI inference service
@@ -288,7 +286,7 @@ bounded-queue, and origin-allowlisting contract.
 ├─ submission/     # Benchmarks, model card, checksums, and release audit
 ├─ docs/           # Project context and research references
 ├─ assets/         # Approved SynthFlag identity and evidence graphics
-└─ weights/        # Checkpoint manifest and setup guidance
+└─ weights/        # Drive download and local checkpoint setup guidance
 ```
 
 ## Submission package
@@ -381,10 +379,10 @@ Repository code and original project documentation are provided under the
 third-party model checkpoints, datasets, benchmark images, dependency code, or
 trademarks.
 
-This Git repository intentionally excludes the upstream Expert 4 binary,
-dataset pixels, private split rows, and per-image protected-evaluation scores.
-It includes the three rights-attested project residual heads and the public
-TEST1 row-level evaluation record.
+This Git repository intentionally excludes all checkpoint binaries and
+archives, dataset pixels, private split rows, and per-image protected-evaluation
+scores. The hash-pinned team Google Drive release is the final checkpoint
+distribution source. Git includes the public TEST1 row-level evaluation record.
 The artifact links are external sources, not redistribution grants. The heads
 carry a collaborator rights-clearance attestation accepted by the project owner.
 That attestation does not clear redistribution of upstream Expert 4 or establish
