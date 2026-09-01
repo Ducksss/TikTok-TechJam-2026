@@ -1,21 +1,23 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
+  "graph": "expert4-three-head-native-size-router-v1",
+  "status": "research_artifact_pending_rights_clean_retrain",
   "files": {
-    "Expert_1_clip.pth": {
-      "size_bytes": 1216821587,
-      "sha256": "9b96374e6e6dc4c41285fc29b963e9efb95be413a903e4a0e98a6265abb161aa"
-    },
-    "Expert_2_clip.pth": {
-      "size_bytes": 1216828887,
-      "sha256": "25994e1a5a8039201fcf26b7e34803454eab086bbecea8e8eb6dc76f106d3d28"
-    },
-    "Expert_3_siglip.pth": {
-      "size_bytes": 1714285115,
-      "sha256": "d45ed0f6b7a4ea12efd0707bcee9d7d85995346be945daea8d0fe8fbf39e8e65"
-    },
     "Expert_4_siglip.pth": {
       "size_bytes": 1714282825,
       "sha256": "a7d2297e7fecace8ae95d8bbdca023b697cc395d7fde0d1bd90b23d0cf130ff4"
+    },
+    "cifake_router_head.pt": {
+      "size_bytes": 1194841,
+      "sha256": "da8cdd81a14d112a7531837762fe3aad97ebfe07c8cdaa69da6d3c7dfe08b48e"
+    },
+    "general_epoch05_head.pt": {
+      "size_bytes": 1194865,
+      "sha256": "98e03c194fc902560d965d1b28d4b1e245e3580d792ff2c086d5ab515588479c"
+    },
+    "general_epoch08_head.pt": {
+      "size_bytes": 1194865,
+      "sha256": "b6a8d13d71ab05d0bb43477a4721a74e60d54d289ef483129e857b525dd08526"
     }
   }
 }

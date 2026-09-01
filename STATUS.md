@@ -23,7 +23,7 @@ automation, process, or worktree dirtiness state.
 | Surface | Contract |
 |---|---|
 | Public identity | **SynthFlag** is the product, repository, demo, submission, Python distribution, and primary CLI. **FeatDistill** is the attributed UESTC detector and checkpoint lineage. |
-| Batch inference | Repository-authored modules under `infer/` implement the checkpoint-verified FeatDistill-compatible four-expert mean and resumable directory inference. |
+| Batch inference | `infer/` implements the selected TEST1 graph: frozen FeatDistill Expert 4 plus three project-trained residual heads, native-size routing, and resumable directory inference. |
 | Development augmentation | `synthflag_augment/` provides repository-authored, sample-keyed image variants and audit traces; it is optional, outside inference, and not FeatDistill training reproduction. |
 | Batch artifacts | A completed run produces `predictions.csv`, Track 5 `predictions.json` records with `image_path,pred`, and `predictions.meta.json`. |
 | HTTP service | `service/app.py` exposes checkpoint-backed health, single-image analysis, and bounded sampled-frame analysis with two-frame microbatches; it does not make the public worker available by itself. |
@@ -41,9 +41,8 @@ inside `/documentation`.
 
 | Evidence | State | Boundary |
 |---|---|---|
-| V1 calibration | Available | 2,004 development rows; configuration and threshold selection permitted. |
-| V1 protected final | Available | 7,998 rows; not used for fitting, checkpoint choice, or threshold selection. |
-| V2 retrospective development study | Available | Duplicate-grouped cross-validation and corruptions on the 2,004-row development evidence; not a second protected final test. |
+| TEST1 selected-graph diagnostic | Available | 15,000 unique public sources and 30,000 clean/composite evaluations across CIFAKE, SID-Set, and WildFake; public suites were previously inspected and the resolution route is benchmark-aware. |
+| V1/V2 four-expert studies | Historical | Evidence for the retired four-expert runtime; not evidence for the selected TEST1 graph. |
 | V3 | **Blocked** | Exact organizer 8,843-image DALL-E Advanced source absent; no substitute and no metric. |
 
 A dash in the public benchmark table means unavailable, never zero. Partial
@@ -83,8 +82,9 @@ refetch before pushing, and never force-push the release branch.
 ## Release gates
 
 1. Preserve SynthFlag/FeatDistill naming and research attribution.
-2. Preserve the exact released four-expert score unless a code change is
-   explicitly requested and verified.
+2. Preserve the exact selected TEST1 route, `1.25` low-resolution alpha,
+   `0.65 / 0.35` large-image blend, and `-1.557959395647049` boundary unless a
+   code change is explicitly requested and verified.
 3. Preserve protected-evaluation, privacy, checkpoint, dataset, and licensing
    exclusions documented in `submission/RELEASE_AUDIT.md`.
 4. Validate relevant tests/builds, JSON, SVG, Markdown links, artifact

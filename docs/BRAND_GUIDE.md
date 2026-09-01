@@ -10,7 +10,7 @@ The reference is inspiration, not an asset library. Do not reuse its logo, icons
 
 ### One-line description
 
-SynthFlag is a four-expert ensemble that turns image signals into a clear, reviewable probability of synthetic origin.
+SynthFlag routes one frozen SigLIP teacher through three residual heads to turn image signals into a clear, reviewable probability of synthetic origin.
 
 ### Brand idea
 
@@ -42,7 +42,7 @@ SynthFlag should feel technically credible without looking clinical, and progres
 
 ### Core messages
 
-1. **Four experts. One ensemble score.** SynthFlag combines two CLIP and two SigLIP experts through the FeatDistill detector architecture.
+1. **One teacher. Three specialist heads.** SynthFlag combines FeatDistill Expert 4 features with native-size routing and three residual heads.
 2. **Designed for the wild.** The system is designed to be evaluated across real-world datasets, generators, and controlled distortions.
 3. **Evidence, not a verdict.** The score supports review; it is not conclusive proof of an image's origin.
 4. **Performance you can inspect.** Report thresholds, datasets, sample counts, uncertainty, and failure cases beside headline metrics.
@@ -54,7 +54,7 @@ Use short, declarative phrases of three to eight words. Prefer one strong noun o
 Good examples:
 
 - See what the pixels reveal.
-- Four experts. One signal.
+- One teacher. Three heads. One signal.
 - Designed for the wild.
 - Evidence before certainty.
 - Confidence, with context.
@@ -83,7 +83,7 @@ Avoid:
 
 Use a bespoke four-part signal mark followed by the `SynthFlag` wordmark. The proposed mark consists of four tapered modules surrounding a narrow central aperture:
 
-- four modules represent the four expert models;
+- four modules represent the teacher and its three residual heads;
 - the aperture represents the image signal being inspected;
 - the aligned modules communicate agreement without implying certainty.
 
@@ -344,7 +344,7 @@ All values shown in the visual preview's component mockups are illustrative unle
 
 **EVIDENCE**
 
-> Four experts turn image signals into one reviewable probability—built for robust detection in the wild.
+> One teacher and three residual heads turn image signals into one reviewable probability—built for robust detection in the wild.
 
 Primary action: **Inspect the method ↗**
 

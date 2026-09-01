@@ -3,14 +3,14 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Technical appendix — SynthFlag',
   description:
-    'A unified, evidence-labeled technical guide to SynthFlag image processing, four-expert architecture, system runtime, results, and responsible use.',
+    'An evidence-labeled guide to SynthFlag’s frozen Expert 4 teacher, routed residual heads, TEST1 results, runtime, and limits.',
   alternates: {
     canonical: '/documentation',
   },
   openGraph: {
     title: 'SynthFlag technical appendix',
     description:
-      'Understand the four-expert AI-image detector from pixels and patch tokens to its runtime and score signal.',
+      'Understand the selected Expert 4 plus three-head detector from pixels to its routed score signal.',
     type: 'article',
     url: '/documentation',
     images: [

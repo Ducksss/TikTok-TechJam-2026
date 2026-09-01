@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "benchmark_id": "TEST1",
+  "source_package": "SynthFlag-TechJam-Evidence-main",
+  "source_date": "2026-09-01",
+  "status": "completed_public_development_diagnostic",
+  "locked_tiktok_test_evaluated": false,
+  "selected_graph": "expert4-three-head-native-size-router-v1",
+  "source_hashes": {
+    "metrics_full.csv": "fcf8341f212d965443acad44cbc4e4b1e94b1a66810ac32a1c264f2e5c2c96ea",
+    "robustness_deltas.csv": "75080268cd6c6aad403387d5fa8cb457258c613f34e414aa61dd0908b5b4cb24",
+    "raw_predictions.csv": "9b815c92cd1104d5f7b7e696f6505fbd1547b327effa36e0e24c556d20ccd0c5",
+    "three_head_bundle.zip": "7a8acf6823cc08ba5e7a55def6c2147f95456a3e9f94c8d60d199e503208be54"
+  },
+  "public_git_exclusions": [
+    "benchmark_pixels",
+    "per_image_predictions",
+    "checkpoint_binaries"
+  ],
+  "limitations": [
+    "public suites were inspected during earlier development",
+    "native longest side routing is benchmark-aware",
+    "replay used cached Expert 4 features and is not a latency benchmark",
+    "selected heads are research-only pending rights-clean retraining"
+  ]
+}

@@ -1,6 +1,11 @@
-"""SynthFlag's checkpoint-compatible AI-image scoring runtime."""
+"""SynthFlag's selected TEST1 AI-image scoring runtime."""
 
-from .model import FeatDistillEnsemble, Model, SynthFlagEnsemble
+from .model import FeatDistillEnsemble, Model, SynthFlagDetector, SynthFlagEnsemble
 
-__all__ = ["FeatDistillEnsemble", "Model", "SynthFlagEnsemble"]
-__version__ = "2.0.0"
+__all__ = [
+    "FeatDistillEnsemble",
+    "Model",
+    "SynthFlagDetector",
+    "SynthFlagEnsemble",
+]
+__version__ = "3.0.0"

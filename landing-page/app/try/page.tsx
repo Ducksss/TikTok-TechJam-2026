@@ -1164,12 +1164,12 @@ function ProgressReport({
       ? [
           ['Decode', 'Reading duration and dimensions locally'],
           ['Sample', 'Prepare eight midpoint PNG crops'],
-          ['Inspect', 'Four-expert frame analysis'],
+          ['Inspect', 'Routed residual frame analysis'],
           ['Resolve', 'Verify aggregates and timeline'],
         ]
       : [
           ['Decode', 'Image validated and ready'],
-          ['Inspect', 'Worker availability and four experts'],
+          ['Inspect', 'Worker availability and selected model'],
           ['Resolve', 'Validate the returned probability'],
         ];
   const activeIndex = mediaKind === 'video' ? 0 : 1;
@@ -1293,7 +1293,7 @@ function ImageReport({
       <dl className="mt-5 grid grid-cols-2 gap-px overflow-hidden rounded-[18px] border border-[#d7e2f8] bg-[#d7e2f8] text-xs">
         <div className="bg-white p-4">
           <dt className="text-[#667085]">Architecture</dt>
-          <dd className="mt-1 font-medium">FeatDistill 4-expert</dd>
+          <dd className="mt-1 font-medium">Expert 4 + 3 heads</dd>
         </div>
         <div className="bg-white p-4">
           <dt className="text-[#667085]">Processing</dt>
@@ -1395,7 +1395,7 @@ function EmptyReport({
                 ? `Run ${mode} analysis (cold start)`
                 : media?.kind === 'video'
                   ? 'Sample 8 frames and analyze'
-                  : 'Run four-expert analysis'}
+                  : 'Run routed analysis'}
         <ArrowRight className="size-4" />
       </Button>
     </div>

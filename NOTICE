@@ -1,0 +1,27 @@
+SynthFlag
+Copyright 2026 SynthFlag contributors
+
+Repository history note
+-----------------------
+
+The first Git commit in this repository included a source snapshot from
+tzlkkk/FeatDistill at commit 6feb63ef12a3bd38c8d7ade98183c5f727a0c62d:
+
+https://github.com/tzlkkk/FeatDistill
+
+That historical source was published under the Apache License 2.0. The current
+SynthFlag source is independently organized, while earlier Git commits remain
+part of repository history. See docs/IMPLEMENTATION_PROVENANCE.md.
+
+Model and artifact attribution
+------------------------------
+
+The selected runtime uses the upstream FeatDistill Expert 4 SigLIP checkpoint
+as a frozen feature encoder and teacher. SynthFlag does not claim authorship or
+training of that checkpoint. The selected residual heads and routing graph are
+project artifacts, but they remain research-only pending the rights-clean
+retrain documented in submission/MODEL_CARD.md.
+
+Checkpoint binaries, benchmark pixels, and protected per-image scores are not
+distributed in this Git repository. External artifact links are access
+locations, not redistribution grants or proof of competition eligibility.

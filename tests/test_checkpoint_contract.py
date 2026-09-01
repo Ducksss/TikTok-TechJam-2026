@@ -27,13 +27,13 @@ class CheckpointContractTest(unittest.TestCase):
                 "sha256": hashlib.sha256(payload).hexdigest(),
                 "download_url": f"https://invalid.example/{filename}",
             }
-        manifest = {"schema_version": 1, "files": records}
+        manifest = {"schema_version": 2, "files": records}
         (root / "manifest.json").write_text(
             json.dumps(manifest), encoding="utf-8"
         )
         return manifest
 
-    def test_verifies_all_four_checkpoint_identities(self) -> None:
+    def test_verifies_expert4_and_three_head_identities(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             root = Path(temporary_directory)
             self._make_checkpoint_set(root)

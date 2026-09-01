@@ -667,7 +667,7 @@ export function VideoPipeline({
             </div>
             <div className="bg-white p-3">
               <dt className="text-[#667085]">Architecture</dt>
-              <dd className="mt-1 font-medium">FeatDistill 4-expert</dd>
+              <dd className="mt-1 font-medium">Expert 4 + 3 heads</dd>
             </div>
           </dl>
 

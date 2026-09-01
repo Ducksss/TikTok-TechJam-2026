@@ -1,9 +1,8 @@
 # SynthFlag implementation provenance
 
-SynthFlag is a repository-authored integration and inference implementation for
-the published FeatDistill detector method and its four externally supplied
-checkpoints. It is not a claim that SynthFlag researchers originated the
-FeatDistill architecture, training method, or checkpoint weights.
+SynthFlag is a repository-authored integration around the frozen FeatDistill
+Expert 4 checkpoint and project-trained residual heads. It is not a claim that
+SynthFlag researchers originated or trained Expert 4.
 
 ## Historical finding
 
@@ -21,23 +20,26 @@ decision and is not required to understand the present source tree.
 
 ## Current implementation boundary
 
-SynthFlag Infer 2.0 was reorganized and rewritten around public,
+SynthFlag Infer 3.0 uses the independently organized runtime boundaries from
+Infer 2.0 while replacing the retired four-expert score with the collaborator's
+selected TEST1 graph:
 testable contracts:
 
 - `infer/checkpoints.py` owns manifest parsing, file identity, safe tensor-only
   deserialization, and checkpoint-set identity;
-- `infer/architecture.py` declares the checkpoint-compatible CLIP and SigLIP
-  expert graph and the exact four-probability mean;
-- `infer/preprocessing.py` owns RGB conversion, bicubic short-edge resize,
-  center crop, tensor conversion, and backbone normalization;
+- `infer/architecture.py` declares the checkpoint-compatible Expert 4 teacher,
+  strict residual-head schema, native-size route, fixed stack, and score conversion;
+- `infer/preprocessing.py` owns RGB conversion, 384 px bicubic short-edge resize,
+  center crop, tensor conversion, and SigLIP normalization;
 - `infer/model.py` is the stable Python scoring API;
 - `infer/outputs.py` owns resumable CSV, atomic Track 5 JSON, metadata, and
   output-directory locking; and
 - `infer/cli.py` coordinates directory inference through those boundaries.
 
-Checkpoint parameter keys constrain some module attribute names and the binary
-head layout. Those compatibility requirements come from the external state
-dictionaries; they are not presented as original model research.
+Expert 4 parameter keys constrain its module attributes and binary teacher-head
+layout. The three residual head state dictionaries constrain `norm`, `hidden`,
+and `residual` names. Compatibility with those artifacts is not presented as
+original model research.
 
 The former `distortion/` package was removed. It was byte-identical upstream
 training/degradation code, had no consumer in the released inference, service,
@@ -58,7 +60,7 @@ knowledge of the public method, checkpoint schema, prior runtime behavior,
 model cards, and published reports. FeatDistill attribution therefore remains
 mandatory in the model card, technical docs, user interface, and notices.
 
-## Verification record
+## Historical Infer 2.0 verification record
 
 On 2026-08-31, the rewritten runtime passed these independent checks:
 
@@ -74,9 +76,18 @@ On 2026-08-31, the rewritten runtime passed these independent checks:
   probability fusion, input/output validation, resumable batch artifacts, and
   the source-overlap guard.
 
-The representative family-level A/B plus the four-checkpoint schema check and
-fusion test establish the compatibility seams. It was not a second full
-four-expert benchmark run, and it does not create new performance evidence.
+That record validates the retired four-expert runtime only. It is not
+performance evidence for the selected TEST1 graph.
+
+## Selected TEST1 integration record
+
+On 2026-09-01, integration verified the collaborator-published three-head ZIP
+and every extracted head against declared SHA-256 and byte-size identities. The
+current runtime then loaded the real upstream Expert 4 checkpoint plus all three
+heads with strict tensor schemas and executed both the `<=64` and `>64` routes
+on Apple MPS. Aggregate TEST1 metrics are stored under
+`submission/evidence/test1/` with the public-development, routing, rights, and
+eligibility boundaries attached.
 
 ## Mechanical guard
 

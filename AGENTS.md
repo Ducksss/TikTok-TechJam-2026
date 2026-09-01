@@ -28,8 +28,9 @@ research, use the prompt-friendly FeatDistill
 
 - **SynthFlag** is the public product, repository, demo, submission, Python
   package, and primary CLI name.
-- **FeatDistill** is the underlying UESTC detector architecture, checkpoint,
-  and research lineage. Do not present it as original SynthFlag research.
+- **FeatDistill** is the UESTC research lineage and the source of the frozen
+  Expert 4 checkpoint used by the selected graph. Do not present that encoder,
+  its teacher head, or its training as original SynthFlag research.
 - The repository began from a copied FeatDistill snapshot. The current runtime
   is a repository-authored, checkpoint-compatible reimplementation, not a
   clean-room claim. Preserve the disclosure and boundary in
@@ -40,27 +41,29 @@ research, use the prompt-friendly FeatDistill
 
 ## Released inference contract
 
-- Sources of truth: `infer/architecture.py` for expert topology and score
-  fusion, `infer/preprocessing.py` for image transforms,
+- Sources of truth: `infer/architecture.py` for the Expert 4 teacher, residual
+  heads, native-size route, and score conversion; `infer/preprocessing.py` for image transforms,
   `infer/checkpoints.py` for checkpoint integrity, `infer/model.py` for the
   public Python API, and `infer/outputs.py` plus `infer/cli.py` for batch
   artifacts.
-- Four independent experts: two CLIP ViT-L/14 experts at 224 px and two SigLIP
-  So400M Patch14-384 experts at 384 px.
-- Each expert has a `feature -> Linear(256) -> ReLU -> Dropout(0.3) ->
-  Linear(2)` binary head. CLIP features are 768-dimensional; SigLIP pooled
-  features are 1152-dimensional.
-- Inference converts inputs to RGB, uses bicubic short-edge resize plus center
-  crop, and applies backbone-specific normalization.
-- The score is the exact unweighted arithmetic mean of four class-index-1
-  softmax probabilities. It is a signal, not proof, generator attribution,
+- The selected TEST1 graph has one frozen FeatDistill Expert 4 SigLIP So400M
+  Patch14-384 teacher plus three project-trained residual heads. Expert 4 emits
+  a 1,152-dimensional pooled feature and two teacher logits.
+- Each residual head is `LayerNorm(1152) -> Linear(256) -> GELU -> Dropout ->
+  Linear(1)` and adds a scalar correction to the detached teacher margin.
+- Inference records native image dimensions before converting to RGB, then uses
+  bicubic short-edge resize to 384 px, center crop, and SigLIP normalization.
+- Native longest side `<=64` uses the CIFAKE residual head with alpha `1.25`.
+  Larger images blend epoch-05 and epoch-08 corrected margins `0.65 / 0.35`
+  and apply the fixed margin boundary `-1.557959395647049` before sigmoid.
+  The resulting score is a research signal, not proof, generator attribution,
   localization, or a calibrated probability for every deployment population.
 - A completed CLI run writes `predictions.csv`, Track 5-compatible
   `predictions.json` records with exactly `image_path` and `pred`, and
   `predictions.meta.json`. The JSON artifact is atomic at completed-run time;
   CSV and metadata retain the resumable-run contract.
-- The paper's two-stage self-distillation describes training only. Training is
-  not part of the released live inference path.
+- Head training and the paper's upstream detector training are not part of the
+  released live inference path.
 - The former upstream `distortion/` package remains removed.
   `synthflag_augment/` is a separately designed, repository-authored
   development utility with its own API and audit trace. It is not used by
@@ -89,15 +92,19 @@ research, use the prompt-friendly FeatDistill
     current URL fragment to the matching `/documentation` section.
 - `submission/`: evidence-labeled release package, benchmark tables, model card,
   rights inventory, checksums, and reproduction guide.
-- `weights/manifest.json`: identities of the four required external
-  checkpoints. Checkpoint binaries are intentionally excluded.
+- `weights/manifest.json`: identities of the upstream Expert 4 checkpoint and
+  three selected residual-head files. Checkpoint binaries are intentionally excluded.
 
 ## Evidence rules
 
 - Treat paper facts, released-code behavior, local benchmark evidence, planned
   studies, and deployment guidance as different evidence classes.
-- Preserve the V1/V2/V3 boundaries in `submission/BENCHMARKS.md`. A dash means
-  unavailable, not zero. V3 is blocked and has no performance result.
+- Treat TEST1 as a completed public development diagnostic, not the locked
+  TikTok test. Preserve the retired V1/V2/V3 four-expert results as historical
+  evidence only. A dash means unavailable, not zero; V3 remains blocked.
+- The selected graph is research-only pending a rights-clean retrain. Its
+  benchmark-aware `<=64` route and unresolved large-head data rights must remain
+  visible in the model card and submission evidence.
 - Do not infer final metrics from partial caches, one-image checks, framework
   tests, or specifications.
 - Never train, tune, select checkpoints, calibrate, or select thresholds using

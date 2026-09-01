@@ -1,3 +1,5 @@
+/* Historical four-expert atlas retained as an unsurfaced baseline. The selected
+ * runtime is documented in ../page.tsx and infer/architecture.py. */
 /* oxlint-disable next/no-html-link-for-pages -- vinext's production next/link prefetch shim currently breaks route clicks; standard anchors keep public navigation reliable. */
 import { ArrowUpRight, Download } from 'lucide-react';
 import Image from 'next/image';

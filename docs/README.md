@@ -17,6 +17,7 @@ need repository context without reconstructing the project from chat history.
 | Full NTIRE challenge report as text | [`references/ntire-2026-report/report.txt`](references/ntire-2026-report/report.txt) |
 | Original arXiv HTML snapshots and figures | [`references/featdistill-report/README.md`](references/featdistill-report/README.md) and [`references/ntire-2026-report/README.md`](references/ntire-2026-report/README.md) |
 | Public submission evidence | [`../submission/README.md`](../submission/README.md) |
+| Selected TEST1 aggregate evidence | [`../submission/evidence/test1/`](../submission/evidence/test1/) |
 | Detailed architecture diagrams | [`../landing-page/app/documentation/architecture/atlas.tsx`](../landing-page/app/documentation/architecture/atlas.tsx) and [`../landing-page/public/diagrams/`](../landing-page/public/diagrams/) |
 | Brand system | [`BRAND_GUIDE.md`](BRAND_GUIDE.md) |
 
@@ -33,6 +34,10 @@ When two documents differ, prefer the narrowest authoritative source:
 Always preserve evidence labels. A paper claim is not automatically a released
 code behavior; a local benchmark is not the organizer leaderboard; and a
 planned evaluation is not a completed result.
+
+The selected runtime is the Expert 4 plus three-head native-size graph described
+in `AI_CONTEXT.md`. Older four-expert diagrams and V1/V2 evidence are historical
+unless they have been explicitly revised for the selected graph.
 
 The primary public routes have separate jobs: `/journey` is the judge-first
 project narrative and `/documentation` is the unified readable technical

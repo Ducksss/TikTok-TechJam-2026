@@ -26,7 +26,7 @@ function result(overrides = {}) {
       score,
       timestamp_ms: timestamps[index],
     })),
-    model: 'FeatDistill four-expert ensemble',
+    model: 'SynthFlag TEST1 routed residual detector',
     processing_ms: 100,
     sample_count: scores.length,
     summary: {

@@ -10,7 +10,7 @@
 
 <p align="center">
   Robust AI-generated image detection with reproducible inference and evidence-aware reporting.<br>
-  Built for the <strong>TikTok TechJam 2026 Hackathon</strong> on the FeatDistill four-expert detector.
+  Built for the <strong>TikTok TechJam 2026 Hackathon</strong> with a frozen FeatDistill Expert 4 representation and project-trained residual heads.
 </p>
 
 <p align="center">
@@ -23,26 +23,26 @@
 </p>
 
 <p align="center">
-  <code>Python ≥ 3.10</code> · <code>Apache-2.0</code> · <code>CLIP + SigLIP</code> · <code>4-expert ensemble</code>
+  <code>Python ≥ 3.10</code> · <code>Apache-2.0 source</code> · <code>SigLIP Expert 4</code> · <code>3 residual heads</code>
 </p>
 
 ## Overview
 
-**SynthFlag** provides a repository-authored, checkpoint-compatible
-implementation of the published FeatDistill detector method inside a complete
+**SynthFlag** provides the selected TEST1 detector graph—one frozen upstream
+FeatDistill Expert 4 teacher plus three project-trained residual heads—inside a complete
 TikTok TechJam workflow: verified batch inference, a public detector
 experience, protected evaluation, and a submission package whose claims remain
 traceable to their evidence.
 
 SynthFlag is the public product, submission, Python distribution, and primary
-CLI name. **FeatDistill** remains the name of the underlying UESTC detector
-architecture, external checkpoints, and research lineage. SynthFlag does not
-claim authorship of that model research or those weights.
+CLI name. **FeatDistill** remains the UESTC research and Expert 4 checkpoint
+lineage. SynthFlag does not claim authorship or training of that encoder.
 
 ### Highlights
 
-- **Four complementary experts:** two CLIP ViT-L/14 experts at 224 px and two
-  SigLIP So400M Patch14-384 experts at 384 px.
+- **Selected TEST1 graph:** native images at most 64 px use a CIFAKE-specialist
+  residual head; larger images use a fixed `0.65 / 0.35` two-head stack over the
+  same frozen Expert 4 feature and teacher margin.
 - **Reliable batch inference:** recursive image discovery, resumable outputs,
   checkpoint integrity verification, and an exclusive writer lock.
 - **Auditable robustness inputs:** an optional, sample-keyed augmentation
@@ -71,28 +71,29 @@ executable checkpoint-backed scoring.
 
 ## Benchmark snapshot
 
-The protected V1 final partition contains 7,998 images: 3,999 real and 3,999
-fake. The recommended balanced operating point changes only the frozen decision
-threshold; it does not retrain the detector or change its ranking.
+TEST1 evaluates 15,000 unique public images once clean and once with a
+deterministic composite corruption, producing 30,000 selected-graph scores.
+It is a public development diagnostic, not TikTok's hidden test.
 
-| Configuration | ROC-AUC | Balanced accuracy | F1 | Fake recall | Precision | Specificity |
-|---|---:|---:|---:|---:|---:|---:|
-| Released mean, threshold 0.5 | 0.8505 | 0.7763 | 0.7259 | 0.5924 | 0.9371 | 0.9602 |
-| **SynthFlag balanced point, threshold 0.2874746155** | **0.8505** | **0.8061** | **0.7861** | **0.7127** | 0.8764 | 0.8995 |
+| Dataset | Clean AUC | Composite AUC | Clean FP/FN | Composite FP/FN |
+|---|---:|---:|---:|---:|
+| CIFAKE | 0.9816 | 0.9095 | 288 / 113 | 499 / 388 |
+| SID-Set | 0.8691 | 0.8439 | 18 / 1,044 | 58 / 1,038 |
+| WildFake | 0.9467 | 0.8785 | 316 / 272 | 861 / 257 |
 
-The complete [benchmark table](submission/BENCHMARKS.md) separates protected
-V1 results, retrospective V2 development evidence, and blocked V3 fields. A
-threshold change moves the operating point; it is not an architecture or
-ranking improvement.
+The complete [benchmark table](submission/BENCHMARKS.md) records TEST1 limits
+and keeps the older four-expert V1/V2 studies explicitly historical. The
+`<=64` route is benchmark-aware and the current heads remain research-only
+pending a rights-clean retrain.
 
 ## Architecture
 
-![SynthFlag architecture: four FeatDistill experts merged into one fake-image score](submission/ARCHITECTURE.svg)
+![SynthFlag selected TEST1 architecture: Expert 4 plus three routed residual heads](submission/ARCHITECTURE.svg)
 
-Each expert returns a class-index-1 softmax probability. The released inference
-path takes their exact unweighted arithmetic mean, producing one score from 0
-to 1. SynthFlag's balanced operating point applies the calibration-frozen
-threshold `0.2874746155` to that unchanged score.
+Expert 4 supplies a 1,152-dimensional pooled feature and two-logit teacher
+margin. Native longest side `<=64` uses the specialist head at alpha `1.25`;
+larger images blend epoch-05 and epoch-08 corrected margins `0.65 / 0.35` and
+apply the frozen boundary `-1.557959395647049` before sigmoid.
 
 Read the [architecture explanation](submission/ARCHITECTURE.md), follow the
 [project and decision journey](https://synthflag.chaipinzheng353496.chatgpt.site/journey),
@@ -115,15 +116,15 @@ python -m pip install -e .
 
 ### 2. Add checkpoints
 
-Place the four released expert checkpoints directly in `weights/`:
+Place the upstream Expert 4 checkpoint and three residual heads in `weights/`:
 
 ```text
 weights/
 ├─ manifest.json
-├─ Expert_1_clip.pth
-├─ Expert_2_clip.pth
-├─ Expert_3_siglip.pth
-└─ Expert_4_siglip.pth
+├─ Expert_4_siglip.pth
+├─ cifake_router_head.pt
+├─ general_epoch05_head.pt
+└─ general_epoch08_head.pt
 ```
 
 Expected filenames, sizes, and SHA-256 digests are recorded in
@@ -170,7 +171,7 @@ The completed run also writes the Track 5 submission format:
 ```
 
 - `image_name` is a POSIX-style path relative to `--images-dir`.
-- `score` is the continuous ensemble output in the range `[0, 1]`.
+- `score` is the continuous routed-detector output in the range `[0, 1]`.
 - `predictions.json` mirrors the completed CSV as `image_path` / `pred`
   records for the TikTok TechJam evaluator.
 - `predictions.meta.json` binds resumable output to its input root and weight
@@ -295,10 +296,9 @@ from the public package.
 ## Hackathon reflection
 
 The hardest part was not producing another headline accuracy number; it was
-keeping every claim attached to the split and experiment that actually supports
-it. We separated the protected V1 result, retrospective V2 robustness study,
-and blocked V3 plan so calibration data, unavailable organizer data, and final
-test evidence could not silently blend together.
+keeping every claim attached to the split and experiment that supports it.
+TEST1 is therefore labeled as a public development diagnostic, while the older
+four-expert studies remain historical and V3 remains blocked.
 
 We also learned that robustness is conditional. Compression, resizing, and
 screenshot-like transformations affect datasets differently, while a lower
@@ -314,10 +314,9 @@ abstention policy for uncertain or unfamiliar domains.
 ## Research, citation, and responsible use
 
 SynthFlag builds on **FeatDistill**, the UESTC solution for the NTIRE 2026
-Challenge on Robust AI-Generated Image Detection in the Wild. The hackathon
-integration, reproducibility layer, evidence package, and product presentation
-are the submission work; the detector architecture and released checkpoints
-retain their upstream attribution.
+Challenge on Robust AI-Generated Image Detection in the Wild. Expert 4 and its
+teacher head retain upstream attribution; the three residual heads, native-size
+router, evaluation harness, integration, and product are project work.
 
 The repository began from a copied FeatDistill source snapshot. The current
 runtime is an independently organized, checkpoint-compatible implementation;
@@ -358,9 +357,10 @@ described in [NOTICE](NOTICE). The current source-overlap check permits only the
 canonical Apache license text to remain byte-identical to that audited
 snapshot.
 
-This Git repository intentionally excludes the four fine-tuned checkpoints,
+This Git repository intentionally excludes Expert 4 and the three residual heads,
 dataset pixels, private split rows, and per-image protected-evaluation scores.
-The checkpoint mirror is an external source, not a redistribution grant. Read
+The artifact links are external sources, not redistribution grants. The heads
+also have unresolved training-data rights, so they are not commercially cleared. Read
 the [model card](submission/MODEL_CARD.md),
 [dataset and rights inventory](submission/DATASETS_AND_RIGHTS.md),
 [third-party notices](submission/THIRD_PARTY_NOTICES.md), and

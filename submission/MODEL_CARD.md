@@ -1,129 +1,87 @@
-# SynthFlag model card
+# SynthFlag TEST1 routed residual detector — model card
 
-Last reviewed: **2026-08-31**
+**Status:** frozen research baseline pending rights-clean retraining
 
-## Model summary
+**Date:** 1 September 2026
 
-SynthFlag is the public product and submission name for an inference and
-evidence package built around the released **FeatDistill** detector. The model
-is a four-expert binary image classifier:
+**Task:** rank real/non-AIGC (`0`) versus generated or AI-tampered (`1`) images
 
-| Component | Architecture | Input | Output |
-|---|---|---:|---|
-| Expert 1 | CLIP ViT-L/14 vision encoder plus classifier head | 224 px | Fake-image probability |
-| Expert 2 | CLIP ViT-L/14 vision encoder plus classifier head | 224 px | Fake-image probability |
-| Expert 3 | SigLIP So400M Patch14 vision encoder plus classifier head | 384 px | Fake-image probability |
-| Expert 4 | SigLIP So400M Patch14 vision encoder plus classifier head | 384 px | Fake-image probability |
+**Locked TikTok test:** not accessed
 
-The released inference path averages the four probabilities. The result is a
-model score in `[0,1]`; it is not cryptographic provenance or proof that an
-image is synthetic.
+**Commercial and competition eligibility:** not established
 
-## Attribution and lineage
+## Model
 
-- FeatDistill technical report: [Tu et al., arXiv:2603.21939](https://arxiv.org/abs/2603.21939)
-- NTIRE 2026 challenge report: [Gushchin et al., arXiv:2604.11487](https://arxiv.org/abs/2604.11487)
-- CLIP base architecture and model card: [OpenAI CLIP](https://github.com/openai/CLIP) and [`openai/clip-vit-large-patch14`](https://huggingface.co/openai/clip-vit-large-patch14)
-- SigLIP base architecture and model card: [`google/siglip-so400m-patch14-384`](https://huggingface.co/google/siglip-so400m-patch14-384)
+The selected detector is one frozen upstream FeatDistill Expert 4 SigLIP
+encoder/teacher plus three project-trained scalar residual heads:
 
-SynthFlag adds the public packaging, integrity checks, protected-evaluation
-reporting, operating-point documentation, and responsible-use boundary. It
-does not claim authorship of the FeatDistill architecture or checkpoints.
+```text
+RGB image -> record native longest side -> SigLIP 384 px preprocessing
+          -> frozen Expert 4 -> pooled 1152-D feature + teacher margin
+              ├─ <=64 px: CIFAKE head, alpha 1.25 -> sigmoid
+              └─ >64 px: 0.65 * epoch05 margin + 0.35 * epoch08 margin
+                         -> fixed boundary -1.557959395647049 -> sigmoid
+```
 
-## Intended uses
+Each head is `LayerNorm(1152) -> Linear(256) -> GELU -> Dropout ->
+Linear(1)` and has `297,729` parameters. The loaded graph has `429,414,469`
+parameters: `428,521,282` in Expert 4 and `893,187` across the three heads.
 
-- Research and benchmark reproduction by authorized users.
-- Triage of image collections, with human review of flagged cases.
-- Studying robustness under compression, resizing, screenshots, blur, noise,
-  and generator/domain shift.
-- Demonstrating evidence-aware AI-image detection workflows.
+## Artifact identities
 
-## Out-of-scope uses
+| Component | Role | SHA-256 |
+|---|---|---|
+| `Expert_4_siglip.pth` | Frozen upstream encoder and teacher | `a7d2297e7fecace8ae95d8bbdca023b697cc395d7fde0d1bd90b23d0cf130ff4` |
+| `cifake_router_head.pt` | Native longest side `<=64`, alpha `1.25` | `da8cdd81a14d112a7531837762fe3aad97ebfe07c8cdaa69da6d3c7dfe08b48e` |
+| `general_epoch05_head.pt` | 65% large-image component | `98e03c194fc902560d965d1b28d4b1e245e3580d792ff2c086d5ab515588479c` |
+| `general_epoch08_head.pt` | 35% large-image component | `b6a8d13d71ab05d0bb43477a4721a74e60d54d289ef483129e857b525dd08526` |
 
-- Treating a score as conclusive proof of authorship or deception.
-- Automated punishment, account suspension, takedown, hiring, admissions,
-  credit, insurance, policing, immigration, or legal decisions.
-- Surveillance, face recognition, identity inference, or demographic
-  classification.
-- Covert monitoring or processing images without a lawful basis.
-- Untested deployment on a new domain, generator family, or media pipeline.
+## Provenance
 
-## Scores and operating points
+FeatDistill/UESTC supplied Expert 4 and its original detector training. The
+three residual heads, native-size routing, fixed stack, TEST1 harness, service,
+and product are project work. The heads do not make Expert 4 a clean-room or
+wholly original detector.
 
-The CLI writes a continuous score. Two documented decision thresholds are:
+## TEST1 evidence
 
-| Threshold | Role |
-|---:|---|
-| `0.5` | Released default operating point |
-| `0.2874746155139839` | Calibration-frozen balanced operating point used in the SynthFlag evidence package |
+TEST1 contains 15,000 unique public sources and 30,000 clean/composite scores.
+Clean/composite AUC is `0.9816/0.9095` on CIFAKE, `0.8691/0.8439` on SID-Set,
+and `0.9467/0.8785` on WildFake. See [`BENCHMARKS.md`](BENCHMARKS.md) for full
+operating-point metrics and limitations.
 
-Changing a threshold changes classification trade-offs; it does not retrain
-the model or change score ranking. Select a threshold from representative
-development data, freeze it before protected evaluation, and report both
-false-positive and false-negative costs.
+## Intended use
 
-## Evaluation evidence
+The score may support research comparison, provenance checks, or a human-review
+queue. It is not proof of authorship, a generator identifier, a manipulated
+region mask, or an automatic enforcement verdict. Deployment thresholds require
+population-specific calibration and explicit false-positive/false-negative
+costs.
 
-The protected V1 final partition contains 7,998 images, balanced between real
-and fake. The released probability mean achieved ROC-AUC `0.8505`. At threshold
-`0.5`, balanced accuracy was `0.7763`; at the calibration-frozen balanced
-threshold, balanced accuracy was `0.8061`. See [BENCHMARKS.md](BENCHMARKS.md)
-for complete metrics, V2 retrospective evidence, and the blocked V3 boundary.
+## Known limitations
 
-These results establish performance only on the documented evaluation
-conditions. They do not guarantee accuracy on a new generator, content domain,
-capture pipeline, demographic group, or adversarial input.
+- TEST1 is a public development diagnostic, not a locked TikTok test.
+- The `<=64` branch is CIFAKE-specialized and benchmark-aware.
+- Global pooling misses many locally tampered SID images.
+- Composite corruption materially weakens CIFAKE and WildFake ranking; WildFake
+  composite specificity is `0.6556` at score `0.5`.
+- Scores may be miscalibrated at real platform prevalence.
+- The benchmark replay does not establish end-to-end latency or VRAM.
 
-## Data statement
+## Rights and eligibility
 
-No dataset pixels, private split rows, local paths, or per-image protected
-scores are distributed in this Git repository. The full training-source
-inventory for the upstream fine-tuned checkpoints was not independently
-reconstructed from the public artifacts; consult the FeatDistill report and
-checkpoint rights holder for authoritative training provenance.
+The current heads are not commercially cleared. The large-image lineage
+includes a 9,311-image Open Images bulk tranche without item-level license
+verification and 986 guided-diffusion/BigGAN sample pixels without an explicit
+data-specific license; 682 of those entered gradients. A strict commercial
+release must reverify or replace those rows and retrain.
 
-Evaluation references include SID-Set, CIFAKE, WildFake, and COCO val2017.
-Their access and redistribution terms differ. See
-[DATASETS_AND_RIGHTS.md](DATASETS_AND_RIGHTS.md).
+Expert 4 redistribution authorization is unproven and the binary is not in Git.
+Under the relayed Track 5 restriction against an existing AIGC detector, this
+system may be ineligible unless organizers explicitly clear it.
 
-## Limitations and failure modes
+## Required next step
 
-- Compression, resizing, screenshots, filtering, blur, noise, and color
-  changes can move scores.
-- Performance can drop on unseen generators and unfamiliar image domains.
-- Edited real images and photorealistic synthetic images can be confused.
-- Dataset-specific artifacts can inflate apparent benchmark performance.
-- A probability-like score is not necessarily calibrated on a new population.
-- Thresholds encode a policy trade-off and may create unequal error costs.
-- Adversarial optimization and laundering through repeated transformations
-  were not established as safe operating conditions.
-
-## Responsible operation
-
-1. Keep the original image and relevant provenance metadata when lawful.
-2. Record the model/checkpoint hashes, software versions, threshold, and
-   preprocessing used for each run.
-3. Present scores with uncertainty and limitations, not as a binary fact.
-4. Require independent evidence and human review for consequential decisions.
-5. Monitor false positives and false negatives by relevant domain slices.
-6. Stop or recalibrate when the deployment distribution materially changes.
-7. Provide an appeal or correction path when results affect people.
-
-## Security and integrity
-
-The loader verifies expected checkpoint size and SHA-256 before deserialization
-and uses `torch.load(..., weights_only=True)`. Bypassing hash checks should be
-limited to trusted local development. Checkpoint hashes establish file
-identity, not legitimacy, safety, or redistribution permission.
-
-## License and redistribution
-
-Repository code and original project documentation are under the repository's
-[Apache License 2.0](../LICENSE). Third-party dependencies, base models,
-fine-tuned checkpoints, papers, datasets, images, and trademarks retain their
-own terms. The four `Expert_*.pth` files are excluded because no explicit
-redistribution license for those fine-tuned files was located in the audited
-public materials. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and
-[RELEASE_AUDIT.md](RELEASE_AUDIT.md).
-
-This document is a technical release record, not legal advice.
+Retrain from organizer-approved general-purpose backbones or from scratch on a
+strict commercial allowlist, freeze model and threshold before a new
+source/generator-disjoint audit, and issue new artifact hashes.

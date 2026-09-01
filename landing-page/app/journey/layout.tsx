@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'The SynthFlag journey — Three days from research to release',
   description:
-    'A judge-first, three-day account of how SynthFlag moved from backbone exploration to a protected result, released four-expert detector, and bounded research roadmap.',
+    'A judge-first account of how SynthFlag moved from backbone exploration to the selected routed residual detector and a bounded research roadmap.',
   alternates: {
     canonical: '/journey',
   },

@@ -118,9 +118,8 @@ export default function JourneyPage() {
             <h1>Three days. One defensible detector.</h1>
             <p>
               We began by deciding what evidence to trust. We ended with a
-              protected result, a rejected shortcut, a released four-expert
-              product, and a roadmap that stays honest about what is still
-              unproven.
+              protected evidence, rejected shortcuts, a selected routed residual
+              product, and a roadmap honest about what is still unproven.
             </p>
             <div className="journey-hero-actions">
               <a className="journey-primary-link" href="#day-one">
@@ -273,10 +272,10 @@ export default function JourneyPage() {
             <div className="journey-threshold-story">
               <div className="journey-panel-heading">
                 <div>
-                  <p>Protected final result</p>
+                  <p>Historical V1 protected-final result</p>
                   <h3>Move the operating point—not the ranking model.</h3>
                 </div>
-                <StatusBadge kind="adopted">Adopted</StatusBadge>
+                <StatusBadge kind="partial">Historical V1</StatusBadge>
               </div>
               <div className="journey-metric-comparison">
                 <div>
@@ -296,7 +295,9 @@ export default function JourneyPage() {
                 produced 238 more correct decisions overall. Precision moved
                 from 0.9371 to 0.8764 and specificity from 0.9602 to 0.8995.
                 ROC-AUC stayed 0.8505 because the ranking scores never changed.
-                This is an explicit review tradeoff—not free accuracy.
+                This was an explicit review tradeoff—not free accuracy—for the
+                retired four-expert runtime. It is not the decision rule for the
+                selected TEST1 graph.
               </p>
             </div>
           </section>
@@ -339,44 +340,41 @@ export default function JourneyPage() {
               <div className="journey-panel-heading">
                 <div>
                   <p>Released architecture</p>
-                  <h3>Two encoders. Four independent experts.</h3>
+                  <h3>One frozen encoder. Three residual heads.</h3>
                 </div>
                 <StatusBadge kind="adopted">Released</StatusBadge>
               </div>
               <div className="journey-lanes">
                 <article className="journey-lane journey-lane-clip">
                   <div>
-                    <span>CLIP</span>
-                    <strong>224 × 224</strong>
+                    <span>Expert 4</span>
+                    <strong>SigLIP · 384 × 384</strong>
                   </div>
                   <ul>
-                    <li>16 × 16 = 256 patches + CLS</li>
-                    <li>24 transformer blocks</li>
-                    <li>1,024-wide tokens → 768-D feature</li>
-                    <li>Heads 1 and 2</li>
+                    <li>Frozen upstream FeatDistill checkpoint</li>
+                    <li>27 transformer blocks</li>
+                    <li>1,152-D pooled feature</li>
+                    <li>Two-logit teacher margin</li>
                   </ul>
                 </article>
                 <article className="journey-lane journey-lane-siglip">
                   <div>
-                    <span>SigLIP</span>
-                    <strong>384 × 384</strong>
+                    <span>Residual route</span>
+                    <strong>3 × 297,729 params</strong>
                   </div>
                   <ul>
-                    <li>27 × 27 = 729 patch tokens</li>
-                    <li>Six-pixel bottom/right remainder</li>
-                    <li>27 blocks · 1,152-D feature</li>
-                    <li>Heads 3 and 4</li>
+                    <li>≤64 px uses CIFAKE head at α 1.25</li>
+                    <li>&gt;64 px blends epoch 05 / 08</li>
+                    <li>Fixed weights 0.65 / 0.35</li>
+                    <li>Frozen margin boundary -1.55796</li>
                   </ul>
                 </article>
               </div>
               <p className="journey-credit-note">
-                SynthFlag provides a repository-authored, checkpoint-compatible
-                implementation of the published FeatDistill four-expert method
-                from UESTC. It does not claim to originate the architecture,
-                training method, or checkpoints. Different objectives,
-                resolutions, feature widths, and checkpoints make the encoders
-                plausibly complementary; this work does not claim it proved a
-                “semantics versus texture” split.
+                FeatDistill/UESTC supplied Expert 4 and its detector training.
+                SynthFlag does not claim to originate or train that checkpoint.
+                The residual heads and routing are project artifacts, but they
+                remain research-only pending a rights-clean retrain.
               </p>
             </div>
 
@@ -593,18 +591,18 @@ export default function JourneyPage() {
             <div className="journey-release-grid">
               <article>
                 <StatusBadge kind="adopted">Released</StatusBadge>
-                <h3>Four-expert image inference</h3>
+                <h3>Routed residual image inference</h3>
                 <p>
-                  CLIP 1 → CLIP 2 → SigLIP 3 → SigLIP 4, fused by (P3 + P4 + P1
-                  + P2) / 4.
+                  Frozen Expert 4 → three residual corrections → native-size
+                  route → sigmoid score.
                 </p>
               </article>
               <article>
                 <StatusBadge kind="adopted">Measured</StatusBadge>
-                <h3>Protected operating point</h3>
+                <h3>TEST1 public diagnostic</h3>
                 <p>
-                  Threshold 0.28747 was measured on the separate 7,998-image
-                  final set after calibration.
+                  15,000 public sources were evaluated clean and under one
+                  deterministic composite view at reported threshold 0.5.
                 </p>
               </article>
               <article>

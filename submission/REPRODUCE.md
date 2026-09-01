@@ -1,176 +1,94 @@
-# Reproduce SynthFlag inference and verify the submission
+# Reproduce SynthFlag inference and TEST1 aggregate checks
 
-Run these commands from the repository root unless a section says otherwise.
-They match the checked-in package metadata and CLI arguments.
-
-Before downloading external checkpoints or data, read the
-[model card](MODEL_CARD.md), [dataset rights inventory](DATASETS_AND_RIGHTS.md),
-[third-party notices](THIRD_PARTY_NOTICES.md), and
-[release audit](RELEASE_AUDIT.md). Reproduction instructions do not grant
-redistribution rights for any external artifact.
-
-## 1. Verify the static submission package
+## 1. Environment
 
 ```bash
-cd submission
-shasum -a 256 -c ARTIFACTS.sha256
-cd ..
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -e ".[server,test]"
 ```
 
-The checksum manifest excludes itself to avoid a self-referential hash.
+## 2. Supply verified artifacts
 
-## 2. Create the pinned Python environment
-
-Python 3.10 or newer is required. The repository pins PyTorch `2.10.0`,
-torchvision `0.25.0`, transformers `5.3.0`, Pillow `12.1.0`, and tqdm `4.67.2`.
-
-```bash
-python3 -m venv .venv
-.venv/bin/python -m pip install --upgrade pip
-.venv/bin/python -m pip install -e .
-.venv/bin/python -m pip check
-```
-
-For CUDA, install a PyTorch build compatible with the host driver before the
-editable install if the pinned wheel is not appropriate for that platform.
-
-## 3. Supply and verify the four released checkpoints
-
-Follow [`weights/README.md`](../weights/README.md) and place these files directly
-under `weights/`:
+Place these files together:
 
 ```text
 weights/
 ├── manifest.json
-├── Expert_1_clip.pth
-├── Expert_2_clip.pth
-├── Expert_3_siglip.pth
-└── Expert_4_siglip.pth
+├── Expert_4_siglip.pth
+├── cifake_router_head.pt
+├── general_epoch05_head.pt
+└── general_epoch08_head.pt
 ```
 
-Verify all sizes and SHA-256 digests before model deserialization:
+Obtain Expert 4 from the FeatDistill authors' official release. Download the
+three-head bundle from:
+
+<https://drive.google.com/file/d/1NwOQ1hEQqCgVctdoRuwamZYjp832Vkse/view?usp=drivesdk>
+
+The ZIP must be `3,323,126` bytes with SHA-256
+`7a8acf6823cc08ba5e7a55def6c2147f95456a3e9f94c8d60d199e503208be54`.
+The runtime verifies every extracted file against `weights/manifest.json`.
+
+## 3. Run batch inference
 
 ```bash
-.venv/bin/python - <<'PY'
-from infer.model import verify_checkpoint_files
-
-paths = verify_checkpoint_files("weights", verify_hashes=True)
-for name in sorted(paths):
-    print(name, "verified")
-PY
+synthflag-infer \
+  --images-dir /absolute/path/to/images \
+  --out-dir /absolute/path/to/outputs \
+  --weights-dir /absolute/path/to/weights \
+  --device auto
 ```
 
-Expected checkpoint identities are also preserved in
-[`evidence/weights-manifest.json`](evidence/weights-manifest.json).
+The completed output directory contains:
 
-## 4. Run batch inference
+```text
+predictions.csv
+predictions.json
+predictions.meta.json
+```
 
-`--device auto` selects CUDA when available and otherwise CPU. To choose a
-specific CUDA device, pass `--device cuda:0`.
+`predictions.json` contains records with exactly `image_path` and `pred`.
+Rerun the same command to resume or use `--overwrite` for a new run.
+
+## 4. Run service and tests
 
 ```bash
-.venv/bin/python -m infer \
-  --images-dir /path/to/images \
-  --out-dir outputs/predictions \
-  --weights-dir weights \
-  --device auto \
-  --batch-size 1
+SYNTHFLAG_WEIGHTS_DIR=/absolute/path/to/weights \
+  uvicorn service.app:app --host 127.0.0.1 --port 8000
+
+python -m unittest discover -s tests
+python scripts/check_repository_context.py
+python scripts/check_source_provenance.py
+python scripts/verify_reference_snapshots.py
 ```
 
-The command recursively reads JPEG, PNG, BMP, WebP, and TIFF files. It writes:
-
-- `outputs/predictions/predictions.csv` with `image_name,score`;
-- `outputs/predictions/predictions.json` with the Track 5 `image_path,pred`
-  record contract; and
-- `outputs/predictions/predictions.meta.json` with the input root, checkpoint
-  identity, runtime versions, preprocessing ID, device, and batch size.
-
-Running the same command again resumes incomplete work. Use a new output
-directory, or add `--overwrite`, after replacing any input while retaining its
-relative filename.
-
-## 5. Validate the output contract
+For the website:
 
 ```bash
-head -n 5 outputs/predictions/predictions.csv
-.venv/bin/python -m json.tool \
-  outputs/predictions/predictions.json >/dev/null
-.venv/bin/python -m json.tool \
-  outputs/predictions/predictions.meta.json >/dev/null
+cd landing-page
+pnpm test
+pnpm lint
+pnpm build
 ```
 
-`predictions.json` is written atomically when the directory run completes. It
-is a JSON array whose records have a POSIX-style relative `image_path` and a
-continuous `pred` value in `[0, 1]`. The CLI validates every score before
-writing.
+## 5. Recompute aggregate TEST1 metrics
 
-## 6. Run through the Python API
+The public Git package includes aggregate metrics and integrity receipts under
+`submission/evidence/test1/`, not the 30,000 per-image predictions. If an
+authorized evaluator has the checksum-matched prediction table, run the
+documented evaluator from the supplied technical evidence repository and
+compare its six rows with `metrics_full.csv`.
 
-```bash
-.venv/bin/python - <<'PY'
-from PIL import Image
-from infer import Model
+This step reproduces reporting from existing selected-graph scores. It does not
+rerun image pixels through Expert 4 and does not establish latency or VRAM.
 
-model = Model(device="auto", model_data_dir="weights")
-score = float(model.predict_pil([Image.open("/path/to/image.jpg")])[0])
-print({"fake_score": score})
-PY
-```
+## 6. Evidence boundary
 
-## 7. Interpret a score without changing the detector
-
-The CLI does not emit a hard class. For a downstream decision, compare the
-score with a threshold chosen before evaluation:
-
-```bash
-.venv/bin/python - <<'PY'
-score = 0.42  # replace with a value from predictions.csv
-for threshold in (0.5, 0.2874746155139839):
-    print(threshold, "fake" if score >= threshold else "real")
-PY
-```
-
-Threshold `0.5` is the historical default. Threshold
-`0.2874746155139839` was frozen from V1 calibration for a more balanced
-operating point. Do not retune either threshold on protected or V3 evaluation
-labels.
-
-## 8. Benchmark reproducibility boundary
-
-This branch contains the inference release and public benchmark evidence, but
-not private split rows, per-image scores, datasets, or checkpoints. Therefore a
-fresh numerical rerun of V1/V2 is intentionally not possible from
-`submission/` alone. The included artifacts support exact integrity checks and
-metric inspection:
-
-```bash
-jq '.sample_count, .baseline.metrics, .profiles.auc.metrics' \
-  submission/evidence/final_report.json
-jq '.study_design, .claim_boundary, .v1_final_policy' \
-  submission/evidence/v2_protocol.json
-jq . submission/evidence/v3_coco_audit.json
-```
-
-The full private benchmark harness must keep `experiments/private/` and dataset
-inputs outside the public submission. Its independent verification commands,
-when those authorized private inputs and the benchmark-evidence code are
-present, are:
-
-```bash
-.venv/bin/python -m experiments.verify_results \
-  --split experiments/private/split.csv \
-  --protocol experiments/results/protocol.json \
-  --calibration-scores experiments/private/calibration_scores.csv \
-  --cospy-calibration-scores experiments/private/cospy_artifact_calibration_mps.csv \
-  --frozen-config experiments/results/frozen_config.json \
-  --final-scores experiments/private/final_scores.csv \
-  --cospy-final-scores experiments/private/cospy_artifact_final_mps.csv \
-  --final-report experiments/results/final_report.json \
-  --weights weights --full-checkpoint-hashes
-
-.venv/bin/python -m experiments.verify_v2
-```
-
-V3 cannot be run yet. It requires the exact organizer-provided 8,843-image
-DALL-E Advanced source. The audited COCO archive alone is insufficient, and a
-similarly named substitute would violate the frozen protocol.
+- TEST1 is public development evidence, not a locked organizer test.
+- No fitting, threshold selection, or checkpoint selection may use protected
+  final-evaluation rows.
+- Checkpoint binaries, dataset pixels, local paths, private rows, and protected
+  per-image scores must remain outside Git.
+- The selected heads are research-only pending a rights-clean retrain.

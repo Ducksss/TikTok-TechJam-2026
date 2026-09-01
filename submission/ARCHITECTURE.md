@@ -1,53 +1,29 @@
-# SynthFlag architecture
+# SynthFlag selected TEST1 architecture
 
-![SynthFlag four-expert inference architecture](ARCHITECTURE.svg)
+![SynthFlag Expert 4 plus routed residual-head architecture](ARCHITECTURE.svg)
 
-## Accessible walkthrough
+1. Record each input's native longest side before resizing.
+2. Convert to RGB, bicubic-resize the short edge to 384 px, center-crop, and
+   apply SigLIP normalization.
+3. Frozen FeatDistill Expert 4 emits a 1,152-dimensional pooled feature and
+   two teacher logits. The teacher margin is `logit[1] - logit[0]`.
+4. Three project heads each compute a scalar correction from the same feature.
+5. Native longest side `<=64` uses the CIFAKE head at alpha `1.25` and sigmoid.
+6. Larger images blend epoch-05 and epoch-08 corrected margins `0.65 / 0.35`,
+   subtract boundary `-1.557959395647049`, then apply sigmoid.
+7. The CLI writes `predictions.csv`, `predictions.meta.json`, and atomic
+   `predictions.json` records with `image_path` and `pred`.
 
-1. The CLI recursively discovers JPEG, PNG, BMP, WebP, and TIFF images. Each
-   successfully decoded image is converted to RGB.
-2. A checkpoint preflight verifies the expected byte size and SHA-256 digest
-   of all four FeatDistill expert state dictionaries before any checkpoint is
-   deserialized.
-3. Every image is preprocessed along two deterministic paths:
-   - the CLIP path bicubic-resizes and center-crops to 224 pixels, then uses the
-     released CLIP normalization;
-   - the SigLIP path bicubic-resizes and center-crops to 384 pixels, then
-     normalizes each RGB channel with mean `0.5` and standard deviation `0.5`.
-4. Experts 1 and 2 each use a CLIP ViT-L/14 vision encoder with a 768-dimensional
-   projected feature and a `768 -> 256 -> 2` classification head.
-5. Experts 3 and 4 each use a SigLIP So400M Patch14-384 vision encoder with an
-   1,152-dimensional pooled feature and a `1152 -> 256 -> 2` classification
-   head.
-6. Each two-logit output is converted with softmax, and class index 1 is treated
-   as `P(fake)`. The final score is the exact arithmetic mean
-   `(P3 + P4 + P1 + P2) / 4`, preserving the published runtime's addition
-   order in the SynthFlag implementation.
-7. The CLI writes `predictions.csv` with `image_name,score`, an atomic
-   completed-run `predictions.json` array with Track 5 `image_path,pred`
-   records, and a `predictions.meta.json` provenance record. Runs can resume
-   safely when the input root and checkpoint identity are unchanged.
-
-## Components
-
-| Component | SynthFlag implementation |
+| Contract | Value |
 |---|---|
-| CLIP experts | 24 transformer layers, 16 heads, 14-pixel patches, 224-pixel input |
-| SigLIP experts | 27 transformer layers, 16 heads, 14-pixel patches, 384-pixel input |
-| Classification heads | Linear, ReLU, dropout 0.3, linear to two logits |
-| Fusion | Unweighted arithmetic mean of four fake-class probabilities |
-| Training in this repository path | None; inference-only |
-| Default CLI decision | None; the CLI outputs continuous scores |
+| Teacher | FeatDistill Expert 4, SigLIP So400M Patch14-384 |
+| Feature | `[B,1152]` pooled output |
+| Project head | `LayerNorm -> Linear(256) -> GELU -> Dropout -> Linear(1)` |
+| Low route | Native longest side `<=64`, alpha `1.25` |
+| Large route | `0.65 * margin05 + 0.35 * margin08` |
+| Large boundary | `-1.557959395647049` maps to score `0.5` |
+| Loaded parameters | `429,414,469` |
 
-## Score versus decision
-
-The released CLI deliberately emits a score rather than a hard label. The
-historical default decision threshold is `0.5`. V1 selected
-`0.2874746155139839` on calibration data for a more balanced operating point,
-then evaluated it once on protected final data. Changing this threshold changes
-recall, precision, specificity, F1, and balanced accuracy; it cannot change
-ROC-AUC because it does not change score ordering.
-
-The V2 disagreement-aware stack is not part of this production diagram. It was
-retained as retrospective experimental evidence only after failing every
-leave-one-dataset-out guardrail.
+This is not the retired four-expert probability mean. It also is not a
+clean-room model: Expert 4 remains upstream research and the current heads are
+research artifacts pending a rights-clean retrain.

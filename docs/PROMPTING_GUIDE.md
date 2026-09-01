@@ -17,7 +17,7 @@ report when the task needs challenge or method detail.
 | Edit the judge-first `/journey` route | `AGENTS.md`, `docs/AI_CONTEXT.md`, `landing-page/app/journey/`, relevant benchmark and release sources |
 | Edit diagrams or technical documentation | `AGENTS.md`, `docs/AI_CONTEXT.md`, relevant source files, `landing-page/public/diagrams/` |
 | Change CLI output or Track 5 submission JSON | `AGENTS.md`, `infer/cli.py`, `tests/test_cli_outputs.py`, `submission/REPRODUCE.md` |
-| Discuss benchmarks | `submission/BENCHMARKS.md`, relevant files in `submission/evidence/` |
+| Discuss selected-model benchmarks | `submission/BENCHMARKS.md`, `submission/evidence/test1/`, `submission/MODEL_CARD.md` |
 | Review source provenance | `docs/IMPLEMENTATION_PROVENANCE.md`, `docs/provenance/featdistill-upstream.json`, `NOTICE`, `scripts/check_source_provenance.py` |
 | Prepare a public release | `docs/IMPLEMENTATION_PROVENANCE.md`, `submission/RELEASE_AUDIT.md`, `submission/DATASETS_AND_RIGHTS.md`, `submission/THIRD_PARTY_NOTICES.md`, `STATUS.md` |
 
@@ -27,8 +27,8 @@ report when the task needs challenge or method detail.
 
 ```text
 Use docs/AI_CONTEXT.md as the project contract. Explain SynthFlag to a
-nontechnical teammate in five short sections: purpose, image flow, four-expert
-model, meaning of the score, and limitations. Keep paper facts, released-code
+nontechnical teammate in five short sections: purpose, image flow, frozen
+Expert 4 plus routed residual heads, meaning of the score, and limitations. Keep paper facts, released-code
 behavior, and local benchmark evidence clearly labeled.
 ```
 
@@ -90,6 +90,8 @@ evidence and human review.
   benchmarks, the hosted interface, or a proposed future design.
 - Ask for file-path citations when accuracy matters.
 - Give the AI the exact evidence JSON/Markdown file for metric questions.
+- Treat TEST1 as the selected-graph public development diagnostic. Treat V1/V2
+  as historical four-expert evidence and V3 as blocked.
 - Recheck `STATUS.md` and Git state for worktree or release questions because
   coordination facts can become stale.
 - Keep the site roles distinct: `/journey` is the judge narrative and

@@ -25,9 +25,9 @@ wheel or source distribution.
 
 | Component | Evidence | Release treatment |
 |---|---|---|
-| OpenAI CLIP implementation | The official [CLIP repository](https://github.com/openai/CLIP) declares MIT for its code. Its [ViT-L/14 model card](https://huggingface.co/openai/clip-vit-large-patch14) documents research-oriented use and deployment limitations. | Attribute OpenAI and follow the model card. The code license alone is not treated as proof that every derivative checkpoint is redistributable. |
 | Google SigLIP base model | The [`google/siglip-so400m-patch14-384` model card](https://huggingface.co/google/siglip-so400m-patch14-384) declares Apache-2.0 and identifies WebLI training. | Preserve attribution and the Apache-2.0 terms when redistributing covered base-model material. |
-| Four FeatDistill `Expert_*.pth` files | Architecture and hashes are documented locally; the files are obtained from an external mirror. No explicit fine-tuned-checkpoint redistribution license was located in the audited public materials. | Not included in Git or the submission archive. Do not re-upload or bundle without written permission from the checkpoint rights holder. |
+| FeatDistill `Expert_4_siglip.pth` | Architecture and hash are documented locally; the file is obtained from the authors' external checkpoint release. No explicit fine-tuned-checkpoint redistribution license was located in the audited public materials. | Required by the selected graph, but not included in Git or the submission archive. Do not re-upload or bundle without permission. |
+| Three SynthFlag residual heads | Project-trained head artifacts distributed as a separate research bundle. Their large-image training lineage contains unresolved item-level data rights. | Not included in Git. Treat as research-only pending rights-clean retraining; the bundle link is not a commercial-clearance statement. |
 | FeatDistill method | [Technical report, arXiv:2603.21939](https://arxiv.org/abs/2603.21939) | Cite the authors; do not relabel the detector architecture or checkpoints as original SynthFlag research. |
 
 ## Historical source lineage
