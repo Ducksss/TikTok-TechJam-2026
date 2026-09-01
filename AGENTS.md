@@ -102,9 +102,11 @@ research, use the prompt-friendly FeatDistill
 - Treat TEST1 as a completed public development diagnostic, not the locked
   TikTok test. Preserve the retired V1/V2/V3 four-expert results as historical
   evidence only. A dash means unavailable, not zero; V3 remains blocked.
-- The selected graph is research-only pending a rights-clean retrain. Its
-  benchmark-aware `<=64` route and unresolved large-head data rights must remain
-  visible in the model card and submission evidence.
+- The project owner accepts the collaborator's attestation that the residual
+  heads and their training inputs are rights-cleared for project use. Describe
+  that status as teammate-attested, not independently audited. Keep the
+  benchmark-aware `<=64` route, separate Expert 4 redistribution boundary, and
+  organizer-eligibility uncertainty visible in the model card and evidence.
 - Do not infer final metrics from partial caches, one-image checks, framework
   tests, or specifications.
 - Never train, tune, select checkpoints, calibrate, or select thresholds using

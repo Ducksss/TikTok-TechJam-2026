@@ -39,6 +39,10 @@ The selected runtime is the Expert 4 plus three-head native-size graph described
 in `AI_CONTEXT.md`. Older four-expert diagrams and V1/V2 evidence are historical
 unless they have been explicitly revised for the selected graph.
 
+Residual-head rights are collaborator-attested and accepted by the project
+owner. That status does not independently audit licenses, grant Expert 4
+redistribution, or establish organizer eligibility.
+
 The primary public routes have separate jobs: `/journey` is the judge-first
 project narrative and `/documentation` is the unified readable technical
 appendix, evidence guide, and deepest model and system atlas. The legacy

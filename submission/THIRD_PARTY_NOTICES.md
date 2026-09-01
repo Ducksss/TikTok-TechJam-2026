@@ -27,7 +27,7 @@ wheel or source distribution.
 |---|---|---|
 | Google SigLIP base model | The [`google/siglip-so400m-patch14-384` model card](https://huggingface.co/google/siglip-so400m-patch14-384) declares Apache-2.0 and identifies WebLI training. | Preserve attribution and the Apache-2.0 terms when redistributing covered base-model material. |
 | FeatDistill `Expert_4_siglip.pth` | Architecture and hash are documented locally; the file is obtained from the authors' external checkpoint release. No explicit fine-tuned-checkpoint redistribution license was located in the audited public materials. | Required by the selected graph, but not included in Git or the submission archive. Do not re-upload or bundle without permission. |
-| Three SynthFlag residual heads | Project-trained head artifacts distributed as a separate research bundle. Their large-image training lineage contains unresolved item-level data rights. | Not included in Git. Treat as research-only pending rights-clean retraining; the bundle link is not a commercial-clearance statement. |
+| Three SynthFlag residual heads | Project-trained head artifacts distributed as a separate bundle. The collaborator attests that the heads and their training inputs are rights-cleared, and the project owner accepts that attestation. | Not included in Git. Treat rights as teammate-attested rather than independently audited; this does not clear upstream Expert 4 redistribution or organizer eligibility. |
 | FeatDistill method | [Technical report, arXiv:2603.21939](https://arxiv.org/abs/2603.21939) | Cite the authors; do not relabel the detector architecture or checkpoints as original SynthFlag research. |
 
 ## Historical source lineage

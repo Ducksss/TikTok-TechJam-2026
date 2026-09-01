@@ -41,9 +41,10 @@ matching.
 ## Rights and eligibility boundary
 
 Expert 4 remains upstream FeatDistill research. Its redistribution permission
-is not established by the source-code license. The three residual heads are a
-research artifact pending a rights-clean retrain: the large-image lineage
-contains unresolved training-data license rows documented in
-[`submission/MODEL_CARD.md`](../submission/MODEL_CARD.md). Do not mirror or
-represent these weights as commercially cleared, organizer-approved, or wholly
-original SynthFlag research.
+is not established by the source-code license. The project owner accepts the
+collaborator's attestation that the three residual heads and their training
+inputs are rights-cleared for project use. That attestation is not an
+independent license audit and does not clear Expert 4 redistribution or
+organizer eligibility. See
+[`submission/MODEL_CARD.md`](../submission/MODEL_CARD.md); do not represent
+Expert 4 as wholly original SynthFlag research.

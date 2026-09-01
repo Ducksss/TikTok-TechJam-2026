@@ -351,12 +351,12 @@ export default function Documentation() {
             </SectionHeading>
             <div className="docs-consideration-grid">
               <div>
-                <EvidenceTag kind="guidance">Research only</EvidenceTag>
-                <h3>Rights-clean retrain required</h3>
+                <EvidenceTag kind="guidance">Owner accepted</EvidenceTag>
+                <h3>Collaborator rights attestation</h3>
                 <p>
-                  The large-head lineage contains unresolved Open Images and
-                  guided-diffusion/BigGAN rows. Current heads are not presented
-                  as commercially cleared.
+                  The collaborator attests that the residual heads and training
+                  inputs are rights-cleared for project use. The project owner
+                  accepts that assurance; it was not independently audited here.
                 </p>
               </div>
               <div>

@@ -373,8 +373,10 @@ export default function JourneyPage() {
               <p className="journey-credit-note">
                 FeatDistill/UESTC supplied Expert 4 and its detector training.
                 SynthFlag does not claim to originate or train that checkpoint.
-                The residual heads and routing are project artifacts, but they
-                remain research-only pending a rights-clean retrain.
+                The residual heads and routing are project artifacts with a
+                collaborator rights attestation accepted by the project owner.
+                Expert 4 redistribution and organizer eligibility remain
+                separate.
               </p>
             </div>
 

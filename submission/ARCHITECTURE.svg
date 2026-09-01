@@ -56,5 +56,5 @@
   <path d="M900 590 V625 H600 V670" class="arrow"/>
 
   <rect x="60" y="830" width="1080" height="42" rx="12" class="warn"/>
-  <text x="80" y="857" class="body">Rights/eligibility boundary: Expert 4 is upstream; residual heads remain research-only pending rights-clean retraining.</text>
+  <text x="80" y="857" class="body">Rights boundary: residual heads are teammate-attested and owner-accepted; Expert 4 redistribution remains separate.</text>
 </svg>

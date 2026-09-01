@@ -6,6 +6,7 @@
   "status": "completed_public_development_diagnostic",
   "locked_tiktok_test_evaluated": false,
   "selected_graph": "expert4-three-head-native-size-router-v1",
+  "residual_head_rights_status": "project_owner_accepted_teammate_attestation",
   "source_hashes": {
     "metrics_full.csv": "fcf8341f212d965443acad44cbc4e4b1e94b1a66810ac32a1c264f2e5c2c96ea",
     "robustness_deltas.csv": "75080268cd6c6aad403387d5fa8cb457258c613f34e414aa61dd0908b5b4cb24",
@@ -21,6 +22,7 @@
     "public suites were inspected during earlier development",
     "native longest side routing is benchmark-aware",
     "replay used cached Expert 4 features and is not a latency benchmark",
-    "selected heads are research-only pending rights-clean retraining"
+    "residual-head rights are teammate-attested, not independently audited",
+    "Expert 4 redistribution and organizer eligibility remain separate"
   ]
 }

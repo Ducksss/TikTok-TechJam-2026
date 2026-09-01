@@ -149,10 +149,12 @@ Advanced source is absent.
 
 ## Rights, eligibility, and provenance
 
-- The selected graph is a research artifact pending a rights-clean retrain.
-- The large-image head lineage includes a 9,311-image Open Images bulk tranche
-  without item-level verification and 986 guided-diffusion/BigGAN sample pixels
-  without an explicit data-specific license; 682 of those entered gradients.
+- The project owner accepts the collaborator's attestation that the three
+  residual heads and their training inputs are rights-cleared for project use.
+  This is teammate-attested rather than independently license-audited.
+- The disclosed lineage includes a 9,311-image Open Images bulk tranche and 986
+  guided-diffusion/BigGAN sample pixels, 682 of which entered gradients. The
+  collaborator's attestation resolves the prior retrain gate for project use.
 - WildFake remains evaluation-only; no benchmark pixels are redistributed.
 - Expert 4 redistribution permission is unproven. A base SigLIP license does
   not automatically license the FeatDistill fine-tune.
@@ -169,14 +171,15 @@ Prefer:
 - “SynthFlag uses a frozen FeatDistill Expert 4 representation with three
   project-trained residual heads.”
 - “TEST1 is a completed public development diagnostic.”
-- “The selected artifact is research-only pending rights-clean retraining.”
+- “Residual-head rights are collaborator-attested and accepted by the project
+  owner; they were not independently license-audited in this repository.”
 - “A score supports review and must not be treated as proof.”
 
 Avoid:
 
 - “SynthFlag trained or invented Expert 4.”
 - “The model passed TikTok's hidden test.”
-- “The current weights are commercially cleared or organizer-approved.”
+- “Expert 4 redistribution or organizer eligibility is cleared.”
 - “CIFAKE routing demonstrates unknown-domain generalization.”
 - “The older four-expert V1/V2 metrics validate the selected TEST1 graph.”
 

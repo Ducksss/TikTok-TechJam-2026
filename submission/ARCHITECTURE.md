@@ -26,4 +26,6 @@
 
 This is not the retired four-expert probability mean. It also is not a
 clean-room model: Expert 4 remains upstream research and the current heads are
-research artifacts pending a rights-clean retrain.
+project artifacts whose rights-clearance attestation from the collaborator is
+accepted by the project owner. That attestation is not an independent license
+audit and does not clear Expert 4 redistribution or organizer eligibility.

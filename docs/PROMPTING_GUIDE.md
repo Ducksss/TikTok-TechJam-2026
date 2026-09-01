@@ -92,6 +92,9 @@ evidence and human review.
 - Give the AI the exact evidence JSON/Markdown file for metric questions.
 - Treat TEST1 as the selected-graph public development diagnostic. Treat V1/V2
   as historical four-expert evidence and V3 as blocked.
+- Describe residual-head rights as collaborator-attested and project-owner
+  accepted, not independently audited. Keep Expert 4 redistribution and
+  organizer eligibility as separate unresolved questions.
 - Recheck `STATUS.md` and Git state for worktree or release questions because
   coordination facts can become stale.
 - Keep the site roles distinct: `/journey` is the judge narrative and

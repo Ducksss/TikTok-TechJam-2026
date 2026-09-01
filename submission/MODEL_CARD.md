@@ -1,6 +1,6 @@
 # SynthFlag TEST1 routed residual detector — model card
 
-**Status:** frozen research baseline pending rights-clean retraining
+**Status:** frozen baseline; collaborator rights attestation accepted by project owner
 
 **Date:** 1 September 2026
 
@@ -8,7 +8,7 @@
 
 **Locked TikTok test:** not accessed
 
-**Commercial and competition eligibility:** not established
+**Expert 4 redistribution and competition eligibility:** not established
 
 ## Model
 
@@ -70,11 +70,11 @@ costs.
 
 ## Rights and eligibility
 
-The current heads are not commercially cleared. The large-image lineage
-includes a 9,311-image Open Images bulk tranche without item-level license
-verification and 986 guided-diffusion/BigGAN sample pixels without an explicit
-data-specific license; 682 of those entered gradients. A strict commercial
-release must reverify or replace those rows and retrain.
+The project owner accepts the collaborator's attestation that the residual
+heads and their training inputs are rights-cleared for project use. This is an
+accepted teammate attestation, not an independent license audit. The disclosed
+large-image lineage includes a 9,311-image Open Images bulk tranche and 986
+guided-diffusion/BigGAN sample pixels, 682 of which entered gradients.
 
 Expert 4 redistribution authorization is unproven and the binary is not in Git.
 Under the relayed Track 5 restriction against an existing AIGC detector, this
@@ -82,6 +82,7 @@ system may be ineligible unless organizers explicitly clear it.
 
 ## Required next step
 
-Retrain from organizer-approved general-purpose backbones or from scratch on a
-strict commercial allowlist, freeze model and threshold before a new
-source/generator-disjoint audit, and issue new artifact hashes.
+Obtain explicit Expert 4 redistribution and organizer-eligibility clearance
+before bundling the upstream checkpoint or claiming competition approval.
+Preserve the collaborator's supporting rights records and required attribution
+outside the public Git tree.

@@ -83,8 +83,9 @@ It is a public development diagnostic, not TikTok's hidden test.
 
 The complete [benchmark table](submission/BENCHMARKS.md) records TEST1 limits
 and keeps the older four-expert V1/V2 studies explicitly historical. The
-`<=64` route is benchmark-aware and the current heads remain research-only
-pending a rights-clean retrain.
+`<=64` route is benchmark-aware. The project owner accepts the collaborator's
+attestation that the residual heads and their training inputs are rights-cleared
+for project use; that attestation was not independently license-audited here.
 
 ## Architecture
 
@@ -360,7 +361,9 @@ snapshot.
 This Git repository intentionally excludes Expert 4 and the three residual heads,
 dataset pixels, private split rows, and per-image protected-evaluation scores.
 The artifact links are external sources, not redistribution grants. The heads
-also have unresolved training-data rights, so they are not commercially cleared. Read
+carry a collaborator rights-clearance attestation accepted by the project owner.
+That attestation does not clear redistribution of upstream Expert 4 or establish
+organizer eligibility. Read
 the [model card](submission/MODEL_CARD.md),
 [dataset and rights inventory](submission/DATASETS_AND_RIGHTS.md),
 [third-party notices](submission/THIRD_PARTY_NOTICES.md), and

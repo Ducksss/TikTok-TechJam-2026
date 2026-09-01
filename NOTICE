@@ -19,8 +19,9 @@ Model and artifact attribution
 The selected runtime uses the upstream FeatDistill Expert 4 SigLIP checkpoint
 as a frozen feature encoder and teacher. SynthFlag does not claim authorship or
 training of that checkpoint. The selected residual heads and routing graph are
-project artifacts, but they remain research-only pending the rights-clean
-retrain documented in submission/MODEL_CARD.md.
+project artifacts. The project owner accepts the collaborator's attestation
+that the residual heads and their training inputs are rights-cleared for project
+use; this repository does not claim an independent license audit.
 
 Checkpoint binaries, benchmark pixels, and protected per-image scores are not
 distributed in this Git repository. External artifact links are access

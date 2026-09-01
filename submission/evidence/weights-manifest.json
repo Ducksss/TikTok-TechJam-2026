@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "graph": "expert4-three-head-native-size-router-v1",
-  "status": "research_artifact_pending_rights_clean_retrain",
+  "status": "project_owner_accepted_teammate_rights_attestation",
   "files": {
     "Expert_4_siglip.pth": {
       "size_bytes": 1714282825,

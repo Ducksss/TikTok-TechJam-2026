@@ -24,5 +24,6 @@ supplied evidence package. `source.json` binds those copies to their original
 source hashes and states the evidence limitations.
 
 TEST1 is a public development diagnostic, not TikTok's locked test. The
-benchmark-aware low-resolution route and research-only rights status must stay
-attached to every use of these results.
+benchmark-aware low-resolution route and collaborator-attested, project-owner
+accepted residual-head rights status must stay attached to every use of these
+results. The attestation is not an independent license audit.

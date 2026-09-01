@@ -91,4 +91,6 @@ rerun image pixels through Expert 4 and does not establish latency or VRAM.
   final-evaluation rows.
 - Checkpoint binaries, dataset pixels, local paths, private rows, and protected
   per-image scores must remain outside Git.
-- The selected heads are research-only pending a rights-clean retrain.
+- Residual-head rights are collaborator-attested and project-owner accepted,
+  not independently license-audited here. Expert 4 redistribution and
+  organizer eligibility remain separate.

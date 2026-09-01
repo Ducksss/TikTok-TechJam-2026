@@ -31,7 +31,8 @@ Track 5 `predictions.json` records containing exactly `image_path` and `pred`.
 TEST1 evaluates 15,000 unique public images clean and under deterministic
 composite corruption. Descriptive macro AUC is `0.9324` clean and `0.8773`
 composite. TEST1 is not TikTok's hidden test, the route is benchmark-aware, and
-the heads remain research-only pending a rights-clean retrain.
+residual-head rights are collaborator-attested and accepted by the project
+owner rather than independently audited in this repository.
 
 Older V1/V2 files measure the retired four-expert probability-mean runtime and
 are retained only for audit history. V3 remains blocked; no missing result has

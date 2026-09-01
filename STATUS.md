@@ -42,6 +42,7 @@ inside `/documentation`.
 | Evidence | State | Boundary |
 |---|---|---|
 | TEST1 selected-graph diagnostic | Available | 15,000 unique public sources and 30,000 clean/composite evaluations across CIFAKE, SID-Set, and WildFake; public suites were previously inspected and the resolution route is benchmark-aware. |
+| Residual-head rights | Attested | The project owner accepts the collaborator's rights-clearance attestation for the project-trained heads and their training inputs; this is not an independent license audit and does not clear Expert 4 redistribution or organizer eligibility. |
 | V1/V2 four-expert studies | Historical | Evidence for the retired four-expert runtime; not evidence for the selected TEST1 graph. |
 | V3 | **Blocked** | Exact organizer 8,843-image DALL-E Advanced source absent; no substitute and no metric. |
 

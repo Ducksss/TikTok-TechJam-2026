@@ -69,7 +69,9 @@ The intervals use 2,000 stratified source-level paired bootstrap resamples.
   a fresh end-to-end latency or VRAM benchmark.
 - SID local tampering is frequently missed. WildFake composite specificity is
   weak and produces 861 false positives at the reported boundary.
-- The selected heads are research-only pending rights-clean retraining.
+- Residual-head rights are collaborator-attested and project-owner accepted,
+  not independently license-audited in this repository. Expert 4
+  redistribution and organizer eligibility remain separate questions.
 - Use of an existing FeatDistill detector may require explicit organizer
   clearance under the relayed Track 5 eligibility rule.
 

@@ -31,20 +31,24 @@ scores. Access to a dataset is not the same as permission to redistribute it.
 - No protected labels or per-image scores may be used for training, feature
   selection, checkpoint choice, calibration, or threshold tuning.
 
-## Selected-head commercial gate
+## Selected-head rights attestation
 
-The current residual heads are research artifacts, not commercially cleared.
-The large-image training lineage includes:
+The project owner accepts the collaborator's attestation that the residual
+heads and their training inputs are rights-cleared for project use. The
+repository records that decision as teammate-attested, not independently
+license-audited. The disclosed large-image training lineage includes:
 
 - a 9,311-image Open Images bulk tranche with source-level CC BY assertions but
   without item-by-item verification; and
 - 986 precomputed guided-diffusion/BigGAN sample pixels without an explicit
   data-specific license, 682 of which entered the gradient split.
 
-A rights-clean release must reverify or replace every unresolved row, export
-required attribution, retrain the affected heads, rerun an untouched audit, and
-issue new hashes. Expert 4 is a separate checkpoint rights/eligibility gate;
-clearing training pixels does not clear the upstream fine-tune.
+The accepted attestation removes the prior rights-clean-retrain gate for the
+residual heads. Supporting license or permission records are not included in
+this Git tree, so future distributors should retain the collaborator's source
+records and required attribution. Expert 4 remains a separate checkpoint
+rights/eligibility gate; residual-head clearance does not clear the upstream
+fine-tune or establish organizer approval.
 
 ## Requirements for any future public dataset artifact
 

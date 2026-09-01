@@ -9,10 +9,11 @@ exclusions and explicit historical provenance.** The release is suitable for
 publication because byte-identical upstream runtime/training source,
 checkpoint binaries, dataset pixels, private split rows, and per-image
 protected scores are not tracked in the current tree. Those exclusions are
-mandatory: the audit did not establish a
-redistribution grant for Expert 4, the research-only residual heads, SID-Set, WildFake as
-a combined dataset, COCO image pixels as a collection, or the private
-organizer DALL-E Advanced set.
+mandatory: the audit did not establish a redistribution grant for Expert 4,
+SID-Set, WildFake as a combined dataset, COCO image pixels as a collection, or
+the private organizer DALL-E Advanced set. The project owner separately accepts
+the collaborator's rights-clearance attestation for the residual heads and
+their training inputs; the audit records but did not independently verify it.
 
 This is a technical release-readiness verdict, not a legal opinion.
 
@@ -25,7 +26,7 @@ This is a technical release-readiness verdict, not a legal opinion.
 | Current implementation boundary | Inference, preprocessing, checkpoints, outputs, and CLI were rewritten into repository-authored modules; unused copied distortion utilities were removed. The later `synthflag_augment/` development package uses a separate namespace, API, structure, and reproducibility contract and remains outside inference. This is expressly not called a clean-room implementation. | **Pass** |
 | Dependency attribution | Pinned runtime dependencies are listed with declared licenses and primary license URLs in `THIRD_PARTY_NOTICES.md`. | **Pass** |
 | Base-model attribution | SigLIP identifiers, model card, license/limitations, and FeatDistill Expert 4 lineage are documented. | **Pass** |
-| Checkpoint and head permission | Expert 4 redistribution is unproven and the residual heads have unresolved training-data rights; `.gitignore` excludes model formats and the Git tree contains no binary. | **Pass by exclusion for source release; model remains research-only** |
+| Checkpoint and head permission | Expert 4 redistribution is unproven. Residual-head rights are collaborator-attested and project-owner accepted rather than independently audited; `.gitignore` excludes model formats and the Git tree contains no binary. | **Pass by exclusion for Expert 4; head attestation accepted** |
 | Dataset attribution | CIFAKE, SID-Set, WildFake, COCO, and organizer DALL-E roles and rights evidence are documented. | **Pass** |
 | Dataset redistribution | No dataset pixels, captions, masks, prompts, or private row-level manifests are tracked. Ambiguous sources are non-redistributable by policy. | **Pass by exclusion** |
 | Model card | Intended uses, out-of-scope uses, data statement, metrics, thresholds, limitations, integrity, and responsible operation are documented in `MODEL_CARD.md`. | **Pass** |
@@ -79,8 +80,9 @@ Excluded from the public Git release:
 
 ## Residual boundaries
 
-- The selected large-image heads require a rights-clean retrain before any
-  commercial-clearance claim.
+- Residual-head rights rely on a collaborator attestation accepted by the
+  project owner; supporting license records were not independently audited in
+  this repository.
 - The audit did not reconstruct the complete training-data provenance of
   upstream Expert 4.
 - It did not perform trademark clearance for the SynthFlag name or artwork.
