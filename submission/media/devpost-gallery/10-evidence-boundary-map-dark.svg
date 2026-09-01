@@ -93,6 +93,6 @@
 <text x="261.0" y="889.76" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle" letter-spacing="0.7">CLAIM RULE</text>
 <text x="378" y="895" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="25" font-weight="800" fill="#F8FAFF" text-anchor="start">Paper facts ≠ code behavior ≠ protected results ≠ planned work.</text>
 <line x1="64" y1="970" x2="1472" y2="970" stroke="#2A4672" stroke-width="1.5" stroke-linecap="round"/>
-<text x="64" y="998" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="15" font-weight="500" fill="#AFC2E2" text-anchor="start">Source: AGENTS.md • submission/BENCHMARKS.md • docs/IMPLEMENTATION_PROVENANCE.md</text>
+<text x="64" y="998" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="15" font-weight="500" fill="#AFC2E2" text-anchor="start">Source: AGENTS.md • submission/BENCHMARKS.md • submission/THIRD_PARTY_NOTICES.md</text>
 <text x="1472" y="998" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="15" font-weight="700" fill="#79A8FF" text-anchor="end">Evidence before certainty</text>
 </svg>

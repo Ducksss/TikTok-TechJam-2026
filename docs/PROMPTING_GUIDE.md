@@ -18,8 +18,8 @@ consult the papers when the task needs challenge or method detail.
 | Edit diagrams or technical documentation | `AGENTS.md`, `docs/AI_CONTEXT.md`, relevant source files, `landing-page/public/diagrams/` |
 | Change CLI output or Track 5 submission JSON | `AGENTS.md`, `infer/cli.py`, `tests/test_cli_outputs.py`, `submission/REPRODUCE.md` |
 | Discuss selected-model benchmarks | `submission/BENCHMARKS.md`, `submission/evidence/test1/`, `submission/MODEL_CARD.md` |
-| Review source provenance | `docs/IMPLEMENTATION_PROVENANCE.md`, `submission/THIRD_PARTY_NOTICES.md`, `scripts/check_source_provenance.py` |
-| Prepare a public release | `docs/IMPLEMENTATION_PROVENANCE.md`, `submission/RELEASE_AUDIT.md`, `submission/DATASETS_AND_RIGHTS.md`, `submission/THIRD_PARTY_NOTICES.md`, `STATUS.md` |
+| Review attribution and licensing | `submission/THIRD_PARTY_NOTICES.md`, `submission/MODEL_CARD.md`, `scripts/check_source_provenance.py` |
+| Prepare a public release | `submission/RELEASE_AUDIT.md`, `submission/DATASETS_AND_RIGHTS.md`, `submission/THIRD_PARTY_NOTICES.md`, `STATUS.md` |
 
 ## Copy-paste prompts
 

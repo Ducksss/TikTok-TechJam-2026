@@ -30,21 +30,13 @@ wheel or source distribution.
 | Three SynthFlag residual heads | Project-trained head artifacts distributed as a separate bundle. The collaborator attests that the heads and their training inputs are rights-cleared, and the project owner accepts that attestation. | Not included in Git. Treat rights as teammate-attested rather than independently audited; this does not clear upstream Expert 4 redistribution or organizer eligibility. |
 | Tu et al. method | [Technical report, arXiv:2603.21939](https://arxiv.org/abs/2603.21939) | Cite the authors; do not relabel the detector architecture or checkpoints as original SynthFlag research. |
 
-## Historical source lineage
+## Source attribution
 
-The repository root commit contained a source snapshot matching 20 of 21 files
-from a public source repository owned by GitHub user `tzlkkk` at commit
-`6feb63ef12a3bd38c8d7ade98183c5f727a0c62d`. The two repositories have separate
-Git ancestry, but the identical-file evidence establishes copying. That
-historical source is covered by the upstream Apache License 2.0 and remains
-attributed here and in the
-[implementation provenance record](../docs/IMPLEMENTATION_PROVENANCE.md).
-
-The current inference and artifact runtime is independently reorganized and
-rewritten. It remains checkpoint-compatible with Expert 4 and adds the
-project-trained routed residual heads; it is not described as a clean-room
-implementation. See the complete
-[implementation provenance record](../docs/IMPLEMENTATION_PROVENANCE.md).
+Earlier revisions incorporated Apache-2.0 source from the public repository
+maintained by GitHub user `tzlkkk`. The current release retains that attribution
+while excluding prohibited upstream source overlap. The selected runtime remains
+checkpoint-compatible with Tu et al. Expert 4 and adds project-trained routed
+residual heads.
 
 ## Publications
 

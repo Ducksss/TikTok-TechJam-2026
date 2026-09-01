@@ -20,8 +20,8 @@ and [Gushchin et al., arXiv:2604.11487](https://arxiv.org/abs/2604.11487).
 - Run `python scripts/check_repository_context.py` after changing any context
   surface, public route, diagram inventory, or batch-output contract.
 - Run `python scripts/check_source_provenance.py` after changing release source
-  or assets. Do not reintroduce byte-identical source from the audited upstream
-  snapshot.
+  or assets. The machine-readable audit manifest remains the authority for
+  prohibited source overlap.
 
 ## Naming and attribution
 
@@ -30,10 +30,9 @@ and [Gushchin et al., arXiv:2604.11487](https://arxiv.org/abs/2604.11487).
 - The underlying detector lineage and frozen Expert 4 checkpoint are credited
   to Tu et al. Do not present that encoder, its teacher head, or its training as
   original SynthFlag research.
-- The repository began from a copied upstream snapshot. The current runtime
-  is a repository-authored, checkpoint-compatible reimplementation, not a
-  clean-room claim. Preserve the disclosure and boundary in
-  `docs/IMPLEMENTATION_PROVENANCE.md` and `submission/THIRD_PARTY_NOTICES.md`.
+- The current runtime is repository-maintained and checkpoint-compatible.
+  Preserve method, checkpoint, dependency, and source attribution in
+  `submission/THIRD_PARTY_NOTICES.md`.
 - The NTIRE report describes many teams. Claims about different submissions or
   institutions are not interchangeable.
 

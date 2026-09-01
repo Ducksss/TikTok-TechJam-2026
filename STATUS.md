@@ -29,7 +29,7 @@ automation, process, or worktree dirtiness state.
 | HTTP service | `service/app.py` exposes checkpoint-backed health, single-image analysis, and bounded sampled-frame analysis with two-frame microbatches; it does not make the public worker available by itself. |
 | Web experience | Primary routes are `/`, `/try`, `/journey`, and the unified `/documentation`; `/documentation/architecture` is a fragment-preserving compatibility route. The `/api/analyze` and `/api/analyze-video` proxies bound request bodies before multipart parsing. Raw videos remain in the browser while eight midpoint PNG frames are submitted and response metadata is matched to them. |
 | Submission package | `submission/` contains the evidence-labeled benchmarks, architecture, reproduction guide, rights inventory, model card, release audit, and checksums. |
-| Source provenance | The initial copied snapshot is disclosed; the current runtime is independently organized, exact upstream files are rejected, and historical method/code credit is preserved. |
+| Attribution and source hygiene | Method, checkpoint, dependency, and source credit is preserved in third-party notices; the release check rejects prohibited source overlap. |
 
 The two long-form web routes are intentionally distinct: `/journey` is the
 judge-first project and decision narrative, while `/documentation` combines

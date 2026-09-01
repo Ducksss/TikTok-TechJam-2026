@@ -729,7 +729,7 @@ def build_evidence_boundary_map(theme: Theme) -> str:
     svg.rect(150, 836, 1236, 100, fill=theme.card_alt, stroke=theme.line, radius=22)
     svg.pill(178, 866, 166, "CLAIM RULE", fill=theme.blue, text_color="#FFFFFF", height=38, size=14)
     svg.text(378, 895, "Paper facts ≠ code behavior ≠ protected results ≠ planned work.", size=25, weight=800)
-    add_footer(svg, "Source: AGENTS.md • submission/BENCHMARKS.md • docs/IMPLEMENTATION_PROVENANCE.md")
+    add_footer(svg, "Source: AGENTS.md • submission/BENCHMARKS.md • submission/THIRD_PARTY_NOTICES.md")
     return svg.finish()
 
 

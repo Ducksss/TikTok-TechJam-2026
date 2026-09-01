@@ -91,6 +91,5 @@ The package has a new namespace, public API, implementation structure, and
 reproducibility model. Attribution to Tu et al. remains required for
 the detector architecture and external checkpoints, but these augmentation
 utilities are not presented as upstream source or as a reconstruction of the
-paper-described training library. The historical finding and mechanical
-overlap guard remain documented in
-[`IMPLEMENTATION_PROVENANCE.md`](IMPLEMENTATION_PROVENANCE.md).
+paper-described training library. The repository source-hygiene check covers
+this package alongside the rest of the release tree.

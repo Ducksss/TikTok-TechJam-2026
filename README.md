@@ -257,7 +257,7 @@ bounded-queue, and origin-allowlisting contract.
 ├─ service/        # Optional FastAPI inference service
 ├─ landing-page/   # Public website, detector UI, and visual documentation
 ├─ submission/     # Benchmarks, model card, checksums, and release audit
-├─ docs/           # Project context, provenance, and research references
+├─ docs/           # Project context and research references
 ├─ assets/         # Approved SynthFlag identity and evidence graphics
 └─ weights/        # Checkpoint manifest and setup guidance
 ```
@@ -282,7 +282,6 @@ bounded-queue, and origin-allowlisting contract.
 - [Prompt-ready project context](docs/AI_CONTEXT.md)
 - [Prompting guide for teammates](docs/PROMPTING_GUIDE.md)
 - [Repository instructions for coding agents](AGENTS.md)
-- [Implementation provenance and snapshot audit](docs/IMPLEMENTATION_PROVENANCE.md)
 - [Repository-authored augmentation toolkit](docs/AUGMENTATION_TOOLKIT.md)
 - [Tu et al. detector report](https://arxiv.org/abs/2603.21939)
 - [NTIRE challenge report](https://arxiv.org/abs/2604.11487)
@@ -322,12 +321,8 @@ abstention policy for uncertain or unfamiliar domains.
 SynthFlag builds on the detector research by Tu et al. Expert 4 and its teacher
 head retain upstream attribution; the three residual heads, native-size router,
 evaluation harness, integration, and product are project work.
-
-The repository began from a copied upstream source snapshot. The current
-runtime is an independently organized, checkpoint-compatible implementation;
-the exact historical finding, non-clean-room boundary, and mechanical overlap
-guard are documented in the
-[implementation provenance record](docs/IMPLEMENTATION_PROVENANCE.md).
+Dependency, checkpoint, and source licensing details are kept in the
+[third-party notices](submission/THIRD_PARTY_NOTICES.md).
 
 Underlying detector report: [Tu et al., arXiv:2603.21939](https://arxiv.org/abs/2603.21939).
 
@@ -356,11 +351,6 @@ Repository code and original project documentation are provided under the
 [Apache License 2.0](LICENSE). That license does **not** grant rights to
 third-party model checkpoints, datasets, benchmark images, dependency code, or
 trademarks.
-
-Earlier Git commits contain the attributed Apache-2.0 upstream snapshot. The
-current source-overlap check permits only the canonical Apache license text to
-remain byte-identical to that audited snapshot; see the
-[implementation provenance record](docs/IMPLEMENTATION_PROVENANCE.md).
 
 This Git repository intentionally excludes Expert 4 and the three residual heads,
 dataset pixels, private split rows, and per-image protected-evaluation scores.

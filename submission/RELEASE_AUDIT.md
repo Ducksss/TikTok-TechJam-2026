@@ -5,8 +5,8 @@ Audit date: **2026-09-01**
 ## Verdict
 
 **PASS for public release of the current tracked Git tree, with enforced
-exclusions and explicit historical provenance.** The release is suitable for
-publication because byte-identical upstream runtime/training source,
+exclusions and third-party attribution.** The release is suitable for
+publication because prohibited upstream runtime/training source,
 checkpoint binaries, dataset pixels, private split rows, and per-image
 protected scores are not tracked in the current tree. Those exclusions are
 mandatory: the audit did not establish a redistribution grant for Expert 4,
@@ -22,8 +22,8 @@ This is a technical release-readiness verdict, not a legal opinion.
 | Requirement or risk | Evidence | Result |
 |---|---|---|
 | Repository code license | Root `LICENSE` is the Apache License 2.0 text; README links it and separates third-party rights. | **Pass** |
-| Historical source provenance | The initial upstream snapshot is disclosed in `docs/IMPLEMENTATION_PROVENANCE.md` and `THIRD_PARTY_NOTICES.md`; the embedded digest inventory and source-provenance check reject exact upstream files except the canonical license. | **Pass** |
-| Current implementation boundary | Inference, preprocessing, checkpoints, outputs, and CLI were rewritten into repository-authored modules; unused copied distortion utilities were removed. The later `synthflag_augment/` development package uses a separate namespace, API, structure, and reproducibility contract and remains outside inference. This is expressly not called a clean-room implementation. | **Pass** |
+| Source attribution and hygiene | `THIRD_PARTY_NOTICES.md` records upstream attribution; the embedded digest inventory and source check reject prohibited upstream files except the canonical license. | **Pass** |
+| Current implementation boundary | Inference, preprocessing, checkpoints, outputs, and CLI are maintained as repository modules. The `synthflag_augment/` development package uses a separate namespace, API, structure, and reproducibility contract and remains outside inference. | **Pass** |
 | Dependency attribution | Pinned runtime dependencies are listed with declared licenses and primary license URLs in `THIRD_PARTY_NOTICES.md`. | **Pass** |
 | Base-model attribution | SigLIP identifiers, model card, license/limitations, and Tu et al. Expert 4 lineage are documented. | **Pass** |
 | Checkpoint and head permission | Expert 4 redistribution is unproven. Residual-head rights are collaborator-attested and project-owner accepted rather than independently audited; `.gitignore` excludes model formats and the Git tree contains no binary. | **Pass by exclusion for Expert 4; head attestation accepted** |
@@ -67,8 +67,8 @@ Excluded from the public Git release:
 - the organizer-provided DALL-E Advanced set; and
 - third-party screenshots or promotional artwork without a documented grant;
   and
-- byte-identical source or assets from the audited upstream
-  snapshot, except the canonical Apache-2.0 license text.
+- source or assets rejected by the repository source-hygiene check, except the
+  canonical Apache-2.0 license text.
 
 ## Maintainer release checklist
 

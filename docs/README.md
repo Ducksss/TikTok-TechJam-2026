@@ -10,7 +10,6 @@ need repository context without reconstructing the project from chat history.
 | One high-signal project brief | [`AI_CONTEXT.md`](AI_CONTEXT.md) |
 | Copy-paste prompt patterns | [`PROMPTING_GUIDE.md`](PROMPTING_GUIDE.md) |
 | Automatic coding-agent guidance | [`../AGENTS.md`](../AGENTS.md) |
-| Implementation provenance and upstream snapshot audit | [`IMPLEMENTATION_PROVENANCE.md`](IMPLEMENTATION_PROVENANCE.md) |
 | Deterministic development-data augmentation | [`AUGMENTATION_TOOLKIT.md`](AUGMENTATION_TOOLKIT.md) |
 | Judge-first project and decision journey | [`../landing-page/app/journey/page.tsx`](../landing-page/app/journey/page.tsx) |
 | Detector technical report | [Tu et al., arXiv:2603.21939](https://arxiv.org/abs/2603.21939) |

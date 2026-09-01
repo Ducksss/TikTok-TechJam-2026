@@ -20,7 +20,6 @@ CONTEXT_FILES = (
 )
 
 PROVENANCE_FILES = (
-    "docs/IMPLEMENTATION_PROVENANCE.md",
     "scripts/upstream-source-audit.json",
     "submission/THIRD_PARTY_NOTICES.md",
     "scripts/check_source_provenance.py",

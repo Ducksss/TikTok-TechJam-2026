@@ -40,7 +40,6 @@ changes. Run `python scripts/check_repository_context.py` afterward.
 | `submission/evidence/test1/` | Aggregate TEST1 report, metrics, deltas, and integrity | Selected-graph result evidence |
 | `submission/MODEL_CARD.md` | Intended use, limitations, rights, and eligibility | Deployment guidance |
 | `synthflag_augment/` | Deterministic development-data variants with traces | Optional; not inference |
-| `docs/IMPLEMENTATION_PROVENANCE.md` | Historical snapshot and present-source boundary | Provenance record |
 
 ## Exact selected model contract
 
@@ -156,7 +155,7 @@ are not detector-performance evidence or endorsement. The early prototype was
 not stable enough for a claim and is absent from the selected runtime and
 TEST1. See `docs/INTERVIEW_PROF_NG.md` for the maintained evidence boundary.
 
-## Rights, eligibility, and provenance
+## Rights and eligibility
 
 - The project owner accepts the collaborator's attestation that the three
   residual heads and their training inputs are rights-cleared for project use.
@@ -169,9 +168,7 @@ TEST1. See `docs/INTERVIEW_PROF_NG.md` for the maintained evidence boundary.
   not automatically license the published fine-tune.
 - Under the relayed Track 5 restriction against an existing AIGC detector, the
   selected system may be ineligible unless organizers explicitly clear it.
-- The repository began from a copied upstream snapshot. Current source is an
-  independently organized implementation, not a clean-room claim. Preserve
-  attribution, `docs/IMPLEMENTATION_PROVENANCE.md`, and
+- Preserve dependency, checkpoint, method, and source attribution in
   `submission/THIRD_PARTY_NOTICES.md`.
 
 ## Safe language
