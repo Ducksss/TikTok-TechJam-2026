@@ -1,3 +1,6 @@
+<P>THE 4 LAYERS WEIGHTS ENSEMBLE AND 1 FINETUNED HEAD (you can pick any one of the heads all of them give relatively similar results) IS HERE - https://drive.google.com/drive/folders/1YPth1je92IaucRu3f8y50oxlAPcMqXuL?usp=sharing</P>
+
+
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="assets/brand/synthflag/17-dark-readme-hero.png">
