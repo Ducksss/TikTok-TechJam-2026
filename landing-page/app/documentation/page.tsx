@@ -98,8 +98,8 @@ export default function Documentation() {
             </p>
             <h1>One frozen teacher. Three residual heads. Two routes.</h1>
             <p>
-              The current detector records native image size, extracts one
-              Tu et al. Expert 4 representation, and applies a fixed routed
+              The current detector records native image size, extracts one Tu et
+              al. Expert 4 representation, and applies a fixed routed
               correction. This guide keeps its evidence and rights limits next
               to the technical details.
             </p>
@@ -264,8 +264,8 @@ export default function Documentation() {
                 </p>
                 <ul>
                   <li>
-                    <strong>Teacher:</strong> Tu et al. Expert 4, SigLIP
-                    So400M Patch14-384.
+                    <strong>Teacher:</strong> Tu et al. Expert 4, SigLIP So400M
+                    Patch14-384.
                   </li>
                   <li>
                     <strong>Margin:</strong> <code>logit[1] - logit[0]</code>.

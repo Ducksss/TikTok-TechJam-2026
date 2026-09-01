@@ -223,8 +223,8 @@ const sections: AtlasSection[] = [
           <code>duration_ms</code> fields.
         </p>
         <p>
-          SynthFlag still evaluates independent images. The video path does
-          not inspect audio, model motion, detect scenes, retain results, or use
+          SynthFlag still evaluates independent images. The video path does not
+          inspect audio, model motion, detect scenes, retain results, or use
           uploads for training or calibration.
         </p>
       </>
@@ -691,9 +691,9 @@ const sections: AtlasSection[] = [
         </p>
         <p>
           The DINOv3-7B backbone anatomy comes from Meta&apos;s official model
-          card and reference factory, not from SynthFlag code. Tu et al. evaluated
-          the earlier DINO family during backbone selection, then chose CLIP and
-          SigLIP for its final four-expert system.
+          card and reference factory, not from SynthFlag code. Tu et al.
+          evaluated the earlier DINO family during backbone selection, then
+          chose CLIP and SigLIP for its final four-expert system.
         </p>
       </>
     ),
@@ -760,9 +760,9 @@ const sections: AtlasSection[] = [
     ],
     lead: (
       <>
-        The paper describes how the method was trained. This repository
-        packages inference and public evidence, but it neither reproduces that
-        upstream trainer nor redistributes the four fine-tuned checkpoints.
+        The paper describes how the method was trained. This repository packages
+        inference and public evidence, but it neither reproduces that upstream
+        trainer nor redistributes the four fine-tuned checkpoints.
       </>
     ),
     bullets: [

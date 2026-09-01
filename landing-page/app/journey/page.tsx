@@ -371,9 +371,9 @@ export default function JourneyPage() {
                 </article>
               </div>
               <p className="journey-credit-note">
-                Tu et al. supplied Expert 4 and its detector training.
-                SynthFlag does not claim to originate or train that checkpoint.
-                The residual heads and routing are project artifacts with a
+                Tu et al. supplied Expert 4 and its detector training. SynthFlag
+                does not claim to originate or train that checkpoint. The
+                residual heads and routing are project artifacts with a
                 collaborator rights attestation accepted by the project owner.
                 Expert 4 redistribution and organizer eligibility remain
                 separate.
