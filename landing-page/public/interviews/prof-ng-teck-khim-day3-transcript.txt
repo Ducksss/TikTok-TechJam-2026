@@ -1,0 +1,539 @@
+SynthFlag Day 3 research interview transcript
+Interviewee: Professor Ng Teck Khim
+Date role: Day 3 of the SynthFlag hackathon sprint
+
+Editorial note: This is the automated transcript supplied by the team and may
+contain speech-recognition errors, including mistranscriptions of technical
+terms such as Bayer pattern and demosaicing. It preserves the interview from
+09:00 PM through Professor Ng's final goodbye at 09:24 PM. Post-call internal
+team chatter in the source recording is excluded because it is not part of the
+researcher interview. No statement below is treated as a final model result.
+
+--------------------------------------------------------------------------
+[09:00 PM] Teck_Khim: Hi, hi.
+
+[09:00 PM] Chai Pin Zheng: Very nice to meet you.
+
+[09:01 PM] Chai Pin Zheng: Uh, very, very happy, uh?
+
+[09:01 PM] Teck_Khim: Yes, okay. So, so I I earlier on, I misread, I mean, you misunderstood to your request. I thought you all had read the paper and then. And then, uh, try to implement and then you and you encounter some problems. But apparently, it was. Uh, you haven't read it.
+
+[09:01 PM] Prakash: Oh yeah, we have actually read it. Uh, it's just we're more curious about, um, the angle at which you approach this.
+
+[09:01 PM] Teck_Khim: Okay.
+
+[09:01 PM] Prakash: More so in that. Some things like, yeah.
+
+[09:01 PM] Teck_Khim: Okay, so, uh, do you understand the part on Bayer's pattern?
+
+[09:01 PM] Prakash: Yeah, so, uh, I think up to the point where, uh, are always more curious about because you mentioned how you use the vlm to reverse engineer, um, the pros. So, it's a bit confused about.
+
+[09:01 PM] Teck_Khim: Reverse engineer. Reverse engineer.
+
+[09:01 PM] Prakash: Yep, so.
+
+[09:02 PM] Chai Pin Zheng: Apologies! Can you add the two people in the in the team as well, they they want
+
+[09:02 PM] Prakash: Okay, sir.
+
+[09:02 PM] Chai Pin Zheng: to actually join the call?
+
+[09:02 PM] Teck_Khim: But what reverse engine are you talking about?
+
+[09:02 PM] Chai Pin Zheng: Prakash.
+
+[09:02 PM] Prakash: Yeah, yeah.
+
+[09:02 PM] Teck_Khim: What, what reverse engineer are you talking about?
+
+[09:02 PM] Chai Pin Zheng: Yep. Okay.
+
+[09:02 PM] Prakash: Yeah, Isaac, oh, Max. Do you want to ask about the how, how the data set was, uh, collected regarding the? Regarding how the vlm was used in the process.
+
+[09:02 PM] Chai Pin Zheng: Uh, anyways, so sorry, uh, I did really introduce myself as well as a team, so I apologies just. You just joined a meeting and we like to give you some context as of who we are. So, prakasha, have you done any relevant introductions yet?
+
+[09:02 PM] Prakash: No, you can go ahead first.
+
+[09:02 PM] Chai Pin Zheng: Yep, so high profile, um, my, I'm pinson, then. This is prakasha, especially as well as like Isaac Wong, so.
+
+[09:03 PM] Chai Pin Zheng: Uh, the reason for this call was that we are kind of interested to know. Like, for example, like, how do you all use like, for example? Uh, like, slice statistics in terms of like? Um, your methodology in terms of like Bayers like limosiac in order to kind of like to differentiate or how deal came to the realization that your crew actually use this mathematics to decode, whether it's actually. Uh, AI generator at all, so. The reason why we are interested in this call was that, um? As, you know, within nus, there's like those like, Tick Tock, uh, Tech gem? Hackathon and we are kind of kind of curious to know. Like, for example, what was your research like, like, methodology down the line, and like, what made you realize that this math could be applied to this field?
+
+[09:03 PM] Teck_Khim: Okay so, uh? Let me let me pull out the paper. Anyway, the code and all that is in GitHub. So, you're free to go and try it out. Let me share screen.
+
+[09:04 PM] Teck_Khim: I, I don't have that.
+
+[09:04 PM] Chai Pin Zheng: Do you have access to share the screen? Uh, don't exactly say it.
+
+[09:04 PM] Teck_Khim: Yeah, I don't. I think I probably don't have.
+
+[09:04 PM] Chai Pin Zheng: Yeah, okay, yeah, we see it, but I want to thank you for your time. Uh, I know that you want to ask me you at like 9 00 a.m., but we weren't really free. We had, like, uh, to one one, so really appreciated that you could meet us
+
+[09:04 PM] Teck_Khim: No, no, no, no, I use this one. Sorry, sorry, uh, it's not a not?
+
+[09:04 PM] Chai Pin Zheng: at 9pm.
+
+[09:04 PM] Teck_Khim: Sure correctly. Uh, allowed to kiss cream.
+
+[09:05 PM] Teck_Khim: Can you see, cannot? Uh, no, I think it's, I'm not doing it correctly. I'm not doing it correctly so.
+
+[09:05 PM] Chai Pin Zheng: I.
+
+[09:05 PM] Teck_Khim: Sorry, but uh.
+
+[09:05 PM] Chai Pin Zheng: No worries on that. No worries.
+
+[09:05 PM] Teck_Khim: But but, but you have the people with you, right?
+
+[09:05 PM] Prakash: Yeah.
+
+[09:05 PM] Chai Pin Zheng: Yep, uh.
+
+[09:05 PM] Teck_Khim: You see here, um?
+
+[09:05 PM] Chai Pin Zheng: Uh, so our team is kind of new into into this. But from our preliminary
+
+[09:05 PM] Teck_Khim: You understand you understand videos pattern?
+
+[09:05 PM] Chai Pin Zheng: research, what we discovered was that, uh, base pattern is basically like a decoding of, like, an image into its, uh.
+
+[09:05 PM] Teck_Khim: No, no, no, no, no, no, no? But, yes, yes, but you see for semiconductor, right, semiconductor, you put a semiconductor in, you put? You put. The. The lens in front of your your semiconductor detector. Conductor is getting is only the brightness is black and white pictures, right?
+
+[09:05 PM] Chai Pin Zheng: Yep.
+
+[09:06 PM] Chai Pin Zheng: Yep.
+
+[09:06 PM] Teck_Khim: Right, he's buying this over here. So, in order to get color, you put the filter in front. And then that's the biggest pattern. So some pixels get green colors. Some pixels got red color some pictures, so it's got blue color understand.
+
+[09:06 PM] Chai Pin Zheng: Yep, so you piece all these layers together to form a complete color picture.
+
+[09:06 PM] Teck_Khim: Then after that, after that, no, then, then you do interpolations. To fill up the RGB. And then combine them to become color images. You understand what I'm saying. Yeah, so, so, so if you look at the green one, green one has got more more pixels colored green than blue and red, right?
+
+[09:06 PM] Chai Pin Zheng: Correct?
+
+[09:06 PM] Teck_Khim: And the reason is because human eyes are more sensitive to green color.
+
+[09:06 PM] Chai Pin Zheng: Yep.
+
+[09:06 PM] Teck_Khim: Okay, so, so the the trick is this? For those pixels that are?
+
+[09:07 PM] Teck_Khim: Really sense. You even put color filter in front, right? So come, some some pixels will be getting, say green color. And then it wouldn't get any other color. And other pixels. You get right, other pixels blue. Now then, there are some other pixels. Uh, there are specific for green channel, right, green Channel. You can see that there are a lot of quite quite quite quite spots, right? 5.5 pixels, right? Five pixels are unsense. No, no signal there.
+
+[09:07 PM] Chai Pin Zheng: Yep. I.
+
+[09:07 PM] Teck_Khim: Right, so those locations are either red or blue.
+
+[09:07 PM] Chai Pin Zheng: Okay, yeah.
+
+[09:07 PM] Teck_Khim: Okay now, then then the proofs processing the base button. They use some kind of interpolation to fill up the white one.
+
+[09:07 PM] Chai Pin Zheng: Okay.
+
+[09:07 PM] Teck_Khim: Right?
+
+[09:07 PM] Chai Pin Zheng: Yep.
+
+[09:07 PM] Teck_Khim: Okay, now when you use interpolation, then the statistics is smoother, right?
+
+[09:07 PM] Chai Pin Zheng: Yep.
+
+[09:07 PM] Teck_Khim: Compared to the sense, the pixels they are sensed. So, that's why you see a lot of variants computation there.
+
+[09:07 PM] Chai Pin Zheng: Ah, so. I see.
+
+[09:07 PM] Teck_Khim: Yeah, that's that's. That's basically how, how it works.
+
+[09:08 PM] Chai Pin Zheng: Oh, so from this image, right? Your go to the individual pixel level afterwards. You're just like, try to do something to, like, reverse the interpolation.
+
+[09:08 PM] Teck_Khim: No, you don't. You don't reverse the pollution you look at the statistics. Because if this interpolation one, the statistics will be smoother, right?
+
+[09:08 PM] Chai Pin Zheng: Uh. Yep.
+
+[09:08 PM] Teck_Khim: The variance will be smaller, right?
+
+[09:08 PM] Chai Pin Zheng: Yep.
+
+[09:08 PM] Teck_Khim: Uh, so, so use that it was that clue.
+
+[09:08 PM] Chai Pin Zheng: Oh wow, actually, how do y'all manage to come up with this idea?
+
+[09:08 PM] Teck_Khim: Yeah. Oh, this one. Oh, this one was a this, uh, student. Actually, this student was not even doing fyp. He was my student in my class, and then he became my TA also, and then one. Finally, he actually, he said he got. He got some free time. You want to do some research work? Then we say, okay, when are we trying, trying, doing this, and then and then, I say, go and look at, uh, base pattern? Right?
+
+[09:08 PM] Chai Pin Zheng: High speed.
+
+[09:08 PM] Teck_Khim: So, yeah, he did it quite fast, actually, and.
+
+[09:09 PM] Teck_Khim: The result was pretty good. Yeah.
+
+[09:09 PM] Chai Pin Zheng: I.
+
+[09:09 PM] Teck_Khim: So, so initially, I thought, because at that time, I, we wanted to put, uh, put the code in GitHub, but I know that he was in the range to. Finish up with everything right to graduate and things like that. His undergrad student, by the way.
+
+[09:09 PM] Chai Pin Zheng: Oh, he's still in uni.
+
+[09:09 PM] Teck_Khim: No, no, he, I mean, he was undergrad student now elaborated. He's working now. So so, so I just tried my luck yesterday. I taxi, I say within within, we didn't post our code, right? Uh, because some students are asking. Then today, he replied me, he said. Yes, indeed, we have. So, that's why. That's why it's a guitar is a GitHub.
+
+[09:09 PM] Chai Pin Zheng: I.
+
+[09:09 PM] Teck_Khim: So you can go and go and test it out and see how?
+
+[09:09 PM] Chai Pin Zheng: Ken, I think we're just very shocked at your scores, because, uh, just to share a little bit. We, we are Computing in, for example, like the tiktok hackathon, right? So? I, I just shared that, cuz I think.
+
+[09:10 PM] Chai Pin Zheng: Maybe you might want to take a look at what we have done as well, and that was why we were so curious. How do you manage to get a score that was super high? And I think we saw, even though it was a sample size or maybe like 1224. Um, you may just write. The score was still pretty decent, which was why we decided to ask and reach out.
+
+[09:10 PM] Teck_Khim: Okay. When you see it's called right, did you use the the same Benchmark data set?
+
+[09:10 PM] Chai Pin Zheng: Uh, we did. Yeah.
+
+[09:10 PM] Prakash: So, our test data set was more towards using wildfix sids. And yeah, it's a
+
+[09:10 PM] Teck_Khim: Yeah, you, you, you cannot you. You cannot use different data set and compare.
+
+[09:10 PM] Prakash: different. Yeah.
+
+[09:10 PM] Teck_Khim: Uh, you cannot use data. Given this, you have to compare on the same data set.
+
+[09:11 PM] Chai Pin Zheng: I see.
+
+[09:10 PM] Teck_Khim: Right?
+
+[09:10 PM] Prakash: Actually, Pro. I was just curious, right? One of the questions we had was when, um.
+
+[09:11 PM] Prakash: When, when you implemented this, why do you choose to use EUC rather than other metrics like accuracy, Precision, average Precision, or? There are several other metrics. Do you have?
+
+[09:11 PM] Teck_Khim: Uh. Why do I use? The to choose because we want to compare with other papers.
+
+[09:11 PM] Prakash: Right, okay, makes sense.
+
+[09:11 PM] Teck_Khim: Yeah, so, so this kind of question, I mean, this kind of, uh? And you ask a very good question. Right, and my answer, my answer, is actually a lot of time a lot of time because you want to compare you want to compare with other people, so you use the same metric and the image was something. Actually, some Matrix doesn't really make sense on. For examples, the the there are some work on, uh, the blurring, for example. For example, then people use those kind of opaque to site log ratio or something. And you know?
+
+[09:12 PM] Teck_Khim: For the sake of having some quantitative data to compare. But, but I always tell my students the limit stance is actually, you get one blood picture, and after your process, can you still read the complete number? Can you read the complete number that's more important? And these are the things that some of the measures. The the metrics don't really capture.
+
+[09:12 PM] Prakash: Right?
+
+[09:12 PM] Teck_Khim: Right but but but but?
+
+[09:12 PM] Chai Pin Zheng: I.
+
+[09:12 PM] Teck_Khim: But you know you, you have to compare with other people's work, and then you just use the same same data set and then same same metric law and then compare.
+
+[09:12 PM] Chai Pin Zheng: I.
+
+[09:12 PM] Prakash: I think I think one more question I had, uh, try. You want to scroll all the way to the bottom? Um, so I think there was.
+
+[09:12 PM] Chai Pin Zheng: Yep.
+
+[09:12 PM] Prakash: All the way all the way. So I think all the way at the bottom there was, um. Uh, for, uh, for the research paper? There was different, uh? Means as to you guys. Use 20 different generators to generate the synthetic data if I'm not wrong. Um and.
+
+[09:12 PM] Teck_Khim: I can't remember that. I can't remember how many data sets we generate?
+
+[09:12 PM] Prakash: Okay.
+
+[09:13 PM] Prakash: It was like 400,000, so I was wondering, is this? Was this used, like, do you use NES compute, or how? How did like? Right?
+
+[09:13 PM] Teck_Khim: No, no, we didn't use those kind of. Very hard because this is not deep learning base. So we don't need to use a lot of those gpus.
+
+[09:13 PM] Chai Pin Zheng: I see.
+
+[09:13 PM] Teck_Khim: Yeah.
+
+[09:13 PM] Prakash: Okay, okay.
+
+[09:13 PM] Teck_Khim: In fact, that is what we are. I feel quite proud of. Yeah.
+
+[09:13 PM] Chai Pin Zheng: Yeah, we you realized that it was fully almost like mathematical that there
+
+[09:13 PM] Teck_Khim: Yeah. Yeah.
+
+[09:13 PM] Chai Pin Zheng: wasn't really a lot of like?
+
+[09:13 PM] Teck_Khim: But okay, can I? Can I check with you? What is the nature of your competition, they they have the they set this problem? Is it this fake imagery direction as a topic? Is it?
+
+[09:13 PM] Chai Pin Zheng: Yes, so just to share with you don't have a challenge. So it's a robot AI
+
+[09:13 PM] Teck_Khim: Okay. Sorry.
+
+[09:13 PM] Chai Pin Zheng: generated image detection.
+
+[09:13 PM] Teck_Khim: Okay, so, so, so, so just just just warn you? Deep learning learning metals gets better and better.
+
+[09:14 PM] Teck_Khim: Right, and then these are tested on the Benchmark data sets that we have. Now, you generally using new techniques and new new data sets and new new generations and things like that. I do not know how well it works already. For example. For example, if I know there are detectors like that, then when a general images generate these characteristics of?
+
+[09:14 PM] Chai Pin Zheng: But the generator images can bypass this. I mean, like, given this right? The AI will know how to interpolate all of this information together, like it's
+
+[09:14 PM] Teck_Khim: You see if this like diffusion diffusion model generation AI, right? They don't
+
+[09:14 PM] Chai Pin Zheng: critically.
+
+[09:14 PM] Teck_Khim: care about all this base pattern. But after generator ready, right? I can post, process it, and introduce the characteristic of base pattern, right? Then, then all this method will fail off. You know this detection and and detection and generation is all about. It's like a spear and the The Shield.
+
+[09:14 PM] Chai Pin Zheng: Yep.
+
+[09:14 PM] Teck_Khim: I know this method, then I, I got against it. Then you have a better method,
+
+[09:15 PM] Teck_Khim: nothing. So if if if I owe them right, if I want to, if I owe them, I know that methods
+
+[09:15 PM] Prakash: Right?
+
+[09:15 PM] Teck_Khim: like that exist. I use diffusion, generate my all my images. Then, after that, I focus process it now. I look at a great green, blue, and gray, right? I try to inject inject the characteristic. So, like a beer pattern, then you look real much.
+
+[09:15 PM] Chai Pin Zheng: I see.
+
+[09:15 PM] Teck_Khim: So, so is a is a is an ever-ending game?
+
+[09:15 PM] Chai Pin Zheng: I. I, I think that was what was very curious about. I was thinking, like, how come, y'all didn't want to go to market or commercialize this, considering that? Initially, there was some value in terms of like checking for AI detector images.
+
+[09:15 PM] Teck_Khim: Uh, this one, this one. When I did this one, I was thinking more in terms of, say, chord case.
+
+[09:16 PM] Chai Pin Zheng: Ah.
+
+[09:15 PM] Teck_Khim: Uh, court case, let's say, let's say, somebody cut and pay some images.
+
+[09:16 PM] Teck_Khim: So, if you cut and paste images right, you may not align the well. It may not align the base pattern. Well, you know what I'm saying? And that one will allow us to detect.
+
+[09:16 PM] Chai Pin Zheng: I see.
+
+[09:16 PM] Teck_Khim: Yeah, that's. That's the reason I started out with various pattern, because client and based you can tell.
+
+[09:16 PM] Chai Pin Zheng: Okay.
+
+[09:16 PM] Teck_Khim: So it's more like it's more like somebody take a picture and then, uh, go to court, you know. And then you want to see whether this picture has been docked.
+
+[09:16 PM] Chai Pin Zheng: Oh, it's like, Photoshop, like, regular guy.
+
+[09:16 PM] Teck_Khim: Yeah, I was, I was, I was thinking I was, I was thinking that kind of of the kind of applications?
+
+[09:16 PM] Chai Pin Zheng: I.
+
+[09:16 PM] Prakash: Okay.
+
+[09:16 PM] Teck_Khim: Yeah.
+
+[09:16 PM] Chai Pin Zheng: Okay.
+
+[09:16 PM] Teck_Khim: Right, but? So, so be careful. I mean, I mean, if the tick tock, they generally new images, like, I mean, they know this kind of, probably, they think some techniques exist to inject some? Ps pattern characteristic, then then, then all these things will fail us.
+
+[09:17 PM] Chai Pin Zheng: So, yeah, cost for our data set, right? They they warn us that they will use, like, like, for example, like, like, gosh, like gaussian blur, and all these different like Distortion method?
+
+[09:17 PM] Prakash: Transformations. Yeah.
+
+[09:17 PM] Chai Pin Zheng: A little bit are curious as well.
+
+[09:17 PM] Teck_Khim: Yes, yes. Yes, so, so we actually disturbed. The. The the statistics? Right, you know, just how I say, I say, interpolation is smoother?
+
+[09:17 PM] Chai Pin Zheng: Yep. Yep.
+
+[09:17 PM] Teck_Khim: The measure one is not so smooth, right? But you gaussen everything there everything is moved long.
+
+[09:17 PM] Chai Pin Zheng: Yeah.
+
+[09:17 PM] Teck_Khim: So, it all depends on how much gaussian blur they into this land.
+
+[09:17 PM] Chai Pin Zheng: I see in this case, I think.
+
+[09:17 PM] Teck_Khim: Uh, so, so this this is. These are the kind of things that is a very difficult.
+
+[09:17 PM] Prakash: Right?
+
+[09:17 PM] Chai Pin Zheng: It is a real issue now. Just to share. Like, we wanted to just use, like, for example, like, like deep
+
+[09:17 PM] Teck_Khim: Yeah.
+
+[09:17 PM] Chai Pin Zheng: learning models.
+
+[09:18 PM] Chai Pin Zheng: Uh, make sure it's true, like employees like a mixture of, not really like
+
+[09:17 PM] Teck_Khim: I see, do. Do they give you test data sets to play with us?
+
+[09:17 PM] Chai Pin Zheng: mixture of experts. But, like, uh, like a more like a summer, you know, picture?
+
+[09:18 PM] Prakash: Actually, they are their whole. Their whole thing is very, very end-to-end. They are grading it into and swimming to say we must create our own test data set to
+
+[09:18 PM] Teck_Khim: Oh, oh, I see.
+
+[09:18 PM] Prakash: eval the models on. So?
+
+[09:18 PM] Teck_Khim: Because if they give you tense data set to tense, what you can do is you get the
+
+[09:18 PM] Prakash: Very open-ended.
+
+[09:18 PM] Teck_Khim: code that my student posted, right, go and run on it as well.
+
+[09:18 PM] Chai Pin Zheng: I.
+
+[09:18 PM] Prakash: Right?
+
+[09:18 PM] Teck_Khim: Yeah. Yeah.
+
+[09:18 PM] Chai Pin Zheng: Yep.
+
+[09:18 PM] Prakash: Yeah, but it's not fixed, so this is not their.
+
+[09:18 PM] Teck_Khim: Is the diffusion generator one, I think?
+
+[09:18 PM] Chai Pin Zheng: Yep.
+
+[09:18 PM] Teck_Khim: Uh, the Keger one, maybe? Ai generated synthetic image, I don't know, is for a lot of diffusion models, I think.
+
+[09:18 PM] Chai Pin Zheng: Yeah, like.
+
+[09:18 PM] Teck_Khim: So, but this this are real and generated. They have ground truths, right?
+
+[09:18 PM] Chai Pin Zheng: Yep, they have a clean as well.
+
+[09:18 PM] Prakash: Yeah.
+
+[09:18 PM] Teck_Khim: Yeah, you. You can actually run on this. You can only run on this and see what happens.
+
+[09:19 PM] Prakash: Actually perform very well. We, uh, we tried running on this existing, so these
+
+[09:19 PM] Teck_Khim: Which one perform very well? Which one which one perform very well?
+
+[09:19 PM] Prakash: these three sets Sid said, well fake, and C fake right? These three they perform AUC 0.97, but the moment we switched it out into, uh?
+
+[09:19 PM] Teck_Khim: Sorry, sorry, sorry, broadcast. When you say you perform very well is which
+
+[09:19 PM] Prakash: Uh.
+
+[09:19 PM] Teck_Khim: method? Our method or other people's method.
+
+[09:19 PM] Prakash: So, uh, your the research paper. The method mentioned the research paper we tried to. We try to use that. Then we try to add, like a fine-tuned hit, on top of that in order to, uh.
+
+[09:19 PM] Teck_Khim: And then he works very well here. Is it?
+
+[09:19 PM] Prakash: It works very well, yes.
+
+[09:19 PM] Teck_Khim: I see all for all three.
+
+[09:19 PM] Chai Pin Zheng: Yeah.
+
+[09:20 PM] Prakash: Yeah, correct. So, now, now, the thing is, yep, it's very into news. But the
+
+[09:19 PM] Teck_Khim: So, so isn't that very good news?
+
+[09:20 PM] Prakash: thing is for this Tick Tock challenge, they don't want us to stop at. Basically,
+
+[09:19 PM] Teck_Khim: Yeah.
+
+[09:20 PM] Prakash: these three data sets benchmarking on these three data sets, so we wanted to ask
+
+[09:20 PM] Teck_Khim: I'm not sure about that.
+
+[09:20 PM] Prakash: you. Do you have any suggestions on what kind of data sets that if we Benchmark on, it would look more? Uh, it will look more of the fact that which stress tested the system enough. Yeah.
+
+[09:20 PM] Teck_Khim: I'm not sure about it. I'm sure not sure about that. Because there's so many now and, and as I say, when we, when we choose a designer, choose those. These are the people using the papers law. Then, you can compare.
+
+[09:20 PM] Chai Pin Zheng: Okay.
+
+[09:20 PM] Teck_Khim: Huh?
+
+[09:20 PM] Prakash: No worries, no worries. Yeah, I, uh, I think I think what we will do next is,
+
+[09:20 PM] Teck_Khim: Yeah.
+
+[09:20 PM] Prakash: uh, I think, what the, the challenge, at least for the tick tock side. I think what they're looking for is more of stress testing the system, so I think.
+
+[09:21 PM] Prakash: Um, for our set. I think what we'll do is, we'll continue finding more data sets online, and I think synthetically trying to generate data sets through different generators, and from there, we will try to stress that.
+
+[09:21 PM] Teck_Khim: There's one way to beat this method. You generally already, right? Then you inject the beer pattern characteristic into. Uh, yeah, if my people realize this, then it's easy to, you know? As I say is, a
+
+[09:21 PM] Chai Pin Zheng: Yeah, but that's only if they know.
+
+[09:21 PM] Prakash: Right?
+
+[09:21 PM] Chai Pin Zheng: Yeah, but that's only if they realize that there are. That, but not a lot of researchers will know about this, right? Like, this is such a deep domain to even talk about interpolation about. About Bayers method or?
+
+[09:21 PM] Teck_Khim: sheer is a sheer spear, and the shielding will never end on.
+
+[09:21 PM] Prakash: Right?
+
+[09:21 PM] Chai Pin Zheng: Actually, you can ask, do your try out using this, which was why you guys are very aware of this issue.
+
+[09:21 PM] Teck_Khim: No, because I was I at one point in time. I was teaching in computer vision in SOC.
+
+[09:21 PM] Chai Pin Zheng: Oh, why?
+
+[09:22 PM] Teck_Khim: So, so, so, so these are the things that I'm quite familiar with, and, and so, and so, and so, yeah, it's, it's. Mbs button is, like, people use it for so many years already, so? When you throw color, then then try. Try all this now because? Uh, I remember when we started, I told, I told the students, uh, there could be something the color senses color sensing is from Bears pattern, there could be something from Bears pattern that we can explore. Uh, because real cameras will do this, uh, generated one they don't care. Right, the generator one they don't care. So, so that was the the beginning of this, uh, the journey, yeah?
+
+[09:22 PM] Chai Pin Zheng: Okay. And this understood, understood, understood, got it.
+
+[09:22 PM] Teck_Khim: Yeah. Okay.
+
+[09:22 PM] Prakash: Post this hackathon, right? We also want to actually contribute. Is there any
+
+[09:22 PM] Chai Pin Zheng: Okay.
+
+[09:22 PM] Prakash: way we can continue? Contribute to the students work that he has. They continue
+
+[09:22 PM] Teck_Khim: If you just use existing method to run?
+
+[09:22 PM] Prakash: to read.
+
+[09:23 PM] Chai Pin Zheng: Maybe?
+
+[09:23 PM] Prakash: Yeah.
+
+[09:23 PM] Teck_Khim: As long as you solve the problem.
+
+[09:23 PM] Prakash: Yeah, okay, yeah, okay? Okay, did them confident that we cannot do it very well?
+
+[09:23 PM] Teck_Khim: See.
+
+[09:23 PM] Prakash: Yeah.
+
+[09:23 PM] Teck_Khim: Yeah, don't, don't be, uh, fixated on just one method be open-minded. I think
+
+[09:23 PM] Chai Pin Zheng: If we, if there's a possibility where there's any collaboration down the line, maybe we could also explore because? We could bring like new tech as well as like, for example, like. Uh, our architecture, and maybe see, like, what we can do, or maybe we also can revisit this and see, like, what?
+
+[09:23 PM] Prakash: Yeah.
+
+[09:23 PM] Chai Pin Zheng: Different other things.
+
+[09:23 PM] Teck_Khim: that's, that's how you progress.
+
+[09:23 PM] Prakash: Okay.
+
+[09:23 PM] Chai Pin Zheng: Okay.
+
+[09:23 PM] Teck_Khim: Well, that's how you progress. Uh, take the hackathon as an opportunity to learn. Win or not, not so, not so important. You know?
+
+[09:24 PM] Chai Pin Zheng: All right.
+
+[09:23 PM] Teck_Khim: And join the journey, and that's more important.
+
+[09:24 PM] Teck_Khim: Off. Okay?
+
+[09:24 PM] Chai Pin Zheng: All right. Thank you so much.
+
+[09:24 PM] Teck_Khim: Good good? All right, bye-bye.
+
+[09:24 PM] Prakash: I'll try try Donna. Stop sharing. We can take a picture together.
+
+[09:24 PM] Chai Pin Zheng: Thank you so much.
+
+[09:24 PM] Max Li: Thank you so much, bro.
+
+[09:24 PM] isaac wong: Is?
+
+[09:24 PM] Teck_Khim: Bye bye! Oh, sure, sure.
+
+[09:24 PM] Prakash: Prof, do you mind if you take a picture together? Uh, Chayana stop sharing a screen.
+
+[09:24 PM] Chai Pin Zheng: Yeah, I'm trying. I'm trying to to actually find it out. Yeah.
+
+[09:24 PM] Prakash: Okay.
+
+[09:24 PM] Teck_Khim: Okay.
+
+[09:24 PM] Chai Pin Zheng: Yep.
+
+[09:24 PM] Teck_Khim: Okay.
+
+[09:24 PM] Prakash: Thanks guys! Thank you, thank you, bro. Thank you. Have a good day.
+
+[09:24 PM] Chai Pin Zheng: Okay.
+
+[09:24 PM] Teck_Khim: Okay, goodnight, goodnight. Goodnight, bye bye!
+
+[09:24 PM] Chai Pin Zheng: Facebook profile.
+
+[09:24 PM] Teck_Khim: Bye!

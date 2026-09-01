@@ -1,0 +1,1218 @@
+/* oxlint-disable next/no-html-link-for-pages -- vinext's production next/link prefetch shim currently breaks route clicks; standard anchors keep public navigation reliable. */
+import { ArrowUpRight, Download, ScanSearch } from 'lucide-react';
+import Image from 'next/image';
+import type { ReactNode } from 'react';
+
+import { HashAnchorSync } from './hash-anchor-sync';
+import { PrintButton } from './print-button';
+import ArchitectureAtlas from './architecture/atlas';
+import './documentation.css';
+import './architecture/architecture.css';
+import './light-theme.css';
+
+const paperUrl = 'https://arxiv.org/html/2604.11487v1';
+const repositoryUrl = 'https://github.com/Ducksss/TikTok-TechJam-2026';
+
+const contentGroups = [
+  {
+    label: 'Guide',
+    links: [
+      ['overview', 'In one minute'],
+      ['user-flow', 'User flow'],
+      ['image-processing', 'Image processing'],
+      ['architecture', 'Architecture'],
+      ['ensemble', 'Ensemble score'],
+      ['training', 'Training'],
+      ['robustness', 'Robustness'],
+      ['research-interview', 'Research interview'],
+      ['test1', 'TEST1 benchmark'],
+      ['results', 'Results'],
+      ['considerations', 'Considerations'],
+    ],
+  },
+  {
+    label: 'Model Architecture',
+    links: [
+      ['architecture-atlas', 'Atlas overview'],
+      ['deep-model', 'Full model graph'],
+      ['expert-anatomy', 'Expert anatomy'],
+      ['dinov3-context', 'DINOv3 context'],
+    ],
+  },
+  {
+    label: 'System',
+    links: [
+      ['overall', 'Overall system'],
+      ['request', 'Request sequence'],
+      ['video-sampling', 'Video sampling'],
+    ],
+  },
+  {
+    label: 'Runtime',
+    links: [
+      ['runtime', 'Worker lifecycle'],
+      ['checkpoints', 'Checkpoint gates'],
+      ['tensors', 'Tensor contract'],
+    ],
+  },
+  {
+    label: 'Operations',
+    links: [
+      ['release', 'Release boundary'],
+      ['operations', 'Operational states'],
+      ['batch', 'Batch durability'],
+      ['sources', 'Evidence & downloads'],
+    ],
+  },
+] as const;
+
+type EvidenceKind = 'paper' | 'code' | 'guidance';
+
+function EvidenceTag({
+  children,
+  kind,
+}: {
+  children: ReactNode;
+  kind: EvidenceKind;
+}) {
+  return (
+    <span className={`docs-evidence docs-evidence-${kind}`}>{children}</span>
+  );
+}
+
+function FigureBlock({
+  alternative,
+  alt,
+  file,
+  number,
+  title,
+}: {
+  alternative: ReactNode;
+  alt: string;
+  file: string;
+  number: string;
+  title: string;
+}) {
+  return (
+    <figure className="docs-figure">
+      <div className="docs-figure-toolbar">
+        <figcaption>
+          <span>Figure {number}</span>
+          {title}
+        </figcaption>
+        <a className="docs-download" download href={`/diagrams/${file}`}>
+          <Download aria-hidden="true" />
+          Download SVG
+        </a>
+      </div>
+      <div className="docs-figure-frame">
+        <Image
+          alt={alt}
+          height={900}
+          loading="lazy"
+          src={`/diagrams/${file}`}
+          unoptimized
+          width={1440}
+        />
+      </div>
+      <details className="docs-text-alternative">
+        <summary>Read the text alternative</summary>
+        <div>{alternative}</div>
+      </details>
+    </figure>
+  );
+}
+
+function SectionHeading({
+  children,
+  kicker,
+}: {
+  children: ReactNode;
+  kicker: string;
+}) {
+  return (
+    <div className="docs-section-heading">
+      <p>{kicker}</p>
+      <h2>{children}</h2>
+    </div>
+  );
+}
+
+export default function Documentation() {
+  return (
+    <main className="docs-page atlas-page">
+      <HashAnchorSync />
+      <a className="docs-skip-link" href="#documentation-content">
+        Skip to documentation
+      </a>
+
+      <header className="docs-topbar">
+        <div className="docs-topbar-inner">
+          <a className="docs-brand" href="/" aria-label="SynthFlag home">
+            <span>
+              <ScanSearch aria-hidden="true" />
+            </span>
+            SynthFlag
+          </a>
+          <nav aria-label="Documentation utilities">
+            <a href="/journey">Journey</a>
+            <PrintButton />
+            <a className="docs-try-link" href="/try">
+              Try detector
+            </a>
+          </nav>
+        </div>
+      </header>
+
+      <section className="docs-hero">
+        <div className="docs-hero-grid" aria-hidden="true" />
+        <div className="docs-hero-inner">
+          <nav className="docs-breadcrumb" aria-label="Breadcrumb">
+            <a href="/">SynthFlag</a>
+            <span aria-hidden="true">/</span>
+            <span aria-current="page">Technical appendix</span>
+          </nav>
+          <div className="docs-hero-copy">
+            <p className="docs-eyebrow">Technical appendix · source checked</p>
+            <h1>How four vision experts turn pixels into one useful signal.</h1>
+            <p>
+              The detailed reference for how the released detector processes an
+              image, where the evidence comes from, and what its score cannot
+              prove. Judges can start with the shorter project journey.
+            </p>
+          </div>
+          <div className="docs-hero-stats" aria-label="System summary">
+            <div>
+              <strong>04</strong>
+              <span>independent experts</span>
+            </div>
+            <div>
+              <strong>02</strong>
+              <span>vision families</span>
+            </div>
+            <div>
+              <strong>0–1</strong>
+              <span>fake-class score</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="docs-shell">
+        <aside className="docs-toc" aria-label="On this page">
+          <p>On this page</p>
+          <div className="docs-toc-groups">
+            {contentGroups.map((group, groupIndex) => (
+              <section key={group.label} aria-labelledby={`toc-${groupIndex}`}>
+                <h2 id={`toc-${groupIndex}`}>{group.label}</h2>
+                <ol>
+                  {group.links.map(([id, label], index) => (
+                    <li key={id}>
+                      <a href={`#${id}`}>
+                        <span>
+                          {String(groupIndex + 1).padStart(2, '0')}.
+                          {String(index + 1).padStart(2, '0')}
+                        </span>
+                        {label}
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              </section>
+            ))}
+          </div>
+          <div className="docs-toc-note">
+            <span aria-hidden="true" />
+            Public guide · no setup required
+          </div>
+        </aside>
+
+        <article id="documentation-content" className="docs-content">
+          <nav className="docs-route-index" aria-label="SynthFlag guides">
+            <a href="/journey">
+              <span>Start here · judge narrative</span>
+              <strong>Project journey</strong>
+              <ArrowUpRight aria-hidden="true" />
+            </a>
+            <a href="#architecture-atlas">
+              <span>Deep reference · 18 diagrams</span>
+              <strong>Architecture atlas</strong>
+              <ArrowUpRight aria-hidden="true" />
+            </a>
+            <a href="/try">
+              <span>Interactive surface</span>
+              <strong>Try detector</strong>
+              <ArrowUpRight aria-hidden="true" />
+            </a>
+          </nav>
+          <section id="overview" className="docs-section docs-overview">
+            <SectionHeading kicker="Start here">In one minute</SectionHeading>
+            <div className="docs-lead-grid">
+              <p className="docs-lead">
+                SynthFlag is a research detector that compares images with
+                patterns learned from real and AI-generated examples. The web
+                experience can score one image or eight visual frames sampled
+                from a short video. Each frame still passes through the same
+                four-expert image detector.
+              </p>
+              <div className="docs-score-card">
+                <span>Example output</span>
+                <strong>0.78</strong>
+                <div aria-hidden="true">
+                  <span />
+                </div>
+                <p>
+                  Higher means more similar to learned generated-image patterns.
+                </p>
+              </div>
+            </div>
+            <div className="docs-answer-grid">
+              <div>
+                <span>01</span>
+                <h3>What goes in?</h3>
+                <p>
+                  One image or a 1–10 second video in the website, or a folder
+                  of images in the released CLI.
+                </p>
+              </div>
+              <div>
+                <span>02</span>
+                <h3>What happens?</h3>
+                <p>
+                  CLIP and SigLIP experts inspect differently sized views of the
+                  same pixels.
+                </p>
+              </div>
+              <div>
+                <span>03</span>
+                <h3>What comes out?</h3>
+                <p>
+                  An image score from 0 to 1, or a descriptive timeline and
+                  arithmetic mean across eight sampled video frames.
+                </p>
+              </div>
+              <div>
+                <span>04</span>
+                <h3>What does it prove?</h3>
+                <p>
+                  Nothing by itself. The score is a signal for review, not proof
+                  of origin.
+                </p>
+              </div>
+            </div>
+            <div className="docs-evidence-key" aria-label="Evidence label key">
+              <p>How to read this guide</p>
+              <div>
+                <EvidenceTag kind="paper">Paper fact</EvidenceTag>
+                <span>Reported by the NTIRE challenge paper.</span>
+              </div>
+              <div>
+                <EvidenceTag kind="code">Released code</EvidenceTag>
+                <span>Verified in the packaged inference implementation.</span>
+              </div>
+              <div>
+                <EvidenceTag kind="guidance">Practical guidance</EvidenceTag>
+                <span>Recommended interpretation or deployment practice.</span>
+              </div>
+            </div>
+          </section>
+
+          <section id="user-flow" className="docs-section">
+            <SectionHeading kicker="01 · From input to record">
+              The user flow has two entry points
+            </SectionHeading>
+            <div className="docs-explainer-grid">
+              <div className="docs-explainer">
+                <EvidenceTag kind="code">Released code</EvidenceTag>
+                <p className="docs-section-lead">
+                  The website is designed for a quick image check or a visual
+                  sample of a short video. The command-line workflow is built
+                  for folders and traceable batch output. All three paths reach
+                  the same four-expert image model, but their input and output
+                  interfaces differ.
+                </p>
+                <ul>
+                  <li>
+                    <strong>Web image:</strong> JPEG, PNG, or WebP up to 10 MB.
+                  </li>
+                  <li>
+                    <strong>Web video:</strong> 1–10 second H.264 MP4, or WebM
+                    where the browser supports it, up to 50 MB. Eight 384 px
+                    midpoint crops are extracted locally; the video is never
+                    uploaded.
+                  </li>
+                  <li>
+                    <strong>CLI:</strong> recursive folder discovery across five
+                    common formats.
+                  </li>
+                  <li>
+                    <strong>Integrity:</strong> all four checkpoint sizes and
+                    SHA-256 hashes are checked before weights load.
+                  </li>
+                  <li>
+                    <strong>Batch record:</strong> resumable CSV scores plus run
+                    metadata.
+                  </li>
+                </ul>
+                <details className="docs-technical">
+                  <summary>Technical details · interfaces and outputs</summary>
+                  <p>
+                    The image web API returns one score. The sampled-video API
+                    returns ordered frame scores plus an arithmetic mean, peak,
+                    and threshold count. It does not analyze audio or motion,
+                    and the mean is not a calibrated video probability. The CLI
+                    discovers JPEG, PNG, BMP, WebP, and TIFF files, then writes{' '}
+                    <code>predictions.csv</code> with
+                    <code>image_name,score</code>, an atomic completed-run{' '}
+                    <code>predictions.json</code> with Track 5{' '}
+                    <code>image_path,pred</code> records, and a{' '}
+                    <code>predictions.meta.json</code> sidecar. Checkpoint
+                    verification happens in the released CLI before
+                    deserialization.
+                  </p>
+                </details>
+              </div>
+              <FigureBlock
+                alternative={
+                  <ol>
+                    <li>
+                      Choose a web image, a 1–10 second web video, or a CLI
+                      folder.
+                    </li>
+                    <li>
+                      For video, the browser extracts eight midpoint center
+                      crops and sends only those PNG frames.
+                    </li>
+                    <li>
+                      The CLI verifies four checkpoint files against its
+                      manifest.
+                    </li>
+                    <li>Decode each image and convert it to RGB.</li>
+                    <li>Create CLIP and SigLIP model views.</li>
+                    <li>
+                      Run four experts and take each fake-class probability.
+                    </li>
+                    <li>
+                      Return a 0–1 score; the CLI also records CSV and metadata.
+                    </li>
+                  </ol>
+                }
+                alt="Web image, browser-sampled video frames, and CLI folder paths converge on checkpoint verification, RGB decoding, dual preprocessing, four experts, and image-level scores."
+                file="01-user-flow.svg"
+                number="01"
+                title="Released inference user flow"
+              />
+            </div>
+          </section>
+
+          <section id="image-processing" className="docs-section">
+            <SectionHeading kicker="02 · Same pixels, native views">
+              Why the image is processed twice
+            </SectionHeading>
+            <div className="docs-explainer-grid">
+              <div className="docs-explainer">
+                <EvidenceTag kind="code">Released code</EvidenceTag>
+                <p className="docs-section-lead">
+                  CLIP and SigLIP were pretrained with different image
+                  conventions. SynthFlag preserves those conventions instead of
+                  forcing both families to see one generic resize and
+                  normalization.
+                </p>
+                <ul>
+                  <li>The source is decoded once into three-channel RGB.</li>
+                  <li>
+                    CLIP receives a bicubic resize and 224 px center crop.
+                  </li>
+                  <li>
+                    SigLIP receives a bicubic resize and 384 px center crop.
+                  </li>
+                  <li>
+                    Each lane applies its own fixed channel normalization.
+                  </li>
+                </ul>
+                <details className="docs-technical">
+                  <summary>Technical details · exact normalization</summary>
+                  <p>
+                    <strong>CLIP mean:</strong> (0.48145466, 0.4578275,
+                    0.40821073)
+                    <br />
+                    <strong>CLIP std:</strong> (0.26862954, 0.26130258,
+                    0.27577711)
+                  </p>
+                  <p>
+                    <strong>SigLIP mean and std:</strong> (0.5, 0.5, 0.5)
+                  </p>
+                  <p>
+                    The fixed order is resize → center crop → tensor →
+                    normalize. No random degradation is applied during released
+                    inference.
+                  </p>
+                </details>
+              </div>
+              <FigureBlock
+                alternative={
+                  <p>
+                    An RGB image splits into two deterministic lanes. The CLIP
+                    lane resizes the short edge to 224 pixels, center-crops to
+                    224 square, converts to a tensor, and applies CLIP channel
+                    statistics. The SigLIP lane repeats the process at 384
+                    pixels with mean and standard deviation of 0.5 for every
+                    channel.
+                  </p>
+                }
+                alt="RGB image splitting into a 224-pixel CLIP preprocessing lane and a 384-pixel SigLIP preprocessing lane, with exact normalization values."
+                file="02-image-processing.svg"
+                number="02"
+                title="Backbone-specific image processing"
+              />
+            </div>
+          </section>
+
+          <section id="architecture" className="docs-section">
+            <SectionHeading kicker="03 · Four independent experts">
+              The model architecture
+            </SectionHeading>
+            <div className="docs-explainer-grid">
+              <div className="docs-explainer">
+                <EvidenceTag kind="paper">Paper fact</EvidenceTag>
+                <EvidenceTag kind="code">Released code</EvidenceTag>
+                <p className="docs-section-lead">
+                  Two CLIP experts and two SigLIP experts form the ensemble.
+                  Every expert has its own complete encoder, feature vector,
+                  lightweight binary head, and independently restored
+                  checkpoint.
+                </p>
+                <ul>
+                  <li>
+                    <strong>Experts 1–2:</strong> CLIP ViT-L/14 at 224 px.
+                  </li>
+                  <li>
+                    <strong>Experts 3–4:</strong> SigLIP So400M Patch14-384 at
+                    384 px.
+                  </li>
+                  <li>
+                    Each head reduces its feature to two logits: real and fake.
+                  </li>
+                  <li>
+                    The paper reports approximately 10 GB peak GPU memory.
+                  </li>
+                </ul>
+                <details className="docs-technical">
+                  <summary>Technical details · dimensions and heads</summary>
+                  <p>
+                    CLIP uses a 1024-wide encoder and its 768-dimensional
+                    projected <code>image_embeds</code>; head: 768 → 256 → 2.
+                  </p>
+                  <p>
+                    SigLIP uses a 1152-dimensional <code>pooler_output</code>;
+                    head: 1152 → 256 → 2.
+                  </p>
+                  <p>
+                    Both heads are Linear → ReLU → Dropout(0.3) → Linear. The
+                    paper’s memory figure is author-reported, not a measurement
+                    from this site.
+                  </p>
+                </details>
+                <a
+                  className="docs-architecture-link"
+                  href="#architecture-atlas"
+                >
+                  Explore the engineering architecture atlas
+                  <ArrowUpRight aria-hidden="true" />
+                </a>
+              </div>
+              <FigureBlock
+                alternative={
+                  <p>
+                    Experts 1 and 2 are separate CLIP ViT-L/14 models. Each
+                    receives a 224-pixel view, produces a 768-dimensional
+                    projected image embedding, and passes it through a
+                    768-to-256-to-2 classifier. Experts 3 and 4 are separate
+                    SigLIP So400M Patch14-384 models. Each receives a 384-pixel
+                    view, produces a 1152-dimensional pooled feature, and passes
+                    it through a 1152-to-256-to-2 classifier. Every head uses
+                    ReLU and dropout 0.3 between linear layers.
+                  </p>
+                }
+                alt="Four expert architecture showing two CLIP ViT-L/14 models and two SigLIP So400M Patch14-384 models, their feature sizes, heads, and two-logit outputs."
+                file="03-model-architecture.svg"
+                number="03"
+                title="Four-expert architecture"
+              />
+            </div>
+          </section>
+
+          <section id="ensemble" className="docs-section">
+            <SectionHeading kicker="04 · Equal-weight probability fusion">
+              How four answers become one score
+            </SectionHeading>
+            <div className="docs-explainer-grid">
+              <div className="docs-explainer">
+                <EvidenceTag kind="code">Released code</EvidenceTag>
+                <p className="docs-section-lead">
+                  Each expert produces two raw logits. Softmax turns them into
+                  class probabilities, and class index 1 is the fake-image
+                  class. The four fake-class probabilities are averaged with
+                  equal weight.
+                </p>
+                <div
+                  className="docs-equation"
+                  aria-label="P fake equals P three plus P four plus P one plus P two, divided by four"
+                >
+                  <span>P(fake) =</span>
+                  <strong>(P₃ + P₄ + P₁ + P₂) / 4</strong>
+                </div>
+                <ul>
+                  <li>
+                    No majority vote, learned fusion weights, or test-time
+                    augmentation.
+                  </li>
+                  <li>The result stays continuous from 0 to 1.</li>
+                  <li>
+                    Four independently trained variants provide complementary
+                    opinions; the paper does not claim that exactly four are
+                    necessary.
+                  </li>
+                </ul>
+                <details className="docs-technical">
+                  <summary>
+                    Technical details · softmax and score meaning
+                  </summary>
+                  <p>
+                    For two logits <code>z₀</code> and <code>z₁</code>, the
+                    fake-class probability is{' '}
+                    <code>exp(z₁) / (exp(z₀) + exp(z₁))</code>. The SynthFlag
+                    implementation preserves the published runtime&apos;s
+                    arithmetic order shown above.
+                  </p>
+                  <p>
+                    The site calls this a probability-like score because no
+                    calibration guarantee is reported. A threshold is a separate
+                    deployment choice.
+                  </p>
+                </details>
+              </div>
+              <FigureBlock
+                alternative={
+                  <p>
+                    CLIP experts 1 and 2 output P1 and P2. SigLIP experts 3 and
+                    4 output P3 and P4. Each is the softmax probability for
+                    class 1. The released code computes P3 plus P4 plus P1 plus
+                    P2, divided by four. The output is a continuous P(fake)
+                    score where higher means more fake-like to the model.
+                  </p>
+                }
+                alt="Four equal-weight expert probabilities flowing into an exact unweighted arithmetic mean and a zero-to-one P fake score."
+                file="04-ensemble-flow.svg"
+                number="04"
+                title="Exact probability ensemble"
+              />
+            </div>
+          </section>
+
+          <section id="training" className="docs-section">
+            <SectionHeading kicker="05 · Training-only method">
+              How self-distillation works
+            </SectionHeading>
+            <div className="docs-explainer-grid">
+              <div className="docs-explainer">
+                <EvidenceTag kind="paper">Paper fact</EvidenceTag>
+                <p className="docs-section-lead">
+                  The NTIRE report describes a two-stage training strategy.
+                  First, each expert learns the binary task for two epochs. Then
+                  the epoch-2 model becomes a fixed teacher for the same model’s
+                  intermediate features.
+                </p>
+                <ul>
+                  <li>
+                    <strong>Stage 1:</strong> two epochs of
+                    real-versus-generated training.
+                  </li>
+                  <li>
+                    <strong>Snapshot:</strong> epoch-2 feature maps become fixed
+                    dense targets.
+                  </li>
+                  <li>
+                    <strong>Stage 2:</strong> current features align with those
+                    targets while binary supervision continues.
+                  </li>
+                  <li>
+                    <strong>Inference:</strong> the teacher path and alignment
+                    objective disappear.
+                  </li>
+                </ul>
+                <details className="docs-technical">
+                  <summary>
+                    Technical details · what is and is not specified
+                  </summary>
+                  <p>
+                    The paper specifies dense feature alignment but does not
+                    name the exact feature layers, alignment-loss formula, loss
+                    weight, optimizer, or Stage 2 duration. This guide
+                    deliberately does not infer those values. The released
+                    repository packages inference rather than the trainer.
+                  </p>
+                </details>
+              </div>
+              <FigureBlock
+                alternative={
+                  <p>
+                    Stage 1 trains an expert for exactly two epochs on real and
+                    generated labels. Its epoch-2 checkpoint is frozen. During
+                    Stage 2, the same training image passes through the fixed
+                    reference and the current trainable model. Dense
+                    intermediate features are aligned while the binary objective
+                    remains. This reference path is used only for training and
+                    is absent from inference.
+                  </p>
+                }
+                alt="Two-stage training flow: two-epoch binary training, a fixed epoch-2 feature target, and dense feature alignment during Stage 2, clearly marked training only."
+                file="05-training-self-distillation.svg"
+                number="05"
+                title="Feature-level self-distillation"
+              />
+            </div>
+          </section>
+
+          <section id="robustness" className="docs-section">
+            <SectionHeading kicker="06 · Evidence under image damage">
+              Robustness and its limits
+            </SectionHeading>
+            <div className="docs-explainer-grid">
+              <div className="docs-explainer">
+                <EvidenceTag kind="paper">Paper fact</EvidenceTag>
+                <p className="docs-section-lead">
+                  The NTIRE benchmark tests a realistic problem: images are
+                  often cropped, recompressed, blurred, resized, watermarked, or
+                  otherwise changed before a detector sees them. Robust-track
+                  images receive one to five chained distortions.
+                </p>
+                <ul>
+                  <li>108,750 real and 185,750 generated images.</li>
+                  <li>42 generators overall; 20 represented in training.</li>
+                  <li>36 transformation types across challenge stages.</li>
+                  <li>
+                    Real and generated images use the same degradation pipeline.
+                  </li>
+                </ul>
+                <details className="docs-technical">
+                  <summary>Technical details · challenge protocol</summary>
+                  <p>
+                    Half of each class in the validation and test splits is
+                    assigned to the robust track. The primary metric is robust
+                    ROC-AUC on distorted images; clean ROC-AUC is secondary.
+                    ROC-AUC evaluates ranking across thresholds, not accuracy at
+                    one cutoff.
+                  </p>
+                  <p>
+                    The challenge transformations are benchmark context. The
+                    repository does not claim to ship every organizer
+                    transformation or the upstream training corpus.
+                  </p>
+                </details>
+              </div>
+              <FigureBlock
+                alternative={
+                  <p>
+                    The challenge contains 108,750 real images and 185,750
+                    generated images from 42 generators. Robust images receive
+                    one to five randomly sampled consecutive distortions drawn
+                    from 36 transformation types across challenge stages. The
+                    corresponding detector submission reports average clean
+                    ROC-AUC 0.9729 and robust ROC-AUC 0.8679. Deployment notes
+                    warn that the score neither identifies a generator nor
+                    proves provenance and that new domains can shift
+                    performance.
+                  </p>
+                }
+                alt="NTIRE challenge scale and degradation pipeline, reported detector average clean and robust ROC-AUC, and deployment boundaries."
+                file="06-robustness-evidence.svg"
+                number="06"
+                title="Robustness evidence and boundaries"
+              />
+            </div>
+          </section>
+
+          <section id="research-interview" className="docs-section">
+            <SectionHeading kicker="Research input · Day 3">
+              Professor Ng Teck Khim: a future camera-forensics direction
+            </SectionHeading>
+            <div className="docs-results-intro">
+              <p className="docs-section-lead">
+                On Day 3, the SynthFlag team interviewed Professor Ng Teck Khim
+                about local image statistics created by Bayer color-filter
+                sampling and demosaicing. The discussion motivated a
+                complementary forensic direction based on small-block variance,
+                cross-channel correlation, mosaic phase, and acquisition
+                consistency.
+              </p>
+              <EvidenceTag kind="guidance">
+                Interview-derived direction
+              </EvidenceTag>
+            </div>
+            <div className="docs-interview-grid">
+              <figure>
+                <Image
+                  alt="Professor Ng Teck Khim and the SynthFlag team during a Day 3 video research interview"
+                  height={679}
+                  loading="lazy"
+                  src="/interviews/prof-ng-teck-khim-day3.png"
+                  width={1280}
+                />
+                <figcaption>
+                  Team-supplied interview image. It documents the conversation,
+                  not detector performance or endorsement.
+                </figcaption>
+              </figure>
+              <div>
+                <h3>What the interview changed</h3>
+                <ul>
+                  <li>
+                    Test whether physical-camera statistics complement semantic
+                    deep features.
+                  </li>
+                  <li>
+                    Stress blur, resize, JPEG, screenshots, crop, color
+                    processing, and deliberate Bayer-statistic injection.
+                  </li>
+                  <li>
+                    Compare methods on the same source-disjoint images, metrics,
+                    and corruption slices.
+                  </li>
+                  <li>
+                    Evaluate recall at a validated low-FPR cap for creator
+                    operations, not ROC-AUC alone.
+                  </li>
+                </ul>
+                <a
+                  className="docs-interview-link"
+                  download
+                  href="/interviews/prof-ng-teck-khim-day3-transcript.txt"
+                >
+                  <Download aria-hidden="true" />
+                  Download the interview-only transcript
+                </a>
+              </div>
+            </div>
+            <div className="docs-callout">
+              <strong>Exploratory, not a final result</strong>
+              <p>
+                The interview happened on Day 3, leaving little research time.
+                An early local-statistics prototype was not strong or stable
+                enough to support a result, and the team did not complete the
+                source-disjoint protocol, corruption study, confidence
+                intervals, or low-FPR validation it would require. The idea was
+                not used in the released four-expert model, TEST1, or final
+                model selection. No performance metric is claimed for it.
+              </p>
+            </div>
+          </section>
+
+          <section id="test1" className="docs-section">
+            <SectionHeading kicker="Local evidence · 1 September 2026">
+              TEST1: 15,000 public images, scored clean and augmented
+            </SectionHeading>
+            <div className="docs-results-intro">
+              <p className="docs-section-lead">
+                TEST1 pairs 15,000 unique public source images with one
+                deterministic composite corruption each. Balanced 5,000-image
+                subsets from CIFAKE, SID-Set, and WildFake produce 30,000
+                predictions at a fixed 0.5 reporting threshold. No TEST1 label
+                was used to tune that threshold during reporting.
+              </p>
+              <EvidenceTag kind="code">Local aggregate evidence</EvidenceTag>
+            </div>
+            <div className="docs-callout">
+              <strong>Keep the model boundary attached</strong>
+              <p>
+                TEST1 evaluates a benchmark-only corrected-v2 Expert-4/router
+                and stored-head topology. The released product and live-service
+                source remain the four-expert arithmetic mean. These metrics do
+                not measure the live detector, the public CLI, or the TikTok
+                hidden test.
+              </p>
+            </div>
+            <div className="docs-table-wrap">
+              <table>
+                <caption>
+                  TEST1 per-dataset ranking · 5,000 unique sources per row pair
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Dataset</th>
+                    <th scope="col">Clean AUC</th>
+                    <th scope="col">Aug. AUC</th>
+                    <th scope="col">Delta</th>
+                    <th scope="col">Clean AP</th>
+                    <th scope="col">Aug. AP</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">CIFAKE official test subset</th>
+                    <td>0.9816</td>
+                    <td>0.9095</td>
+                    <td>−0.0721</td>
+                    <td>0.9823</td>
+                    <td>0.9148</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">SID-Set public validation subset</th>
+                    <td>0.8691</td>
+                    <td>0.8439</td>
+                    <td>−0.0252</td>
+                    <td>0.9018</td>
+                    <td>0.8845</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">WildFake official test sample</th>
+                    <td>0.9467</td>
+                    <td>0.8785</td>
+                    <td>−0.0682</td>
+                    <td>0.9472</td>
+                    <td>0.8760</td>
+                  </tr>
+                  <tr className="docs-average-row">
+                    <th scope="row">Descriptive macro mean</th>
+                    <td>0.9324</td>
+                    <td>0.8773</td>
+                    <td>−0.0552</td>
+                    <td>0.9438</td>
+                    <td>0.8918</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div className="docs-table-wrap">
+              <table>
+                <caption>
+                  Strict operating diagnostics for a low-false-positive policy
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Dataset</th>
+                    <th scope="col">View</th>
+                    <th scope="col">TPR @ 1% FPR</th>
+                    <th scope="col">TPR @ 5% FPR</th>
+                    <th scope="col">FPR @ fixed 0.5</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">CIFAKE</th>
+                    <td>Clean / augmented</td>
+                    <td>0.7564 / 0.4040</td>
+                    <td>0.8972 / 0.6220</td>
+                    <td>0.1152 / 0.1996</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">SID-Set</th>
+                    <td>Clean / augmented</td>
+                    <td>0.5924 / 0.5608</td>
+                    <td>0.6564 / 0.6204</td>
+                    <td>0.0072 / 0.0232</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">WildFake</th>
+                    <td>Clean / augmented</td>
+                    <td>0.4376 / 0.2036</td>
+                    <td>0.7940 / 0.4928</td>
+                    <td>0.1264 / 0.3444</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div className="docs-callout">
+              <strong>TikTok operating priority</strong>
+              <p>
+                A false positive can wrongly question authentic work, interrupt
+                distribution or monetization, and create an appeal.
+                Consequential creator operations should meet a validated FPR cap
+                first, then reduce false negatives within that constraint. The
+                fixed 0.5 benchmark point has materially different FPRs across
+                the six cells, so it is diagnostic—not a universal moderation
+                cutoff. Separate calibration, slice monitoring, human review,
+                and appeals remain required.
+              </p>
+            </div>
+            <p className="docs-source-note">
+              The 30,000-row source file independently reproduced all six
+              confusion matrices, ROC-AUC values, and average-precision values.
+              The source-reported confidence intervals were not regenerated
+              because the received package omitted its referenced paired-
+              bootstrap JSON. Source suites were previously inspected, so TEST1
+              is public-development evidence rather than a pristine blind
+              holdout.
+            </p>
+          </section>
+
+          <section id="results" className="docs-section">
+            <SectionHeading kicker="Reported evidence · NTIRE Table 3">
+              Reported results, without rounding away detail
+            </SectionHeading>
+            <div className="docs-results-intro">
+              <p className="docs-section-lead">
+                SynthFlag provides a checkpoint-compatible implementation of the
+                published method described by Tu et al. The challenge report
+                records the corresponding submission results. These results are
+                benchmark evidence, not a promise for every future image.
+              </p>
+              <EvidenceTag kind="paper">Paper fact</EvidenceTag>
+            </div>
+            <div className="docs-table-wrap">
+              <table>
+                <caption>
+                  Detector metrics reported in NTIRE 2026 Table 3
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Split</th>
+                    <th scope="col">Clean ROC-AUC</th>
+                    <th scope="col">Robust ROC-AUC</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Open test</th>
+                    <td>0.9693</td>
+                    <td>0.8558</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Hidden test</th>
+                    <td>0.9764</td>
+                    <td>0.8800</td>
+                  </tr>
+                  <tr className="docs-average-row">
+                    <th scope="row">Average</th>
+                    <td>0.9729</td>
+                    <td>0.8679</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div className="docs-callout">
+              <strong>How to read the gap</strong>
+              <p>
+                The 0.1050 clean-to-robust difference shows that image
+                transformations materially affect ranking performance. It does
+                not tell us that every transformed image will fail, and it does
+                not select an operating threshold.
+              </p>
+            </div>
+          </section>
+
+          <section id="considerations" className="docs-section">
+            <SectionHeading kicker="Before using the score">
+              Considerations for responsible use
+            </SectionHeading>
+            <div className="docs-consideration-grid">
+              <div>
+                <EvidenceTag kind="guidance">Practical guidance</EvidenceTag>
+                <h3>Use it as triage</h3>
+                <p>
+                  Let the score prioritize review or contribute one signal among
+                  several. Do not use it as the sole basis for a consequential
+                  decision.
+                </p>
+              </div>
+              <div>
+                <EvidenceTag kind="guidance">Practical guidance</EvidenceTag>
+                <h3>Validate your domain</h3>
+                <p>
+                  Measure clean and post-processed performance on the actual
+                  sources, formats, and generators your team expects.
+                </p>
+              </div>
+              <div>
+                <EvidenceTag kind="guidance">Practical guidance</EvidenceTag>
+                <h3>Choose thresholds separately</h3>
+                <p>
+                  ROC-AUC does not choose a cutoff. For creator operations,
+                  constrain false-positive rate first, then reduce false
+                  negatives within that cap. Select on representative
+                  calibration data and monitor drift.
+                </p>
+              </div>
+              <div>
+                <EvidenceTag kind="guidance">Practical guidance</EvidenceTag>
+                <h3>Retain context</h3>
+                <p>
+                  Keep the original image, model version, score, and review
+                  outcome so a later decision is auditable.
+                </p>
+              </div>
+            </div>
+            <div className="docs-does-not-prove">
+              <p>The score cannot prove</p>
+              <ul>
+                <li>who created an image</li>
+                <li>which generator produced it</li>
+                <li>where an image was edited</li>
+                <li>whether provenance metadata is authentic</li>
+              </ul>
+            </div>
+
+            <div id="glossary" className="docs-glossary">
+              <h3>Glossary</h3>
+              <dl>
+                <div>
+                  <dt>Backbone</dt>
+                  <dd>
+                    A large pretrained vision model used to extract useful image
+                    representations.
+                  </dd>
+                </div>
+                <div>
+                  <dt>Feature</dt>
+                  <dd>
+                    A numeric representation of patterns the model has extracted
+                    from pixels.
+                  </dd>
+                </div>
+                <div>
+                  <dt>Softmax</dt>
+                  <dd>
+                    A function that turns a set of logits into class
+                    probabilities that sum to one.
+                  </dd>
+                </div>
+                <div>
+                  <dt>Ensemble</dt>
+                  <dd>
+                    Multiple independently trained models whose outputs are
+                    combined.
+                  </dd>
+                </div>
+                <div>
+                  <dt>Probability-like score</dt>
+                  <dd>
+                    The model’s fake-class output. It lies between 0 and 1 but
+                    is not claimed to be calibrated.
+                  </dd>
+                </div>
+                <div>
+                  <dt>Self-distillation</dt>
+                  <dd>
+                    A training method where a model learns from feature targets
+                    produced by an earlier version of itself.
+                  </dd>
+                </div>
+                <div>
+                  <dt>Degradation</dt>
+                  <dd>
+                    A transformation such as blur, compression, crop, noise, or
+                    resizing that changes image pixels.
+                  </dd>
+                </div>
+                <div>
+                  <dt>ROC-AUC</dt>
+                  <dd>
+                    A threshold-independent measure of how well scores rank
+                    positive examples above negative ones.
+                  </dd>
+                </div>
+              </dl>
+            </div>
+          </section>
+
+          <ArchitectureAtlas />
+
+          <section id="sources" className="docs-section docs-sources">
+            <SectionHeading kicker="Trace the evidence">
+              Sources and reusable assets
+            </SectionHeading>
+            <div className="docs-source-list">
+              <a href={paperUrl} rel="noreferrer" target="_blank">
+                <span>Primary paper</span>
+                <strong>NTIRE 2026 challenge report</strong>
+                <ArrowUpRight aria-hidden="true" />
+              </a>
+              <a href={repositoryUrl} rel="noreferrer" target="_blank">
+                <span>Released implementation · team access</span>
+                <strong>TikTok-TechJam-2026 repository</strong>
+                <ArrowUpRight aria-hidden="true" />
+              </a>
+              <a href="/journey">
+                <span>Judge narrative</span>
+                <strong>Project journey and experiment decisions</strong>
+                <ArrowUpRight aria-hidden="true" />
+              </a>
+              <a
+                download
+                href="/interviews/prof-ng-teck-khim-day3-transcript.txt"
+              >
+                <span>Day 3 research interview</span>
+                <strong>Professor Ng Teck Khim interview transcript</strong>
+                <Download aria-hidden="true" />
+              </a>
+              <a
+                href={`${repositoryUrl}/tree/main/submission/evidence/test1`}
+                rel="noreferrer"
+                target="_blank"
+              >
+                <span>Local benchmark evidence</span>
+                <strong>
+                  TEST1 aggregate report and machine-readable metrics
+                </strong>
+                <ArrowUpRight aria-hidden="true" />
+              </a>
+              <a href="/diagrams/01-user-flow.svg" download>
+                <span>Guide diagrams</span>
+                <strong>
+                  Download Figure 01, then use each toolbar for Figures 01–06
+                </strong>
+                <Download aria-hidden="true" />
+              </a>
+              <a href="/diagrams/07-overall-system.svg" download>
+                <span>Architecture atlas</span>
+                <strong>
+                  Download Figure 07, then use each toolbar for Figures 07–18
+                </strong>
+                <Download aria-hidden="true" />
+              </a>
+              <a
+                href="https://github.com/facebookresearch/dinov3/blob/main/MODEL_CARD.md"
+                rel="noreferrer"
+                target="_blank"
+              >
+                <span>External backbone reference</span>
+                <strong>Official Meta DINOv3 model card</strong>
+                <ArrowUpRight aria-hidden="true" />
+              </a>
+            </div>
+            <p className="docs-source-note">
+              Paper claims were checked against Sections 2, 3.1, 3.2, and 8.2,
+              Figure 7, and Table 3 of the challenge report. Architecture labels
+              were checked against the released web client, proxy, Python
+              service, model, CLI, checkpoint manifest, reproduction guide, and
+              release audit. TEST1 values were checked against the received
+              aggregate metrics and row-level source, with omissions documented
+              in the repository evidence record. The interview summary is a
+              team-authored interpretation of an automated transcript and is
+              labeled as research input rather than result evidence. DINOv3
+              context uses Meta&apos;s official model card. No model or service
+              behavior changed for this guide.
+            </p>
+          </section>
+        </article>
+      </div>
+
+      <footer className="docs-footer">
+        <div>
+          <a className="docs-brand" href="/">
+            <span>
+              <ScanSearch aria-hidden="true" />
+            </span>
+            SynthFlag
+          </a>
+          <p>From pixels to evidence.</p>
+        </div>
+        <div>
+          <a href="/journey">Journey</a>
+          <a href="/try">Try detector</a>
+          <a href="#overview">Back to top</a>
+        </div>
+      </footer>
+    </main>
+  );
+}

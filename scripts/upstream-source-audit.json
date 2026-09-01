@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "audited_at": "2026-08-31",
+  "source_host": "github.com",
+  "source_owner": "tzlkkk",
+  "source_commit": "6feb63ef12a3bd38c8d7ade98183c5f727a0c62d",
+  "allowed_identical_paths": [
+    "LICENSE"
+  ],
+  "files": {
+    ".gitignore": "fe07aeae2cfd1ff2ce4c0c5911dfbb550a3f1065e213175039abadfc3a5a15bb",
+    "LICENSE": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "README.md": "9bea3b301cf60276cb77e59c72400a348373d16961d7925a949d3607f83292ef",
+    "competition.png": "39b9b68b736f627094f89b0d822f76774f97cc4b2def29d882be80d150e7302f",
+    "distortion/README.md": "a2098042acbab42db798aac3c5c7178d6121ed417a5a9867901cdf37bf946f79",
+    "distortion/__init__.py": "c446ab231e7a7c79c7fad5f1f4e93a13aabc96bb604f75a1ae75e8c240ee8c3e",
+    "distortion/degradation_utils.py": "cf8c4294a30aa5b9bfdebea5f16174392419acba47cc2a87361c762671d89400",
+    "distortion/distortions.py": "d524712843eadd152cdd1e53ebc9de128a1847d68cee6d52cb69c92c1d615063",
+    "distortion/distortions_extended.py": "ad5cf21ddc5ab8b36cfeb00480db42b4ff1873566a3ff3d9c5b6a4112197abdc",
+    "distortion/distortions_extra.py": "c420caf88ca0e38c03fe30c458dd76b5a18e18f05f3858ceac4a0fc50e0bcd13",
+    "distortion/pipeline_distortions.py": "1af6b59b800fbc6e85148aebedca9aab0e33fe040d3cfe3aa518796d02d1b52e",
+    "distortion/policy.py": "af9d661cea908e3c844e1c2f528f5f661f3d94b7933ae72e0918bc7cfb3ce22b",
+    "distortion/utils_data.py": "b1d5809cd389844efd23453fbe66b4940577670b29c1a45df5ecb3a90478b325",
+    "distortion/utils_distortions.py": "a2bc7ebfd0d02ecde8655822f043a21dddc41594657c563006af58799ed3d297",
+    "infer/__init__.py": "585fd7c44c397b207912c55829802bf2809b76698f43175ca7c29389aef6de3c",
+    "infer/__main__.py": "c2ee4ddb093c9af060cafaf68219907f8a6b7b301ed3f8bea75db7555adec987",
+    "infer/cli.py": "21465da0816b95e5d7b009bef9f42c4e4c14ff5b0f9501e1bfefe1343691c0ec",
+    "infer/model.py": "c0675b41e9627da045d3c7a1acff000642cc5a209d6b3f5120141d8c97361750",
+    "pyproject.toml": "a020814d4db612c4b19a9c4864dcc4e26896a0a73d6e3fa69bcd18cd517fed1f",
+    "requirements.txt": "6fa56e1cd4425eb9f0efaaa54428406e84fba3dd3b5c38c6d26452d8d8c70e59",
+    "weights/README.md": "cc170d9b880af27c71d9d83c268cb4606578098f706746ddeb29c3efa8d24eda"
+  }
+}

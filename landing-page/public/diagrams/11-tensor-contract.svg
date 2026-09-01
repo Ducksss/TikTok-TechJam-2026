@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="title desc">
+  <title id="title">SynthFlag executable tensor contract</title>
+  <desc id="desc">The Python tensor API accepts batches shaped B by 3 by H by W as unsigned 8-bit pixels or finite floating-point values from zero to one. It converts to RGB PIL images, builds CLIP and SigLIP batches, produces four B-length class-one probabilities, averages them, and returns B scores. The HTTP service uses B equals one and indexes one scalar.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4f8ff"/><stop offset="1" stop-color="#f4f8ff"/></linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#7890a9" stroke-opacity="0.07"/></pattern>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="11" stdDeviation="15" flood-color="#f4f8ff" flood-opacity="0.14"/></filter>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#8ba7c5"/></marker>
+    <marker id="blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#60a5fa"/></marker>
+    <marker id="amber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#fbbf24"/></marker>
+    <marker id="lime" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#a3e635"/></marker>
+    <style>
+      .sans{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.mono{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace}
+      .eyebrow{font-size:15px;font-weight:700;letter-spacing:3px;fill:#65e6d2}.headline{font-size:44px;font-weight:740;letter-spacing:-1.2px;fill:#f5f9ff}.subtitle{font-size:18px;fill:#aabbd0}
+      .label{font-size:12px;font-weight:800;letter-spacing:1.7px}.head{font-size:19px;font-weight:730;fill:#f4f8fd}.body{font-size:14px;fill:#b9c8da}.small{font-size:12px;fill:#90a6bf}.shape{font-size:16px;font-weight:750;fill:#f7fbff}.tiny{font-size:11px;fill:#869cb6}
+    </style>
+      <style>
+      text,tspan{fill:#111827}
+      .eyebrow,.kicker,.stage,.role,.step,.label,.section{fill:#2448c2}
+      .subtitle,.body,.small,.mini,.note,.sub,.tiny{fill:#52627a}
+      .headline,.title,.laneTitle,.lane-title,.card-title,.cardTitle,.boxTitle,.actor,.head,.strong,.stat,.value,.formula,.eq,.prob,.state{fill:#111827}
+      .mono,.monoText,.chip,.number,.num,.code,.dim{fill:#253651}
+    </style>
+  </defs>
+  <rect width="1440" height="900" fill="url(#bg)"/><rect width="1440" height="900" fill="url(#grid)"/>
+  <g class="sans">
+    <text x="80" y="76" class="eyebrow">ENGINEERING CONTRACT · SHAPES, DTYPES, FAILURE GUARDS</text>
+    <text x="80" y="130" class="headline">A batch stays a batch until the service boundary</text>
+    <text x="80" y="168" class="subtitle">Every branch preserves B; the web API alone selects element zero from a one-image batch.</text>
+
+    <g transform="translate(70 214)" filter="url(#shadow)">
+      <rect width="292" height="514" rx="25" fill="#edf3ff" stroke="#395675"/>
+      <text x="24" y="40" class="label" fill="#65e6d2">ENTRY CONTRACTS</text>
+      <g transform="translate(20 67)">
+        <rect width="252" height="174" rx="18" fill="#edf3ff" stroke="#4e7196"/>
+        <text x="18" y="34" class="head">predict(tensor)</text>
+        <text x="18" y="64" class="mono shape">[B, 3, H, W]</text>
+        <text x="18" y="92" class="body">uint8 pixels</text>
+        <text x="18" y="116" class="body">or finite float in [0, 1]</text>
+        <text x="18" y="148" class="small">CPU conversion → PIL per item</text>
+      </g>
+      <path d="M146 250V279" stroke="#8ba7c5" stroke-width="2" marker-end="url(#arr)"/>
+      <g transform="translate(20 288)">
+        <rect width="252" height="130" rx="18" fill="#edf3ff" stroke="#60748e"/>
+        <text x="18" y="34" class="head">predict_pil(sequence)</text>
+        <text x="18" y="64" class="body">B RGB-converted images</text>
+        <text x="18" y="88" class="body">mixed source sizes accepted</text>
+        <text x="18" y="111" class="small">empty sequence → output [0]</text>
+      </g>
+      <g transform="translate(20 438)">
+        <rect width="252" height="54" rx="14" fill="#f5f0ff" stroke="#ff7e79" stroke-opacity=".75"/>
+        <text x="15" y="23" class="label" fill="#ff9b97">REJECT</text>
+        <text x="15" y="42" class="tiny">rank · channels · dtype · range · NaN/∞</text>
+      </g>
+    </g>
+
+    <path d="M362 471H402" stroke="#8ba7c5" stroke-width="2" marker-end="url(#arr)"/>
+
+    <g transform="translate(410 214)" filter="url(#shadow)">
+      <rect width="688" height="514" rx="25" fill="#f4f8ff" stroke="#314860"/>
+      <text x="24" y="40" class="label" fill="#8fa6c0">TWO PREPROCESS + FOUR EXPERT LANES</text>
+      <g transform="translate(20 68)">
+        <rect width="648" height="188" rx="21" fill="#edf3ff" stroke="#2563eb" stroke-width="1.5"/>
+        <rect width="8" height="188" rx="4" fill="#60a5fa"/>
+        <text x="24" y="32" class="label" fill="#79c5ff">CLIP · EXPERTS 1 + 2</text>
+        <g transform="translate(24 54)"><rect width="166" height="100" rx="15" fill="#f4f8ff" stroke="#456d98"/><text x="16" y="28" class="small">normalized batch</text><text x="16" y="57" class="mono shape">[B,3,224,224]</text><text x="16" y="80" class="tiny">float · target device</text></g>
+        <path d="M200 104H231" stroke="#60a5fa" stroke-width="2" marker-end="url(#blue)"/>
+        <g transform="translate(236 54)"><rect width="120" height="100" rx="15" fill="#edf3ff" stroke="#60a5fa"/><text x="14" y="28" class="small">image_embeds</text><text x="14" y="58" class="mono shape">[B, 768]</text><text x="14" y="81" class="tiny">per expert</text></g>
+        <path d="M366 104H397" stroke="#60a5fa" stroke-width="2" marker-end="url(#blue)"/>
+        <g transform="translate(402 54)"><rect width="104" height="100" rx="15" fill="#edf3ff" stroke="#60a5fa"/><text x="14" y="28" class="small">head logits</text><text x="14" y="58" class="mono shape">[B, 2]</text><text x="14" y="81" class="tiny">768→256→2</text></g>
+        <path d="M516 104H547" stroke="#60a5fa" stroke-width="2" marker-end="url(#blue)"/>
+        <g transform="translate(552 54)"><rect width="76" height="100" rx="15" fill="#edf3ff" stroke="#60a5fa"/><text x="38" y="28" class="small" text-anchor="middle">class 1</text><text x="38" y="58" class="mono shape" text-anchor="middle">P1 [B]</text><text x="38" y="81" class="mono tiny" text-anchor="middle">P2 [B]</text></g>
+      </g>
+      <g transform="translate(20 278)">
+        <rect width="648" height="188" rx="21" fill="#fff7e8" stroke="#f0a61d" stroke-width="1.5"/>
+        <rect width="8" height="188" rx="4" fill="#fbbf24"/>
+        <text x="24" y="32" class="label" fill="#ffd36b">SIGLIP · EXPERTS 3 + 4</text>
+        <g transform="translate(24 54)"><rect width="166" height="100" rx="15" fill="#fff7e8" stroke="#80642d"/><text x="16" y="28" class="small">normalized batch</text><text x="16" y="57" class="mono shape">[B,3,384,384]</text><text x="16" y="80" class="tiny">float · target device</text></g>
+        <path d="M200 104H231" stroke="#fbbf24" stroke-width="2" marker-end="url(#amber)"/>
+        <g transform="translate(236 54)"><rect width="120" height="100" rx="15" fill="#fff7e8" stroke="#fbbf24"/><text x="14" y="28" class="small">pooler_output</text><text x="14" y="58" class="mono shape">[B,1152]</text><text x="14" y="81" class="tiny">per expert</text></g>
+        <path d="M366 104H397" stroke="#fbbf24" stroke-width="2" marker-end="url(#amber)"/>
+        <g transform="translate(402 54)"><rect width="104" height="100" rx="15" fill="#fff7e8" stroke="#fbbf24"/><text x="14" y="28" class="small">head logits</text><text x="14" y="58" class="mono shape">[B, 2]</text><text x="14" y="81" class="tiny">1152→256→2</text></g>
+        <path d="M516 104H547" stroke="#fbbf24" stroke-width="2" marker-end="url(#amber)"/>
+        <g transform="translate(552 54)"><rect width="76" height="100" rx="15" fill="#fff7e8" stroke="#fbbf24"/><text x="38" y="28" class="small" text-anchor="middle">class 1</text><text x="38" y="58" class="mono shape" text-anchor="middle">P3 [B]</text><text x="38" y="81" class="mono tiny" text-anchor="middle">P4 [B]</text></g>
+      </g>
+    </g>
+
+    <path d="M1098 471H1134" stroke="#a3e635" stroke-width="2.4" marker-end="url(#lime)"/>
+    <g transform="translate(1142 264)" filter="url(#shadow)">
+      <rect width="228" height="402" rx="25" fill="#edf9f7" stroke="#a3e635" stroke-width="1.5"/>
+      <text x="22" y="40" class="label" fill="#b7f66e">FUSION + RETURN</text>
+      <text x="22" y="82" class="head">Float softmax</text>
+      <text x="22" y="108" class="body">logits cast to float</text>
+      <text x="22" y="130" class="body">before class-1 softmax</text>
+      <rect x="20" y="155" width="188" height="72" rx="15" fill="#edf9f7" stroke="#5f8738"/>
+      <text x="114" y="185" class="mono shape" text-anchor="middle">(P3+P4+P1+P2)/4</text>
+      <text x="114" y="210" class="mono small" text-anchor="middle">→ scores [B]</text>
+      <text x="22" y="263" class="label" fill="#91aa9d">PYTHON API</text>
+      <text x="22" y="290" class="mono shape">returns [B]</text>
+      <line x1="22" y1="316" x2="206" y2="316" stroke="#416252"/>
+      <text x="22" y="347" class="label" fill="#91aa9d">HTTP · B=1 IMAGE / B≤2 FRAME MICRO-BATCH</text>
+      <text x="22" y="378" class="mono shape">scores.cpu()[0]</text>
+      <text x="22" y="398" class="tiny">scalar JSON score</text>
+    </g>
+
+    <g transform="translate(70 765)">
+      <rect width="1300" height="72" rx="18" fill="#f4f8ff" stroke="#344b64"/>
+      <text x="24" y="28" class="label" fill="#ff9b97">OUTPUT GUARD</text>
+      <text x="24" y="53" class="body">Return must be rank 1, length B, and finite. CLI writes one scalar row per image; CUDA autocast is optional.</text>
+      <text x="1274" y="43" class="mono shape" fill="#b7f66e" text-anchor="end">[B] → scalar only at web boundary</text>
+    </g>
+  </g>
+</svg>

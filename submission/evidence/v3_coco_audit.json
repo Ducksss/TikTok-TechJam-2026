@@ -1,0 +1,25 @@
+{
+  "archive_md5": "442b8da7639aecaf257c1dceb8ba8c80",
+  "archive_sha256": "4f7e2ccb2866ec5041993c9cf2a952bbed69647b115d0f74da7ce8f4bef82f05",
+  "created_at": "2026-08-29T12:46:29.769719+00:00",
+  "dataset": "coco_val2017",
+  "decoded_files": 5000,
+  "duplicate_extra_rows": 0,
+  "duplicate_hashes": 0,
+  "expected_count_discrepancy": 2,
+  "expected_unique_hashes": 4998,
+  "files": 5000,
+  "formats": {
+    "JPEG": 5000
+  },
+  "image_modes": {
+    "L": 10,
+    "RGB": 4990
+  },
+  "label": "real",
+  "schema_version": 3,
+  "source": "http://images.cocodataset.org/zips/val2017.zip",
+  "status": "complete",
+  "unique_hashes": 5000,
+  "unreadable_files": 0
+}

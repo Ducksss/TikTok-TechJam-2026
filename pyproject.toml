@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "synthflag-infer"
+version = "2.0.0"
+description = "SynthFlag inference package for robust AI-generated image detection"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+dependencies = [
+  "pillow==12.1.0",
+  "torch==2.10.0",
+  "torchvision==0.25.0",
+  "tqdm==4.67.2",
+  "transformers==5.3.0",
+]
+
+[project.scripts]
+synthflag-infer = "infer.cli:main"
+
+[project.optional-dependencies]
+server = [
+  "fastapi==0.116.1",
+  "python-multipart==0.0.20",
+  "uvicorn[standard]==0.35.0",
+]
+test = [
+  "httpx==0.28.1",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["infer*", "synthflag_augment*"]

@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="title desc">
+  <title id="title">SynthFlag inference worker lifecycle and concurrency</title>
+  <desc id="desc">A worker process starts with no model unless eager loading is enabled. Eager startup or the first valid request initializes exactly one resident model through the model lock. Image decoding can overlap, while the inference lock serializes scoring within the process. Health readiness means the model is resident, not that the inference queue is empty.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f4f8ff"/><stop offset="1" stop-color="#f4f8ff"/></linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#7891aa" stroke-opacity=".065"/></pattern>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="11" stdDeviation="15" flood-color="#f4f8ff" flood-opacity=".44"/></filter>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#93abc4"/></marker>
+    <marker id="amber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#fbbf24"/></marker>
+    <marker id="lime" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#a3e635"/></marker>
+    <style>
+      .sans{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.mono{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace}
+      .eyebrow{font-size:15px;font-weight:750;letter-spacing:3px;fill:#65e6d2}.headline{font-size:45px;font-weight:740;letter-spacing:-1.2px;fill:#f5f9ff}.subtitle{font-size:18px;fill:#aabbd0}
+      .kicker{font-size:12px;font-weight:800;letter-spacing:1.5px;fill:#8da5bf}.title{font-size:20px;font-weight:740;fill:#f3f8fd}.body{font-size:14px;fill:#b8c8da}.small{font-size:11px;fill:#8fa5bd}.state{font-size:16px;font-weight:750}.monoText{font-size:12px;fill:#dce8f5}
+    </style>
+      <style>
+      text,tspan{fill:#111827}
+      .eyebrow,.kicker,.stage,.role,.step,.label,.section{fill:#2448c2}
+      .subtitle,.body,.small,.mini,.note,.sub,.tiny{fill:#52627a}
+      .headline,.title,.laneTitle,.lane-title,.card-title,.cardTitle,.boxTitle,.actor,.head,.strong,.stat,.value,.formula,.eq,.prob,.state{fill:#111827}
+      .mono,.monoText,.chip,.number,.num,.code,.dim{fill:#253651}
+    </style>
+  </defs>
+  <rect width="1440" height="900" fill="url(#bg)"/><rect width="1440" height="900" fill="url(#grid)"/>
+  <g class="sans">
+    <text x="64" y="70" class="eyebrow">WORKER LIFECYCLE · PROCESS-LOCAL STATE</text>
+    <text x="64" y="125" class="headline">Load once. Decode concurrently. Score one at a time.</text>
+    <text x="64" y="161" class="subtitle">Two locks protect different resources: initialization and inference.</text>
+
+    <!-- process boundary -->
+    <rect x="52" y="204" width="1032" height="628" rx="30" fill="#f4f8ff" fill-opacity=".72" stroke="#344b64" stroke-width="2" stroke-dasharray="8 7"/>
+    <rect x="76" y="222" width="186" height="32" rx="16" fill="#edf3ff"/><text x="169" y="243" class="kicker" text-anchor="middle" fill="#dae7f4">ONE WORKER PROCESS</text>
+
+    <!-- lifecycle row -->
+    <g transform="translate(76 278)" filter="url(#shadow)">
+      <rect width="192" height="106" rx="20" fill="#edf3ff" stroke="#526a83"/>
+      <text x="18" y="28" class="kicker">PROCESS START</text><text x="18" y="57" class="title">FastAPI lifespan</text><text x="18" y="82" class="small">module state: _model = None</text>
+    </g>
+    <path d="M268 331H318" stroke="#93abc4" stroke-width="3" marker-end="url(#arr)"/>
+    <g transform="translate(332 276)" filter="url(#shadow)">
+      <path d="M92 0L184 55L92 110L0 55Z" fill="#ffffff" stroke="#b58928" stroke-width="2"/>
+      <text x="92" y="46" class="kicker" text-anchor="middle" fill="#f3d17f">EAGER?</text><text x="92" y="67" class="mono monoText" text-anchor="middle">ENV = &quot;1&quot;</text>
+    </g>
+
+    <!-- eager path -->
+    <path d="M424 276V246H948V278" fill="none" stroke="#fbbf24" stroke-width="3" marker-end="url(#amber)"/>
+    <text x="686" y="236" class="small" text-anchor="middle" fill="#f2d28c">yes · lifespan awaits _get_model()</text>
+    <!-- lazy path -->
+    <path d="M516 331H566" stroke="#93abc4" stroke-width="3" marker-end="url(#arr)"/>
+    <text x="541" y="321" class="small" text-anchor="middle">no</text>
+    <g transform="translate(580 278)" filter="url(#shadow)">
+      <rect width="202" height="106" rx="20" fill="#f4f8ff" stroke="#526a83"/>
+      <circle cx="24" cy="27" r="7" fill="#64748b"/><text x="42" y="32" class="state" fill="#dce6f0">UNLOADED</text>
+      <text x="18" y="61" class="small">health: ready = false</text><text x="18" y="82" class="small">first valid request calls _get_model</text>
+    </g>
+
+    <!-- model lock -->
+    <path d="M782 331H824" stroke="#fbbf24" stroke-width="3" marker-end="url(#amber)"/>
+    <g transform="translate(838 278)" filter="url(#shadow)">
+      <rect width="220" height="106" rx="20" fill="#fff7e8" stroke="#d97706" stroke-width="2"/>
+      <text x="18" y="28" class="kicker" fill="#f2cf83">_model_lock</text><text x="18" y="56" class="title">Initialize once</text><text x="18" y="80" class="small">double-check None · load checkpoints</text><text x="18" y="97" class="small">set model + identity digest</text>
+    </g>
+    <path d="M948 384V414H684" fill="none" stroke="#a3e635" stroke-width="3" marker-end="url(#lime)"/>
+    <g transform="translate(522 414)" filter="url(#shadow)">
+      <rect width="324" height="102" rx="20" fill="#ffffff" stroke="#84cc16" stroke-width="2"/>
+      <circle cx="25" cy="28" r="7" fill="#a3e635"/><text x="43" y="33" class="state" fill="#e3f8b4">READY · RESIDENT</text>
+      <text x="18" y="62" class="body">one Model object in this process</text><text x="18" y="84" class="small">future _get_model calls return the fast path</text>
+    </g>
+
+    <!-- requests and overlap -->
+    <text x="76" y="570" class="kicker">CONCURRENT REQUESTS AFTER HTTP VALIDATION</text>
+    <g transform="translate(76 592)">
+      <rect width="958" height="92" rx="18" fill="#f4f8ff" stroke="#30485f"/>
+      <rect x="16" y="16" width="98" height="60" rx="13" fill="#edf9f7"/><text x="65" y="38" class="state" text-anchor="middle" fill="#bff7ee">REQ A</text><text x="65" y="58" class="small" text-anchor="middle">accepted</text>
+      <path d="M114 46H150" stroke="#2dd4bf" stroke-width="2.5" marker-end="url(#arr)"/>
+      <rect x="160" y="16" width="190" height="60" rx="13" fill="#edf9f7" stroke="#287f79"/><text x="176" y="39" class="title" font-size="15">Read + RGB decode</text><text x="176" y="59" class="small">async read · to_thread decode</text>
+      <path d="M350 46H388" stroke="#93abc4" stroke-width="2.5" marker-end="url(#arr)"/>
+      <rect x="398" y="16" width="168" height="60" rx="13" fill="#ffffff" stroke="#84cc16"/><text x="414" y="39" class="title" font-size="15">Resident model</text><text x="414" y="59" class="small">fast _get_model return</text>
+      <path d="M566 46H604" stroke="#fbbf24" stroke-width="2.5" marker-end="url(#amber)"/>
+      <rect x="614" y="16" width="154" height="60" rx="13" fill="#fff7e8" stroke="#d97706"/><text x="630" y="39" class="title" font-size="15">_inference_lock</text><text x="630" y="59" class="small">acquire</text>
+      <path d="M768 46H806" stroke="#60a5fa" stroke-width="2.5" marker-end="url(#arr)"/>
+      <rect x="816" y="16" width="126" height="60" rx="13" fill="#edf3ff" stroke="#3b82f6"/><text x="879" y="39" class="title" font-size="15" text-anchor="middle">SCORE A</text><text x="879" y="59" class="small" text-anchor="middle">predict_pil</text>
+    </g>
+
+    <g transform="translate(76 700)">
+      <rect width="958" height="92" rx="18" fill="#f4f8ff" stroke="#30485f"/>
+      <rect x="16" y="16" width="98" height="60" rx="13" fill="#edf9f7"/><text x="65" y="38" class="state" text-anchor="middle" fill="#bff7ee">REQ B</text><text x="65" y="58" class="small" text-anchor="middle">accepted</text>
+      <path d="M114 46H150" stroke="#2dd4bf" stroke-width="2.5" marker-end="url(#arr)"/>
+      <rect x="160" y="16" width="190" height="60" rx="13" fill="#edf9f7" stroke="#287f79"/><text x="176" y="39" class="title" font-size="15">Read + RGB decode</text><text x="176" y="59" class="small">may overlap with request A</text>
+      <path d="M350 46H388" stroke="#93abc4" stroke-width="2.5" marker-end="url(#arr)"/>
+      <rect x="398" y="16" width="168" height="60" rx="13" fill="#ffffff" stroke="#84cc16"/><text x="414" y="39" class="title" font-size="15">Same model</text><text x="414" y="59" class="small">shared in this process</text>
+      <path d="M566 46H604" stroke="#fbbf24" stroke-width="2.5" marker-end="url(#amber)"/>
+      <rect x="614" y="16" width="154" height="60" rx="13" fill="#fff7e8" stroke="#d97706"/><text x="630" y="39" class="title" font-size="15">WAIT</text><text x="630" y="59" class="small">until A releases lock</text>
+      <path d="M768 46H806" stroke="#60a5fa" stroke-width="2.5" marker-end="url(#arr)"/>
+      <rect x="816" y="16" width="126" height="60" rx="13" fill="#edf3ff" stroke="#3b82f6"/><text x="879" y="39" class="title" font-size="15" text-anchor="middle">SCORE B</text><text x="879" y="59" class="small" text-anchor="middle">after A</text>
+    </g>
+
+    <!-- semantics side rail -->
+    <g transform="translate(1120 204)" filter="url(#shadow)">
+      <rect width="256" height="628" rx="26" fill="#edf3ff" stroke="#435b74"/>
+      <text x="22" y="38" class="kicker">HEALTH SEMANTICS</text>
+      <text x="22" y="76" class="title">GET /health</text>
+      <g transform="translate(22 100)"><rect width="212" height="88" rx="16" fill="#f4f8ff" stroke="#526a83"/><text x="16" y="27" class="mono monoText">ready: false</text><text x="16" y="51" class="body">model is not resident</text><text x="16" y="72" class="small">service may still accept a cold request</text></g>
+      <g transform="translate(22 208)"><rect width="212" height="88" rx="16" fill="#ffffff" stroke="#84cc16"/><text x="16" y="27" class="mono monoText" fill="#e4f8b9">ready: true</text><text x="16" y="51" class="body">model is resident</text><text x="16" y="72" class="small">does not mean the queue is empty</text></g>
+      <line x1="22" y1="326" x2="234" y2="326" stroke="#344b65"/>
+      <text x="22" y="360" class="kicker">PROCESS BOUNDARY</text>
+      <text x="22" y="392" class="body">Module globals and both locks</text><text x="22" y="414" class="body">are process-local.</text>
+      <g transform="translate(22 438)"><rect width="212" height="116" rx="16" fill="#fff7e8" stroke="#9a6c18"/><text x="16" y="27" class="title" font-size="16">More worker processes</text><text x="16" y="54" class="small">→ more Model copies</text><text x="16" y="75" class="small">→ more model memory</text><text x="16" y="96" class="small">→ independent inference locks</text></g>
+      <text x="22" y="590" class="small">Scale only with enough model memory</text><text x="22" y="608" class="small">and device capacity per process.</text>
+    </g>
+    <text x="1376" y="875" class="small" text-anchor="end">Source: current service/app.py worker state and lock placement</text>
+  </g>
+</svg>

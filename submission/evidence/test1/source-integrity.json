@@ -1,0 +1,49 @@
+{
+  "benchmark_id": "TEST1",
+  "received_date_asia_singapore": "2026-09-01",
+  "evidence_class": "public_development_benchmark",
+  "model_contract": {
+    "evaluated": "benchmark_only_corrected_v2_expert4_router_and_stored_heads",
+    "released_infer_contract": "unweighted_mean_of_four_expert_probabilities",
+    "contracts_match": false
+  },
+  "received_sha256": {
+    "sourceTest1.md": "448a51191105e9b99c8461f45175184378b9a5bfbd6cef21844ee27d994ad289",
+    "TEST1_BENCHMARK_REPORT.md": "6c0c202e4f73fad60172f811eaf768ae8172b1f770e85a3a18ded04b050c563c",
+    "metrics_full.csv": "fcf8341f212d965443acad44cbc4e4b1e94b1a66810ac32a1c264f2e5c2c96ea",
+    "predictions.csv": "9b815c92cd1104d5f7b7e696f6505fbd1547b327effa36e0e24c556d20ccd0c5",
+    "robustness_deltas.csv": "75080268cd6c6aad403387d5fa8cb457258c613f34e414aa61dd0908b5b4cb24",
+    "figures/auc_ap_by_dataset.png": "1945032761628c9a2e2b4031154ef34cb45ca30f211787bdda9c5d08af519f03",
+    "figures/calibration_curves.png": "31b9dba9f9b629340c6db8faf3f1bf7f430a44fba0385d2d57eb9ada339bce4a",
+    "figures/confusion_matrices.png": "089e403e2aa8ab310effbfc4a911899dc10e17d0750727c73dfb6b7c57f39bdf",
+    "figures/pr_curves.png": "50558716ff1706538f6076c06c3009252f5b08d602462903f2407b16994bc89e",
+    "figures/roc_curves.png": "eb15da7028b52ecba11a022a9054c87b03d1f5ebd838b5dfe406a1f2b33f984c",
+    "received_integrity.json": "be90e263e1ff6e2571aa02af59715541295a565d391118a0a1719e6e7135a0b0"
+  },
+  "fresh_verification": {
+    "prediction_rows": 30000,
+    "unique_source_pairs": 15000,
+    "balanced_rows_per_dataset_view": 5000,
+    "confusion_matrices_match_metrics_csv": true,
+    "roc_auc_matches_all_six_cells": true,
+    "average_precision_matches_all_six_cells": true
+  },
+  "not_independently_regenerated": [
+    "source_image_membership_and_decode_checks",
+    "pixel_to_encoder_forward_pass",
+    "paired_bootstrap_confidence_intervals"
+  ],
+  "referenced_but_not_received": [
+    "paired_bootstrap_auc.json",
+    "summary.json",
+    "raw_eval/"
+  ],
+  "not_tracked": [
+    "predictions.csv",
+    "dataset_pixels",
+    "source_identity_manifests",
+    "cached_features_or_logits",
+    "checkpoints",
+    "private_benchmark_harness"
+  ]
+}
