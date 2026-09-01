@@ -28,8 +28,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="synthflag-infer",
         description=(
-            "Score an image directory with SynthFlag's checkpoint-compatible "
-            "four-expert detector."
+            "Score an image directory with SynthFlag's selected TEST1 graph: "
+            "Tu et al. Expert 4 plus three routed residual heads."
         ),
     )
     parser.add_argument("--images-dir", required=True, type=Path)
@@ -75,7 +75,7 @@ def _run_metadata(
 ) -> dict[str, object]:
     return {
         "format_version": 2,
-        "inference_protocol": "two-clip-two-siglip-probability-mean-v1",
+        "inference_protocol": "expert4-three-head-native-size-router-v1",
         "package_version": __version__,
         "images_dir": str(images_dir),
         "checkpoint_identity_sha256": checkpoint_identity_digest(
@@ -93,7 +93,11 @@ def _run_metadata(
             "pillow": installed_version("pillow"),
         },
         "preprocessing": "bicubic-short-edge-resize-center-crop-v1",
-        "score": "arithmetic mean of four P(fake), class index 1",
+        "score": (
+            "native max side <=64: sigmoid(teacher margin + 1.25*low-res residual); "
+            "otherwise sigmoid(0.65*epoch05 margin + 0.35*epoch08 margin "
+            "- (-1.557959395647049))"
+        ),
     }
 
 

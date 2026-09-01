@@ -7,7 +7,15 @@ evidence package. Files `01` through `05` are captured product surfaces. Files
 The SVG files are editable masters; every PNG export is exactly 1536 by 1024
 pixels (3:2) and remains below Devpost's 5 MB limit.
 
-## Architecture asset set
+> **Historical media notice:** files `01` through `09` were captured or
+> generated for the retired four-expert release and must not be presented as
+> the selected TEST1 runtime. The current authoritative graph is
+> [`submission/ARCHITECTURE.svg`](../../ARCHITECTURE.svg): one frozen Expert 4
+> SigLIP teacher, three residual heads, and native-size routing. Files `10`
+> through `13` remain valid only for the model-independent concepts stated
+> below.
+
+## Historical architecture asset set
 
 | Family | Dark Devpost export | Light companion | Editable sources |
 |---|---|---|---|
@@ -34,7 +42,7 @@ for README pages, reports, and presentations. The earlier
 `05-architecture.jpg` screenshot is retained as a captured product surface and
 is not an evidence-source diagram; it is not part of the final Devpost gallery.
 
-## Devpost captions
+## Historical captions (do not use for TEST1)
 
 1. **Overall system architecture:** “From one RGB image to four expert
    probabilities: deterministic CLIP/SigLIP paths, exact mean fusion, and

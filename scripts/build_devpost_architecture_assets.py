@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
-"""Build deterministic SynthFlag Devpost technical SVG assets.
+"""Build legacy four-expert SynthFlag Devpost technical SVG assets.
 
 The output is intentionally text-first and code-generated: the labels, metrics,
 and diagram routing need to remain exact and reviewable. PNG export is handled
 separately with the platform SVG renderer so the SVG files remain the editable
 masters.
+
+These assets document the retired v2 baseline and are retained for historical
+comparison. The selected TEST1 runtime is documented by
+``submission/ARCHITECTURE.svg``; do not use this generator for its graph.
 """
 
 from __future__ import annotations

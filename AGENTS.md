@@ -21,16 +21,15 @@ and [Gushchin et al., arXiv:2604.11487](https://arxiv.org/abs/2604.11487).
   surface, public route, diagram inventory, or batch-output contract.
 - Run `python scripts/check_source_provenance.py` after changing release source
   or assets. Do not reintroduce byte-identical source from the audited upstream
-  snapshot. Its machine-readable audit manifest lives at
-  `scripts/upstream-source-audit.json`; `docs/provenance/` is intentionally
-  absent.
+  snapshot.
 
 ## Naming and attribution
 
 - **SynthFlag** is the public product, repository, demo, submission, Python
   package, and primary CLI name.
-- The underlying detector architecture, checkpoints, and research lineage are
-  credited to Tu et al. Do not present them as original SynthFlag research.
+- The underlying detector lineage and frozen Expert 4 checkpoint are credited
+  to Tu et al. Do not present that encoder, its teacher head, or its training as
+  original SynthFlag research.
 - The repository began from a copied upstream snapshot. The current runtime
   is a repository-authored, checkpoint-compatible reimplementation, not a
   clean-room claim. Preserve the disclosure and boundary in
@@ -40,27 +39,29 @@ and [Gushchin et al., arXiv:2604.11487](https://arxiv.org/abs/2604.11487).
 
 ## Released inference contract
 
-- Sources of truth: `infer/architecture.py` for expert topology and score
-  fusion, `infer/preprocessing.py` for image transforms,
+- Sources of truth: `infer/architecture.py` for the Expert 4 teacher, residual
+  heads, native-size route, and score conversion; `infer/preprocessing.py` for image transforms,
   `infer/checkpoints.py` for checkpoint integrity, `infer/model.py` for the
   public Python API, and `infer/outputs.py` plus `infer/cli.py` for batch
   artifacts.
-- Four independent experts: two CLIP ViT-L/14 experts at 224 px and two SigLIP
-  So400M Patch14-384 experts at 384 px.
-- Each expert has a `feature -> Linear(256) -> ReLU -> Dropout(0.3) ->
-  Linear(2)` binary head. CLIP features are 768-dimensional; SigLIP pooled
-  features are 1152-dimensional.
-- Inference converts inputs to RGB, uses bicubic short-edge resize plus center
-  crop, and applies backbone-specific normalization.
-- The score is the exact unweighted arithmetic mean of four class-index-1
-  softmax probabilities. It is a signal, not proof, generator attribution,
+- The selected TEST1 graph has one frozen Tu et al. Expert 4 SigLIP So400M
+  Patch14-384 teacher plus three project-trained residual heads. Expert 4 emits
+  a 1,152-dimensional pooled feature and two teacher logits.
+- Each residual head is `LayerNorm(1152) -> Linear(256) -> GELU -> Dropout ->
+  Linear(1)` and adds a scalar correction to the detached teacher margin.
+- Inference records native image dimensions before converting to RGB, then uses
+  bicubic short-edge resize to 384 px, center crop, and SigLIP normalization.
+- Native longest side `<=64` uses the CIFAKE residual head with alpha `1.25`.
+  Larger images blend epoch-05 and epoch-08 corrected margins `0.65 / 0.35`
+  and apply the fixed margin boundary `-1.557959395647049` before sigmoid.
+  The resulting score is a research signal, not proof, generator attribution,
   localization, or a calibrated probability for every deployment population.
 - A completed CLI run writes `predictions.csv`, Track 5-compatible
   `predictions.json` records with exactly `image_path` and `pred`, and
   `predictions.meta.json`. The JSON artifact is atomic at completed-run time;
   CSV and metadata retain the resumable-run contract.
-- The paper's two-stage self-distillation describes training only. Training is
-  not part of the released live inference path.
+- Head training and the paper's upstream detector training are not part of the
+  released live inference path.
 - The former upstream `distortion/` package remains removed.
   `synthflag_augment/` is a separately designed, repository-authored
   development utility with its own API and audit trace. It is not used by
@@ -87,30 +88,23 @@ and [Gushchin et al., arXiv:2604.11487](https://arxiv.org/abs/2604.11487).
     model walkthrough, and system atlas.
   - `/documentation/architecture` preserves legacy links by forwarding the
     current URL fragment to the matching `/documentation` section.
-- `submission/`: evidence-labeled release package, benchmark tables, TEST1
-  aggregate evidence, model card, rights inventory, checksums, and reproduction
-  guide.
-- `weights/manifest.json`: identities of the four required external
-  checkpoints. Checkpoint binaries are intentionally excluded.
+- `submission/`: evidence-labeled release package, benchmark tables, model card,
+  rights inventory, checksums, and reproduction guide.
+- `weights/manifest.json`: identities of the upstream Expert 4 checkpoint and
+  three selected residual-head files. Checkpoint binaries are intentionally excluded.
 
 ## Evidence rules
 
 - Treat paper facts, released-code behavior, local benchmark evidence, planned
   studies, and deployment guidance as different evidence classes.
-- Treat the Day 3 Professor Ng interview as research input and future-work
-  direction, not model-performance evidence or endorsement. The brief
-  local-camera-statistics prototype has no final metric and is absent from the
-  released model, service, and TEST1.
-- TEST1 is complete public-development evidence for a benchmark-only
-  corrected-v2 Expert-4/router and stored-head system: 15,000 unique public
-  images and 30,000 paired clean/augmented predictions. It is not the TikTok
-  hidden test and does not evaluate the released four-expert `infer/` contract.
-- Preserve the V1/V2/V3 boundaries in `submission/BENCHMARKS.md`. A dash means
-  unavailable, not zero. V3 is blocked and has no performance result.
-- For TikTok-like consequential workflows, constrain false-positive rate before
-  reducing false negatives. A fixed benchmark or service threshold is not a
-  universal deployment policy; calibrate on separate representative data,
-  monitor slices, retain human review, and provide appeals.
+- Treat TEST1 as a completed public development diagnostic, not the locked
+  TikTok test. Preserve the retired V1/V2/V3 four-expert results as historical
+  evidence only. A dash means unavailable, not zero; V3 remains blocked.
+- The project owner accepts the collaborator's attestation that the residual
+  heads and their training inputs are rights-cleared for project use. Describe
+  that status as teammate-attested, not independently audited. Keep the
+  benchmark-aware `<=64` route, separate Expert 4 redistribution boundary, and
+  organizer-eligibility uncertainty visible in the model card and evidence.
 - Do not infer final metrics from partial caches, one-image checks, framework
   tests, or specifications.
 - Never train, tune, select checkpoints, calibrate, or select thresholds using

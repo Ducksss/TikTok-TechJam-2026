@@ -9,10 +9,11 @@ exclusions and explicit historical provenance.** The release is suitable for
 publication because byte-identical upstream runtime/training source,
 checkpoint binaries, dataset pixels, private split rows, and per-image
 protected scores are not tracked in the current tree. Those exclusions are
-mandatory: the audit did not establish a
-redistribution grant for the four fine-tuned checkpoints, SID-Set, WildFake as
-a combined dataset, COCO image pixels as a collection, or the private
-organizer DALL-E Advanced set.
+mandatory: the audit did not establish a redistribution grant for Expert 4,
+SID-Set, WildFake as a combined dataset, COCO image pixels as a collection, or
+the private organizer DALL-E Advanced set. The project owner separately accepts
+the collaborator's rights-clearance attestation for the residual heads and
+their training inputs; the audit records but did not independently verify it.
 
 This is a technical release-readiness verdict, not a legal opinion.
 
@@ -21,11 +22,11 @@ This is a technical release-readiness verdict, not a legal opinion.
 | Requirement or risk | Evidence | Result |
 |---|---|---|
 | Repository code license | Root `LICENSE` is the Apache License 2.0 text; README links it and separates third-party rights. | **Pass** |
-| Historical source provenance | The initial upstream snapshot is disclosed in `docs/IMPLEMENTATION_PROVENANCE.md` and `THIRD_PARTY_NOTICES.md`; the pinned digest inventory and source-provenance check reject exact upstream files except the canonical license. | **Pass** |
+| Historical source provenance | The initial upstream snapshot is disclosed in `docs/IMPLEMENTATION_PROVENANCE.md` and `THIRD_PARTY_NOTICES.md`; the embedded digest inventory and source-provenance check reject exact upstream files except the canonical license. | **Pass** |
 | Current implementation boundary | Inference, preprocessing, checkpoints, outputs, and CLI were rewritten into repository-authored modules; unused copied distortion utilities were removed. The later `synthflag_augment/` development package uses a separate namespace, API, structure, and reproducibility contract and remains outside inference. This is expressly not called a clean-room implementation. | **Pass** |
 | Dependency attribution | Pinned runtime dependencies are listed with declared licenses and primary license URLs in `THIRD_PARTY_NOTICES.md`. | **Pass** |
-| Base-model attribution | CLIP and SigLIP identifiers, model cards, licenses/limitations, and detector lineage through Tu et al. are documented. | **Pass** |
-| Fine-tuned checkpoint permission | No explicit redistribution license was located; `.gitignore` excludes common model formats and the Git tree contains no checkpoint binary. | **Pass by exclusion** |
+| Base-model attribution | SigLIP identifiers, model card, license/limitations, and Tu et al. Expert 4 lineage are documented. | **Pass** |
+| Checkpoint and head permission | Expert 4 redistribution is unproven. Residual-head rights are collaborator-attested and project-owner accepted rather than independently audited; `.gitignore` excludes model formats and the Git tree contains no binary. | **Pass by exclusion for Expert 4; head attestation accepted** |
 | Dataset attribution | CIFAKE, SID-Set, WildFake, COCO, and organizer DALL-E roles and rights evidence are documented. | **Pass** |
 | Dataset redistribution | No dataset pixels, captions, masks, prompts, or private row-level manifests are tracked. Ambiguous sources are non-redistributable by policy. | **Pass by exclusion** |
 | Model card | Intended uses, out-of-scope uses, data statement, metrics, thresholds, limitations, integrity, and responsible operation are documented in `MODEL_CARD.md`. | **Pass** |
@@ -34,7 +35,7 @@ This is a technical release-readiness verdict, not a legal opinion.
 | Day 3 interview evidence | The team supplied a call image and automated transcript. The public copy ends with the researcher interview, excludes later internal chatter, and is labeled as research input rather than performance evidence or endorsement. Publication/likeness permission for every depicted or named participant was not independently verified. | **Conditional: maintainers must confirm consent** |
 | Public artifact integrity | All entries in `ARTIFACTS.sha256` were verified; checkpoint identity is separately recorded without shipping binaries. | **Pass** |
 | Public visual provenance | The project wordmark, architecture diagram, and Devpost thumbnail remain. The thumbnail derives only from project-created SynthFlag brand assets; the unused challenge-site screenshot was removed because its redistribution rights were undocumented. | **Pass** |
-| Research reports | The Tu et al. detector report and Gushchin et al. challenge report are cited through their versioned arXiv records and are not vendored in the repository. | **Pass** |
+| External research reports | The Tu et al. detector report and NTIRE challenge report are cited through their primary publication pages; no copies are included in this repository. | **Pass** |
 
 ## Release contents
 
@@ -57,7 +58,7 @@ Allowed in the public Git release:
 
 Excluded from the public Git release:
 
-- `Expert_*.pth` and all other model binaries;
+- `Expert_4_siglip.pth`, the three residual heads, and all other model binaries;
 - dataset images, prompts, captions, masks, and private manifests;
 - protected split membership, local paths, and per-image protected scores;
 - TEST1 row-level predictions, source identities, cached features/logits, and
@@ -89,8 +90,11 @@ Excluded from the public Git release:
 
 ## Residual boundaries
 
-- The audit did not reconstruct the complete training-data provenance of the
-  upstream fine-tuned checkpoints.
+- Residual-head rights rely on a collaborator attestation accepted by the
+  project owner; supporting license records were not independently audited in
+  this repository.
+- The audit did not reconstruct the complete training-data provenance of
+  upstream Expert 4.
 - It did not perform trademark clearance for the SynthFlag name or artwork.
 - External source terms can change; re-audit before a new binary/data release.
 - The audit records the team's authorization to add the interview evidence but

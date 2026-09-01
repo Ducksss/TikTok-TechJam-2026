@@ -25,10 +25,10 @@ wheel or source distribution.
 
 | Component | Evidence | Release treatment |
 |---|---|---|
-| OpenAI CLIP implementation | The official [CLIP repository](https://github.com/openai/CLIP) declares MIT for its code. Its [ViT-L/14 model card](https://huggingface.co/openai/clip-vit-large-patch14) documents research-oriented use and deployment limitations. | Attribute OpenAI and follow the model card. The code license alone is not treated as proof that every derivative checkpoint is redistributable. |
 | Google SigLIP base model | The [`google/siglip-so400m-patch14-384` model card](https://huggingface.co/google/siglip-so400m-patch14-384) declares Apache-2.0 and identifies WebLI training. | Preserve attribution and the Apache-2.0 terms when redistributing covered base-model material. |
-| Four external `Expert_*.pth` files | Architecture and hashes are documented locally; the files are obtained from an external mirror. No explicit fine-tuned-checkpoint redistribution license was located in the audited public materials. | Not included in Git or the submission archive. Do not re-upload or bundle without written permission from the checkpoint rights holder. |
-| Published four-expert method | [Tu et al., arXiv:2603.21939](https://arxiv.org/abs/2603.21939) | Cite the authors; do not relabel the detector architecture or checkpoints as original SynthFlag research. |
+| Tu et al. `Expert_4_siglip.pth` | Architecture and hash are documented locally; the file is obtained from an authorized external source. No explicit fine-tuned-checkpoint redistribution license was located in the audited public materials. | Required by the selected graph, but not included in Git or the submission archive. Do not re-upload or bundle without permission. |
+| Three SynthFlag residual heads | Project-trained head artifacts distributed as a separate bundle. The collaborator attests that the heads and their training inputs are rights-cleared, and the project owner accepts that attestation. | Not included in Git. Treat rights as teammate-attested rather than independently audited; this does not clear upstream Expert 4 redistribution or organizer eligibility. |
+| Tu et al. method | [Technical report, arXiv:2603.21939](https://arxiv.org/abs/2603.21939) | Cite the authors; do not relabel the detector architecture or checkpoints as original SynthFlag research. |
 
 ## Historical source lineage
 
@@ -41,8 +41,9 @@ attributed here and in the
 [implementation provenance record](../docs/IMPLEMENTATION_PROVENANCE.md).
 
 The current inference and artifact runtime is independently reorganized and
-rewritten. It remains checkpoint-compatible with the published four-expert
-method and is not described as a clean-room implementation. See the complete
+rewritten. It remains checkpoint-compatible with Expert 4 and adds the
+project-trained routed residual heads; it is not described as a clean-room
+implementation. See the complete
 [implementation provenance record](../docs/IMPLEMENTATION_PROVENANCE.md).
 
 ## Publications

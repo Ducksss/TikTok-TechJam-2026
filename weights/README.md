@@ -1,35 +1,47 @@
 # External checkpoint setup
 
-SynthFlag does not ship model weights. To run checkpoint-backed inference, an
-authorized user must supply four expert state dictionaries beside
-the checked-in identity manifest:
+SynthFlag does not commit model binaries. The selected TEST1 runtime requires
+one upstream Tu et al. Expert 4 checkpoint and three project-trained residual
+heads beside the checked-in identity manifest:
 
 ```text
 weights/
 ├── manifest.json
-├── Expert_1_clip.pth
-├── Expert_2_clip.pth
-├── Expert_3_siglip.pth
-└── Expert_4_siglip.pth
+├── Expert_4_siglip.pth
+├── cifake_router_head.pt
+├── general_epoch05_head.pt
+└── general_epoch08_head.pt
 ```
 
-Obtain the checkpoints from the rights holder or another authorized source.
-This repository intentionally does not publish a download URL or access code.
+Obtain `Expert_4_siglip.pth` and the three-head TEST1 bundle from the rights
+holder or another authorized source. This repository intentionally publishes no
+checkpoint download URL or access code.
 
-Before deserialization, SynthFlag checks every required filename, byte count,
-and SHA-256 digest against [`manifest.json`](manifest.json). The implementation
-constructs CLIP ViT-L/14 experts 1 and 2 and SigLIP So400M Patch14-384 experts 3
-and 4 from configuration, then restores the complete expert state dictionaries
-with strict key matching.
+Verify the supplied three-head bundle before extraction:
 
-## Rights boundary
+- ZIP SHA-256: `7a8acf6823cc08ba5e7a55def6c2147f95456a3e9f94c8d60d199e503208be54`
+- ZIP size: `3,323,126` bytes
 
-External checkpoint access is not a redistribution license. The 2026-08-31
-release audit found no explicit permission to redistribute the four fine-tuned
-checkpoint files. Do not upload, bundle, sell, or mirror them without
-authorization from the checkpoint rights holder.
+Before deserialization, SynthFlag checks every filename, byte count, and SHA-256
+digest against [`manifest.json`](manifest.json). PyTorch loads the upstream
+checkpoint and every head with tensor-only safe deserialization and strict state
+matching.
 
-Licenses for the CLIP or SigLIP base implementations do not automatically cover
-downstream fine-tuned weights. Review the [model card](../submission/MODEL_CARD.md),
-[third-party notices](../submission/THIRD_PARTY_NOTICES.md), and
-[release audit](../submission/RELEASE_AUDIT.md) before use or distribution.
+## Exact selected graph
+
+- Native longest side `<= 64`: the CIFAKE router head corrects the frozen
+  Expert 4 teacher margin with alpha `1.25`, then sigmoid produces the score.
+- Native longest side `> 64`: the epoch-05 and epoch-08 corrected margins are
+  blended `0.65 / 0.35`; the fixed boundary `-1.557959395647049` maps to score
+  `0.5`.
+
+## Rights and eligibility boundary
+
+Expert 4 remains upstream research, and its redistribution permission is not
+established by the source-code license. The project owner accepts the
+collaborator's attestation that the three residual heads and their training
+inputs are rights-cleared for project use. That attestation is not an
+independent license audit and does not clear Expert 4 redistribution or
+organizer eligibility. See
+[`submission/MODEL_CARD.md`](../submission/MODEL_CARD.md); do not represent
+Expert 4 as wholly original SynthFlag research.

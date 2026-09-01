@@ -30,47 +30,47 @@ if (typeof window !== 'undefined') {
 }
 
 const proofPoints = [
-  ['04', 'independent experts'],
-  ['02', 'vision families'],
-  ['01', 'ensemble score'],
-  ['0–1', 'fake probability'],
+  ['01', 'frozen Expert 4'],
+  ['03', 'residual heads'],
+  ['02', 'native-size routes'],
+  ['0–1', 'review signal'],
 ];
 
 const experts = [
   {
     id: '01',
-    family: 'CLIP',
-    encoder: 'ViT-L/14',
-    input: '224 px',
-    head: '768 → 256 → 2',
+    family: 'Expert 4',
+    encoder: 'Frozen SigLIP teacher',
+    input: '384 px',
+    head: '1152-D + 2 logits',
   },
   {
     id: '02',
-    family: 'CLIP',
-    encoder: 'ViT-L/14',
-    input: '224 px',
-    head: '768 → 256 → 2',
+    family: 'Low-res',
+    encoder: 'CIFAKE specialist',
+    input: '≤ 64 px native',
+    head: '1152 → 256 → 1',
   },
   {
     id: '03',
-    family: 'SigLIP',
-    encoder: 'So400M Patch14',
-    input: '384 px',
-    head: '1152 → 256 → 2',
+    family: 'Epoch 05',
+    encoder: 'Large-image residual',
+    input: '65% stack',
+    head: '1152 → 256 → 1',
   },
   {
     id: '04',
-    family: 'SigLIP',
-    encoder: 'So400M Patch14',
-    input: '384 px',
-    head: '1152 → 256 → 2',
+    family: 'Epoch 08',
+    encoder: 'Large-image residual',
+    input: '35% stack',
+    head: '1152 → 256 → 1',
   },
 ];
 
 const scanStages = [
-  ['01', 'Capture', 'Read texture, edges, and compression traces.'],
-  ['02', 'Compare', 'Let four independent experts surface distinct signals.'],
-  ['03', 'Resolve', 'Combine the evidence into one reviewable probability.'],
+  ['01', 'Capture', 'Record native size and prepare one SigLIP image view.'],
+  ['02', 'Correct', 'Apply the specialist or fixed two-head residual route.'],
+  ['03', 'Resolve', 'Convert the corrected margin into one review signal.'],
 ];
 
 const featurePoints = [
@@ -497,8 +497,8 @@ export default function Home() {
               className="mt-10 grid max-w-3xl gap-7 border-t border-white/25 pt-7 sm:grid-cols-[1fr_auto] sm:items-end"
             >
               <p className="max-w-xl text-base leading-7 text-white/75 sm:text-lg">
-                Four independently trained vision experts turn a noisy image
-                into one clear, inspectable fake-image probability.
+                One frozen upstream teacher and three project-trained residual
+                heads turn an image into one inspectable review signal.
               </p>
               <a
                 className="group flex items-center gap-3 font-mono text-xs uppercase tracking-[0.16em]"
@@ -583,7 +583,7 @@ export default function Home() {
                 >
                   <div className="mb-5 flex items-center justify-between font-mono text-[10px] uppercase tracking-[.14em] text-[#4b5563]">
                     <span>Illustrative output</span>
-                    <span>ensemble / 04</span>
+                    <span>selected graph / v1</span>
                   </div>
                   <div className="flex items-end justify-between gap-6">
                     <div>
@@ -664,9 +664,8 @@ export default function Home() {
                   can blur the visual traces that detectors learn to recognize.
                 </p>
                 <p className="max-w-xl text-lg leading-8 text-white/72">
-                  SynthFlag answers with diversity: multiple trained experts,
-                  two vision families, and one consistent interface for the
-                  final score.
+                  SynthFlag answers with a fixed native-size route over one
+                  upstream representation and a consistent score interface.
                 </p>
               </div>
             </div>
@@ -680,12 +679,12 @@ export default function Home() {
               [
                 Eye,
                 'See differently',
-                'Independent experts can surface different visual signals from the same image.',
+                'Expert 4 extracts one pooled representation and teacher margin from the image.',
               ],
               [
                 Layers,
                 'Fuse carefully',
-                'Four expert outputs are combined into a single fake-image probability.',
+                'A native-size route selects the specialist or fixed two-head margin stack.',
               ],
               [
                 ShieldCheck,
@@ -733,17 +732,16 @@ export default function Home() {
                 The method
               </div>
               <h2 className="mt-7 font-display text-[clamp(3.7rem,7vw,7.8rem)] font-semibold leading-[.84] tracking-[-.07em] text-[#0040c1]">
-                Four reads.
+                Two routes.
                 <br />
                 One score.
               </h2>
             </div>
             <p className="max-w-2xl text-lg leading-8 text-[#4b5563] lg:justify-self-end">
-              Powered by the published detector architecture, two CLIP experts
-              and two SigLIP experts process the image at their native input
-              sizes. Their learned representations pass through compact
-              classification heads before the ensemble produces a probability in
-              the range 0–1.
+              A frozen Tu et al. Expert 4 supplies a 1,152-dimensional feature
+              and teacher margin. Three compact residual heads correct that
+              margin through a deterministic native-size route before sigmoid
+              produces a signal in the range 0–1.
             </p>
           </div>
 
@@ -766,7 +764,7 @@ export default function Home() {
                 >
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-[11px] uppercase tracking-[.16em] text-[#6b7280]">
-                      Expert / {expert.id}
+                      Component / {expert.id}
                     </span>
                     <span className="relative z-10 grid size-9 place-items-center rounded-full bg-[#d1e0ff] font-display font-semibold text-[#0040c1]">
                       {index + 1}
@@ -811,10 +809,10 @@ export default function Home() {
               />
               <div>
                 <p className="font-mono text-[11px] uppercase tracking-[.17em] text-[#8eb3ff]">
-                  Ensemble interface
+                  Routed detector interface
                 </p>
                 <p className="mt-3 max-w-3xl font-display text-3xl font-semibold leading-tight tracking-[-.04em] sm:text-5xl">
-                  Many signals enter. One probability leaves.
+                  One representation enters. One review signal leaves.
                 </p>
               </div>
             </div>
@@ -1280,8 +1278,8 @@ export default function Home() {
             </span>
           </a>
           <p>
-            Powered by the detector architecture and research lineage described
-            by Tu et al.
+            Built on the detector architecture and research of Tu et al.
+            lineage.
           </p>
           <div className="flex items-center gap-5">
             <a className="text-[#0040c1] hover:underline" href="/journey">

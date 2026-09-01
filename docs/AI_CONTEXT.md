@@ -1,325 +1,195 @@
 # SynthFlag AI context pack
 
 Use this file as the compact, repository-grounded context for an AI assistant.
-It is deliberately shorter than the complete challenge report while preserving
-the important technical and evidence boundaries.
+Executed code and machine-readable manifests outrank explanatory copy.
 
 ## Executive summary
 
-SynthFlag is the public-facing TikTok TechJam 2026 project. It provides a
-repository-authored, checkpoint-compatible implementation of the published
-four-expert detector method as a reproducible Python inference tool, a
-checkpoint-backed HTTP service contract, a public web experience, technical
-documentation, and an evidence-labeled submission package.
+SynthFlag is the public-facing TikTok TechJam 2026 project. Its selected TEST1
+detector uses one frozen upstream Tu et al. Expert 4 SigLIP encoder/teacher
+plus three project-trained residual heads and deterministic native-size routing.
+The repository also provides a Python API and CLI, an optional FastAPI service,
+a public web experience, technical documentation, and evidence-labeled release
+materials.
 
-The four-expert method is credited to Tu et al. and is described in the NTIRE
-2026 challenge report. SynthFlag did not originate the detector or the external
-fine-tuned checkpoints. The project contribution is the rewritten integration
-and inference runtime, checkpoint integrity layer, resumable workflow, service
-and web interfaces, protected-evaluation discipline, documentation, and public
-presentation.
+Tu et al. retain credit for the detector research and Expert 4 checkpoint
+lineage. SynthFlag did not originate or train Expert 4. The residual heads, routing,
+evaluation harness, integration, service, product, and documentation are
+project work, but they do not turn Expert 4 into a clean-room detector.
 
 ## Context freshness
 
-The repository maintains one automatic coding-agent instruction file at
-`/AGENTS.md`. This context pack, `PROMPTING_GUIDE.md`, `README.md`, and the root
-`STATUS.md` expand that contract for people and AI tools. Code and manifests
-remain authoritative. Run `python scripts/check_repository_context.py` when
-public routes, batch outputs, evidence status, naming, or these context files
-change.
+The maintained context set is `/AGENTS.md`, this file,
+`PROMPTING_GUIDE.md`, `README.md`, and `/STATUS.md`. Update them together when
+naming, routes, inference behavior, outputs, evidence, or release procedure
+changes. Run `python scripts/check_repository_context.py` afterward.
 
 ## Repository map
 
-| Path | Responsibility | Source-of-truth status |
+| Path | Responsibility | Authority |
 |---|---|---|
-| `infer/architecture.py` | Checkpoint-compatible expert topology and four-score fusion | Authoritative model graph and score behavior |
-| `infer/preprocessing.py` | CLIP and SigLIP RGB/resize/crop/normalization recipes | Authoritative input transformation |
-| `infer/checkpoints.py` | Checkpoint manifest, file verification, identity, and safe state loading | Authoritative checkpoint boundary |
-| `infer/model.py` | Stable Python scoring API and device handling | Authoritative runtime API |
-| `infer/outputs.py` and `infer/cli.py` | Recursive discovery, run locking, resumability, CSV, Track 5 JSON, and metadata | Authoritative batch behavior |
-| `synthflag_augment/` | Sample-keyed, deterministic image variants with JSON-ready traces | Optional development utility; not inference or a reproduction of the paper-described training policy |
-| `service/app.py` | Optional FastAPI health, single-image, and sampled-frame analysis service | Authoritative Python HTTP behavior |
-| `landing-page/app/api/analyze*/` | Same-origin image/video-frame proxies and timeout/error mapping | Authoritative web proxy behavior |
-| `landing-page/app/try/page.tsx` | Browser file validation, service state, result presentation | Authoritative UI behavior |
-| `landing-page/app/journey/` | Judge-first project narrative, experiments, decisions, and release boundary | Explanatory public narrative |
-| `landing-page/app/documentation/` | Nontechnical and engineering documentation routes | Explanatory public documentation |
-| `landing-page/public/diagrams/` | Eighteen downloadable deterministic SVG diagrams | Explanatory visual assets |
-| `weights/manifest.json` | Required checkpoint names, sizes, and SHA-256 identities | Machine-readable checkpoint identity |
-| `submission/BENCHMARKS.md` | TEST1 and V1/V2/V3 results with model/evidence boundaries | Public benchmark summary |
-| `submission/evidence/test1/` | TEST1 aggregate metrics, protocol, source hashes, and verification limits | Public-development result evidence for a benchmark-only corrected-v2 topology |
-| `submission/evidence/` | Aggregate machine-readable and narrative evidence | Local result evidence |
-| `docs/INTERVIEW_PROF_NG.md` | Day 3 interview photo, transcript link, interpreted insights, exploratory result boundary, and future plan | Research input; not model-performance evidence |
-| `submission/MODEL_CARD.md` | Intended use, limitations, thresholds, responsible operation | Deployment guidance |
-| `submission/DATASETS_AND_RIGHTS.md` | Dataset provenance and redistribution policy | Rights inventory |
-| `submission/RELEASE_AUDIT.md` | Public-release inclusions, exclusions, and checks | Release boundary |
-| `STATUS.md` | Release snapshot, evidence state, and external verification gates | Coordination record; recheck before relying on it |
-| `docs/IMPLEMENTATION_PROVENANCE.md` | Initial snapshot finding, current reimplementation boundary, and non-clean-room disclosure | Source-provenance record |
+| `infer/architecture.py` | Expert 4 teacher, residual-head schema, route, stack, and score conversion | Model graph and score |
+| `infer/preprocessing.py` | RGB, 384 px resize/crop, and SigLIP normalization | Pixel transform |
+| `infer/checkpoints.py` | Manifest verification, identity, and safe tensor loading | Checkpoint boundary |
+| `infer/model.py` | Stable Python scoring API and device handling | Runtime API |
+| `infer/outputs.py`, `infer/cli.py` | Discovery, locking, resumability, CSV, Track 5 JSON, metadata | Batch behavior |
+| `service/app.py` | Health, image analysis, and sampled-frame analysis | HTTP behavior |
+| `landing-page/app/` | `/`, `/try`, `/journey`, `/documentation`, compatibility route, and proxies | Public product source |
+| `weights/manifest.json` | Expert 4 and three residual-head hashes/sizes | Artifact identity |
+| `submission/BENCHMARKS.md` | TEST1 primary evidence and historical-study boundaries | Benchmark summary |
+| `submission/evidence/test1/` | Aggregate TEST1 report, metrics, deltas, and integrity | Selected-graph result evidence |
+| `submission/MODEL_CARD.md` | Intended use, limitations, rights, and eligibility | Deployment guidance |
+| `synthflag_augment/` | Deterministic development-data variants with traces | Optional; not inference |
+| `docs/IMPLEMENTATION_PROVENANCE.md` | Historical snapshot and present-source boundary | Provenance record |
 
-## Exact SynthFlag model contract
+## Exact selected model contract
 
-### Inputs and preprocessing
+### Input and preprocessing
 
-- Public tensor input: `[B, 3, H, W]`.
-- Accepted tensor types: `uint8`, or finite floating point in `[0,1]`.
-- PIL inputs are converted to RGB.
-- CLIP branch: bicubic resize to short edge 224, center crop 224, tensor
-  conversion, then CLIP normalization with mean
-  `(0.48145466, 0.4578275, 0.40821073)` and standard deviation
-  `(0.26862954, 0.26130258, 0.27577711)`.
-- SigLIP branch: bicubic resize to short edge 384, center crop 384, tensor
-  conversion, then mean and standard deviation `(0.5, 0.5, 0.5)`.
+- Public tensor input is `[B,3,H,W]` using `uint8` or finite floats in `[0,1]`.
+- PIL inputs must be valid images. Native width/height are recorded before any
+  resize because routing depends on the original longest side.
+- Inputs are converted to RGB, bicubic-resized to a 384 px short edge,
+  center-cropped to `384 x 384`, converted to a tensor, and normalized with
+  SigLIP mean/std `(0.5, 0.5, 0.5)`.
 
-### Experts and tensor shapes
+### Frozen teacher and project heads
 
-| Expert | Backbone configuration | Feature used | Head | Output |
-|---|---|---:|---|---|
-| 1 and 2 | OpenAI CLIP ViT-L/14, 224 px | `[B,768]` projected image embedding | `768 -> 256 -> ReLU -> Dropout(0.3) -> 2` | `[B,2]` logits |
-| 3 and 4 | Google SigLIP So400M Patch14-384 | `[B,1152]` pooled output | `1152 -> 256 -> ReLU -> Dropout(0.3) -> 2` | `[B,2]` logits |
-
-Each expert applies softmax over its two logits. Class index 1 is treated as
-`P(fake)`. The released score preserves this arithmetic order:
+- Teacher: upstream Tu et al. `Expert_4_siglip.pth`, a SigLIP So400M
+  Patch14-384 vision encoder plus its original two-logit binary classifier.
+- Per image, the teacher supplies a pooled feature `[1152]` and margin
+  `teacher_logit[1] - teacher_logit[0]`.
+- Each project head is:
 
 ```text
-(P_siglip_3 + P_siglip_4 + P_clip_1 + P_clip_2) / 4
+LayerNorm(1152) -> Linear(1152,256) -> GELU -> Dropout -> Linear(256,1)
 ```
 
-There is no weighting, gating, test-time augmentation, generator attribution,
-localization, heatmap, or visible-artifact explanation in the released
-inference path.
+- Each head has `297,729` parameters. During inference dropout is disabled.
+- A head returns `teacher_margin + alpha * residual(features)`; the teacher
+  margin is detached.
 
-### Checkpoint loading
+### Routing and score
 
-`infer/checkpoints.py` requires these external files:
+```text
+if native_longest_side <= 64:
+    margin = teacher_margin + 1.25 * cifake_router_residual
+    score = sigmoid(margin)
+else:
+    margin05 = teacher_margin + epoch05_residual
+    margin08 = teacher_margin + epoch08_residual
+    stacked_margin = 0.65 * margin05 + 0.35 * margin08
+    score = sigmoid(stacked_margin - (-1.557959395647049))
+```
 
-- `Expert_1_clip.pth`
-- `Expert_2_clip.pth`
-- `Expert_3_siglip.pth`
-- `Expert_4_siglip.pth`
+The reported benchmark decision convention is `score >= 0.5`. That threshold
+is not a universal deployment threshold. The output is a ranking/review signal,
+not proof of authorship, generator attribution, localization, or a calibrated
+probability for every population.
 
-By default, it validates `manifest.json`, exact byte sizes, and SHA-256 before
-deserialization. Loading uses `torch.load(..., weights_only=True)`, requires a
-non-empty tensor-only state dictionary, restores with strict architecture
-matching, moves each expert to the selected device, and switches it to
-evaluation mode. Hashes establish file identity, not authenticity, safety, or
-redistribution rights.
+### Required local artifacts
 
-## Paper-described training
+```text
+weights/
+├── manifest.json
+├── Expert_4_siglip.pth
+├── cifake_router_head.pt
+├── general_epoch05_head.pt
+└── general_epoch08_head.pt
+```
 
-The detector technical report says the method used two stages:
+The three-head ZIP has SHA-256
+`7a8acf6823cc08ba5e7a55def6c2147f95456a3e9f94c8d60d199e503208be54`.
+No checkpoint binary belongs in Git.
 
-1. Train each model for two epochs with a binary real-versus-generated
-   objective.
-2. Use intermediate feature maps from the epoch-2 checkpoint as dense targets
-   for feature-level self-distillation and align current representations to
-   those targets.
+## Batch and service contracts
 
-The report also describes training-set expansion and broader degradation
-modeling. The public repository does not contain the complete paper training
-pipeline, the training data, or a claim that the released inference package can
-reproduce checkpoint training. Never place training inside a live inference
-diagram or imply that inference performs self-distillation.
-
-Primary sources: [Tu et al., Sections 4.3 and 4.7](https://arxiv.org/abs/2603.21939)
-and [Gushchin et al., NTIRE challenge report](https://arxiv.org/abs/2604.11487).
-
-## Repository-authored augmentation toolkit
-
-`synthflag_augment/` is a separate development utility with seventeen Pillow-
-and PyTorch-based operations, deterministic sample-keyed random streams,
-normalized strengths, and JSON-ready traces. It covers common repost,
-compression, blur, display-capture, color/exposure, noise, quantization, and
-occlusion effects. It always returns a new RGB image at the input dimensions and
-leaves the source image unchanged. Its moderate `robustness_recipe` preset is a
-starting configuration, not training evidence.
-
-The toolkit is not imported by `infer/` or `service/`, does not use external
-weights, and is not a reconstruction of the historical upstream `distortion/`
-package or the paper-described training policy. Use only development data with an
-appropriate rights and split role; never tune it on protected final-evaluation
-rows. The public contract and examples are in `docs/AUGMENTATION_TOOLKIT.md`.
-
-## CLI contract
-
-The `synthflag-infer` command in `infer/cli.py`, backed by
-`infer/outputs.py`, recursively discovers supported images in sorted path
-order, verifies all checkpoints before constructing the model, acquires an
-exclusive output-directory lock, and writes:
+A completed CLI run creates:
 
 - `predictions.csv` with `image_name,score`;
-- `predictions.json` with completed-run `image_path,pred` records for the
-  TikTok TechJam Track 5 evaluator; and
-- `predictions.meta.json` with protocol, package/runtime versions,
-  preprocessing identity, checkpoint identity, device, AMP, and batch size.
+- atomic `predictions.json` records containing exactly `image_path` and `pred`;
+- `predictions.meta.json`, which binds a resumable run to inputs, runtime, and
+  checkpoint identity.
 
-Supported CLI extensions are JPEG, PNG, BMP, WebP, and TIFF. Results are flushed
-and `fsync`-ed in configurable groups. Resume matching is by relative image
-path plus exact run metadata, not by image-content hash. If an image changes at
-the same relative path, use a new output directory or `--overwrite`.
+`service/app.py` caches one model per process, admits one active and one queued
+analysis, and serializes inference. `/v1/analyze` scores one image. The sampled
+frame route scores 1–8 browser-derived frames in two-frame microbatches and
+returns ordered scores plus descriptive mean/peak/threshold-count summaries.
+The raw video stays in the browser; audio and motion are not analyzed.
 
-## HTTP and web contract
+Public routes are `/`, `/try`, `/journey`, and `/documentation`.
+`/documentation/architecture` forwards legacy fragment links.
+`/api/analyze` and `/api/analyze-video` are bounded same-origin proxies.
 
-The FastAPI service accepts one JPEG, PNG, or WebP image, at most 10 MiB, with
-dimensions of at least 32 px and at most 50,000,000 decoded pixels. It also
-accepts 1–8 ordered sampled frames for a 1–10 second video, at most 2 MiB each
-and 16 MiB total. It may eager-load at process startup or lazy-load on first
-analysis. Model creation is guarded by `_model_lock`; one model is cached per
-process; prediction is guarded by `_inference_lock`, so model execution is
-serialized within a process. Admission is bounded to one active and one queued
-analysis; further requests receive `429` with `Retry-After: 5`.
+## TEST1 evidence
 
-`POST /v1/analyze` returns `score`, a service threshold of `0.5`, model/version,
-a short checkpoint identity, and `processing_ms`. The timer begins after image
-decode and model acquisition, so it includes inference-lock waiting and
-prediction but excludes upload reading, decode, and cold model loading.
+TEST1 is the primary evidence for the selected graph:
 
-`POST /v1/analyze-frames` accepts repeated `frames`, ordered JSON
-`timestamps_ms`, and `duration_ms`. It scores two frames per microbatch with the
-unchanged model and returns ordered frame scores plus arithmetic mean, peak,
-peak timestamp, and count at the service threshold. Those aggregates summarize
-image-model outputs; they are not a calibrated video-level probability.
+- 15,000 unique public sources and 30,000 aligned clean/composite evaluations;
+- 5,000 balanced rows each from CIFAKE official test, SID-Set public validation,
+  and a score-blind WildFake official-test sample;
+- one clean and one deterministic 1–5-family composite view per source;
+- fixed reported threshold `0.5`, with no fitting during the reporting pass.
 
-The website can call a direct public inference URL or the same-origin
-`/api/analyze` and `/api/analyze-video` proxies. Health uses a 5-second upstream
-timeout; both analysis paths use a 300-second timeout. Before multipart parsing,
-the proxies stream-read within bounded request envelopes while retaining the
-10 MiB image, 2 MiB per-frame, and 16 MiB total-frame limits. The video client
-validates 1–10 second MP4/WebM files up to 50 MB, samples eight uniform midpoint
-frames, and submits lossless 384 × 384 PNG center crops. It accepts a result only
-when the returned duration and timestamps match those submitted samples. Raw
-video is not submitted.
-The public architecture diagrams describe supported configurations, not a
-guarantee about the topology of the current deployment. Authentication,
-platform rate limiting, durable upload/result storage, automatic retry, and
-streamed server progress are not implemented by these source files.
+| Dataset | Clean AUC | Composite AUC | Clean FP/FN | Composite FP/FN |
+|---|---:|---:|---:|---:|
+| CIFAKE | 0.9816 | 0.9095 | 288 / 113 | 499 / 388 |
+| SID-Set | 0.8691 | 0.8439 | 18 / 1,044 | 58 / 1,038 |
+| WildFake | 0.9467 | 0.8785 | 316 / 272 | 861 / 257 |
 
-The public information architecture has two distinct long-form surfaces:
+TEST1 is a public development diagnostic, not the locked TikTok test. The
+public suites were inspected during earlier work. The `<=64` route sends all
+TEST1 CIFAKE images and no SID/WildFake images to the specialist, so its CIFAKE
+result is benchmark-aware rather than proof of unknown-domain routing.
 
-- `/journey` tells the judge-first story of the problem, V1/V2 decisions, Day 3
-  research interview, final released model, TEST1 public-development benchmark,
-  and release boundary;
-- `/documentation` is the unified technical appendix, interview and future-work
-  boundary, TEST1 and paper evidence guide, deep model walkthrough, and system
-  atlas.
+The older V1/V2 studies evaluated the retired four-expert probability mean.
+They remain historical evidence only and must not be used to claim performance
+for the selected graph. V3 remains blocked because the exact organizer DALL-E
+Advanced source is absent.
 
-The legacy `/documentation/architecture` route remains as a compatibility
-handoff that preserves fragments such as `#deep-model` and lands on the same
-section in `/documentation`. Journey and Documentation retain distinct audience
-and navigation roles.
+## Rights, eligibility, and provenance
 
-## Scores, thresholds, and claims
+- The project owner accepts the collaborator's attestation that the three
+  residual heads and their training inputs are rights-cleared for project use.
+  This is teammate-attested rather than independently license-audited.
+- The disclosed lineage includes a 9,311-image Open Images bulk tranche and 986
+  guided-diffusion/BigGAN sample pixels, 682 of which entered gradients. The
+  collaborator's attestation resolves the prior retrain gate for project use.
+- WildFake remains evaluation-only; no benchmark pixels are redistributed.
+- Expert 4 redistribution permission is unproven. A base SigLIP license does
+  not automatically license the published fine-tune.
+- Under the relayed Track 5 restriction against an existing AIGC detector, the
+  selected system may be ineligible unless organizers explicitly clear it.
+- The repository began from a copied upstream snapshot. Current source is an
+  independently organized implementation, not a clean-room claim. Preserve
+  attribution, `docs/IMPLEMENTATION_PROVENANCE.md`, and
+  `submission/THIRD_PARTY_NOTICES.md`.
 
-- A score is continuous model evidence, not conclusive proof of origin.
-- The service reports threshold `0.5`.
-- The website's descriptive bands (`0.25`, `0.5`, `0.75`) are presentation
-  language, not a calibration study.
-- For TikTok-like creator operations, false positives are the first error cost
-  to constrain because an incorrect flag can question authentic work, interrupt
-  distribution or monetization, and trigger appeals. Consequential thresholds
-  should target a validated FPR cap first, then reduce false negatives within
-  that constraint.
-- Neither the service's `0.5` threshold nor any TEST1 threshold is a universal
-  low-FPR moderation cutoff. Select on separate representative calibration data,
-  freeze before evaluation, monitor by domain/post-processing slice, require
-  human review, and preserve an appeal path.
-- The protected V1 evidence documents a frozen balanced operating threshold of
-  `0.2874746155139839`. It changes binary decisions, not score ranking or
-  ROC-AUC. It is a historical balanced research point, not the recommended
-  operating point for a low-FPR consequential workflow, and is not
-  automatically appropriate for a new population.
-- The NTIRE challenge report lists the detector submission's average clean
-  ROC-AUC `0.9729` and average robust ROC-AUC `0.8679`. These are organizer
-  challenge results, not the repository's local V1/V2 benchmark values. See
-  [Gushchin et al., arXiv:2604.11487](https://arxiv.org/abs/2604.11487).
-
-## Local evidence boundary
-
-- **Day 3 research interview:** Professor Ng Teck Khim discussed camera
-  color-filter mosaics, demosaicing, local variance, cross-channel statistics,
-  post-processing fragility, and adversarial imitation as a future forensic
-  direction. The team had little remaining research time; an early
-  local-statistics prototype was not strong or stable enough for a final
-  result. It is absent from `infer/`, the service, TEST1, and final model
-  selection, and no performance number is claimed. The team-supplied photo and
-  interview-only automated transcript document the conversation, not detector
-  performance or researcher endorsement.
-- **TEST1:** 15,000 unique public images from balanced 5,000-image CIFAKE,
-  SID-Set, and WildFake subsets, each scored clean and under one deterministic
-  composite corruption for 30,000 paired predictions. The reporting threshold
-  was fixed at `0.5`, and the public suites were previously inspected, so this
-  is development evidence rather than a pristine blind holdout.
-- **TEST1 model contract:** benchmark-only corrected-v2 Expert-4/router and
-  stored-head topology. It is not the released four-expert probability mean in
-  `infer/`, the live service, or the TikTok hidden test. Descriptive macro
-  ROC-AUC is `0.9324` clean and `0.8773` augmented; per-dataset results and
-  strict TPR-at-FPR diagnostics are primary.
-- **V1 calibration:** 2,004 development rows; threshold/configuration selection
-  was permitted.
-- **V1 final:** 7,998 protected rows, balanced 3,999 real and 3,999 fake; final
-  rows were not used for fitting or selection.
-- **V2:** 2,004-row retrospective development analysis with duplicate-grouped
-  cross-validation and deterministic corruptions; it is not a second protected
-  final test.
-- **V3:** blocked because the exact organizer 8,843-image DALL-E Advanced source
-  is absent. No V3 metric exists, and a similarly named dataset must not be
-  substituted.
-
-Use `submission/BENCHMARKS.md` for the complete table. Do not turn partial
-evaluation caches, a one-image score, or a planned protocol into a result.
-The TEST1 source CIs were not independently regenerated because the received
-package omitted its referenced paired-bootstrap JSON; that limitation must
-remain beside the intervals.
-
-## Public release and rights boundary
-
-Allowed public material includes repository-authored code/docs, aggregate
-metrics and protocols, hashes, and correctly attributed CC-licensed paper
-content. Excluded material includes checkpoint binaries, dataset pixels,
-private split membership, local paths, per-image protected scores, and material
-without a redistribution grant.
-
-The Tu et al. technical report and the NTIRE challenge report are referenced
-externally under their declared terms; neither is vendored or relicensed under
-the repository's Apache License 2.0. Checkpoint and dataset access do not imply
-redistribution permission.
-
-## Implementation provenance boundary
-
-The repository root commit copied 20 of 21 files byte-for-byte from a public
-source repository owned by GitHub user `tzlkkk` at commit
-`6feb63ef12a3bd38c8d7ade98183c5f727a0c62d`. The repositories have separate Git
-ancestry, but that does not make the initial source independent. The current
-inference and output runtime is a repository-authored, checkpoint-compatible
-reimplementation. The unused copied `distortion/` package and moved
-`competition.png` snapshot were removed. The later `synthflag_augment/` package
-is separately designed SynthFlag development code with a different namespace,
-API, structure, and reproducibility contract.
-
-This is not described as a clean-room implementation because the public method,
-checkpoint schema, and earlier runtime behavior were known. Historical source
-remains attributed under Apache-2.0 in `docs/IMPLEMENTATION_PROVENANCE.md` and
-`submission/THIRD_PARTY_NOTICES.md`; the overlap guard is in
-`scripts/check_source_provenance.py`, backed by
-`scripts/upstream-source-audit.json`. The former `docs/provenance/` directory is
-intentionally absent.
-
-## Safe language for answers
+## Safe language
 
 Prefer:
 
-- “SynthFlag returns a model score associated with AI-generated-image patterns.”
-- “The score should be combined with provenance, context, and human review.”
-- “The released ensemble averages four expert probabilities.”
-- “TEST1 evaluates a separate benchmark-only corrected-v2 topology.”
-- “For consequential creator operations, constrain false-positive rate first
-  and calibrate the threshold on representative data.”
-- “The report describes self-distillation during training.”
-- “This diagram shows a supported configuration.”
+- “SynthFlag uses a frozen Tu et al. Expert 4 representation with three
+  project-trained residual heads.”
+- “TEST1 is a completed public development diagnostic.”
+- “Residual-head rights are collaborator-attested and accepted by the project
+  owner; they were not independently license-audited in this repository.”
+- “A score supports review and must not be treated as proof.”
 
 Avoid:
 
-- “SynthFlag proves this image is fake.”
-- “The score is calibrated for every image source.”
-- “The model identifies which generator made the image.”
-- “The model highlights the manipulated region.”
-- “Uploads are guaranteed never to be retained.”
-- “The public site definitely uses this exact infrastructure.”
+- “SynthFlag trained or invented Expert 4.”
+- “The model passed TikTok's hidden test.”
+- “Expert 4 redistribution or organizer eligibility is cleared.”
+- “CIFAKE routing demonstrates unknown-domain generalization.”
+- “The older four-expert V1/V2 metrics validate the selected TEST1 graph.”
+
+## Verification commands
+
+```bash
+python -m unittest discover -s tests
+python scripts/check_repository_context.py
+python scripts/check_source_provenance.py
+```
+
+For the public site, also run its unit checks, lint, and production build.

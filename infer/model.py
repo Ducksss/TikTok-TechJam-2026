@@ -10,9 +10,12 @@ import torch
 from PIL import Image
 from torchvision.transforms import functional as visionf
 
-from .architecture import SynthFlagEnsemble
+from .architecture import (
+    SynthFlagDetector,
+    SynthFlagEnsemble,
+)
 from .checkpoints import checkpoint_identity_digest, verify_checkpoint_files
-from .preprocessing import CLIP_RECIPE, SIGLIP_RECIPE, prepare_batch
+from .preprocessing import SIGLIP_RECIPE, prepare_batch
 
 
 def resolve_device(device: str | torch.device) -> torch.device:
@@ -68,7 +71,7 @@ class Model:
     ) -> None:
         self.device = resolve_device(device)
         self.use_amp = bool(use_amp and self.device.type == "cuda")
-        self.model = SynthFlagEnsemble(
+        self.model = SynthFlagDetector(
             model_data_dir,
             self.device,
             verify_hashes=verify_hashes,
@@ -86,7 +89,7 @@ class Model:
 
     @torch.inference_mode()
     def predict_pil(self, images: Sequence[Image.Image]) -> torch.Tensor:
-        """Score PIL inputs after independent CLIP and SigLIP preprocessing."""
+        """Score PIL inputs with native-size routing and SigLIP preprocessing."""
 
         image_list = list(images)
         if not image_list:
@@ -94,15 +97,19 @@ class Model:
         if any(not isinstance(image, Image.Image) for image in image_list):
             raise TypeError("predict_pil expects a sequence of PIL images")
 
+        native_longest_sides = torch.tensor(
+            [max(image.size) for image in image_list],
+            dtype=torch.int64,
+            device=self.device,
+        )
         siglip_batch = prepare_batch(image_list, SIGLIP_RECIPE, self.device)
-        clip_batch = prepare_batch(image_list, CLIP_RECIPE, self.device)
         precision_context = (
             torch.amp.autocast("cuda", enabled=True)
             if self.use_amp
             else nullcontext()
         )
         with precision_context:
-            scores = self.model(siglip_batch, clip_batch)
+            scores = self.model(siglip_batch, native_longest_sides)
 
         _validate_score_batch(scores, len(image_list))
         return scores
@@ -110,6 +117,7 @@ class Model:
 
 __all__ = [
     "Model",
+    "SynthFlagDetector",
     "SynthFlagEnsemble",
     "checkpoint_identity_digest",
     "resolve_device",

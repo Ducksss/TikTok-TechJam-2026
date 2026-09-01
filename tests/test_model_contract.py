@@ -1,59 +1,82 @@
 from __future__ import annotations
 
+import tempfile
 import unittest
+from pathlib import Path
 
 import torch
-from torch import nn
 
 from infer.architecture import (
-    SynthFlagEnsemble,
-    clip_vision_config,
+    FEATURE_WIDTH,
+    HIDDEN_WIDTH,
+    LARGE_IMAGE_MARGIN_BOUNDARY,
+    LOW_RESOLUTION_ALPHA,
+    ResidualHead,
+    load_head_checkpoint,
+    score_corrected_margins,
     siglip_vision_config,
 )
 from infer.model import _validate_score_batch, _validate_tensor_batch
 
 
-class _FixedLogits(nn.Module):
-    def __init__(self, real: float, fake: float) -> None:
-        super().__init__()
-        self.register_buffer("logits", torch.tensor([real, fake], dtype=torch.float32))
-
-    def forward(self, pixels: torch.Tensor) -> torch.Tensor:
-        return self.logits.expand(pixels.shape[0], -1)
-
-
 class ModelContractTest(unittest.TestCase):
-    def test_backbone_shapes_match_external_checkpoint_contract(self) -> None:
-        clip = clip_vision_config()
+    def test_backbone_shape_matches_upstream_expert4_contract(self) -> None:
         siglip = siglip_vision_config()
         self.assertEqual(
-            (clip.image_size, clip.patch_size, clip.projection_dim),
-            (224, 14, 768),
-        )
-        self.assertEqual((clip.hidden_size, clip.num_hidden_layers), (1024, 24))
-        self.assertEqual(
             (siglip.image_size, siglip.patch_size, siglip.hidden_size),
-            (384, 14, 1152),
+            (384, 14, FEATURE_WIDTH),
         )
         self.assertEqual(siglip.num_hidden_layers, 27)
 
-    def test_ensemble_uses_class_one_and_exact_four_probability_mean(self) -> None:
-        ensemble = SynthFlagEnsemble.__new__(SynthFlagEnsemble)
-        nn.Module.__init__(ensemble)
-        ensemble.expert1_clip = _FixedLogits(0.0, 1.0)
-        ensemble.expert2_clip = _FixedLogits(2.0, -1.0)
-        ensemble.expert3_siglip = _FixedLogits(-2.0, 2.0)
-        ensemble.expert4_siglip = _FixedLogits(0.5, 0.25)
+    def test_zero_residual_is_exact_teacher_identity(self) -> None:
+        model = ResidualHead(zero_initialize_output=True)
+        features = torch.randn(3, FEATURE_WIDTH)
+        teacher_logits = torch.tensor([[1.0, 2.0], [2.0, -1.0], [0.5, 0.5]])
+        expected = teacher_logits[:, 1] - teacher_logits[:, 0]
+        torch.testing.assert_close(model(features, teacher_logits), expected)
 
-        scores = ensemble(torch.empty(3, 3, 384, 384), torch.empty(3, 3, 224, 224))
-        logits = [
-            torch.tensor([[0.0, 1.0]]),
-            torch.tensor([[2.0, -1.0]]),
-            torch.tensor([[-2.0, 2.0]]),
-            torch.tensor([[0.5, 0.25]]),
-        ]
-        expected = sum(torch.softmax(value, dim=1)[:, 1] for value in logits) / 4
-        torch.testing.assert_close(scores, expected.expand(3))
+    def test_selected_native_size_route_and_large_stack_formula(self) -> None:
+        low = torch.tensor([0.0, 2.0, -2.0])
+        epoch05 = torch.tensor([10.0, 1.0, -1.0])
+        epoch08 = torch.tensor([10.0, 3.0, 1.0])
+        native_sides = torch.tensor([64, 65, 1024])
+
+        scores = score_corrected_margins(low, epoch05, epoch08, native_sides)
+
+        expected = torch.tensor(
+            [
+                torch.sigmoid(torch.tensor(0.0)),
+                torch.sigmoid(
+                    torch.tensor(0.65 * 1.0 + 0.35 * 3.0 - LARGE_IMAGE_MARGIN_BOUNDARY)
+                ),
+                torch.sigmoid(
+                    torch.tensor(0.65 * -1.0 + 0.35 * 1.0 - LARGE_IMAGE_MARGIN_BOUNDARY)
+                ),
+            ]
+        )
+        torch.testing.assert_close(scores, expected)
+
+    def test_strictly_loads_selected_head_payload(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            source = ResidualHead(zero_initialize_output=True)
+            checkpoint = Path(temporary_directory) / "head.pt"
+            torch.save(
+                {
+                    "schema_version": 1,
+                    "architecture": {
+                        "input_width": FEATURE_WIDTH,
+                        "hidden_width": HIDDEN_WIDTH,
+                        "training_dropout": 0.1,
+                    },
+                    "state_dict": source.state_dict(),
+                    "selected_alpha": LOW_RESOLUTION_ALPHA,
+                },
+                checkpoint,
+            )
+            loaded = load_head_checkpoint(checkpoint)
+            self.assertEqual(loaded.selected_alpha, LOW_RESOLUTION_ALPHA)
+            self.assertEqual(loaded.model.parameter_count, 297_729)
+            self.assertFalse(loaded.model.training)
 
     def test_tensor_input_contract(self) -> None:
         _validate_tensor_batch(torch.zeros(2, 3, 10, 12, dtype=torch.uint8))

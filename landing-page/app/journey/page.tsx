@@ -15,7 +15,6 @@ import {
   ShieldCheck,
   Smartphone,
 } from 'lucide-react';
-import Image from 'next/image';
 
 import { HashAnchorSync } from '../documentation/hash-anchor-sync';
 import { ModelJourney } from '../documentation/architecture/model-journey';
@@ -29,8 +28,6 @@ const contents = [
   ['day-two', 'Day 2 · Robustness'],
   ['released-model', 'Released model'],
   ['day-three', 'Day 3 · Guardrails'],
-  ['research-interview', 'Day 3 · Interview'],
-  ['test1', 'Day 4 · TEST1'],
   ['roadmap', 'Roadmap'],
   ['status', 'What remains'],
 ] as const;
@@ -116,14 +113,13 @@ export default function JourneyPage() {
         <div className="journey-hero-inner">
           <div className="journey-hero-copy">
             <p className="docs-eyebrow">
-              Four-day technical timeline · 29 August–1 September 2026
+              Three-day technical timeline · 29–31 August 2026
             </p>
-            <h1>Four days. One defensible detector.</h1>
+            <h1>Three days. One defensible detector.</h1>
             <p>
               We began by deciding what evidence to trust. We ended with a
-              protected result, a rejected shortcut, a released four-expert
-              product, and a 15,000-image public benchmark that keeps its model
-              boundary and low-FPR tradeoff visible.
+              protected evidence, rejected shortcuts, a selected routed residual
+              product, and a roadmap honest about what is still unproven.
             </p>
             <div className="journey-hero-actions">
               <a className="journey-primary-link" href="#day-one">
@@ -135,7 +131,7 @@ export default function JourneyPage() {
             </div>
           </div>
 
-          <ol className="journey-hero-map" aria-label="Four-day storyline">
+          <ol className="journey-hero-map" aria-label="Three-day storyline">
             <li>
               <span>Day 1</span>
               <strong>Choose what to trust</strong>
@@ -150,11 +146,6 @@ export default function JourneyPage() {
               <span>Day 3</span>
               <strong>Reject shortcuts. Build the product.</strong>
               <small>Domain guardrails · integration · roadmap</small>
-            </li>
-            <li>
-              <span>Day 4</span>
-              <strong>Measure clean and damaged inputs</strong>
-              <small>TEST1 · 15,000 sources · low-FPR policy</small>
             </li>
           </ol>
         </div>
@@ -281,10 +272,10 @@ export default function JourneyPage() {
             <div className="journey-threshold-story">
               <div className="journey-panel-heading">
                 <div>
-                  <p>Protected final result</p>
+                  <p>Historical V1 protected-final result</p>
                   <h3>Move the operating point—not the ranking model.</h3>
                 </div>
-                <StatusBadge kind="adopted">Adopted</StatusBadge>
+                <StatusBadge kind="partial">Historical V1</StatusBadge>
               </div>
               <div className="journey-metric-comparison">
                 <div>
@@ -304,7 +295,9 @@ export default function JourneyPage() {
                 produced 238 more correct decisions overall. Precision moved
                 from 0.9371 to 0.8764 and specificity from 0.9602 to 0.8995.
                 ROC-AUC stayed 0.8505 because the ranking scores never changed.
-                This is an explicit review tradeoff—not free accuracy.
+                This was an explicit review tradeoff—not free accuracy—for the
+                retired four-expert runtime. It is not the decision rule for the
+                selected TEST1 graph.
               </p>
             </div>
           </section>
@@ -347,44 +340,43 @@ export default function JourneyPage() {
               <div className="journey-panel-heading">
                 <div>
                   <p>Released architecture</p>
-                  <h3>Two encoders. Four independent experts.</h3>
+                  <h3>One frozen encoder. Three residual heads.</h3>
                 </div>
                 <StatusBadge kind="adopted">Released</StatusBadge>
               </div>
               <div className="journey-lanes">
                 <article className="journey-lane journey-lane-clip">
                   <div>
-                    <span>CLIP</span>
-                    <strong>224 × 224</strong>
+                    <span>Expert 4</span>
+                    <strong>SigLIP · 384 × 384</strong>
                   </div>
                   <ul>
-                    <li>16 × 16 = 256 patches + CLS</li>
-                    <li>24 transformer blocks</li>
-                    <li>1,024-wide tokens → 768-D feature</li>
-                    <li>Heads 1 and 2</li>
+                    <li>Frozen upstream Expert 4 checkpoint</li>
+                    <li>27 transformer blocks</li>
+                    <li>1,152-D pooled feature</li>
+                    <li>Two-logit teacher margin</li>
                   </ul>
                 </article>
                 <article className="journey-lane journey-lane-siglip">
                   <div>
-                    <span>SigLIP</span>
-                    <strong>384 × 384</strong>
+                    <span>Residual route</span>
+                    <strong>3 × 297,729 params</strong>
                   </div>
                   <ul>
-                    <li>27 × 27 = 729 patch tokens</li>
-                    <li>Six-pixel bottom/right remainder</li>
-                    <li>27 blocks · 1,152-D feature</li>
-                    <li>Heads 3 and 4</li>
+                    <li>≤64 px uses CIFAKE head at α 1.25</li>
+                    <li>&gt;64 px blends epoch 05 / 08</li>
+                    <li>Fixed weights 0.65 / 0.35</li>
+                    <li>Frozen margin boundary -1.55796</li>
                   </ul>
                 </article>
               </div>
               <p className="journey-credit-note">
-                SynthFlag provides a repository-authored, checkpoint-compatible
-                implementation of the published four-expert method described by
-                Tu et al. It does not claim to originate the architecture,
-                training method, or checkpoints. Different objectives,
-                resolutions, feature widths, and checkpoints make the encoders
-                plausibly complementary; this work does not claim it proved a
-                “semantics versus texture” split.
+                Tu et al. supplied Expert 4 and its detector training.
+                SynthFlag does not claim to originate or train that checkpoint.
+                The residual heads and routing are project artifacts with a
+                collaborator rights attestation accepted by the project owner.
+                Expert 4 redistribution and organizer eligibility remain
+                separate.
               </p>
             </div>
 
@@ -511,62 +503,6 @@ export default function JourneyPage() {
               </div>
             </div>
 
-            <div className="journey-interview" id="research-interview">
-              <div className="journey-interview-copy">
-                <div className="journey-panel-heading">
-                  <div>
-                    <p>Research interview · Day 3</p>
-                    <h3>
-                      A camera-forensics idea arrived late—and stayed future
-                      work.
-                    </h3>
-                  </div>
-                  <StatusBadge kind="partial">Exploratory</StatusBadge>
-                </div>
-                <p>
-                  We interviewed Professor Ng Teck Khim about the local
-                  statistics created by camera color-filter mosaics and
-                  demosaicing. The conversation suggested examining small-block
-                  variance, cross-channel relationships, mosaic phase, and the
-                  ways blur or adversarial post-processing can erase or imitate
-                  those clues.
-                </p>
-                <p>
-                  Because the interview happened on Day 3, we had little time to
-                  research and test the idea. Our early local-statistics
-                  prototype was not strong or stable enough to support a final
-                  claim. It was not used in the released four-expert model,
-                  TEST1, or final model selection, and no performance number is
-                  reported for it.
-                </p>
-                <div className="journey-interview-links">
-                  <a
-                    download
-                    href="/interviews/prof-ng-teck-khim-day3-transcript.txt"
-                  >
-                    Download interview transcript
-                  </a>
-                  <a href="/documentation#research-interview">
-                    Read the research boundary{' '}
-                    <ArrowUpRight aria-hidden="true" />
-                  </a>
-                </div>
-              </div>
-              <figure>
-                <Image
-                  alt="Professor Ng Teck Khim and the SynthFlag team during a Day 3 video research interview"
-                  height={679}
-                  loading="lazy"
-                  src="/interviews/prof-ng-teck-khim-day3.png"
-                  width={1280}
-                />
-                <figcaption>
-                  Day 3 research call. The image and transcript document the
-                  conversation; they are not model-performance evidence.
-                </figcaption>
-              </figure>
-            </div>
-
             <div className="journey-product-build">
               <div className="journey-section-heading journey-subheading">
                 <p>Product integration</p>
@@ -608,100 +544,6 @@ export default function JourneyPage() {
             </div>
           </section>
 
-          <section className="journey-section journey-day" id="test1">
-            <DayHeader
-              day="Day 4"
-              date="Tuesday · 1 September"
-              title="Measure the frozen candidate—and keep the model boundary visible."
-              question="What survives a paired composite corruption, and what recall remains when false positives are tightly constrained?"
-            />
-
-            <div className="journey-story-grid">
-              <div className="journey-story-copy">
-                <p className="journey-kicker">
-                  TEST1 · completed public-development evidence
-                </p>
-                <p>
-                  We scored 15,000 unique public images from balanced CIFAKE,
-                  SID-Set, and WildFake subsets twice: clean and under one
-                  deterministic one-to-five-operation composite corruption. That
-                  produced 30,000 paired predictions at a fixed 0.5 reporting
-                  threshold, with no TEST1 threshold tuning.
-                </p>
-              </div>
-              <div className="journey-principle">
-                <ShieldCheck aria-hidden="true" />
-                <div>
-                  <strong>
-                    Corrected-v2 benchmark model—not the live model
-                  </strong>
-                  <p>
-                    TEST1 uses an Expert-4/router and stored-head topology. The
-                    released product remains the four-expert arithmetic mean;
-                    these values cannot be transferred to it.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="journey-robustness-grid journey-test1-grid">
-              <article>
-                <span>01</span>
-                <strong>CIFAKE</strong>
-                <output>0.9816 → 0.9095</output>
-                <small>clean to augmented ROC-AUC · delta −0.0721</small>
-              </article>
-              <article>
-                <span>02</span>
-                <strong>SID-Set</strong>
-                <output>0.8691 → 0.8439</output>
-                <small>clean to augmented ROC-AUC · delta −0.0252</small>
-              </article>
-              <article>
-                <span>03</span>
-                <strong>WildFake</strong>
-                <output>0.9467 → 0.8785</output>
-                <small>clean to augmented ROC-AUC · delta −0.0682</small>
-              </article>
-            </div>
-            <p className="journey-footnote">
-              Descriptive macro ROC-AUC: 0.9324 clean and 0.8773 augmented.
-              Per-dataset values are primary; this is not a pooled leaderboard
-              score or the TikTok hidden test.
-            </p>
-
-            <div className="journey-policy-boundary">
-              <div>
-                <Gauge aria-hidden="true" />
-                <h3>For TikTok operations, constrain false positives first.</h3>
-              </div>
-              <div className="journey-policy-stats">
-                <p>
-                  <strong>0.4376–0.7564</strong>
-                  <span>clean TPR range at 1% FPR</span>
-                </p>
-                <p>
-                  <strong>0.2036–0.5608</strong>
-                  <span>augmented TPR range at 1% FPR</span>
-                </p>
-                <p>
-                  <strong>0.5 fixed</strong>
-                  <span>reporting point · not tuned on TEST1</span>
-                </p>
-              </div>
-              <p>
-                A false positive can wrongly question authentic work, interrupt
-                distribution or monetization, and create an appeal.
-                Consequential policy should therefore meet a validated FPR cap
-                first, then reduce false negatives within that constraint. The
-                fixed 0.5 point does not meet one common FPR target across the
-                six TEST1 cells, so it is diagnostic—not a universal moderation
-                cutoff. Separate calibration, slice monitoring, human review,
-                and appeals remain mandatory.
-              </p>
-            </div>
-          </section>
-
           <section className="journey-section" id="roadmap">
             <div className="journey-section-heading">
               <p>Roadmap · Questions worth testing</p>
@@ -720,10 +562,7 @@ export default function JourneyPage() {
                   and local variance associated with camera acquisition, Bayer
                   sampling, and demosaicing.
                 </p>
-                <small>
-                  Briefly prototyped on Day 3; the early signal was not strong
-                  or stable enough for a final result.
-                </small>
+                <small>Not implemented or evaluated during the sprint.</small>
               </article>
               <article>
                 <div>
@@ -754,26 +593,18 @@ export default function JourneyPage() {
             <div className="journey-release-grid">
               <article>
                 <StatusBadge kind="adopted">Released</StatusBadge>
-                <h3>Four-expert image inference</h3>
+                <h3>Routed residual image inference</h3>
                 <p>
-                  CLIP 1 → CLIP 2 → SigLIP 3 → SigLIP 4, fused by (P3 + P4 + P1
-                  + P2) / 4.
+                  Frozen Expert 4 → three residual corrections → native-size
+                  route → sigmoid score.
                 </p>
               </article>
               <article>
                 <StatusBadge kind="adopted">Measured</StatusBadge>
-                <h3>Protected operating point</h3>
+                <h3>TEST1 public diagnostic</h3>
                 <p>
-                  Threshold 0.28747 was measured on the separate 7,998-image
-                  final set after calibration.
-                </p>
-              </article>
-              <article>
-                <StatusBadge kind="adopted">Measured</StatusBadge>
-                <h3>TEST1 public benchmark</h3>
-                <p>
-                  15,000 unique public sources and 30,000 paired clean/augmented
-                  predictions for the benchmark-only corrected-v2 topology.
+                  15,000 public sources were evaluated clean and under one
+                  deterministic composite view at reported threshold 0.5.
                 </p>
               </article>
               <article>
@@ -798,9 +629,7 @@ export default function JourneyPage() {
               <p>
                 <strong>Score signal—not proof.</strong> SynthFlag is a triage
                 aid for human review. It does not prove authorship, localize
-                manipulation, or replace provenance and contextual evidence. For
-                creator operations, consequential policy constrains false
-                positives first and preserves an appeal path.
+                manipulation, or replace provenance and contextual evidence.
               </p>
             </div>
           </section>

@@ -1,4 +1,4 @@
-"""Stateless HTTP access to SynthFlag's checkpoint-compatible runtime."""
+"""Stateless HTTP access to SynthFlag's selected TEST1 runtime."""
 
 from __future__ import annotations
 
@@ -183,7 +183,7 @@ async def health() -> dict:
             },
         },
         "device": _device(),
-        "model": "SynthFlag four-expert ensemble",
+        "model": "SynthFlag TEST1 routed residual detector",
         "ready": _model is not None,
         "service": "SynthFlag inference",
         "version": __version__,
@@ -216,7 +216,7 @@ async def analyze(image: UploadFile = File(...)) -> dict:
 
     return {
         "checkpoint": _checkpoint_digest,
-        "model": "SynthFlag four-expert ensemble",
+        "model": "SynthFlag TEST1 routed residual detector",
         "processing_ms": elapsed_ms,
         "score": score,
         "threshold": SERVICE_THRESHOLD,
@@ -359,7 +359,7 @@ async def analyze_frames(
         "checkpoint": _checkpoint_digest,
         "duration_ms": duration_ms,
         "frame_scores": frame_scores,
-        "model": "SynthFlag four-expert ensemble",
+        "model": "SynthFlag TEST1 routed residual detector",
         "processing_ms": elapsed_ms,
         "sample_count": frame_count,
         "summary": {

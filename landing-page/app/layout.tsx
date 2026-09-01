@@ -17,15 +17,14 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: 'SynthFlag — From pixels to evidence',
   description:
-    'A four-expert research detector for robust AI-generated image detection in the wild.',
+    'A routed residual research detector built on a frozen Tu et al. Expert 4 representation.',
   metadataBase: new URL('https://synthflag.chaipinzheng353496.chatgpt.site'),
   icons: {
     icon: '/favicon.svg',
   },
   openGraph: {
     title: 'SynthFlag — From pixels to evidence',
-    description:
-      'Four vision experts. Two model families. One clear AI-image probability.',
+    description: 'One frozen teacher. Three residual heads. One review signal.',
     type: 'website',
     images: [
       {
@@ -39,8 +38,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'SynthFlag — From pixels to evidence',
-    description:
-      'A four-expert research detector for robust AI-generated image detection in the wild.',
+    description: 'A routed residual research detector with evidence attached.',
     images: ['/og.png'],
   },
 };

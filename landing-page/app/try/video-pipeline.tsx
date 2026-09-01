@@ -56,7 +56,7 @@ type VideoPipelineProps = {
 const PIPELINE_STAGES = [
   { icon: Film, label: 'Decode locally' },
   { icon: ScanLine, label: 'Sample 8 frames' },
-  { icon: Cpu, label: 'SynthFlag analysis' },
+  { icon: Cpu, label: 'Expert 4 routed analysis' },
   { icon: Layers3, label: 'Aggregate report' },
 ];
 
@@ -667,7 +667,7 @@ export function VideoPipeline({
             </div>
             <div className="bg-white p-3">
               <dt className="text-[#667085]">Architecture</dt>
-              <dd className="mt-1 font-medium">SynthFlag 4-expert</dd>
+              <dd className="mt-1 font-medium">Expert 4 + 3 heads</dd>
             </div>
           </dl>
 

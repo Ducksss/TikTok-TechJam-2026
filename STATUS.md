@@ -22,15 +22,14 @@ automation, process, or worktree dirtiness state.
 
 | Surface | Contract |
 |---|---|
-| Public identity | **SynthFlag** is the product, repository, demo, submission, Python distribution, and primary CLI. The detector and checkpoint lineage is attributed to Tu et al. |
-| Batch inference | Repository-authored modules under `infer/` implement the checkpoint-verified four-expert mean and resumable directory inference. |
-| Development augmentation | `synthflag_augment/` provides repository-authored, sample-keyed image variants and audit traces; it is optional, outside inference, and not a reproduction of the paper-described training policy. |
+| Public identity | **SynthFlag** is the product, repository, demo, submission, Python distribution, and primary CLI. Tu et al. retain detector-research and Expert 4 checkpoint attribution. |
+| Batch inference | `infer/` implements the selected TEST1 graph: frozen Tu et al. Expert 4 plus three project-trained residual heads, native-size routing, and resumable directory inference. |
+| Development augmentation | `synthflag_augment/` provides repository-authored, sample-keyed image variants and audit traces; it is optional, outside inference, and not paper-described training reproduction. |
 | Batch artifacts | A completed run produces `predictions.csv`, Track 5 `predictions.json` records with `image_path,pred`, and `predictions.meta.json`. |
 | HTTP service | `service/app.py` exposes checkpoint-backed health, single-image analysis, and bounded sampled-frame analysis with two-frame microbatches; it does not make the public worker available by itself. |
 | Web experience | Primary routes are `/`, `/try`, `/journey`, and the unified `/documentation`; `/documentation/architecture` is a fragment-preserving compatibility route. The `/api/analyze` and `/api/analyze-video` proxies bound request bodies before multipart parsing. Raw videos remain in the browser while eight midpoint PNG frames are submitted and response metadata is matched to them. |
-| Submission package | `submission/` contains the evidence-labeled benchmarks, including TEST1 aggregate evidence and its model boundary, plus architecture, reproduction guide, rights inventory, model card, release audit, and checksums. |
-| Day 3 research interview | `docs/INTERVIEW_PROF_NG.md` and the public website preserve the team-supplied photo, an interview-only transcript, learned camera-forensics ideas, and the boundary that the brief exploratory prototype was not a final result. |
-| Source provenance | The initial copied snapshot is disclosed; the current runtime is independently organized, exact upstream files are rejected using `scripts/upstream-source-audit.json`, and historical method/code credit is preserved. The former `docs/provenance/` directory remains removed. |
+| Submission package | `submission/` contains the evidence-labeled benchmarks, architecture, reproduction guide, rights inventory, model card, release audit, and checksums. |
+| Source provenance | The initial copied snapshot is disclosed; the current runtime is independently organized, exact upstream files are rejected, and historical method/code credit is preserved. |
 
 The two long-form web routes are intentionally distinct: `/journey` is the
 judge-first project and decision narrative, while `/documentation` combines
@@ -42,22 +41,14 @@ inside `/documentation`.
 
 | Evidence | State | Boundary |
 |---|---|---|
-| TEST1 public development benchmark | Available | 15,000 unique public images and 30,000 paired clean/augmented predictions across CIFAKE, SID-Set, and WildFake; fixed threshold 0.5; benchmark-only corrected-v2 topology, not the released four-expert `infer/` model. |
-| Professor Ng research interview | Available as research input | Day 3 interview about Bayer/demosaicing statistics and future testing; early local-statistics prototype was not strong or stable enough for a final metric and was not used in the released model or TEST1. |
-| V1 calibration | Available | 2,004 development rows; configuration and threshold selection permitted. |
-| V1 protected final | Available | 7,998 rows; not used for fitting, checkpoint choice, or threshold selection. |
-| V2 retrospective development study | Available | Duplicate-grouped cross-validation and corruptions on the 2,004-row development evidence; not a second protected final test. |
+| TEST1 selected-graph diagnostic | Available | 15,000 unique public sources and 30,000 clean/composite evaluations across CIFAKE, SID-Set, and WildFake; public suites were previously inspected and the resolution route is benchmark-aware. |
+| Residual-head rights | Attested | The project owner accepts the collaborator's rights-clearance attestation for the project-trained heads and their training inputs; this is not an independent license audit and does not clear Expert 4 redistribution or organizer eligibility. |
+| V1/V2 four-expert studies | Historical | Evidence for the retired four-expert runtime; not evidence for the selected TEST1 graph. |
 | V3 | **Blocked** | Exact organizer 8,843-image DALL-E Advanced source absent; no substitute and no metric. |
 
 A dash in the public benchmark table means unavailable, never zero. Partial
 caches, framework tests, package checks, one-image scores, or planned protocols
 are not benchmark results.
-
-For TikTok-like creator operations, the policy priority is to constrain false
-positives before reducing false negatives. TEST1 reports TPR at 1% and 5% FPR
-for that reason. Its fixed `0.5` point is a diagnostic, not a universal
-consequential-action threshold; deployment thresholds require separate
-representative calibration, slice monitoring, human review, and appeals.
 
 ## External-state boundary
 
@@ -91,9 +82,10 @@ refetch before pushing, and never force-push the release branch.
 
 ## Release gates
 
-1. Preserve SynthFlag naming and the detector's research attribution.
-2. Preserve the exact released four-expert score unless a code change is
-   explicitly requested and verified.
+1. Preserve SynthFlag public naming and Tu et al. research attribution.
+2. Preserve the exact selected TEST1 route, `1.25` low-resolution alpha,
+   `0.65 / 0.35` large-image blend, and `-1.557959395647049` boundary unless a
+   code change is explicitly requested and verified.
 3. Preserve protected-evaluation, privacy, checkpoint, dataset, and licensing
    exclusions documented in `submission/RELEASE_AUDIT.md`.
 4. Validate relevant tests/builds, JSON, SVG, Markdown links, artifact

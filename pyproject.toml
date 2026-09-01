@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "synthflag-infer"
-version = "2.0.0"
-description = "SynthFlag inference package for robust AI-generated image detection"
+version = "3.0.0"
+description = "SynthFlag TEST1 routed residual inference for AI-generated image detection"
 readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.10"

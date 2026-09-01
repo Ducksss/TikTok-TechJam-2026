@@ -11,20 +11,18 @@ scores. Access to a dataset is not the same as permission to redistribute it.
 
 | Source | Role in evidence | Primary reference | Rights evidence found | Public-repository policy |
 |---|---|---|---|---|
-| CIFAKE | V1/V2 and TEST1 evaluation source | [Official Kaggle dataset page](https://www.kaggle.com/datasets/birdy654/cifake-real-and-ai-generated-synthetic-images) and [paper](https://arxiv.org/abs/2303.14126) | The publisher's dataset page declares MIT terms and requires citation of CIFAR-10 and CIFAKE. The real images derive from CIFAR-10 and the fake images were produced with Stable Diffusion 1.4. TEST1 uses a balanced 5,000-image subset of the official test split. | Attribute the sources; do not mirror pixels from this repository. Recheck the current source page before any separate redistribution. |
-| SID-Set | V1/V2 and TEST1 evaluation source | [Official SIDA repository](https://github.com/hzlsaber/SIDA) | The official repository provides access instructions, but no repository-level dataset license was located during this audit. Public download access alone is not a redistribution grant. TEST1 uses 5,000 rows from the public validation split, not its separately distributed test split. | Treat pixels, captions, masks, and descriptions as non-redistributable unless the rights holder supplies explicit terms. |
-| WildFake | V1/V2 and TEST1 evaluation source | [WildFake paper](https://arxiv.org/abs/2402.11843) | The paper is available under its publication license, but that does not automatically license the dataset. WildFake aggregates author-generated material and content from multiple datasets, model repositories, and community platforms; no single dataset-wide redistribution grant was located. TEST1 uses a score-blind 5,000-image sample from official test metadata. | Cite the paper; do not mirror pixels or assume commercial redistribution rights. Review every upstream source before reuse outside evaluation. |
+| CIFAKE | TEST1 evaluation and low-resolution-head train source | [Official Kaggle dataset page](https://www.kaggle.com/datasets/birdy654/cifake-real-and-ai-generated-synthetic-images) and [paper](https://arxiv.org/abs/2303.14126) | The publisher's dataset page declares MIT terms and requires citation of CIFAR-10 and CIFAKE. The real images derive from CIFAR-10 and the fake images were produced with Stable Diffusion 1.4. | Do not mirror pixels. The official test subset remains evaluation-only; the train-derived specialist and its benchmark-aware route must be disclosed. |
+| SID-Set | TEST1 public-validation evaluation | [Official SIDA repository](https://github.com/hzlsaber/SIDA) | The official repository provides access instructions, but no repository-level dataset license was located during this audit. Public download access alone is not a redistribution grant. | Treat pixels, captions, masks, and descriptions as non-redistributable unless the rights holder supplies explicit terms. |
+| WildFake | TEST1 official-test metadata sample | [WildFake paper](https://arxiv.org/abs/2402.11843) | The paper is available under its publication license, but that does not automatically license the dataset. WildFake aggregates content with heterogeneous rights; no dataset-wide redistribution grant was located. | Evaluation only. Cite the paper; do not mirror pixels or assume commercial redistribution rights. |
 | COCO val2017 | Audited real-image side of planned V3 | [Official COCO site and terms](https://cocodataset.org/#termsofuse) | COCO annotations are published under CC BY 4.0; image rights follow the individual Flickr source licenses and are not replaced by the annotation license. | No COCO images or annotations are shipped here. Any future image redistribution requires per-image license review and attribution. |
 | Organizer DALL-E Advanced set | Required fake-image side of V3 | [NTIRE 2026 challenge report](https://arxiv.org/abs/2604.11487) | The exact 8,843-image organizer-provided source is absent, and no redistribution authorization is available in this repository. | V3 remains blocked. Do not substitute another collection, publish pixels, or claim V3 results. |
 
 ## Protected evaluation boundary
 
-- TEST1 uses 15,000 unique public development images and 30,000 paired
-  clean/augmented predictions. The source suites were previously inspected, so
-  TEST1 is not a pristine blind holdout or TikTok hidden-test result.
-- TEST1 aggregate metrics and source hashes may be public. Its dataset pixels,
-  source-identity rows, row-level predictions, cached features/logits, and local
-  protocol paths remain excluded.
+- TEST1 public suites were inspected during development and are not a pristine
+  blind holdout. The reporting pass performs no fitting.
+- The CIFAKE test subset is not used to train the specialist head, but native
+  resolution nearly identifies that dataset in TEST1.
 - V1 final rows were held out from fitting and threshold selection.
 - V2 is retrospective development analysis on V1 calibration rows, not new
   protected-final validation.
@@ -32,6 +30,25 @@ scores. Access to a dataset is not the same as permission to redistribute it.
   authorized channel.
 - No protected labels or per-image scores may be used for training, feature
   selection, checkpoint choice, calibration, or threshold tuning.
+
+## Selected-head rights attestation
+
+The project owner accepts the collaborator's attestation that the residual
+heads and their training inputs are rights-cleared for project use. The
+repository records that decision as teammate-attested, not independently
+license-audited. The disclosed large-image training lineage includes:
+
+- a 9,311-image Open Images bulk tranche with source-level CC BY assertions but
+  without item-by-item verification; and
+- 986 precomputed guided-diffusion/BigGAN sample pixels without an explicit
+  data-specific license, 682 of which entered the gradient split.
+
+The accepted attestation removes the prior rights-clean-retrain gate for the
+residual heads. Supporting license or permission records are not included in
+this Git tree, so future distributors should retain the collaborator's source
+records and required attribution. Expert 4 remains a separate checkpoint
+rights/eligibility gate; residual-head clearance does not clear the upstream
+fine-tune or establish organizer approval.
 
 ## Requirements for any future public dataset artifact
 

@@ -11,10 +11,10 @@ import torch
 
 
 CHECKPOINT_FILENAMES = (
-    "Expert_1_clip.pth",
-    "Expert_2_clip.pth",
-    "Expert_3_siglip.pth",
     "Expert_4_siglip.pth",
+    "cifake_router_head.pt",
+    "general_epoch05_head.pt",
+    "general_epoch08_head.pt",
 )
 CHECKPOINT_MANIFEST = "manifest.json"
 _HASH_BUFFER_BYTES = 8 * 1024 * 1024
@@ -35,26 +35,17 @@ def _read_manifest(directory: Path) -> dict[str, object]:
     try:
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     except FileNotFoundError as exc:
-        raise FileNotFoundError(
-            f"checkpoint manifest not found: {manifest_path}"
-        ) from exc
+        raise FileNotFoundError(f"checkpoint manifest not found: {manifest_path}") from exc
     except (OSError, json.JSONDecodeError) as exc:
-        raise ValueError(
-            f"checkpoint manifest is not valid JSON: {manifest_path}"
-        ) from exc
-
-    if manifest.get("schema_version") != 1 or not isinstance(
-        manifest.get("files"), dict
-    ):
+        raise ValueError(f"checkpoint manifest is not valid JSON: {manifest_path}") from exc
+    if manifest.get("schema_version") != 2 or not isinstance(manifest.get("files"), dict):
         raise ValueError(f"unsupported checkpoint manifest schema: {manifest_path}")
     return manifest
 
 
 def _checkpoint_paths(directory: Path) -> dict[str, Path]:
     paths = {filename: directory / filename for filename in CHECKPOINT_FILENAMES}
-    missing = [
-        str(file_path) for file_path in paths.values() if not file_path.is_file()
-    ]
+    missing = [str(path) for path in paths.values() if not path.is_file()]
     if missing:
         raise FileNotFoundError(
             "required checkpoint files are missing:\n  " + "\n  ".join(missing)
@@ -62,13 +53,10 @@ def _checkpoint_paths(directory: Path) -> dict[str, Path]:
     return paths
 
 
-def _manifest_identity(
-    entries: dict[str, object], filename: str
-) -> tuple[int, str]:
+def _manifest_identity(entries: dict[str, object], filename: str) -> tuple[int, str]:
     record = entries.get(filename)
     if not isinstance(record, dict):
         raise ValueError(f"checkpoint manifest has no record for {filename}")
-
     expected_bytes = record.get("size_bytes")
     expected_digest = record.get("sha256")
     if not isinstance(expected_bytes, int) or expected_bytes <= 0:
@@ -86,35 +74,31 @@ def verify_checkpoint_files(
     *,
     verify_hashes: bool = True,
 ) -> dict[str, Path]:
-    """Resolve all four checkpoints and optionally verify their manifest identities."""
+    """Resolve Expert 4 and all three residual heads and verify their identities."""
 
     directory = Path(weights_dir).expanduser().resolve()
     if not directory.is_dir():
         raise FileNotFoundError(f"weights directory not found: {directory}")
-
     checkpoints = _checkpoint_paths(directory)
     if not verify_hashes:
         return checkpoints
-
     manifest = _read_manifest(directory)
     entries = manifest["files"]
-    assert isinstance(entries, dict)  # Narrowed by _read_manifest.
+    assert isinstance(entries, dict)
     for filename, file_path in checkpoints.items():
         expected_bytes, expected_digest = _manifest_identity(entries, filename)
-
         observed_bytes = file_path.stat().st_size
         if observed_bytes != expected_bytes:
             raise ValueError(
-                f"checkpoint size mismatch for {filename}: "
-                f"expected {expected_bytes}, observed {observed_bytes}"
+                f"checkpoint size mismatch for {filename}: expected {expected_bytes}, "
+                f"observed {observed_bytes}"
             )
         observed_digest = file_sha256(file_path)
         if observed_digest != expected_digest:
             raise ValueError(
-                f"checkpoint SHA-256 mismatch for {filename}: "
-                f"expected {expected_digest}, observed {observed_digest}"
+                f"checkpoint SHA-256 mismatch for {filename}: expected "
+                f"{expected_digest}, observed {observed_digest}"
             )
-
     return checkpoints
 
 
@@ -123,7 +107,7 @@ def checkpoint_identity_digest(
     *,
     use_manifest: bool = True,
 ) -> str:
-    """Identify a checkpoint set without incorporating mutable mirror URLs."""
+    """Identify the selected graph without incorporating mutable download URLs."""
 
     directory = Path(weights_dir).expanduser().resolve()
     if use_manifest:
@@ -133,20 +117,16 @@ def checkpoint_identity_digest(
         identity = {}
         for filename in CHECKPOINT_FILENAMES:
             size_bytes, digest = _manifest_identity(entries, filename)
-            identity[filename] = {
-                "sha256": digest,
-                "size_bytes": size_bytes,
-            }
+            identity[filename] = {"sha256": digest, "size_bytes": size_bytes}
     else:
         checkpoints = _checkpoint_paths(directory)
         identity = {
             filename: {
-                "modified_time_ns": file_path.stat().st_mtime_ns,
-                "size_bytes": file_path.stat().st_size,
+                "modified_time_ns": path.stat().st_mtime_ns,
+                "size_bytes": path.stat().st_size,
             }
-            for filename, file_path in checkpoints.items()
+            for filename, path in checkpoints.items()
         }
-
     canonical = json.dumps(
         identity,
         ensure_ascii=True,
@@ -157,15 +137,13 @@ def checkpoint_identity_digest(
 
 
 def load_expert_state(checkpoint_path: Path) -> Mapping[str, torch.Tensor]:
-    """Load one tensor-only expert state dictionary using PyTorch's safe mode."""
+    """Load the tensor-only Expert 4 state dictionary using PyTorch safe mode."""
 
     payload = torch.load(checkpoint_path, map_location="cpu", weights_only=True)
     if isinstance(payload, Mapping) and "model_state_dict" in payload:
         payload = payload["model_state_dict"]
     if not isinstance(payload, Mapping) or not payload:
-        raise ValueError(
-            f"checkpoint does not contain a state dictionary: {checkpoint_path}"
-        )
+        raise ValueError(f"checkpoint does not contain a state dictionary: {checkpoint_path}")
     if any(
         not isinstance(name, str) or not isinstance(tensor, torch.Tensor)
         for name, tensor in payload.items()

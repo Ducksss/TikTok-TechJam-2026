@@ -10,7 +10,7 @@
 
 <p align="center">
   Robust AI-generated image detection with reproducible inference and evidence-aware reporting.<br>
-  Built for the <strong>TikTok TechJam 2026 Hackathon</strong> on a published four-expert detector.
+  Built for the <strong>TikTok TechJam 2026 Hackathon</strong> with a frozen Tu et al. Expert 4 representation and project-trained residual heads.
 </p>
 
 <p align="center">
@@ -23,26 +23,27 @@
 </p>
 
 <p align="center">
-  <code>Python ≥ 3.10</code> · <code>Apache-2.0</code> · <code>CLIP + SigLIP</code> · <code>4-expert ensemble</code>
+  <code>Python ≥ 3.10</code> · <code>Apache-2.0 source</code> · <code>SigLIP Expert 4</code> · <code>3 residual heads</code>
 </p>
 
 ## Overview
 
-**SynthFlag** provides a repository-authored, checkpoint-compatible
-implementation of the published four-expert detector method inside a complete
+**SynthFlag** provides the selected TEST1 detector graph—one frozen upstream
+Tu et al. Expert 4 teacher plus three project-trained residual heads—inside a complete
 TikTok TechJam workflow: verified batch inference, a public detector
 experience, protected evaluation, and a submission package whose claims remain
 traceable to their evidence.
 
 SynthFlag is the public product, submission, Python distribution, and primary
-CLI name. The underlying detector architecture, external checkpoints, and
-research lineage remain attributed to Tu et al. SynthFlag does not claim
-authorship of that model research or those weights.
+CLI name. Tu et al. retain credit for the detector research and Expert 4
+checkpoint lineage. SynthFlag does not claim authorship or training of that
+encoder.
 
 ### Highlights
 
-- **Four complementary experts:** two CLIP ViT-L/14 experts at 224 px and two
-  SigLIP So400M Patch14-384 experts at 384 px.
+- **Selected TEST1 graph:** native images at most 64 px use a CIFAKE-specialist
+  residual head; larger images use a fixed `0.65 / 0.35` two-head stack over the
+  same frozen Expert 4 feature and teacher margin.
 - **Reliable batch inference:** recursive image discovery, resumable outputs,
   checkpoint integrity verification, and an exclusive writer lock.
 - **Auditable robustness inputs:** an optional, sample-keyed augmentation
@@ -71,41 +72,30 @@ executable checkpoint-backed scoring.
 
 ## Benchmark snapshot
 
-The completed TEST1 public development benchmark contains 15,000 unique images
-and 30,000 paired clean/augmented predictions across balanced CIFAKE, SID-Set,
-and WildFake subsets. Its fixed reporting threshold was `0.5`; no threshold was
-tuned on TEST1.
+TEST1 evaluates 15,000 unique public images once clean and once with a
+deterministic composite corruption, producing 30,000 selected-graph scores.
+It is a public development diagnostic, not TikTok's hidden test.
 
-| Dataset | Clean ROC-AUC | Augmented ROC-AUC | Clean AP | Augmented AP |
+| Dataset | Clean AUC | Composite AUC | Clean FP/FN | Composite FP/FN |
 |---|---:|---:|---:|---:|
-| CIFAKE official test subset | 0.9816 | 0.9095 | 0.9823 | 0.9148 |
-| SID-Set public validation subset | 0.8691 | 0.8439 | 0.9018 | 0.8845 |
-| WildFake official test sample | 0.9467 | 0.8785 | 0.9472 | 0.8760 |
-| **Descriptive macro mean** | **0.9324** | **0.8773** | **0.9438** | **0.8918** |
+| CIFAKE | 0.9816 | 0.9095 | 288 / 113 | 499 / 388 |
+| SID-Set | 0.8691 | 0.8439 | 18 / 1,044 | 58 / 1,038 |
+| WildFake | 0.9467 | 0.8785 | 316 / 272 | 861 / 257 |
 
-**Model boundary:** TEST1 evaluates a benchmark-only corrected-v2
-Expert-4/router and stored-head system. It is not a measurement of the released
-four-expert arithmetic mean implemented under `infer/` or the live website
-service. The protected V1 and retrospective V2 values for that released model
-remain available in the [complete benchmark table](submission/BENCHMARKS.md).
-
-For TikTok-like creator operations, SynthFlag prioritizes low false-positive
-rates before reducing false negatives: a false positive can wrongly question
-authentic work, interrupt distribution or monetization, and create an appeal.
-TEST1 therefore reports TPR at 1% and 5% FPR. The fixed `0.5` benchmark point is
-diagnostic—not a universal low-FPR moderation cutoff—and any consequential
-threshold must be calibrated separately, monitored by slice, and paired with
-human review.
+The complete [benchmark table](submission/BENCHMARKS.md) records TEST1 limits
+and keeps the older four-expert V1/V2 studies explicitly historical. The
+`<=64` route is benchmark-aware. The project owner accepts the collaborator's
+attestation that the residual heads and their training inputs are rights-cleared
+for project use; that attestation was not independently license-audited here.
 
 ## Architecture
 
-![SynthFlag architecture: four experts merged into one fake-image score](submission/ARCHITECTURE.svg)
+![SynthFlag selected TEST1 architecture: Expert 4 plus three routed residual heads](submission/ARCHITECTURE.svg)
 
-Each expert returns a class-index-1 softmax probability. The released inference
-path takes their exact unweighted arithmetic mean, producing one score from 0
-to 1. The historical V1 balanced study applied the calibration-frozen threshold
-`0.2874746155` to that unchanged score; that research operating point is not the
-recommended cutoff for a low-FPR consequential workflow.
+Expert 4 supplies a 1,152-dimensional pooled feature and two-logit teacher
+margin. Native longest side `<=64` uses the specialist head at alpha `1.25`;
+larger images blend epoch-05 and epoch-08 corrected margins `0.65 / 0.35` and
+apply the frozen boundary `-1.557959395647049` before sigmoid.
 
 Read the [architecture explanation](submission/ARCHITECTURE.md), follow the
 [project and decision journey](https://synthflag.chaipinzheng353496.chatgpt.site/journey),
@@ -128,15 +118,15 @@ python -m pip install -e .
 
 ### 2. Add checkpoints
 
-Place the four released expert checkpoints directly in `weights/`:
+Place the upstream Expert 4 checkpoint and three residual heads in `weights/`:
 
 ```text
 weights/
 ├─ manifest.json
-├─ Expert_1_clip.pth
-├─ Expert_2_clip.pth
-├─ Expert_3_siglip.pth
-└─ Expert_4_siglip.pth
+├─ Expert_4_siglip.pth
+├─ cifake_router_head.pt
+├─ general_epoch05_head.pt
+└─ general_epoch08_head.pt
 ```
 
 Expected filenames, sizes, and SHA-256 digests are recorded in
@@ -183,7 +173,7 @@ The completed run also writes the Track 5 submission format:
 ```
 
 - `image_name` is a POSIX-style path relative to `--images-dir`.
-- `score` is the continuous ensemble output in the range `[0, 1]`.
+- `score` is the continuous routed-detector output in the range `[0, 1]`.
 - `predictions.json` mirrors the completed CSV as `image_path` / `pred`
   records for the TikTok TechJam evaluator.
 - `predictions.meta.json` binds resumable output to its input root and weight
@@ -243,7 +233,7 @@ pnpm dev
 ```
 
 Open `http://localhost:3000/try`. Image mode accepts one JPEG, PNG, or WebP up
-to 10 MB and displays the continuous AI-image score. Video mode accepts
+to 10 MB and displays the continuous `P(AI-generated)` score. Video mode accepts
 a 1–10 second H.264 MP4 or browser-supported WebM up to 50 MB, extracts eight
 uniform midpoint frames locally, and displays ordered frame scores with mean,
 peak, and threshold-count summaries. The raw video is never uploaded; only
@@ -271,8 +261,6 @@ bounded-queue, and origin-allowlisting contract.
 
 - [Submission overview](submission/README.md)
 - [Benchmark table](submission/BENCHMARKS.md)
-- [TEST1 aggregate evidence and model boundary](submission/evidence/test1/README.md)
-- [Day 3 research interview and future-work boundary](docs/INTERVIEW_PROF_NG.md)
 - [Architecture diagram and explanation](submission/ARCHITECTURE.md)
 - [Exact reproduction commands](submission/REPRODUCE.md)
 - [Artifact checksums](submission/ARTIFACTS.sha256)
@@ -291,12 +279,12 @@ bounded-queue, and origin-allowlisting contract.
 - [Repository instructions for coding agents](AGENTS.md)
 - [Implementation provenance and snapshot audit](docs/IMPLEMENTATION_PROVENANCE.md)
 - [Repository-authored augmentation toolkit](docs/AUGMENTATION_TOOLKIT.md)
-- [Detector technical report by Tu et al.](https://arxiv.org/abs/2603.21939)
-- [NTIRE challenge report by Gushchin et al.](https://arxiv.org/abs/2604.11487)
+- [Tu et al. detector report](https://arxiv.org/abs/2603.21939)
+- [NTIRE challenge report](https://arxiv.org/abs/2604.11487)
 
-For a fast handoff, give an AI assistant `docs/AI_CONTEXT.md`. Add the
-Tu et al. technical report for method details and the NTIRE report for complete
-challenge context, other team methods, official results, or citations.
+For a fast handoff, give an AI assistant `docs/AI_CONTEXT.md`. Add the primary
+papers for method details, complete challenge context, other team methods,
+official results, or citations.
 
 ## Reproduce the evidence
 
@@ -309,29 +297,15 @@ from the public package.
 ## Hackathon reflection
 
 The hardest part was not producing another headline accuracy number; it was
-keeping every claim attached to the split, model, and experiment that actually
-supports it. We separated the protected V1 result, retrospective V2 robustness
-study, completed TEST1 public-development evidence, and blocked V3 plan so
-calibration data, model variants, unavailable organizer data, and final-test
-evidence could not silently blend together.
+keeping every claim attached to the split and experiment that supports it.
+TEST1 is therefore labeled as a public development diagnostic, while the older
+four-expert studies remain historical and V3 remains blocked.
 
 We also learned that robustness is conditional. Compression, resizing, and
 screenshot-like transformations affect datasets differently, while a lower
-threshold improves fake recall by accepting more false positives. For a
-creator platform, false positives can damage authentic creators through reach,
-monetization, or appeal friction, so consequential policy must constrain FPR
-first. That is why SynthFlag exposes a continuous score, reports strict
-low-FPR diagnostics, documents the operating point, and treats the output as
-review evidence rather than an automatic verdict.
-
-On Day 3, we interviewed Professor Ng Teck Khim and learned about a
-complementary camera-forensics direction: local variance, cross-channel
-relationships, and acquisition consistency associated with Bayer sampling and
-demosaicing. We only had a short window to explore it, and the early prototype
-was not strong or stable enough for a final result. It did not enter the
-released model, TEST1, or final model selection. We retain the
-[interview, photo, transcript, and future research plan](docs/INTERVIEW_PROF_NG.md)
-as research input—not performance evidence.
+threshold improves fake recall by accepting more false positives. That is why
+SynthFlag exposes a continuous score, documents the operating point, and treats
+the output as review evidence rather than an automatic verdict.
 
 Given more time, we would deploy a durable GPU-backed public inference worker,
 evaluate the frozen detector on the exact organizer validation source once it
@@ -340,11 +314,9 @@ abstention policy for uncertain or unfamiliar domains.
 
 ## Research, citation, and responsible use
 
-SynthFlag builds on the detector described by Tu et al. for the NTIRE 2026
-Challenge on Robust AI-Generated Image Detection in the Wild. The hackathon
-integration, reproducibility layer, evidence package, and product presentation
-are the submission work; the detector architecture and released checkpoints
-retain their upstream attribution.
+SynthFlag builds on the detector research by Tu et al. Expert 4 and its teacher
+head retain upstream attribution; the three residual heads, native-size router,
+evaluation harness, integration, and product are project work.
 
 The repository began from a copied upstream source snapshot. The current
 runtime is an independently organized, checkpoint-compatible implementation;
@@ -380,15 +352,17 @@ Repository code and original project documentation are provided under the
 third-party model checkpoints, datasets, benchmark images, dependency code, or
 trademarks.
 
-Earlier Git commits contain the attributed Apache-2.0 upstream snapshot
-described in the
-[implementation provenance record](docs/IMPLEMENTATION_PROVENANCE.md). The
+Earlier Git commits contain the attributed Apache-2.0 upstream snapshot. The
 current source-overlap check permits only the canonical Apache license text to
-remain byte-identical to that audited snapshot.
+remain byte-identical to that audited snapshot; see the
+[implementation provenance record](docs/IMPLEMENTATION_PROVENANCE.md).
 
-This Git repository intentionally excludes the four fine-tuned checkpoints,
+This Git repository intentionally excludes Expert 4 and the three residual heads,
 dataset pixels, private split rows, and per-image protected-evaluation scores.
-The checkpoint mirror is an external source, not a redistribution grant. Read
+The artifact links are external sources, not redistribution grants. The heads
+carry a collaborator rights-clearance attestation accepted by the project owner.
+That attestation does not clear redistribution of upstream Expert 4 or establish
+organizer eligibility. Read
 the [model card](submission/MODEL_CARD.md),
 [dataset and rights inventory](submission/DATASETS_AND_RIGHTS.md),
 [third-party notices](submission/THIRD_PARTY_NOTICES.md), and

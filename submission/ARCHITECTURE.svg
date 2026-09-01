@@ -1,147 +1,60 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="980" viewBox="0 0 1600 980" role="img" aria-labelledby="title desc">
-  <title id="title">SynthFlag four-expert inference architecture</title>
-  <desc id="desc">An input image is converted to RGB and sent through separate 224-pixel CLIP and 384-pixel SigLIP preprocessing paths. Two CLIP experts and two SigLIP experts each emit a fake-class probability. The four probabilities are averaged into one fake-image score, which the command-line interface writes with provenance metadata. A checkpoint manifest verifies all four checkpoint files before model loading.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+  <title id="title">SynthFlag selected TEST1 routed residual architecture</title>
+  <desc id="desc">An RGB image records its native size, passes through frozen Tu et al. Expert 4, and routes its pooled feature and teacher margin to a low-resolution residual head or a fixed blend of two large-image residual heads before sigmoid scoring.</desc>
   <defs>
-    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#f7f9ff"/>
-      <stop offset="1" stop-color="#eef3ff"/>
-    </linearGradient>
-    <linearGradient id="brand" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#2448ff"/>
-      <stop offset="1" stop-color="#7656ff"/>
-    </linearGradient>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#10205c" flood-opacity="0.10"/>
-    </filter>
-    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
-      <path d="M 0 0 L 10 5 L 0 10 z" fill="#536178"/>
-    </marker>
     <style>
-      .title { font: 700 40px Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #172033; }
-      .subtitle { font: 400 18px Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #5d6a7e; }
-      .stage { font: 700 14px Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; letter-spacing: 1.4px; fill: #657189; }
-      .node-title { font: 700 20px Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #172033; }
-      .node-copy { font: 400 15px Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #536178; }
-      .node-copy-strong { font: 600 15px Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #26334b; }
-      .inverse-title { font: 700 22px Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #ffffff; }
-      .inverse-copy { font: 400 15px Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #e8ebff; }
-      .small { font: 400 13px Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #657189; }
-      .card { fill: #ffffff; stroke: #d9e1ef; stroke-width: 1.5; filter: url(#shadow); }
-      .path-card { fill: #f3f6ff; stroke: #b8c7ff; stroke-width: 1.5; }
-      .expert-clip { fill: #edf2ff; stroke: #7190ff; stroke-width: 1.5; }
-      .expert-siglip { fill: #f3efff; stroke: #a38bff; stroke-width: 1.5; }
-      .connector { fill: none; stroke: #536178; stroke-width: 2.2; marker-end: url(#arrow); }
-      .connector-soft { fill: none; stroke: #8793a8; stroke-width: 1.7; marker-end: url(#arrow); }
-      .divider { stroke: #d9e1ef; stroke-width: 1; }
+      .bg{fill:#f7f9fe}.card{fill:#fff;stroke:#b8c8e8;stroke-width:2}.accent{fill:#eef4ff;stroke:#3975ea;stroke-width:2}.warn{fill:#fff8e8;stroke:#d79523;stroke-width:2}.title{font:700 34px Arial,sans-serif;fill:#14213d}.sub{font:16px Arial,sans-serif;fill:#53627a}.label{font:700 17px Arial,sans-serif;fill:#14213d}.body{font:14px Arial,sans-serif;fill:#42516a}.mono{font:13px ui-monospace,SFMono-Regular,Menlo,monospace;fill:#244c9b}.arrow{stroke:#3975ea;stroke-width:3;fill:none;marker-end:url(#arrow)}
     </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#3975ea"/></marker>
   </defs>
+  <rect class="bg" width="1200" height="900"/>
+  <text x="60" y="66" class="title">SynthFlag · selected TEST1 detector</text>
+  <text x="60" y="96" class="sub">Frozen upstream Expert 4 + three project-trained residual heads · research artifact</text>
 
-  <rect width="1600" height="980" fill="url(#background)"/>
+  <rect x="60" y="150" width="230" height="120" rx="18" class="card"/>
+  <text x="84" y="184" class="label">1 · Native RGB image</text>
+  <text x="84" y="214" class="body">Record original width/height</text>
+  <text x="84" y="240" class="mono">longest_side = max(W,H)</text>
 
-  <text x="70" y="72" class="title">SynthFlag inference architecture</text>
-  <text x="70" y="106" class="subtitle">SynthFlag inference  ·  Four checkpoint-backed experts  ·  Inference only</text>
+  <rect x="365" y="150" width="260" height="120" rx="18" class="card"/>
+  <text x="389" y="184" class="label">2 · SigLIP preprocessing</text>
+  <text x="389" y="214" class="body">RGB · bicubic short edge 384</text>
+  <text x="389" y="240" class="body">center crop · mean/std 0.5</text>
 
-  <text x="70" y="164" class="stage">1  INPUT</text>
-  <text x="340" y="164" class="stage">2  DETERMINISTIC PREPROCESSING</text>
-  <text x="675" y="164" class="stage">3  FOUR INDEPENDENT EXPERTS</text>
-  <text x="1090" y="164" class="stage">4  FUSION</text>
-  <text x="1350" y="164" class="stage">5  OUTPUT</text>
+  <rect x="700" y="135" width="420" height="150" rx="18" class="accent"/>
+  <text x="724" y="174" class="label">3 · Frozen Tu et al. Expert 4</text>
+  <text x="724" y="204" class="body">SigLIP So400M Patch14-384 · upstream checkpoint</text>
+  <text x="724" y="232" class="mono">pooled feature [B,1152]</text>
+  <text x="724" y="257" class="mono">teacher margin = logit[1] - logit[0]</text>
 
-  <rect x="70" y="200" width="220" height="190" rx="22" class="card"/>
-  <rect x="96" y="228" width="168" height="82" rx="14" fill="#e8eeff" stroke="#9fb2f5"/>
-  <path d="M117 286 L151 254 L180 277 L206 248 L244 288" fill="none" stroke="#2448ff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="216" cy="252" r="9" fill="#7656ff"/>
-  <text x="180" y="339" text-anchor="middle" class="node-title">Input image</text>
-  <text x="180" y="365" text-anchor="middle" class="node-copy">Decode, then convert to RGB</text>
+  <path d="M290 210 H365" class="arrow"/><path d="M625 210 H700" class="arrow"/>
 
-  <rect x="340" y="200" width="270" height="190" rx="22" class="path-card"/>
-  <text x="370" y="235" class="node-title">CLIP path</text>
-  <line x1="370" y1="252" x2="580" y2="252" class="divider"/>
-  <text x="370" y="282" class="node-copy-strong">224 × 224</text>
-  <text x="370" y="309" class="node-copy">Bicubic resize</text>
-  <text x="370" y="333" class="node-copy">Center crop</text>
-  <text x="370" y="357" class="node-copy">Released CLIP normalization</text>
+  <rect x="80" y="370" width="440" height="220" rx="18" class="card"/>
+  <text x="106" y="410" class="label">4A · Native longest side ≤ 64</text>
+  <text x="106" y="445" class="body">CIFAKE specialist residual head</text>
+  <text x="106" y="478" class="mono">LayerNorm(1152) → Linear(256) → GELU</text>
+  <text x="106" y="505" class="mono">→ Dropout → Linear(1)</text>
+  <text x="106" y="543" class="mono">margin = teacher + 1.25 × residual</text>
+  <text x="106" y="568" class="mono">score = sigmoid(margin)</text>
 
-  <rect x="340" y="490" width="270" height="190" rx="22" class="path-card"/>
-  <text x="370" y="525" class="node-title">SigLIP path</text>
-  <line x1="370" y1="542" x2="580" y2="542" class="divider"/>
-  <text x="370" y="572" class="node-copy-strong">384 × 384</text>
-  <text x="370" y="599" class="node-copy">Bicubic resize</text>
-  <text x="370" y="623" class="node-copy">Center crop</text>
-  <text x="370" y="647" class="node-copy">Normalize to the [-1, 1] range</text>
+  <rect x="680" y="370" width="440" height="220" rx="18" class="card"/>
+  <text x="706" y="410" class="label">4B · Native longest side &gt; 64</text>
+  <text x="706" y="445" class="body">Epoch-05 and epoch-08 residual heads</text>
+  <text x="706" y="478" class="mono">margin05 = teacher + residual05</text>
+  <text x="706" y="505" class="mono">margin08 = teacher + residual08</text>
+  <text x="706" y="536" class="mono">stack = 0.65 × margin05 + 0.35 × margin08</text>
+  <text x="706" y="568" class="mono">score = sigmoid(stack - (-1.557959395647049))</text>
 
-  <path d="M290 295 C315 295 315 295 340 295" class="connector"/>
-  <path d="M290 320 C318 320 318 585 340 585" class="connector"/>
+  <path d="M910 285 V330 H300 V370" class="arrow"/>
+  <path d="M910 285 V370" class="arrow"/>
 
-  <rect x="675" y="190" width="335" height="150" rx="20" class="expert-clip"/>
-  <text x="703" y="225" class="node-title">Expert 1 · CLIP ViT-L/14</text>
-  <text x="703" y="255" class="node-copy">768-d projected feature</text>
-  <text x="703" y="280" class="node-copy">Head: 768 → 256 → 2 logits</text>
-  <rect x="877" y="295" width="107" height="26" rx="13" fill="#2448ff"/>
-  <text x="930.5" y="313" text-anchor="middle" class="inverse-copy">P1(fake)</text>
+  <rect x="320" y="670" width="560" height="115" rx="18" class="accent"/>
+  <text x="348" y="710" class="label">5 · Continuous review signal [0,1]</text>
+  <text x="348" y="741" class="body">Reported TEST1 decision convention: score ≥ 0.5</text>
+  <text x="348" y="766" class="body">Not proof, attribution, localization, or universal calibration</text>
+  <path d="M300 590 V625 H600 V670" class="arrow"/>
+  <path d="M900 590 V625 H600 V670" class="arrow"/>
 
-  <rect x="675" y="365" width="335" height="150" rx="20" class="expert-clip"/>
-  <text x="703" y="400" class="node-title">Expert 2 · CLIP ViT-L/14</text>
-  <text x="703" y="430" class="node-copy">768-d projected feature</text>
-  <text x="703" y="455" class="node-copy">Head: 768 → 256 → 2 logits</text>
-  <rect x="877" y="470" width="107" height="26" rx="13" fill="#2448ff"/>
-  <text x="930.5" y="488" text-anchor="middle" class="inverse-copy">P2(fake)</text>
-
-  <rect x="675" y="540" width="335" height="150" rx="20" class="expert-siglip"/>
-  <text x="703" y="575" class="node-title">Expert 3 · SigLIP So400M</text>
-  <text x="703" y="605" class="node-copy">1,152-d pooled feature</text>
-  <text x="703" y="630" class="node-copy">Head: 1152 → 256 → 2 logits</text>
-  <rect x="877" y="645" width="107" height="26" rx="13" fill="#7656ff"/>
-  <text x="930.5" y="663" text-anchor="middle" class="inverse-copy">P3(fake)</text>
-
-  <rect x="675" y="715" width="335" height="150" rx="20" class="expert-siglip"/>
-  <text x="703" y="750" class="node-title">Expert 4 · SigLIP So400M</text>
-  <text x="703" y="780" class="node-copy">1,152-d pooled feature</text>
-  <text x="703" y="805" class="node-copy">Head: 1152 → 256 → 2 logits</text>
-  <rect x="877" y="820" width="107" height="26" rx="13" fill="#7656ff"/>
-  <text x="930.5" y="838" text-anchor="middle" class="inverse-copy">P4(fake)</text>
-
-  <path d="M610 267 C640 267 645 265 675 265" class="connector-soft"/>
-  <path d="M610 322 C650 322 640 440 675 440" class="connector-soft"/>
-  <path d="M610 570 C640 570 645 615 675 615" class="connector-soft"/>
-  <path d="M610 630 C650 630 640 790 675 790" class="connector-soft"/>
-
-  <rect x="1080" y="330" width="210" height="255" rx="28" fill="url(#brand)" filter="url(#shadow)"/>
-  <text x="1185" y="374" text-anchor="middle" class="inverse-title">Probability mean</text>
-  <text x="1185" y="408" text-anchor="middle" class="inverse-copy">Softmax each expert</text>
-  <text x="1185" y="434" text-anchor="middle" class="inverse-copy">Select class index 1</text>
-  <rect x="1110" y="466" width="150" height="72" rx="16" fill="#ffffff" fill-opacity="0.14" stroke="#ffffff" stroke-opacity="0.28"/>
-  <text x="1185" y="496" text-anchor="middle" class="inverse-copy">P3 + P4 + P1 + P2</text>
-  <line x1="1130" y1="510" x2="1240" y2="510" stroke="#ffffff" stroke-width="1.5"/>
-  <text x="1185" y="531" text-anchor="middle" class="inverse-copy">4</text>
-  <text x="1185" y="562" text-anchor="middle" class="inverse-copy">Unweighted, no TTA</text>
-
-  <path d="M1010 295 C1045 295 1040 390 1080 390" class="connector-soft"/>
-  <path d="M1010 470 C1040 470 1040 450 1080 450" class="connector-soft"/>
-  <path d="M1010 645 C1040 645 1040 510 1080 510" class="connector-soft"/>
-  <path d="M1010 820 C1050 820 1040 565 1080 565" class="connector-soft"/>
-
-  <rect x="1350" y="265" width="190" height="180" rx="22" class="card"/>
-  <text x="1445" y="310" text-anchor="middle" class="node-title">Fake score</text>
-  <text x="1445" y="350" text-anchor="middle" class="title" style="font-size:34px">0 … 1</text>
-  <text x="1445" y="383" text-anchor="middle" class="node-copy">Continuous output</text>
-  <text x="1445" y="408" text-anchor="middle" class="small">No hard-label default</text>
-  <path d="M1290 430 C1315 430 1320 355 1350 355" class="connector"/>
-
-  <rect x="1350" y="505" width="190" height="170" rx="22" class="card"/>
-  <text x="1377" y="545" class="node-title">CLI artifacts</text>
-  <line x1="1377" y1="562" x2="1513" y2="562" class="divider"/>
-  <text x="1377" y="593" class="node-copy-strong">predictions.csv</text>
-  <text x="1377" y="620" class="node-copy-strong">predictions.meta.json</text>
-  <text x="1377" y="648" class="small">Resumable + provenance-bound</text>
-  <path d="M1445 445 L1445 505" class="connector"/>
-
-  <rect x="70" y="785" width="540" height="105" rx="20" fill="#fff8e8" stroke="#e8c86a" stroke-width="1.5"/>
-  <text x="98" y="821" class="node-title">Checkpoint identity gate</text>
-  <text x="98" y="850" class="node-copy">manifest.json verifies expected byte size + SHA-256</text>
-  <text x="98" y="875" class="small">All four files pass before tensor-only state dictionaries are loaded.</text>
-  <path d="M610 838 C640 838 640 840 675 840" class="connector-soft"/>
-
-  <text x="70" y="943" class="small">Decision thresholds are downstream operating points: 0.5 (historical) or 0.2874746155139839 (calibration-fitted balanced profile). Threshold changes do not alter ROC-AUC.</text>
+  <rect x="60" y="830" width="1080" height="42" rx="12" class="warn"/>
+  <text x="80" y="857" class="body">Rights boundary: residual heads are teammate-attested and owner-accepted; Expert 4 redistribution remains separate.</text>
 </svg>

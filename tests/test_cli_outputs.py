@@ -87,7 +87,7 @@ class SubmissionJsonTest(unittest.TestCase):
                     "sha256": hashlib.sha256(payload).hexdigest(),
                 }
             (weights_dir / "manifest.json").write_text(
-                json.dumps({"schema_version": 1, "files": records}),
+                json.dumps({"schema_version": 2, "files": records}),
                 encoding="utf-8",
             )
 
@@ -137,6 +137,10 @@ class SubmissionJsonTest(unittest.TestCase):
                 (out_dir / "predictions.meta.json").read_text(encoding="utf-8")
             )
             self.assertEqual(metadata["format_version"], 2)
+            self.assertEqual(
+                metadata["inference_protocol"],
+                "expert4-three-head-native-size-router-v1",
+            )
             self.assertFalse((out_dir / ".inference.lock").exists())
 
             with patch(

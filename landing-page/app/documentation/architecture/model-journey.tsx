@@ -1,5 +1,8 @@
 'use client';
 
+// Historical four-expert walkthrough retained for source history. It is not
+// imported by the selected-runtime documentation page.
+
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
