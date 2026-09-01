@@ -1,5 +1,9 @@
+
+<P>NOTE<P>
+
 <P>THE 4 LAYERS WEIGHTS ENSEMBLE AND 1 FINETUNED HEAD (you can pick any one of the heads all of them give relatively similar results) IS HERE - https://drive.google.com/drive/folders/1YPth1je92IaucRu3f8y50oxlAPcMqXuL?usp=sharing</P>
 
+<P>We prioritized false-positive control during operating-point and stack selection because incorrectly flagging authentic content can harm creators. We then improved recall within that constraint. This is an operational priority, not a claim that false positives are universally low.<P>
 
 <p align="center">
   <picture>
