@@ -145,4 +145,8 @@
     <text x="126" y="35" class="body">The paper specifies alignment with dense epoch-2 features, but does not name a particular alignment-loss formula.</text>
     <text x="1248" y="35" class="label" fill="#b7f66e" text-anchor="end">NOT USED AT INFERENCE</text>
   </g>
+  <g aria-label="Historical baseline notice" pointer-events="none">
+    <rect x="67%" y="16" width="30%" height="36" rx="8" fill="#8b1d2c" opacity="0.96"/>
+    <text x="82%" y="40" fill="#ffffff" font-family="Arial, sans-serif" font-size="14" font-weight="800" text-anchor="middle">HISTORICAL BASELINE · NOT SELECTED TEST1</text>
+  </g>
 </svg>

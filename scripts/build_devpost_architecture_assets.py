@@ -333,6 +333,22 @@ def add_footer(svg: Svg, source: str) -> None:
     svg.text(1472, 998, "Evidence before certainty", size=15, color=theme.sky, weight=700, anchor="end")
 
 
+def add_historical_banner(svg: Svg) -> None:
+    """Mark retired V1/V2 graphics visibly, not only in adjacent Markdown."""
+    theme = svg.theme
+    svg.rect(64, 232, 1408, 26, fill=theme.red, radius=8)
+    svg.text(
+        768,
+        251,
+        "HISTORICAL V1/V2 BASELINE · NOT THE SELECTED TEST1 RUNTIME",
+        size=14,
+        color="#FFFFFF",
+        weight=800,
+        anchor="middle",
+        letter_spacing=1.1,
+    )
+
+
 def add_section_label(svg: Svg, x: float, y: float, number: str, label: str) -> None:
     theme = svg.theme
     svg.circle(x + 17, y - 7, 17, fill=theme.blue)
@@ -343,8 +359,8 @@ def add_section_label(svg: Svg, x: float, y: float, number: str, label: str) -> 
 def build_system_architecture(theme: Theme) -> str:
     svg = Svg(
         theme,
-        "SynthFlag overall system architecture",
-        "A deterministic RGB image path through checkpoint verification, CLIP and SigLIP preprocessing, four experts, exact mean fusion, continuous scoring, and provenance-bound outputs.",
+        "Historical SynthFlag four-expert system architecture",
+        "Historical V1/V2 baseline: a deterministic RGB image path through four experts and exact mean fusion. This is not the selected TEST1 runtime.",
     )
     add_brand_header(
         svg,
@@ -352,6 +368,7 @@ def build_system_architecture(theme: Theme) -> str:
         "One image. Four experts. One review signal.",
         "Checkpoint identity and deterministic preprocessing stay visible from input to artifact.",
     )
+    add_historical_banner(svg)
 
     xs = [64, 326, 668, 1020, 1282]
     widths = [210, 290, 300, 210, 190]
@@ -446,15 +463,15 @@ def build_system_architecture(theme: Theme) -> str:
     svg.pill(1182, 834, 120, "0.50000", fill=theme.card, text_color=theme.text, stroke=theme.line, height=42, size=16)
     svg.text(1318, 862, "or", size=17, color=theme.muted, weight=700)
     svg.pill(1354, 834, 94, "0.28747", fill=theme.blue, text_color="#FFFFFF", height=42, size=15)
-    add_footer(svg, "Source: infer/architecture.py • preprocessing.py • checkpoints.py • outputs.py")
+    add_footer(svg, "Historical source: retired V1/V2 release records • not current infer/")
     return svg.finish()
 
 
 def build_ensemble_anatomy(theme: Theme) -> str:
     svg = Svg(
         theme,
-        "SynthFlag four-expert ensemble anatomy",
-        "Two CLIP experts at 224 pixels and two SigLIP experts at 384 pixels, each with binary heads, produce four class-index-1 softmax probabilities averaged in the exact released order.",
+        "Historical SynthFlag four-expert ensemble anatomy",
+        "Historical V1/V2 baseline: two CLIP and two SigLIP experts produced four probabilities averaged equally. This is not the selected TEST1 runtime.",
     )
     add_brand_header(
         svg,
@@ -462,6 +479,7 @@ def build_ensemble_anatomy(theme: Theme) -> str:
         "Diversity by backbone. Simplicity at fusion.",
         "Four independent checkpoint-backed experts contribute one vote each—no expert gets a hidden weight.",
     )
+    add_historical_banner(svg)
 
     # Family containers.
     svg.rect(64, 266, 680, 418, stroke=theme.blue, stroke_width=2.5, shadow=True)
@@ -506,7 +524,7 @@ def build_ensemble_anatomy(theme: Theme) -> str:
     svg.pill(896, 840, 126, "NO GATING", fill=theme.card_alt, text_color=theme.text, stroke=theme.line, height=34, size=12)
     svg.pill(1034, 840, 154, "NO LEARNED WEIGHTS", fill=theme.card_alt, text_color=theme.text, stroke=theme.line, height=34, size=12)
     svg.pill(1200, 840, 110, "NO TTA", fill=theme.card_alt, text_color=theme.text, stroke=theme.line, height=34, size=12)
-    add_footer(svg, "Source: infer/architecture.py • checkpoint-compatible topology")
+    add_footer(svg, "Historical source: retired V1/V2 release records • not current infer/")
     return svg.finish()
 
 
@@ -522,6 +540,7 @@ def build_decision_register(theme: Theme) -> str:
         "What shipped—and what the evidence stopped.",
         "Each decision carries its evidence boundary so a promising experiment cannot quietly become a production claim.",
     )
+    add_historical_banner(svg)
 
     cards = [
         (64, 266, "01", "KEPT", "Transparent equal mean", theme.green),
@@ -581,6 +600,7 @@ def build_threshold_tradeoff(theme: Theme) -> str:
         "Same ranking. Different operating point.",
         "Protected final evidence on 7,998 images • threshold selected on calibration data, then frozen.",
     )
+    add_historical_banner(svg)
 
     # Threshold columns.
     svg.rect(64, 270, 566, 470, stroke=theme.line, shadow=True)
@@ -796,7 +816,7 @@ def build_output_contract(theme: Theme) -> str:
     svg.pill(88, 828, 174, "PUBLIC OUTPUT", fill=theme.green, text_color="#FFFFFF", height=36, size=13)
     svg.text(286, 856, "Relative paths + continuous scores + run provenance", size=22, weight=800)
     svg.pill(88, 878, 174, "EXCLUDED", fill=theme.red, text_color="#FFFFFF", height=36, size=13)
-    svg.text(286, 906, "Dataset pixels • checkpoint binaries • protected split rows • per-image protected scores", size=18, color=theme.muted, weight=600)
+    svg.text(286, 906, "Dataset pixels • upstream Expert 4 binary • protected split rows • protected scores", size=18, color=theme.muted, weight=600)
     add_footer(svg, "Source: infer/outputs.py • infer/cli.py • submission/RELEASE_AUDIT.md")
     return svg.finish()
 
@@ -815,8 +835,8 @@ def build_responsible_use_flow(theme: Theme) -> str:
     )
 
     steps = [
-        (64, "1", "MODEL SIGNAL", ["Continuous 0 → 1", "score"], ["Same four-expert mean", "No hard label in the CLI"], theme.sky),
-        (414, "2", "POLICY", ["Choose an", "operating point"], ["0.5 or calibrated 0.28747", "Match false-positive costs"], theme.blue),
+        (64, "1", "MODEL SIGNAL", ["Continuous 0 → 1", "score"], ["Routed three-head signal", "No hard label in the CLI"], theme.sky),
+        (414, "2", "POLICY", ["Choose an", "operating point"], ["TEST1 reports fixed 0.5", "Calibrate for deployment"], theme.blue),
         (764, "3", "CONTEXT REVIEW", ["Ask what changed", "the pixels"], ["Compression • resize", "screenshots • new generators", "unfamiliar domains"], theme.amber),
         (1114, "4", "HUMAN DECISION", ["Use judgment +", "other evidence"], ["Escalate consequential cases", "Record uncertainty"], theme.green),
     ]

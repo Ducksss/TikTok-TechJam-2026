@@ -10,8 +10,8 @@ and [Gushchin et al., arXiv:2604.11487](https://arxiv.org/abs/2604.11487).
 - This root `AGENTS.md` is the repository's only automatic coding-agent
   instruction file. Do not add a nested `AGENTS.md` unless a directory truly
   needs narrower instructions and the context checker is updated with it.
-- `AGENTS.md`, `docs/AI_CONTEXT.md`, `docs/PROMPTING_GUIDE.md`, `docs/README.md`,
-  and `STATUS.md` form the maintained context set. Update them together when a
+- `AGENTS.md`, `README.md`, `docs/AI_CONTEXT.md`, `docs/PROMPTING_GUIDE.md`,
+  `docs/README.md`, and `STATUS.md` form the maintained context set. Update them together when a
   change affects naming, public routes, inference outputs, evidence status, or
   release procedure.
 - Executed code and machine-readable manifests outrank explanatory copy.
@@ -73,6 +73,9 @@ and [Gushchin et al., arXiv:2604.11487](https://arxiv.org/abs/2604.11487).
 
 ## Product surfaces
 
+- Recorded demo: [**SynthFlag demo v8**](https://youtu.be/X5-J4NmNHl0).
+  Treat it as a recorded product walkthrough, not evidence that the hosted
+  inference worker is currently reachable.
 - `infer/`: product inference adapter, stable Python API, and resumable batch
   CLI over the authoritative project head implementation.
 - `training_eval/`: authoritative project model-development record: residual

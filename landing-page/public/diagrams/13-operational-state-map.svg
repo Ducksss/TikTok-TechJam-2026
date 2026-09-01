@@ -107,4 +107,8 @@
 
     <text x="70" y="848" class="small">Routing choice: direct → /v1/analyze[-frames], or same-origin → /api/analyze[-video] → model service.</text>
   </g>
+  <g aria-label="Historical baseline notice" pointer-events="none">
+    <rect x="67%" y="16" width="30%" height="36" rx="8" fill="#8b1d2c" opacity="0.96"/>
+    <text x="82%" y="40" fill="#ffffff" font-family="Arial, sans-serif" font-size="14" font-weight="800" text-anchor="middle">HISTORICAL BASELINE · NOT SELECTED TEST1</text>
+  </g>
 </svg>

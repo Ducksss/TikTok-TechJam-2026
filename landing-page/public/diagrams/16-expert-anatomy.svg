@@ -192,4 +192,8 @@
     <text class="small">Parameter totals per independently instantiated expert: CLIP 304,163,586 · SigLIP 428,521,282 · four-expert ensemble 1,465,369,736. Counts include vision backbone and binary head.</text>
     <text x="0" y="24" class="small">Feature outputs used by SynthFlag: CLIP image_embeds [B,768] · SigLIP pooler_output [B,1152] · no backbone-family outputs are concatenated.</text>
   </g>
+  <g aria-label="Historical baseline notice" pointer-events="none">
+    <rect x="67%" y="16" width="30%" height="36" rx="8" fill="#8b1d2c" opacity="0.96"/>
+    <text x="82%" y="40" fill="#ffffff" font-family="Arial, sans-serif" font-size="14" font-weight="800" text-anchor="middle">HISTORICAL BASELINE · NOT SELECTED TEST1</text>
+  </g>
 </svg>

@@ -81,7 +81,7 @@
 <text x="286" y="856" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="22" font-weight="800" fill="#111827" text-anchor="start">Relative paths + continuous scores + run provenance</text>
 <rect x="88" y="878" width="174" height="36" rx="18.0" fill="#C83349"/>
 <text x="175.0" y="900.42" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle" letter-spacing="0.7">EXCLUDED</text>
-<text x="286" y="906" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="18" font-weight="600" fill="#53627A" text-anchor="start">Dataset pixels • checkpoint binaries • protected split rows • per-image protected scores</text>
+<text x="286" y="906" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="18" font-weight="600" fill="#53627A" text-anchor="start">Dataset pixels • upstream Expert 4 binary • protected split rows • protected scores</text>
 <line x1="64" y1="970" x2="1472" y2="970" stroke="#C4D5F3" stroke-width="1.5" stroke-linecap="round"/>
 <text x="64" y="998" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="15" font-weight="500" fill="#53627A" text-anchor="start">Source: infer/outputs.py • infer/cli.py • submission/RELEASE_AUDIT.md</text>
 <text x="1472" y="998" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="15" font-weight="700" fill="#2970FF" text-anchor="end">Evidence before certainty</text>

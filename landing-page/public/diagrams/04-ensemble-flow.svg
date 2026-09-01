@@ -126,4 +126,8 @@
     <circle cx="30" cy="140" r="4" fill="#b7f66e"/>
     <text x="46" y="145" class="note">A deployment threshold is a separate, application-specific decision.</text>
   </g>
+  <g aria-label="Historical baseline notice" pointer-events="none">
+    <rect x="67%" y="16" width="30%" height="36" rx="8" fill="#8b1d2c" opacity="0.96"/>
+    <text x="82%" y="40" fill="#ffffff" font-family="Arial, sans-serif" font-size="14" font-weight="800" text-anchor="middle">HISTORICAL BASELINE · NOT SELECTED TEST1</text>
+  </g>
 </svg>

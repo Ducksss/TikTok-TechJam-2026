@@ -1229,10 +1229,10 @@ export function ModelJourney() {
         <div className="model-journey-sticky">
           <div className="journey-heading">
             <div>
-              <p>Interactive execution trace</p>
-              <h3>See image patches become model tokens</h3>
+              <p>Historical V1/V2 execution trace</p>
+              <h3>Retired four-expert baseline—not selected TEST1</h3>
             </div>
-            <span>Illustrative execution trace—not a model prediction</span>
+            <span>Archived for source history; do not present as current</span>
           </div>
 
           <div className="journey-stage">

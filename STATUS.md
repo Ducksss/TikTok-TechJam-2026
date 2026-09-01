@@ -9,8 +9,9 @@ automation, process, or worktree dirtiness state.
 - `origin/main` is the public release integration line. No feature branch or
   historical worktree is a permanent integration authority.
 - The root `AGENTS.md` is the repository's only automatic coding-agent
-  instruction file. `docs/AI_CONTEXT.md`, `docs/PROMPTING_GUIDE.md`, and
-  `docs/README.md` are its maintained human- and prompt-facing companions.
+  instruction file. `README.md`, `docs/AI_CONTEXT.md`,
+  `docs/PROMPTING_GUIDE.md`, and `docs/README.md` are its maintained human- and
+  prompt-facing companions.
 - Executed code and machine-readable manifests define current behavior.
   Explanatory docs, diagrams, this status file, and hosted surfaces must be
   checked against those sources.
@@ -23,6 +24,7 @@ automation, process, or worktree dirtiness state.
 | Surface | Contract |
 |---|---|
 | Public identity | **SynthFlag** is the product, repository, demo, submission, Python distribution, and primary CLI. The project-trained heads, routing, training/evaluation harness, and TEST1 record are the primary technical contribution; Expert 4 retains dependency attribution. |
+| Recorded demo | [**SynthFlag demo v8**](https://youtu.be/X5-J4NmNHl0) is the canonical video walkthrough. It is distinct from current hosted-service reachability. |
 | Model development | `training_eval/` is authoritative for the project residual-head implementation, training, deterministic augmentation, route configuration, tests, exact collaborator Drive head ZIP and extracted binaries, public TEST1 predictions, bootstrap evidence, and reports. |
 | Batch inference | `infer/` uses the authoritative `training_eval.scripts.model.ResidualHead` implementation with the frozen Expert 4 adapter, native-size routing, and resumable directory inference. |
 | Development augmentation | `synthflag_augment/` provides repository-authored, sample-keyed image variants and audit traces; it is optional, outside inference, and not paper-described training reproduction. |

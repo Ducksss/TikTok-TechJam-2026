@@ -131,4 +131,8 @@
     <g transform="translate(824 790)"><circle cx="6" cy="8" r="6" fill="#2dd4bf"/><text x="20" y="11" class="small">Image or derived-frame bytes are decoded in memory, scored, and discarded.</text><text x="20" y="30" class="small">Raw video is not submitted; the service writes no upload or result files.</text></g>
     <text x="1376" y="866" class="small" text-anchor="end">Source: current /try, edge route, FastAPI service, and inference model</text>
   </g>
+  <g aria-label="Historical baseline notice" pointer-events="none">
+    <rect x="67%" y="16" width="30%" height="36" rx="8" fill="#8b1d2c" opacity="0.96"/>
+    <text x="82%" y="40" fill="#ffffff" font-family="Arial, sans-serif" font-size="14" font-weight="800" text-anchor="middle">HISTORICAL BASELINE · NOT SELECTED TEST1</text>
+  </g>
 </svg>

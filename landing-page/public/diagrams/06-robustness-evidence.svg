@@ -127,4 +127,8 @@
     <text x="24" y="36" class="label" fill="#ff9d98">INTERPRETATION</text>
     <text x="250" y="36" class="body">The clean-to-robust gap shows why post-processing must be part of evaluation—not why every transformed image will fail.</text>
   </g>
+  <g aria-label="Historical baseline notice" pointer-events="none">
+    <rect x="67%" y="16" width="30%" height="36" rx="8" fill="#8b1d2c" opacity="0.96"/>
+    <text x="82%" y="40" fill="#ffffff" font-family="Arial, sans-serif" font-size="14" font-weight="800" text-anchor="middle">HISTORICAL BASELINE · NOT SELECTED TEST1</text>
+  </g>
 </svg>

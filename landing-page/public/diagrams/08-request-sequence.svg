@@ -83,4 +83,8 @@
     <g transform="translate(64 862)"><text x="0" y="0" class="small">NOT IN processing_ms:</text><text x="134" y="0" class="body">browser/proxy transit · request validation · byte read · RGB decode · cold model initialization</text></g>
     <text x="1376" y="878" class="small" text-anchor="end">The direct path skips only the edge-proxy actor.</text>
   </g>
+  <g aria-label="Historical baseline notice" pointer-events="none">
+    <rect x="67%" y="16" width="30%" height="36" rx="8" fill="#8b1d2c" opacity="0.96"/>
+    <text x="82%" y="40" fill="#ffffff" font-family="Arial, sans-serif" font-size="14" font-weight="800" text-anchor="middle">HISTORICAL BASELINE · NOT SELECTED TEST1</text>
+  </g>
 </svg>

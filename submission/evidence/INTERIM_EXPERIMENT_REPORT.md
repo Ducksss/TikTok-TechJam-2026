@@ -1,5 +1,10 @@
 # SynthFlag inference-only experiment report
 
+> **Historical V1/V2 evidence notice:** this report evaluates the retired
+> four-expert probability-mean runtime. “Released,” “default,” “production,”
+> and “current recommendation” below describe the repository state on
+> 2026-08-29, not the selected Expert 4 plus three-head TEST1 graph.
+
 **Evaluation date:** 2026-08-29  
 **Status:** Interim report. V1 and V2 results are complete; the preregistered
 V3 held-out threshold A/B test is ready but cannot be completed until the exact
@@ -7,8 +12,8 @@ organizer-provided 8,843-image DALL·E Advanced set is available.
 
 ## Executive summary
 
-The strongest defensible production result is not a retrained detector. It is
-the released four-expert probability mean with its decision
+The strongest defensible result for that historical runtime was not a
+retrained detector. It was the then-released four-expert probability mean with its decision
 threshold lowered from `0.5` to `0.2874746155`, where that threshold was fitted
 on calibration data only.
 
@@ -21,14 +26,14 @@ underlying scores and ranking did not change.
 V2 found a more complex disagreement-aware stack with a retrospective pooled
 ROC-AUC of **0.8752**, versus **0.8661** for the released mean on development
 data. That stack failed every leave-one-dataset-out test, so it is not a
-defensible replacement for the released mean. The current recommendation is:
+defensible replacement for the released mean. The recommendation at the time was:
 
 - use threshold `0.2874746155` when balanced fake detection is the priority;
 - retain threshold `0.5` when minimizing false alarms is more important;
 - treat learned fusion and CO-SPY results as experimental until prospectively
   validated on genuinely unseen domains.
 
-## What changed relative to the default repository
+## What changed relative to the repository default at the time
 
 The default detector averages the four released experts' fake probabilities
 and classifies an image as fake when that mean is at least `0.5`. The winning

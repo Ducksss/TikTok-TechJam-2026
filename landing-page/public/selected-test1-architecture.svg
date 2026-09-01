@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+  <title id="title">SynthFlag selected TEST1 routed residual architecture</title>
+  <desc id="desc">An RGB image records its native size, passes through frozen Tu et al. Expert 4, and routes its pooled feature and teacher margin to a low-resolution residual head or a fixed blend of two large-image residual heads before sigmoid scoring.</desc>
+  <defs>
+    <style>
+      .bg{fill:#f7f9fe}.card{fill:#fff;stroke:#b8c8e8;stroke-width:2}.accent{fill:#eef4ff;stroke:#3975ea;stroke-width:2}.warn{fill:#fff8e8;stroke:#d79523;stroke-width:2}.title{font:700 34px Arial,sans-serif;fill:#14213d}.sub{font:16px Arial,sans-serif;fill:#53627a}.label{font:700 17px Arial,sans-serif;fill:#14213d}.body{font:14px Arial,sans-serif;fill:#42516a}.mono{font:13px ui-monospace,SFMono-Regular,Menlo,monospace;fill:#244c9b}.arrow{stroke:#3975ea;stroke-width:3;fill:none;marker-end:url(#arrow)}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#3975ea"/></marker>
+  </defs>
+  <rect class="bg" width="1200" height="900"/>
+  <text x="60" y="66" class="title">SynthFlag · selected TEST1 detector</text>
+  <text x="60" y="96" class="sub">Frozen upstream Expert 4 + three project-trained residual heads · research artifact</text>
+
+  <rect x="60" y="150" width="230" height="120" rx="18" class="card"/>
+  <text x="84" y="184" class="label">1 · Native RGB image</text>
+  <text x="84" y="214" class="body">Record original width/height</text>
+  <text x="84" y="240" class="mono">longest_side = max(W,H)</text>
+
+  <rect x="365" y="150" width="260" height="120" rx="18" class="card"/>
+  <text x="389" y="184" class="label">2 · SigLIP preprocessing</text>
+  <text x="389" y="214" class="body">RGB · bicubic short edge 384</text>
+  <text x="389" y="240" class="body">center crop · mean/std 0.5</text>
+
+  <rect x="700" y="135" width="420" height="150" rx="18" class="accent"/>
+  <text x="724" y="174" class="label">3 · Frozen Tu et al. Expert 4</text>
+  <text x="724" y="204" class="body">SigLIP So400M Patch14-384 · upstream checkpoint</text>
+  <text x="724" y="232" class="mono">pooled feature [B,1152]</text>
+  <text x="724" y="257" class="mono">teacher margin = logit[1] - logit[0]</text>
+
+  <path d="M290 210 H365" class="arrow"/><path d="M625 210 H700" class="arrow"/>
+
+  <rect x="80" y="370" width="440" height="220" rx="18" class="card"/>
+  <text x="106" y="410" class="label">4A · Native longest side ≤ 64</text>
+  <text x="106" y="445" class="body">CIFAKE specialist residual head</text>
+  <text x="106" y="478" class="mono">LayerNorm(1152) → Linear(256) → GELU</text>
+  <text x="106" y="505" class="mono">→ Dropout → Linear(1)</text>
+  <text x="106" y="543" class="mono">margin = teacher + 1.25 × residual</text>
+  <text x="106" y="568" class="mono">score = sigmoid(margin)</text>
+
+  <rect x="680" y="370" width="440" height="220" rx="18" class="card"/>
+  <text x="706" y="410" class="label">4B · Native longest side &gt; 64</text>
+  <text x="706" y="445" class="body">Epoch-05 and epoch-08 residual heads</text>
+  <text x="706" y="478" class="mono">margin05 = teacher + residual05</text>
+  <text x="706" y="505" class="mono">margin08 = teacher + residual08</text>
+  <text x="706" y="536" class="mono">stack = 0.65 × margin05 + 0.35 × margin08</text>
+  <text x="706" y="568" class="mono">score = sigmoid(stack - (-1.557959395647049))</text>
+
+  <path d="M910 285 V330 H300 V370" class="arrow"/>
+  <path d="M910 285 V370" class="arrow"/>
+
+  <rect x="320" y="670" width="560" height="115" rx="18" class="accent"/>
+  <text x="348" y="710" class="label">5 · Continuous review signal [0,1]</text>
+  <text x="348" y="741" class="body">Reported TEST1 decision convention: score ≥ 0.5</text>
+  <text x="348" y="766" class="body">Not proof, attribution, localization, or universal calibration</text>
+  <path d="M300 590 V625 H600 V670" class="arrow"/>
+  <path d="M900 590 V625 H600 V670" class="arrow"/>
+
+  <rect x="60" y="830" width="1080" height="42" rx="12" class="warn"/>
+  <text x="80" y="857" class="body">Rights boundary: residual heads are teammate-attested and owner-accepted; Expert 4 redistribution remains separate.</text>
+</svg>

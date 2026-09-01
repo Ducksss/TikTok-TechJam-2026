@@ -10,9 +10,11 @@ from check_source_provenance import candidate_files, find_identical_upstream_fil
 
 
 ROOT = Path(__file__).resolve().parents[1]
+DEMO_VIDEO_URL = "https://youtu.be/X5-J4NmNHl0"
 
 CONTEXT_FILES = (
     "AGENTS.md",
+    "README.md",
     "docs/AI_CONTEXT.md",
     "docs/PROMPTING_GUIDE.md",
     "docs/README.md",
@@ -88,6 +90,34 @@ TEST1_CONTEXT_FILES = (
     "submission/BENCHMARKS.md",
     "submission/MODEL_CARD.md",
     "submission/README.md",
+)
+
+DEMO_CONTEXT_FILES = (
+    "AGENTS.md",
+    "README.md",
+    "STATUS.md",
+    "docs/AI_CONTEXT.md",
+    "docs/PROMPTING_GUIDE.md",
+    "docs/README.md",
+    "submission/README.md",
+    "landing-page/app/page.tsx",
+    "landing-page/app/documentation/page.tsx",
+)
+
+CANONICAL_STORY_FILES = (
+    "AGENTS.md",
+    "README.md",
+    "STATUS.md",
+    "docs/AI_CONTEXT.md",
+    "docs/PROMPTING_GUIDE.md",
+    "docs/README.md",
+    "submission/README.md",
+    "submission/MODEL_CARD.md",
+)
+
+HISTORICAL_EVIDENCE_FILES = (
+    "submission/evidence/INTERIM_EXPERIMENT_REPORT.md",
+    "submission/evidence/EXPERIMENT_V2_REPORT.md",
 )
 
 INTERVIEW_ARTIFACT_HASHES = {
@@ -227,12 +257,79 @@ def main() -> int:
             "training_eval residual-head implementation"
         )
 
+    training_model_card = read("training_eval/docs/MODEL_CARD.md")
+    if "Required next step for an eligible submission" in training_model_card:
+        errors.append("training model card still presents retraining as required")
+    for token in (
+        "Optional eligibility-hardening path",
+        "No replacement retraining is required",
+        PROJECT_ARTIFACT_HASHES["weights/cifake_router_head.pt"],
+        PROJECT_ARTIFACT_HASHES["weights/general_epoch05_head.pt"],
+        PROJECT_ARTIFACT_HASHES["weights/general_epoch08_head.pt"],
+    ):
+        if token not in training_model_card:
+            errors.append(
+                "training model card omits artifact/rights token: " + token
+            )
+
     for relative_path in TEST1_CONTEXT_FILES:
         if not (ROOT / relative_path).is_file():
             errors.append("missing TEST1 context file: " + relative_path)
             continue
         if "TEST1" not in read(relative_path):
             errors.append("{} omits TEST1 boundary".format(relative_path))
+
+    for relative_path in DEMO_CONTEXT_FILES:
+        if not (ROOT / relative_path).is_file():
+            errors.append("missing demo context file: " + relative_path)
+            continue
+        if DEMO_VIDEO_URL not in read(relative_path):
+            errors.append("{} omits canonical demo video".format(relative_path))
+
+    for relative_path in CANONICAL_STORY_FILES:
+        if not (ROOT / relative_path).is_file():
+            errors.append("missing canonical story file: " + relative_path)
+            continue
+        content = read(relative_path)
+        for token in ("Expert 4", "three", "training_eval"):
+            if token not in content:
+                errors.append(
+                    "{} omits selected-story token {}".format(
+                        relative_path, token
+                    )
+                )
+
+    for relative_path in HISTORICAL_EVIDENCE_FILES:
+        if not (ROOT / relative_path).is_file():
+            errors.append("missing historical evidence file: " + relative_path)
+            continue
+        if "Historical" not in read(relative_path)[:600]:
+            errors.append(
+                "{} lacks a leading historical-runtime notice".format(
+                    relative_path
+                )
+            )
+
+    public_architecture = ROOT / "landing-page/public/selected-test1-architecture.svg"
+    submission_architecture = ROOT / "submission/ARCHITECTURE.svg"
+    if not public_architecture.is_file():
+        errors.append("missing selected public architecture mirror")
+    elif not submission_architecture.is_file():
+        errors.append("missing submission/ARCHITECTURE.svg")
+    elif public_architecture.read_bytes() != submission_architecture.read_bytes():
+        errors.append(
+            "public selected architecture no longer matches submission/ARCHITECTURE.svg"
+        )
+
+    homepage = read("landing-page/app/page.tsx")
+    if "['Source', '4 experts']" in homepage:
+        errors.append("homepage still presents the retired four-expert source")
+
+    journey = read("landing-page/app/journey/page.tsx")
+    if "<ModelJourney" in journey or "architecture/model-journey" in journey:
+        errors.append("journey still embeds the retired four-expert walkthrough")
+    if 'id="selected-model"' not in journey:
+        errors.append("journey omits the selected-model walkthrough anchor")
 
     for relative_path, expected_hash in INTERVIEW_ARTIFACT_HASHES.items():
         path = ROOT / relative_path
@@ -329,6 +426,36 @@ def main() -> int:
             "diagram inventory changed from 18; refresh context before release "
             "(found {})".format(len(diagrams))
         )
+    for diagram in diagrams:
+        if "HISTORICAL BASELINE · NOT SELECTED TEST1" not in diagram.read_text(
+            encoding="utf-8"
+        ):
+            errors.append(
+                "historical atlas diagram lacks visible status stamp: "
+                + diagram.relative_to(ROOT).as_posix()
+            )
+
+    for number in ("06", "07", "08", "09"):
+        for theme in ("dark", "light"):
+            relative_path = (
+                "submission/media/devpost-gallery/"
+                + number
+                + "-"
+                + {
+                    "06": "system-architecture",
+                    "07": "ensemble-anatomy",
+                    "08": "decision-register",
+                    "09": "threshold-tradeoff",
+                }[number]
+                + "-"
+                + theme
+                + ".svg"
+            )
+            if "HISTORICAL V1/V2 BASELINE" not in read(relative_path):
+                errors.append(
+                    "legacy Devpost graphic lacks visible status stamp: "
+                    + relative_path
+                )
 
     status = read("STATUS.md") if (ROOT / "STATUS.md").is_file() else ""
     for stale_phrase in (
@@ -370,6 +497,8 @@ def main() -> int:
     )
     print("- {} public route sources".format(len(SITE_ROUTES)))
     print("- {} SVG diagrams".format(len(diagrams)))
+    print("- canonical demo URL documented across public context")
+    print("- selected architecture mirror and historical-asset labels verified")
     print("- Track 5 CSV/JSON/metadata output contract documented")
     if (ROOT / "synthflag_augment").is_dir():
         print("- optional augmentation boundary documented")

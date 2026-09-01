@@ -101,4 +101,8 @@
     </g>
     <text x="1376" y="874" class="small" text-anchor="end">Source: current /try sampler, edge proxy, FastAPI frame endpoint, and unchanged infer/model.py</text>
   </g>
+  <g aria-label="Historical baseline notice" pointer-events="none">
+    <rect x="67%" y="16" width="30%" height="36" rx="8" fill="#8b1d2c" opacity="0.96"/>
+    <text x="82%" y="40" fill="#ffffff" font-family="Arial, sans-serif" font-size="14" font-weight="800" text-anchor="middle">HISTORICAL BASELINE · NOT SELECTED TEST1</text>
+  </g>
 </svg>

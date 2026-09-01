@@ -1077,12 +1077,13 @@ export default function ArchitectureAtlas() {
         className="docs-section docs-overview atlas-overview"
         id="architecture-atlas"
       >
-        <SectionHeading kicker="Read this first">
-          The atlas answers four different questions
+        <SectionHeading kicker="Historical V1/V2 baseline · not selected TEST1">
+          This archived atlas describes the retired four-expert runtime
         </SectionHeading>
         <p className="docs-lead">
-          A website request, a model prediction, and a public release are
-          related—but they are not the same system.
+          Retained for audit history only. Current behavior is the frozen Expert
+          4 plus three-head graph in <code>training_eval/</code> and the
+          <code>infer/</code> adapter.
         </p>
         <div className="atlas-overview-grid">
           <div>
@@ -1103,15 +1104,15 @@ export default function ArchitectureAtlas() {
           <div>
             <span>Layer 04</span>
             <h3>Operations</h3>
-            <p>What is released, what can fail, and how work resumes.</p>
+            <p>What the historical release contained and how work resumed.</p>
           </div>
         </div>
         <div className="atlas-boundary-note">
           <EvidenceTag kind="guidance">How to read the atlas</EvidenceTag>
           <p>
             Solid arrows show source-supported behavior for each figure;
-            evidence badges distinguish released code from challenge-report and
-            external-reference facts. Dashed boundaries mark configuration,
+            evidence badges distinguish then-released code from challenge-report
+            and external-reference facts. Dashed boundaries mark configuration,
             uncertainty, rights, or deployment responsibilities. They do not
             imply hidden services.
           </p>
@@ -1165,14 +1166,14 @@ export default function ArchitectureAtlas() {
                 {section.id === 'deep-model' ? (
                   <aside className="atlas-journey-transfer">
                     <div>
-                      <span>Interactive trace moved</span>
+                      <span>Historical trace retired</span>
                       <strong>
-                        Follow image patches through the released model in the
-                        project journey.
+                        This retired trace is no longer linked from the project
+                        journey.
                       </strong>
                     </div>
-                    <a href="/journey#released-model">
-                      Open interactive trace
+                    <a href="/journey#selected-model">
+                      Open selected runtime
                       <ArrowUpRight aria-hidden="true" />
                     </a>
                   </aside>

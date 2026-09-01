@@ -437,6 +437,14 @@ export default function Home() {
             </a>
             <a
               className="transition-colors hover:text-white"
+              href="https://youtu.be/X5-J4NmNHl0"
+              rel="noreferrer"
+              target="_blank"
+            >
+              Demo video
+            </a>
+            <a
+              className="transition-colors hover:text-white"
               href="/documentation"
             >
               Technical appendix
@@ -917,7 +925,7 @@ export default function Home() {
                   {[
                     ['Value', '0.78'],
                     ['Type', 'Probability'],
-                    ['Source', '4 experts'],
+                    ['Source', '3 residual heads'],
                   ].map(([label, value]) => (
                     <div key={label} className="bg-[#111827] p-4">
                       <p className="font-mono text-[9px] uppercase tracking-[.15em] text-white/40">
@@ -1283,6 +1291,14 @@ export default function Home() {
           <div className="flex items-center gap-5">
             <a className="text-[#0040c1] hover:underline" href="/journey">
               Journey
+            </a>
+            <a
+              className="text-[#0040c1] hover:underline"
+              href="https://youtu.be/X5-J4NmNHl0"
+              rel="noreferrer"
+              target="_blank"
+            >
+              Demo video
             </a>
             <a className="text-[#0040c1] hover:underline" href="/documentation">
               Technical appendix

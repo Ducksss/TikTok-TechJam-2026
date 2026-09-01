@@ -508,6 +508,15 @@ export default function Documentation() {
                 <strong>TikTok-TechJam-2026 repository</strong>
                 <ArrowUpRight aria-hidden="true" />
               </a>
+              <a
+                href="https://youtu.be/X5-J4NmNHl0"
+                rel="noreferrer"
+                target="_blank"
+              >
+                <span>Recorded walkthrough</span>
+                <strong>SynthFlag demo v8</strong>
+                <ArrowUpRight aria-hidden="true" />
+              </a>
               <a href="/journey">
                 <span>Judge narrative</span>
                 <strong>Project journey and decisions</strong>

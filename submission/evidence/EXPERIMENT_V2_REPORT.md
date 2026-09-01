@@ -1,5 +1,10 @@
 # SynthFlag experiment V2 report
 
+> **Historical V2 evidence notice:** this retrospective report evaluates the
+> retired four-expert probability-mean runtime. “Released” and “production”
+> below refer to that historical baseline, not the selected Expert 4 plus
+> three-head TEST1 graph.
+
 ## Verdict
 
 V2 found a statistically positive **retrospective pooled** ranking result,
@@ -17,8 +22,8 @@ from 0.8661 to
 +0.0096).
 
 That stack failed the leave-one-dataset-out guardrail on every held-out domain.
-Accordingly, the frozen production recommendation remains the released
-four-expert probability mean. `logistic_disagreement` is retained only as an
+Accordingly, the frozen recommendation for that historical runtime remained
+the then-released four-expert probability mean. `logistic_disagreement` is retained only as an
 experimental pooled profile. The CO-SPY stack reached the highest pooled
 ROC-AUC (0.8975) but was
 rejected because its gains were strongly domain-dependent.
@@ -206,7 +211,7 @@ in public artifacts.
 
 ## Recommended profiles
 
-- **Production default:** released four-expert probability mean. Preserve the
+- **Historical production default:** then-released four-expert probability mean. Preserve the
   V1 threshold choice appropriate to the precision/recall cost; V2 did not
   prospectively replace it.
 - **Experimental pooled profile:** cross-fitted

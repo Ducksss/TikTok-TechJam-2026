@@ -8,6 +8,7 @@ need repository context without reconstructing the project from chat history.
 | Need | Read or attach to a prompt |
 |---|---|
 | One high-signal project brief | [`AI_CONTEXT.md`](AI_CONTEXT.md) |
+| Recorded product walkthrough | [**SynthFlag demo v8**](https://youtu.be/X5-J4NmNHl0) |
 | Copy-paste prompt patterns | [`PROMPTING_GUIDE.md`](PROMPTING_GUIDE.md) |
 | Automatic coding-agent guidance | [`../AGENTS.md`](../AGENTS.md) |
 | Deterministic development-data augmentation | [`AUGMENTATION_TOOLKIT.md`](AUGMENTATION_TOOLKIT.md) |
@@ -18,7 +19,8 @@ need repository context without reconstructing the project from chat history.
 | Selected TEST1 aggregate evidence | [`../submission/evidence/test1/`](../submission/evidence/test1/) |
 | Authoritative model-development, exact head bundle, and full TEST1 record | [`../training_eval/`](../training_eval/) |
 | Professor Ng interview and research boundary | [`INTERVIEW_PROF_NG.md`](INTERVIEW_PROF_NG.md) |
-| Detailed architecture diagrams | [`../landing-page/app/documentation/architecture/atlas.tsx`](../landing-page/app/documentation/architecture/atlas.tsx) and [`../landing-page/public/diagrams/`](../landing-page/public/diagrams/) |
+| Selected architecture diagram | [`../submission/ARCHITECTURE.svg`](../submission/ARCHITECTURE.svg) and [`../submission/ARCHITECTURE.md`](../submission/ARCHITECTURE.md) |
+| Historical four-expert atlas | [`../landing-page/public/diagrams/README.md`](../landing-page/public/diagrams/README.md) |
 | Brand system | [`BRAND_GUIDE.md`](BRAND_GUIDE.md) |
 
 ## Evidence hierarchy

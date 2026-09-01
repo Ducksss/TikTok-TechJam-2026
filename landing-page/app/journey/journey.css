@@ -722,6 +722,28 @@
   margin-top: 3.5rem;
 }
 
+.journey-selected-architecture {
+  margin-top: 3.5rem;
+  overflow: hidden;
+  border: 1px solid var(--docs-line);
+  border-radius: 1.5rem;
+  background: #f7f9fe;
+}
+
+.journey-selected-architecture img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.journey-selected-architecture figcaption {
+  border-top: 1px solid var(--docs-line);
+  padding: 1rem 1.25rem;
+  color: #53627a;
+  font-size: 0.82rem;
+  line-height: 1.65;
+}
+
 .journey-static-handoff {
   display: flex;
   align-items: center;

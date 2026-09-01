@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Three days. One defensible detector.',
     description:
-      'Follow SynthFlag from metric selection and robustness testing to rejected shortcuts, product integration, and the released model.',
+      'Follow SynthFlag from metric selection and robustness testing to rejected shortcuts, product integration, and the selected model.',
     type: 'article',
     url: '/journey',
     images: [

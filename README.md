@@ -15,6 +15,7 @@
 
 <p align="center">
   <a href="https://synthflag.chaipinzheng353496.chatgpt.site/"><strong>Live demo</strong></a> ·
+  <a href="https://youtu.be/X5-J4NmNHl0"><strong>Demo video</strong></a> ·
   <a href="https://synthflag.chaipinzheng353496.chatgpt.site/try">Try the current detector</a> ·
   <a href="https://synthflag.chaipinzheng353496.chatgpt.site/journey">Project journey</a> ·
   <a href="https://synthflag.chaipinzheng353496.chatgpt.site/documentation">Documentation</a> ·
@@ -60,15 +61,17 @@ frozen Expert 4 dependency retains its required upstream attribution.
   landing page, image and sampled-video source experience, and technical
   documentation.
 
-## Live demo
+## Demos
 
 - [Open the SynthFlag landing page](https://synthflag.chaipinzheng353496.chatgpt.site/)
+- [Watch **SynthFlag demo v8** on YouTube](https://youtu.be/X5-J4NmNHl0)
 - [Open the current `/try` deployment](https://synthflag.chaipinzheng353496.chatgpt.site/try)
 - [Follow the project journey](https://synthflag.chaipinzheng353496.chatgpt.site/journey)
 - [Read the visual documentation](https://synthflag.chaipinzheng353496.chatgpt.site/documentation)
-- [Explore the deep architecture atlas](https://synthflag.chaipinzheng353496.chatgpt.site/documentation#architecture-atlas)
+- [Open the selected architecture section](https://synthflag.chaipinzheng353496.chatgpt.site/documentation#architecture)
 
-The source `/try` route provides the complete image and sampled-video file-drop
+The YouTube link is the recorded product demo. The source `/try` route provides
+the complete image and sampled-video file-drop
 experience and reports whether a checkpoint-backed model service is connected.
 The hosted route reflects the latest deployed saved version, so verify its
 health capability before claiming video is live. It never fabricates a score
@@ -126,8 +129,8 @@ apply the frozen boundary `-1.557959395647049` before sigmoid.
 
 Read the [architecture explanation](submission/ARCHITECTURE.md), follow the
 [project and decision journey](https://synthflag.chaipinzheng353496.chatgpt.site/journey),
-or explore the
-[interactive model journey](https://synthflag.chaipinzheng353496.chatgpt.site/journey#released-model).
+or open the
+[selected-model walkthrough](https://synthflag.chaipinzheng353496.chatgpt.site/journey#selected-model).
 
 ## Quick start
 

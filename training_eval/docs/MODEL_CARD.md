@@ -37,12 +37,16 @@ The final scalar is a correction to the frozen teacher's two-class margin; it is
 
 ## 2. Exact artifacts
 
-| Component | Role | SHA-256 |
-|---|---|---|
-| `Expert_4_siglip.pth` | Frozen upstream feature encoder and teacher logits | `a7d2297e7fecace8ae95d8bbdca023b697cc395d7fde0d1bd90b23d0cf130ff4` |
-| CIFAKE router head | Native longest side `<=64`, residual alpha `1.25` | `2f52d2de29c6db966712f5d2ed0c7b321b680b3d3c583d41164380d71cce0f4e` |
-| Epoch-05 general head | 65% of the large-image margin | `fa30e2f93bec233dbcc459e342b9f1970e32789c8d5d796ba3df20ff15e63029` |
-| Epoch-08 general head | 35% of the large-image margin | `e4fbaab083f3c7f12b88848d7870817ecc5c603a95d1deab8e8aafee9aea7c1e` |
+| Component | Role | Tracked runtime SHA-256 | Original source-artifact SHA-256 |
+|---|---|---|---|
+| `Expert_4_siglip.pth` | Frozen upstream feature encoder and teacher logits | External, expected `a7d2297e7fecace8ae95d8bbdca023b697cc395d7fde0d1bd90b23d0cf130ff4` | Same upstream identity |
+| `cifake_router_head.pt` | Native longest side `<=64`, residual alpha `1.25` | `da8cdd81a14d112a7531837762fe3aad97ebfe07c8cdaa69da6d3c7dfe08b48e` | `2f52d2de29c6db966712f5d2ed0c7b321b680b3d3c583d41164380d71cce0f4e` |
+| `general_epoch05_head.pt` | 65% of the large-image margin | `98e03c194fc902560d965d1b28d4b1e245e3580d792ff2c086d5ab515588479c` | `fa30e2f93bec233dbcc459e342b9f1970e32789c8d5d796ba3df20ff15e63029` |
+| `general_epoch08_head.pt` | 35% of the large-image margin | `b6a8d13d71ab05d0bb43477a4721a74e60d54d289ef483129e857b525dd08526` | `e4fbaab083f3c7f12b88848d7870817ecc5c603a95d1deab8e8aafee9aea7c1e` |
+
+The tracked heads are path-sanitized bundle exports. The manifest preserves
+both their actual Git/runtime hashes and the collaborator's original source
+artifact hashes; the two identities must not be interchanged.
 
 Loaded parameter count:
 
@@ -137,7 +141,8 @@ The appropriate threshold must be calibrated on deployment-prevalence data with 
 ## 7. Known limitations
 
 - Existing-detector dependency may make the system ineligible under the relayed Track 5 rule.
-- The current adaptation pool is not fully commercial-cleared; see [`DATA_RIGHTS.md`](DATA_RIGHTS.md).
+- Residual-head rights are teammate-attested and accepted by the project owner,
+  not independently item-audited; see [`DATA_RIGHTS.md`](DATA_RIGHTS.md).
 - CIFAKE routing is benchmark-aware and nearly identified by native resolution.
 - SID locally tampered images are often missed because a global pooled feature can dilute a small edited region.
 - Composite corruption reduces CIFAKE and WildFake AUC, and augmented WildFake specificity is weak.
@@ -145,6 +150,14 @@ The appropriate threshold must be calibrated on deployment-prevalence data with 
 - The replay used integrity-verified cached Expert 4 features/logits; it was not an end-to-end latency or VRAM measurement.
 - A probability is not a causal explanation and may be miscalibrated at real platform prevalence.
 
-## 8. Required next step for an eligible submission
+## 8. Optional eligibility-hardening path
 
-Train a new detector from organizer-approved general-purpose backbones or from scratch, using only the strict commercial allowlist, then freeze it before opening a new generator- and source-disjoint audit set. The proposed plan is documented in [`FOUR_EXPERT_RETRAINING_PLAN.md`](FOUR_EXPERT_RETRAINING_PLAN.md). It has not been executed and did not produce the current weights.
+No replacement retraining is required for this project release under the
+project owner's accepted collaborator attestation. Organizer clearance for the
+existing Expert 4 dependency remains separate. If organizers disallow that
+dependency, or a future distributor requires independently audited clean-room
+provenance, train a new detector from approved general-purpose backbones or
+from scratch using the strict commercial allowlist, then freeze it before a
+new source- and generator-disjoint audit. The optional plan is documented in
+[`FOUR_EXPERT_RETRAINING_PLAN.md`](FOUR_EXPERT_RETRAINING_PLAN.md); it has not
+been executed and did not produce the current weights.

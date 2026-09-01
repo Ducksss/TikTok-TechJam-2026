@@ -7,11 +7,14 @@ inference uses those artifacts over a frozen Expert 4 dependency.
 
 ## Start here
 
+- [**SynthFlag demo v8**](https://youtu.be/X5-J4NmNHl0): canonical recorded
+  product walkthrough; separate from live worker availability.
 - [`BENCHMARKS.md`](BENCHMARKS.md): selected TEST1 results and historical-study boundaries.
 - [`MODEL_CARD.md`](MODEL_CARD.md): exact graph, intended use, rights, and eligibility.
 - [`ARCHITECTURE.md`](ARCHITECTURE.md): route and score derivation.
 - [`REPRODUCE.md`](REPRODUCE.md): environment, artifacts, CLI, and checks.
 - [`evidence/test1/`](evidence/test1/): aggregate TEST1 source evidence.
+- [`evidence/README.md`](evidence/README.md): current-versus-historical evidence map.
 - [`../training_eval/`](../training_eval/): authoritative model-development
   implementation, configs, tests, row-level TEST1 evidence, and reports.
 - [`../docs/INTERVIEW_PROF_NG.md`](../docs/INTERVIEW_PROF_NG.md): Professor Ng

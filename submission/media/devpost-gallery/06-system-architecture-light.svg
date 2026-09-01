@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="1536" height="1024" viewBox="0 0 1536 1024" role="img" aria-labelledby="title desc">
-<title id="title">SynthFlag overall system architecture</title>
-<desc id="desc">A deterministic RGB image path through checkpoint verification, CLIP and SigLIP preprocessing, four experts, exact mean fusion, continuous scoring, and provenance-bound outputs.</desc>
+<title id="title">Historical SynthFlag four-expert system architecture</title>
+<desc id="desc">Historical V1/V2 baseline: a deterministic RGB image path through four experts and exact mean fusion. This is not the selected TEST1 runtime.</desc>
 <defs>
 <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M 32 0 L 0 0 0 32" fill="none" stroke="#DDE7FA" stroke-width="1" opacity="0.55"/></pattern>
 <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="12" stdDeviation="18" flood-color="#000000" flood-opacity="0.1"/></filter>
@@ -20,6 +20,8 @@
 <text x="64" y="172" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="43" font-weight="800" fill="#111827" text-anchor="start">One image. Four experts. One review signal.</text>
 <text x="64" y="210" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="20" font-weight="500" fill="#53627A" text-anchor="start">Checkpoint identity and deterministic preprocessing stay visible from input to artifact.</text>
 <line x1="64" y1="226" x2="1472" y2="226" stroke="#C4D5F3" stroke-width="2" stroke-linecap="round"/>
+<rect x="64" y="232" width="1408" height="26" rx="8" fill="#C83349"/>
+<text x="768" y="251" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="14" font-weight="800" fill="#FFFFFF" text-anchor="middle" letter-spacing="1.1">HISTORICAL V1/V2 BASELINE · NOT THE SELECTED TEST1 RUNTIME</text>
 <rect x="64" y="266" width="210" height="500" rx="24" fill="#FFFFFF" stroke="#C4D5F3" stroke-width="2" filter="url(#shadow)"/>
 <rect x="326" y="266" width="290" height="500" rx="24" fill="#FFFFFF" stroke="#C4D5F3" stroke-width="2" filter="url(#shadow)"/>
 <rect x="668" y="266" width="300" height="500" rx="24" fill="#FFFFFF" stroke="#C4D5F3" stroke-width="2" filter="url(#shadow)"/>
@@ -122,6 +124,6 @@
 <rect x="1354" y="834" width="94" height="42" rx="21.0" fill="#0040C1"/>
 <text x="1401.0" y="860.1" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle" letter-spacing="0.7">0.28747</text>
 <line x1="64" y1="970" x2="1472" y2="970" stroke="#C4D5F3" stroke-width="1.5" stroke-linecap="round"/>
-<text x="64" y="998" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="15" font-weight="500" fill="#53627A" text-anchor="start">Source: infer/architecture.py • preprocessing.py • checkpoints.py • outputs.py</text>
+<text x="64" y="998" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="15" font-weight="500" fill="#53627A" text-anchor="start">Historical source: retired V1/V2 release records • not current infer/</text>
 <text x="1472" y="998" font-family="Instrument Sans, Poppins, Arial, sans-serif" font-size="15" font-weight="700" fill="#2970FF" text-anchor="end">Evidence before certainty</text>
 </svg>

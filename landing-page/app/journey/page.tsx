@@ -1,5 +1,6 @@
 /* oxlint-disable next/no-html-link-for-pages -- vinext's production next/link prefetch shim currently breaks route clicks; standard anchors keep public navigation reliable. */
 import type { ReactNode } from 'react';
+import Image from 'next/image';
 import {
   ArrowDown,
   ArrowRight,
@@ -17,7 +18,6 @@ import {
 } from 'lucide-react';
 
 import { HashAnchorSync } from '../documentation/hash-anchor-sync';
-import { ModelJourney } from '../documentation/architecture/model-journey';
 import '../documentation/documentation.css';
 import '../documentation/architecture/architecture.css';
 import './journey.css';
@@ -26,7 +26,7 @@ import '../documentation/light-theme.css';
 const contents = [
   ['day-one', 'Day 1 · Trust'],
   ['day-two', 'Day 2 · Robustness'],
-  ['released-model', 'Released model'],
+  ['selected-model', 'Selected model'],
   ['day-three', 'Day 3 · Guardrails'],
   ['roadmap', 'Roadmap'],
   ['status', 'What remains'],
@@ -118,8 +118,9 @@ export default function JourneyPage() {
             <h1>Three days. One defensible detector.</h1>
             <p>
               We began by deciding what evidence to trust. We ended with a
-              protected evidence, rejected shortcuts, a selected routed residual
-              product, and a roadmap honest about what is still unproven.
+              protected evidence package, rejected shortcuts, a selected routed
+              residual product, and a roadmap honest about what is still
+              unproven.
             </p>
             <div className="journey-hero-actions">
               <a className="journey-primary-link" href="#day-one">
@@ -140,7 +141,7 @@ export default function JourneyPage() {
             <li>
               <span>Day 2</span>
               <strong>Design for the real internet</strong>
-              <small>Distortions · CLIP + SigLIP · patch routing</small>
+              <small>Distortions · residual heads · native-size routing</small>
             </li>
             <li>
               <span>Day 3</span>
@@ -410,33 +411,52 @@ export default function JourneyPage() {
 
           <section
             className="journey-section journey-model-section"
-            id="released-model"
+            id="selected-model"
           >
             <span
               aria-hidden="true"
               className="journey-anchor-alias"
               id="final-model"
             />
+            <span
+              aria-hidden="true"
+              className="journey-anchor-alias"
+              id="released-model"
+            />
             <div className="journey-section-heading">
-              <p>Released model · Visual walkthrough</p>
-              <h2>Follow one image from patches to the score signal.</h2>
+              <p>Selected model · Exact routed graph</p>
+              <h2>Follow one image through your project-trained heads.</h2>
             </div>
             <p className="journey-section-intro">
-              The interactive trace turns the exact CLIP and SigLIP patch
-              mathematics into a visual story. Highlighted cells are example
-              routes—not importance, attribution, or proof.
+              Native image size chooses one of two deterministic routes over a
+              frozen Expert 4 representation. The contribution is the three
+              residual heads, their training/evaluation stack, and this fixed
+              routing policy—not the upstream teacher.
             </p>
-            <ModelJourney />
+            <figure className="journey-selected-architecture">
+              <Image
+                alt="Selected SynthFlag TEST1 graph with frozen Expert 4 and three routed residual heads"
+                height={900}
+                src="/selected-test1-architecture.svg"
+                unoptimized
+                width={1200}
+              />
+              <figcaption>
+                Native longest side ≤64 uses the CIFAKE specialist at alpha
+                1.25; larger images use the fixed 0.65 / 0.35 two-head blend and
+                boundary −1.557959395647049.
+              </figcaption>
+            </figure>
             <a
               className="journey-static-handoff"
-              href="/documentation#deep-model"
+              href="/documentation#architecture"
             >
               <span>
                 <Layers3 aria-hidden="true" />
                 <span>
-                  <strong>Need every tensor and boundary?</strong>
+                  <strong>Need the exact route and boundary?</strong>
                   <small>
-                    Open the full static execution figure and structured table.
+                    Open the selected technical appendix and score derivation.
                   </small>
                 </span>
               </span>
@@ -448,14 +468,14 @@ export default function JourneyPage() {
             <DayHeader
               day="Day 3"
               date="Monday · 31 August"
-              title="Let unfamiliar datasets veto the shortcut."
-              question="Can a tiny learned adapter improve the headline without learning dataset identity?"
+              title="Separate the selected heads from rejected shortcuts."
+              question="Which adapter experiments failed—and what does the selected graph actually ship?"
             />
 
             <div className="journey-head-experiment">
               <div className="journey-panel-heading">
                 <div>
-                  <p>Frozen-encoder head experiment</p>
+                  <p>Historical four-expert adapter experiment</p>
                   <h3>The pooled score rose. The transfer guardrails fell.</h3>
                 </div>
                 <StatusBadge kind="rejected">Rejected</StatusBadge>
@@ -494,7 +514,9 @@ export default function JourneyPage() {
               <div className="journey-final-decision">
                 <Ban aria-hidden="true" />
                 <p>
-                  <strong>Decision: do not promote.</strong> The adapter learned
+                  <strong>Decision: do not promote this adapter.</strong> This
+                  older experiment belonged to the retired four-expert line; it
+                  is not one of the three selected residual heads. It learned
                   shortcuts that looked excellent in pooled development but did
                   not travel reliably. A separate WildFake-excluded run has
                   training OOF numbers, but its actual holdout report is
@@ -570,21 +592,23 @@ export default function JourneyPage() {
               <article>
                 <div>
                   <Smartphone aria-hidden="true" />
-                  <StatusBadge kind="planned">Planned</StatusBadge>
+                  <StatusBadge kind="partial">Source complete</StatusBadge>
                 </div>
-                <h3>Short-video extension</h3>
+                <h3>Sampled-video delivery</h3>
                 <p>
-                  Extract eight midpoint frames in the browser, score them with
-                  the image detector, then summarize cautiously with a mean or
-                  top-k signal and a visible timeline.
+                  The source now extracts eight midpoint frames in the browser,
+                  scores them in two-frame microbatches, and returns a visible
+                  timeline with descriptive summaries. Public availability still
+                  depends on a connected inference worker.
                 </p>
                 <small>No temporal understanding is claimed.</small>
               </article>
             </div>
             <p className="journey-roadmap-note">
               A staged adaptation ladder—heads, then LayerNorm, LoRA, and final
-              blocks—was proposed. Only the head-only experiment was completed,
-              and it was rejected.
+              blocks—was proposed for the retired four-expert line. Its
+              head-only adapter was rejected; that result is separate from the
+              three selected residual-head artifacts now shipped.
             </p>
           </section>
 

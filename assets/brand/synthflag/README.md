@@ -4,6 +4,11 @@ A 60-asset working system for the SynthFlag identity, built from the four skewed
 
 > These are exploration assets, not fabricated product results. Metric and dataset templates intentionally leave values blank until real evidence is available.
 
+> **Technical-story boundary:** asset `51-four-experts-diagram.png` is a
+> historical V1/V2 exploration and does not show the selected TEST1 runtime.
+> Use [`../../../submission/ARCHITECTURE.svg`](../../../submission/ARCHITECTURE.svg)
+> for the current Expert 4 plus three-head graph.
+
 [Open the visual gallery](gallery.html) · [Asset manifest](manifest.csv)
 
 ## 01–15 · Core identity
@@ -59,7 +64,7 @@ Context-first templates, method diagrams, review states, and signal fields.
 |---|---|
 | <a href="46-evidence-card-light.png"><img src="46-evidence-card-light.png" alt="SynthFlag Light evidence card" width="100%"></a><br><strong>46 · Light evidence card</strong><br><sub>Evidence card template</sub> | <a href="47-evidence-card-cobalt.png"><img src="47-evidence-card-cobalt.png" alt="SynthFlag Cobalt proof block" width="100%"></a><br><strong>47 · Cobalt proof block</strong><br><sub>Evidence card template</sub> |
 | <a href="48-score-context-template.png"><img src="48-score-context-template.png" alt="SynthFlag Reviewable probability" width="100%"></a><br><strong>48 · Reviewable probability</strong><br><sub>Score context template</sub> | <a href="49-dataset-comparison-template.png"><img src="49-dataset-comparison-template.png" alt="SynthFlag Conditioned metric frame" width="100%"></a><br><strong>49 · Conditioned metric frame</strong><br><sub>Dataset comparison template</sub> |
-| <a href="50-operating-points.png"><img src="50-operating-points.png" alt="SynthFlag Same scores, different operating points" width="100%"></a><br><strong>50 · Same scores, different operating points</strong><br><sub>Threshold explainer</sub> | <a href="51-four-experts-diagram.png"><img src="51-four-experts-diagram.png" alt="SynthFlag Four experts, one probability" width="100%"></a><br><strong>51 · Four experts, one probability</strong><br><sub>Architecture explainer</sub> |
+| <a href="50-operating-points.png"><img src="50-operating-points.png" alt="SynthFlag Same scores, different operating points" width="100%"></a><br><strong>50 · Same scores, different operating points</strong><br><sub>Threshold explainer</sub> | <a href="51-four-experts-diagram.png"><img src="51-four-experts-diagram.png" alt="Historical SynthFlag four-expert architecture exploration" width="100%"></a><br><strong>51 · Historical four-expert baseline</strong><br><sub>Retired V1/V2 architecture exploration</sub> |
 | <a href="52-review-split.png"><img src="52-review-split.png" alt="SynthFlag Flag for review" width="100%"></a><br><strong>52 · Flag for review</strong><br><sub>Review-state graphic</sub> | <a href="53-uncertainty-callout.png"><img src="53-uncertainty-callout.png" alt="SynthFlag Specific, calm, qualified" width="100%"></a><br><strong>53 · Specific, calm, qualified</strong><br><sub>Uncertainty callout</sub> |
 | <a href="54-method-card.png"><img src="54-method-card.png" alt="SynthFlag Method before claim" width="100%"></a><br><strong>54 · Method before claim</strong><br><sub>Method summary card</sub> | <a href="55-source-frame-overlay.png"><img src="55-source-frame-overlay.png" alt="SynthFlag Source frame" width="100%"></a><br><strong>55 · Source frame</strong><br><sub>Image-analysis overlay</sub> |
 | <a href="56-signal-pattern-light.png"><img src="56-signal-pattern-light.png" alt="SynthFlag Four-bar signal field" width="100%"></a><br><strong>56 · Four-bar signal field</strong><br><sub>Light brand background</sub> | <a href="57-signal-pattern-dark.png"><img src="57-signal-pattern-dark.png" alt="SynthFlag Deep signal field" width="100%"></a><br><strong>57 · Deep signal field</strong><br><sub>Dark brand background</sub> |

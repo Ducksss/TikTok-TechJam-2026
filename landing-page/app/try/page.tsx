@@ -1141,7 +1141,7 @@ export default function TryDetector() {
           </p>
           <a
             className="group flex items-center gap-3 text-xs leading-5 transition-colors hover:text-white md:justify-self-end"
-            href="/journey#released-model"
+            href="/journey#selected-model"
           >
             Follow the released model
             <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />

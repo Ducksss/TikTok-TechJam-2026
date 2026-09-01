@@ -13,6 +13,11 @@ The repository also provides a Python API and CLI, an optional FastAPI service,
 a public web experience, technical documentation, and evidence-labeled release
 materials.
 
+The canonical recorded walkthrough is [**SynthFlag demo
+v8**](https://youtu.be/X5-J4NmNHl0). It demonstrates the product story but does
+not establish that the separately hosted checkpoint-backed worker is currently
+reachable.
+
 `training_eval/` is authoritative for the project contribution: residual-head
 implementation, exact collaborator head ZIP and extracted binaries, training,
 augmentation, routing config, TEST1 predictions, metrics, bootstrap evidence,

@@ -8,7 +8,7 @@ consult the papers when the task needs challenge or method detail.
 
 | Task | Attach or reference |
 |---|---|
-| Explain SynthFlag to a stakeholder | `docs/AI_CONTEXT.md`, `submission/MODEL_CARD.md` |
+| Explain SynthFlag to a stakeholder | `docs/AI_CONTEXT.md`, `submission/MODEL_CARD.md`, and [**SynthFlag demo v8**](https://youtu.be/X5-J4NmNHl0) when a recorded walkthrough helps |
 | Answer a Tu et al. method question | [arXiv:2603.21939](https://arxiv.org/abs/2603.21939), `docs/AI_CONTEXT.md` |
 | Answer a challenge, team, or leaderboard question | [arXiv:2604.11487](https://arxiv.org/abs/2604.11487), `docs/AI_CONTEXT.md` |
 | Change inference behavior | `AGENTS.md`, `training_eval/scripts/model.py`, `training_eval/configs/selected_test1.yaml`, `training_eval/tests/`, then the `infer/` product adapter and relevant tests |
@@ -89,6 +89,8 @@ evidence and human review.
 
 - State whether the answer should describe the paper, released code, local
   benchmarks, the hosted interface, or a proposed future design.
+- Treat [**SynthFlag demo v8**](https://youtu.be/X5-J4NmNHl0) as a recorded
+  walkthrough, not proof that the hosted inference worker is currently live.
 - Ask for file-path citations when accuracy matters.
 - Give the AI the exact evidence JSON/Markdown file for metric questions.
 - Treat `training_eval/` as the source of truth for the project's model
