@@ -15,6 +15,9 @@ and [Gushchin et al., arXiv:2604.11487](https://arxiv.org/abs/2604.11487).
   change affects naming, public routes, inference outputs, evidence status, or
   release procedure.
 - Executed code and machine-readable manifests outrank explanatory copy.
+  `training_eval/` is the source of truth for the project-trained residual
+  heads, augmentation, training, selected route, and TEST1 evidence. `infer/`
+  adapts that implementation to the product API and frozen encoder runtime.
   `STATUS.md` is a refreshable release snapshot, never authority for model
   behavior or a substitute for fresh Git, deployment, or service-health checks.
 - Run `python scripts/check_repository_context.py` after changing any context
@@ -38,8 +41,10 @@ and [Gushchin et al., arXiv:2604.11487](https://arxiv.org/abs/2604.11487).
 
 ## Released inference contract
 
-- Sources of truth: `infer/architecture.py` for the Expert 4 teacher, residual
-  heads, native-size route, and score conversion; `infer/preprocessing.py` for image transforms,
+- Sources of truth: `training_eval/scripts/model.py` for the project residual
+  head implementation, `training_eval/configs/selected_test1.yaml` for the
+  selected route, and `infer/architecture.py` for the frozen encoder adapter
+  and score conversion; `infer/preprocessing.py` for image transforms,
   `infer/checkpoints.py` for checkpoint integrity, `infer/model.py` for the
   public Python API, and `infer/outputs.py` plus `infer/cli.py` for batch
   artifacts.
@@ -68,7 +73,12 @@ and [Gushchin et al., arXiv:2604.11487](https://arxiv.org/abs/2604.11487).
 
 ## Product surfaces
 
-- `infer/`: authoritative Python model and resumable batch CLI.
+- `infer/`: product inference adapter, stable Python API, and resumable batch
+  CLI over the authoritative project head implementation.
+- `training_eval/`: authoritative project model-development record: residual
+  head code, exact collaborator Drive ZIP and extracted binaries,
+  training/evaluation runners, deterministic augmentations, configs, tests,
+  TEST1 row-level predictions, reports, and integrity artifacts.
 - `synthflag_augment/`: optional deterministic development-data augmentation;
   never use protected final-evaluation rows to tune its recipes.
 - `service/`: optional FastAPI wrapper. It lazy-loads or optionally eager-loads
@@ -90,7 +100,8 @@ and [Gushchin et al., arXiv:2604.11487](https://arxiv.org/abs/2604.11487).
 - `submission/`: evidence-labeled release package, benchmark tables, model card,
   rights inventory, checksums, and reproduction guide.
 - `weights/manifest.json`: identities of the upstream Expert 4 checkpoint and
-  three selected residual-head files. Checkpoint binaries are intentionally excluded.
+  three selected residual-head files. The three collaborator-trained heads are
+  tracked project artifacts; the upstream Expert 4 binary remains external.
 
 ## Evidence rules
 
@@ -111,9 +122,11 @@ and [Gushchin et al., arXiv:2604.11487](https://arxiv.org/abs/2604.11487).
   tests, or specifications.
 - Never train, tune, select checkpoints, calibrate, or select thresholds using
   protected final-evaluation rows.
-- Keep checkpoint binaries, dataset pixels, local paths, private split rows,
-  per-image protected scores, prompts/captions, and unlicensed third-party
-  material out of Git.
+- Keep the upstream Expert 4 binary, dataset pixels, local paths, private split
+  rows, per-image protected scores, prompts/captions, and unlicensed third-party
+  material out of Git. The exact collaborator head ZIP, three rights-attested
+  project residual heads, and public TEST1 row-level predictions are explicit
+  tracked exceptions.
 
 ## Change discipline
 

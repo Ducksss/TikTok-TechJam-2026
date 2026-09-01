@@ -22,8 +22,9 @@ automation, process, or worktree dirtiness state.
 
 | Surface | Contract |
 |---|---|
-| Public identity | **SynthFlag** is the product, repository, demo, submission, Python distribution, and primary CLI. Tu et al. retain detector-research and Expert 4 checkpoint attribution. |
-| Batch inference | `infer/` implements the selected TEST1 graph: frozen Tu et al. Expert 4 plus three project-trained residual heads, native-size routing, and resumable directory inference. |
+| Public identity | **SynthFlag** is the product, repository, demo, submission, Python distribution, and primary CLI. The project-trained heads, routing, training/evaluation harness, and TEST1 record are the primary technical contribution; Expert 4 retains dependency attribution. |
+| Model development | `training_eval/` is authoritative for the project residual-head implementation, training, deterministic augmentation, route configuration, tests, exact collaborator Drive head ZIP and extracted binaries, public TEST1 predictions, bootstrap evidence, and reports. |
+| Batch inference | `infer/` uses the authoritative `training_eval.scripts.model.ResidualHead` implementation with the frozen Expert 4 adapter, native-size routing, and resumable directory inference. |
 | Development augmentation | `synthflag_augment/` provides repository-authored, sample-keyed image variants and audit traces; it is optional, outside inference, and not paper-described training reproduction. |
 | Batch artifacts | A completed run produces `predictions.csv`, Track 5 `predictions.json` records with `image_path,pred`, and `predictions.meta.json`. |
 | HTTP service | `service/app.py` exposes checkpoint-backed health, single-image analysis, and bounded sampled-frame analysis with two-frame microbatches; it does not make the public worker available by itself. |
@@ -87,8 +88,10 @@ refetch before pushing, and never force-push the release branch.
 2. Preserve the exact selected TEST1 route, `1.25` low-resolution alpha,
    `0.65 / 0.35` large-image blend, and `-1.557959395647049` boundary unless a
    code change is explicitly requested and verified.
-3. Preserve protected-evaluation, privacy, checkpoint, dataset, and licensing
-   exclusions documented in `submission/RELEASE_AUDIT.md`.
+3. Keep the exact collaborator head ZIP, three extracted project-head
+   binaries, and public TEST1 technical record tracked; preserve the separate
+   upstream-checkpoint, protected-data, privacy, dataset, and licensing
+   exclusions in `submission/RELEASE_AUDIT.md`.
 4. Validate relevant tests/builds, JSON, SVG, Markdown links, artifact
    checksums, and `scripts/check_repository_context.py`.
 5. Run `scripts/check_source_provenance.py`; only the canonical Apache-2.0

@@ -1,0 +1,51 @@
+schema_version: 1
+status: proposed_not_run
+evidence_warning: this plan did not produce the four expert files currently in Drive
+
+hardware_plan:
+  accelerator: NVIDIA_H200_141GB
+  world_size: 4
+  allocation: one_independent_expert_per_gpu
+  precision: bf16
+  activation_checkpointing: true
+
+experts:
+  - id: 1
+    base: openai_clip_vit_l_14
+    base_license: MIT
+    emphasis: global_semantics_and_legacy_gan_diversity
+  - id: 2
+    base: openai_clip_vit_l_14
+    base_license: MIT
+    emphasis: compression_and_low_resolution_stability
+  - id: 3
+    base: google_siglip_so400m_patch14_384
+    base_license: Apache-2.0
+    emphasis: modern_diffusion_and_prompt_diversity
+  - id: 4
+    base: google_siglip_so400m_patch14_384
+    base_license: Apache-2.0
+    emphasis: chained_corruption_and_local_edit_sensitivity
+
+data_contract:
+  rights_allowlist: ./commercial_head_retrain.yaml
+  generator_and_source_held_out_splits: true
+  semantic_pairing_when_available: true
+  label_symmetric_post_processing: true
+  creator_prompt_generator_grouping: true
+
+training_stages:
+  - name: independent_specialisation
+    objective: balanced_real_fake_classification_plus_view_consistency
+  - name: cross_expert_distillation
+    objective: preserve_complementary_features_without_collapsing_experts
+  - name: locked_source_disjoint_selection
+    objective: worst_domain_clean_and_corrupted_auc_with_low_fpr_constraints
+
+required_evidence_before_claiming_completion:
+  - immutable_data_manifest_and_attribution_ledger
+  - per_run_config_git_sha_and_random_seed
+  - accelerator_logs_and_checkpoint_hashes
+  - source_disjoint_validation_report
+  - untouched_no_regression_audit
+  - explicit_checkpoint_redistribution_license

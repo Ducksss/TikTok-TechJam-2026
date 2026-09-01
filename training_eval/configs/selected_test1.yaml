@@ -1,0 +1,42 @@
+schema_version: 1
+status: selected_public_development_diagnostic
+locked_tiktok_test_evaluated: false
+
+encoder:
+  origin: upstream_expert4_dependency
+  architecture: siglip_so400m_patch14_384
+  frozen: true
+  pooled_feature_width: 1152
+  included_in_repository: false
+  redistribution_authorization: unproven
+
+head:
+  architecture: layernorm_linear_gelu_dropout_linear_residual
+  hidden_width: 256
+  parameters_each: 297729
+  files:
+    low_resolution: cifake_router_head.pt
+    large_epoch05: general_epoch05_head.pt
+    large_epoch08: general_epoch08_head.pt
+
+routing:
+  native_longest_side_le_64:
+    head: low_resolution
+    alpha: 1.25
+  native_longest_side_gt_64:
+    margin: 0.65 * large_epoch05 + 0.35 * large_epoch08
+    calibrated_margin_threshold: -1.557959395647049
+
+decision:
+  reported_probability_threshold: 0.5
+  output_semantics: probability_of_ai_positive
+
+parameters:
+  frozen_encoder: 428521282
+  three_heads: 893187
+  total_loaded: 429414469
+
+integrity:
+  manifest: ../weights/head_bundle_manifest.json
+  benchmark: ../benchmarks/test1/integrity.json
+  rights_status: project_owner_accepted_teammate_attestation

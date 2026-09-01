@@ -10,7 +10,7 @@
 
 <p align="center">
   Robust AI-generated image detection with reproducible inference and evidence-aware reporting.<br>
-  Built for the <strong>TikTok TechJam 2026 Hackathon</strong> with a frozen Tu et al. Expert 4 representation and project-trained residual heads.
+  Built for the <strong>TikTok TechJam 2026 Hackathon</strong> around our three trained residual heads, deterministic routing, and TEST1 evaluation stack.
 </p>
 
 <p align="center">
@@ -28,22 +28,27 @@
 
 ## Overview
 
-**SynthFlag** provides the selected TEST1 detector graph—one frozen upstream
-Tu et al. Expert 4 teacher plus three project-trained residual heads—inside a complete
+**SynthFlag** provides our selected TEST1 detector graph—three project-trained
+residual heads, deterministic native-size routing, and a frozen Expert 4
+representation—inside a complete
 TikTok TechJam workflow: verified batch inference, a public detector
 experience, protected evaluation, and a submission package whose claims remain
 traceable to their evidence.
 
 SynthFlag is the public product, submission, Python distribution, and primary
-CLI name. Tu et al. retain credit for the detector research and Expert 4
-checkpoint lineage. SynthFlag does not claim authorship or training of that
-encoder.
+CLI name. Our `training_eval/` package is authoritative for head training,
+augmentation, routing, TEST1 evaluation, and the shipped head binaries. The
+frozen Expert 4 dependency retains its required upstream attribution.
 
 ### Highlights
 
 - **Selected TEST1 graph:** native images at most 64 px use a CIFAKE-specialist
   residual head; larger images use a fixed `0.65 / 0.35` two-head stack over the
   same frozen Expert 4 feature and teacher margin.
+- **Project model-development stack:** checked-in training and evaluation code,
+  configs, tests, raw public TEST1 predictions, bootstrap evidence, figures,
+  the exact collaborator Drive ZIP, and all three residual-head binaries live
+  under `training_eval/` and `weights/`.
 - **Reliable batch inference:** recursive image discovery, resumable outputs,
   checkpoint integrity verification, and an exclusive writer lock.
 - **Auditable robustness inputs:** an optional, sample-keyed augmentation
@@ -140,7 +145,8 @@ python -m pip install -e .
 
 ### 2. Add checkpoints
 
-Place the upstream Expert 4 checkpoint and three residual heads in `weights/`:
+The three project residual heads are included. Add only the external upstream
+Expert 4 checkpoint to `weights/`:
 
 ```text
 weights/
@@ -152,8 +158,10 @@ weights/
 ```
 
 Expected filenames, sizes, and SHA-256 digests are recorded in
-[`weights/manifest.json`](weights/manifest.json). Checkpoint binaries are
-intentionally excluded from Git.
+[`weights/manifest.json`](weights/manifest.json). The three `.pt` heads are
+tracked and hash-pinned; the exact original head ZIP is preserved under
+[`training_eval/weights/`](training_eval/weights/). Only
+`Expert_4_siglip.pth` remains external.
 
 ### 3. Run inference
 
@@ -269,7 +277,8 @@ bounded-queue, and origin-allowlisting contract.
 
 ```text
 .
-├─ infer/          # Authoritative model and resumable batch CLI
+├─ training_eval/  # Authoritative project model, heads, tests, and TEST1 record
+├─ infer/          # Product adapter and resumable batch CLI
 ├─ synthflag_augment/ # Optional deterministic development-data augmentation
 ├─ service/        # Optional FastAPI inference service
 ├─ landing-page/   # Public website, detector UI, and visual documentation
@@ -311,9 +320,9 @@ official results, or citations.
 
 The full benchmark commands, environment checks, expected inputs, verification
 steps, and evidence limitations are in
-[`submission/REPRODUCE.md`](submission/REPRODUCE.md). Dataset-derived rows,
-individual scores, local paths, and protected data are intentionally excluded
-from the public package.
+[`submission/REPRODUCE.md`](submission/REPRODUCE.md). Dataset pixels, local
+paths, and private or protected individual scores are intentionally excluded;
+the complete public-development TEST1 prediction record is included.
 
 ## Hackathon reflection
 
@@ -369,8 +378,10 @@ Repository code and original project documentation are provided under the
 third-party model checkpoints, datasets, benchmark images, dependency code, or
 trademarks.
 
-This Git repository intentionally excludes Expert 4 and the three residual heads,
+This Git repository intentionally excludes the upstream Expert 4 binary,
 dataset pixels, private split rows, and per-image protected-evaluation scores.
+It includes the three rights-attested project residual heads and the public
+TEST1 row-level evaluation record.
 The artifact links are external sources, not redistribution grants. The heads
 carry a collaborator rights-clearance attestation accepted by the project owner.
 That attestation does not clear redistribution of upstream Expert 4 or establish

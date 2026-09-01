@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "bundle_name": "SynthFlag_TEST1_head_bundle_v1",
+  "drive_folder": "https://drive.google.com/drive/folders/1YPth1je92IaucRu3f8y50oxlAPcMqXuL",
+  "bundle_file_url": "https://drive.google.com/file/d/1NwOQ1hEQqCgVctdoRuwamZYjp832Vkse/view?usp=drivesdk",
+  "local_bundle_path": "SynthFlag_TEST1_head_bundle_v1.zip",
+  "bundle_sha256": "7a8acf6823cc08ba5e7a55def6c2147f95456a3e9f94c8d60d199e503208be54",
+  "bundle_bytes": 3323126,
+  "status": "project_owner_accepted_teammate_rights_attestation",
+  "contains_upstream_expert_weights": false,
+  "files": [
+    {"path": "cifake_router_head.pt", "sha256": "da8cdd81a14d112a7531837762fe3aad97ebfe07c8cdaa69da6d3c7dfe08b48e", "source_artifact_sha256": "2f52d2de29c6db966712f5d2ed0c7b321b680b3d3c583d41164380d71cce0f4e", "size_bytes": 1194841, "verify_checkpoint": true, "role": "native_longest_side_le_64", "alpha": 1.25},
+    {"path": "general_epoch05_head.pt", "sha256": "98e03c194fc902560d965d1b28d4b1e245e3580d792ff2c086d5ab515588479c", "source_artifact_sha256": "fa30e2f93bec233dbcc459e342b9f1970e32789c8d5d796ba3df20ff15e63029", "size_bytes": 1194865, "verify_checkpoint": true, "role": "large_image_stack", "weight": 0.65},
+    {"path": "general_epoch08_head.pt", "sha256": "b6a8d13d71ab05d0bb43477a4721a74e60d54d289ef483129e857b525dd08526", "source_artifact_sha256": "e4fbaab083f3c7f12b88848d7870817ecc5c603a95d1deab8e8aafee9aea7c1e", "size_bytes": 1194865, "verify_checkpoint": true, "role": "large_image_stack", "weight": 0.35}
+  ],
+  "large_image_margin_threshold": -1.557959395647049,
+  "loaded_parameter_count": 429414469,
+  "locked_tiktok_test_evaluated": false
+}

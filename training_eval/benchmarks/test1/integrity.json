@@ -1,0 +1,21 @@
+{
+  "benchmark_id": "TEST1",
+  "generated_at_asia_singapore": "2026-09-01T04:18:57+08:00",
+  "inputs_sha256": {
+    "raw_metrics": "022222d2fc5164c6bcf5463c94dae44b7fe17454ed3c384a0893fc270ab60dc1",
+    "raw_predictions": "9b815c92cd1104d5f7b7e696f6505fbd1547b327effa36e0e24c556d20ccd0c5",
+    "raw_report": "50c02a4d37cd1dfbc3ad261534b728088c29eb47e4ec1b5088563a369a09b986"
+  },
+  "outputs_sha256": {
+    "TEST1_BENCHMARK_REPORT.md": "6c0c202e4f73fad60172f811eaf768ae8172b1f770e85a3a18ded04b050c563c",
+    "figures\\auc_ap_by_dataset.png": "1945032761628c9a2e2b4031154ef34cb45ca30f211787bdda9c5d08af519f03",
+    "figures\\calibration_curves.png": "31b9dba9f9b629340c6db8faf3f1bf7f430a44fba0385d2d57eb9ada339bce4a",
+    "figures\\confusion_matrices.png": "089e403e2aa8ab310effbfc4a911899dc10e17d0750727c73dfb6b7c57f39bdf",
+    "figures\\pr_curves.png": "50558716ff1706538f6076c06c3009252f5b08d602462903f2407b16994bc89e",
+    "figures\\roc_curves.png": "eb15da7028b52ecba11a022a9054c87b03d1f5ebd838b5dfe406a1f2b33f984c",
+    "metrics_full.csv": "fcf8341f212d965443acad44cbc4e4b1e94b1a66810ac32a1c264f2e5c2c96ea",
+    "paired_bootstrap_auc.json": "b252a4298a6dfd1120ca204d7c89487a16215af295c41a37543649580d59d7aa",
+    "robustness_deltas.csv": "75080268cd6c6aad403387d5fa8cb457258c613f34e414aa61dd0908b5b4cb24",
+    "summary.json": "13dd8fed5389088a093794d1cea043ecfe4ddfe0b95d86037927b2442fecc93f"
+  }
+}

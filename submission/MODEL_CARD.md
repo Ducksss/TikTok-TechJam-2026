@@ -12,8 +12,9 @@
 
 ## Model
 
-The selected detector is one frozen upstream Tu et al. Expert 4 SigLIP
-encoder/teacher plus three project-trained scalar residual heads:
+The selected detector centers three project-trained scalar residual heads and
+the project's deterministic native-size routing over one frozen Expert 4
+SigLIP encoder/teacher dependency:
 
 ```text
 RGB image -> record native longest side -> SigLIP 384 px preprocessing
@@ -38,10 +39,11 @@ parameters: `428,521,282` in Expert 4 and `893,187` across the three heads.
 
 ## Provenance
 
-Tu et al. supplied Expert 4 and its original detector training. The
-three residual heads, native-size routing, fixed stack, TEST1 harness, service,
-and product are project work. The heads do not make Expert 4 a clean-room or
-wholly original detector.
+The three residual heads, their authoritative implementation in
+`training_eval/scripts/model.py`, head training, deterministic augmentation,
+native-size routing, fixed stack, TEST1 harness, service, and product are the
+project contribution. Expert 4 and its original detector training remain an
+externally attributed frozen dependency.
 
 ## TEST1 evidence
 

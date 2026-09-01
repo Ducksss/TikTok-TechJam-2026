@@ -1,0 +1,63 @@
+schema_version: 1
+status: optional_stricter_commercial_audit_retrain_not_executed
+purpose: optional independent provenance hardening beyond the accepted collaborator attestation
+
+feature_contract:
+  width: 1152
+  encoder_frozen: true
+  teacher_margin_required: true
+
+data:
+  allow:
+    - open_images_individual_cc_by_rows
+    - inaturalist_individual_cc0_or_cc_by_rows
+    - wikimedia_individual_commercial_compatible_rows
+    - diffusiondb_cc0
+    - dgm_eval_mit
+    - x_aigd_fake_cc_by_only
+    - aigenimages2026_cc_by
+  exclude:
+    - openai_guided_diffusion_biggan_precomputed_pixels
+    - x_aigd_real_noncommercial
+    - cc12m_unverified_pixels
+    - commonpool_unverified_pixels
+    - redcaps_unverified_pixels
+    - wildfake_pixels
+  split_group: source_identity_or_prompt_generator_group
+  class_balance: 0.5
+
+augmentation:
+  class_symmetric: true
+  deterministic_per_identity: true
+  clean_anchor: true
+  depths: [1, 2, 3, 4, 5]
+  families: [jpeg, blur, resize, noise, color_jitter, center_crop, overlay]
+  terminal_jpeg_supervised_views: [90, 80]
+  low_resolution_views_are_consistency_only: true
+  watermark_overlay_is_label_symmetric: true
+
+model:
+  hidden_width: 256
+  dropout: 0.2
+  residual_scale: 0.075
+  zero_initialize_residual: true
+
+optimization:
+  learning_rate: 0.0001
+  weight_decay: 0.0001
+  batch_size_sources: 64
+  max_epochs: 16
+  early_stop_metric: worst_view_source_disjoint_auc
+
+loss:
+  supervised_bce: 0.25
+  source_view_consistency: 0.10
+  teacher_logit_preservation: 2.00
+  pairwise_rank_preservation: 0.50
+  residual_magnitude: 0.25
+
+release_gates:
+  no_regression_suites: [cifake_clean, cifake_augmented, sid_clean, sid_augmented, wildfake_clean, wildfake_augmented]
+  require_new_hashes: true
+  require_rights_manifest: true
+  forbid_public_benchmark_labels_for_selection: true

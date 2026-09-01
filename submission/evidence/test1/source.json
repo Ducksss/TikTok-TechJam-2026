@@ -11,12 +11,20 @@
     "metrics_full.csv": "fcf8341f212d965443acad44cbc4e4b1e94b1a66810ac32a1c264f2e5c2c96ea",
     "robustness_deltas.csv": "75080268cd6c6aad403387d5fa8cb457258c613f34e414aa61dd0908b5b4cb24",
     "raw_predictions.csv": "9b815c92cd1104d5f7b7e696f6505fbd1547b327effa36e0e24c556d20ccd0c5",
-    "three_head_bundle.zip": "7a8acf6823cc08ba5e7a55def6c2147f95456a3e9f94c8d60d199e503208be54"
+    "three_head_bundle.zip": "7a8acf6823cc08ba5e7a55def6c2147f95456a3e9f94c8d60d199e503208be54",
+    "tracked_predictions.csv": "112b7b948aef9250534306486833aee74e85f4058f6d8c105b9de7b12e879016",
+    "tracked_test1_package.zip": "d9d5f79eb65b723fb322940cc62ec6dcaccd5f7ef6c6e7f9ed4e3bc174a79c6b"
   },
   "public_git_exclusions": [
     "benchmark_pixels",
-    "per_image_predictions",
-    "checkpoint_binaries"
+    "external_expert4_checkpoint",
+    "private_or_protected_rows",
+    "local_feature_and_logit_caches"
+  ],
+  "public_git_inclusions": [
+    "three_project_residual_heads",
+    "30000_public_development_prediction_rows",
+    "evaluation_and_bootstrap_outputs"
   ],
   "limitations": [
     "public suites were inspected during earlier development",

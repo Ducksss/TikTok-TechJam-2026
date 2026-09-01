@@ -1,8 +1,9 @@
 # SynthFlag submission package
 
-SynthFlag is the public product. The selected technical graph uses the frozen
-Tu et al. Expert 4 checkpoint plus three project-trained residual heads and a
-native-size router. Expert 4 remains credited upstream research.
+SynthFlag is the public product. Its primary technical contribution is the
+project's three trained residual heads, native-size router, training and
+augmentation implementation, and full TEST1 evaluation record. Product
+inference uses those artifacts over a frozen Expert 4 dependency.
 
 ## Start here
 
@@ -11,6 +12,8 @@ native-size router. Expert 4 remains credited upstream research.
 - [`ARCHITECTURE.md`](ARCHITECTURE.md): route and score derivation.
 - [`REPRODUCE.md`](REPRODUCE.md): environment, artifacts, CLI, and checks.
 - [`evidence/test1/`](evidence/test1/): aggregate TEST1 source evidence.
+- [`../training_eval/`](../training_eval/): authoritative model-development
+  implementation, configs, tests, row-level TEST1 evidence, and reports.
 - [`../docs/INTERVIEW_PROF_NG.md`](../docs/INTERVIEW_PROF_NG.md): Professor Ng
   interview, transcript boundary, and future-work plan.
 - [`ARTIFACTS.sha256`](ARTIFACTS.sha256): release artifact checksums.
@@ -46,6 +49,7 @@ selected runtime or TEST1.
 
 ## Public-release exclusions
 
-Checkpoint binaries, dataset pixels, private split rows, protected per-image
-scores, local paths, secrets, and unlicensed third-party material are excluded.
-External artifact links are access locations, not redistribution grants.
+The external Expert 4 binary, dataset pixels, private split rows, protected
+per-image scores, local paths, secrets, and unlicensed third-party material are
+excluded. The three project residual-head binaries and public TEST1 row-level
+predictions are tracked, hash-pinned project artifacts.

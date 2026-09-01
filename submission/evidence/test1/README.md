@@ -3,9 +3,13 @@
 Source technical package: `SynthFlag-TechJam-Evidence-main`, supplied by the
 project collaborator on 1 September 2026.
 
-This directory records aggregate evidence for the selected Expert 4 plus
-three-head graph. It intentionally excludes the 30,000 per-image prediction
-rows and all benchmark pixels.
+This directory records the compact submission copy of evidence for the
+selected Expert 4 plus three-head graph. The collaborator-authoritative record
+at [`../../../training_eval/benchmarks/test1/`](../../../training_eval/benchmarks/test1/)
+includes the 30,000 public-development prediction rows, evaluator outputs,
+bootstrap evidence, figures, reports, and exact package. Benchmark pixels,
+private rows, local feature caches, and the external Expert 4 checkpoint remain
+excluded.
 
 ## Source artifacts verified during integration
 
@@ -21,7 +25,8 @@ rows and all benchmark pixels.
 
 `metrics_full.csv` and `robustness_deltas.csv` are aggregate copies from the
 supplied evidence package. `source.json` binds those copies to their original
-source hashes and states the evidence limitations.
+source hashes, binds the tracked complete record, and states the evidence
+limitations.
 
 TEST1 is a public development diagnostic, not TikTok's locked test. The
 benchmark-aware low-resolution route and collaborator-attested, project-owner

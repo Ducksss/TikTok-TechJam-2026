@@ -32,4 +32,4 @@ test = [
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["infer*", "synthflag_augment*"]
+include = ["infer*", "synthflag_augment*", "training_eval*"]

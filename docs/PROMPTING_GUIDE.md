@@ -11,7 +11,7 @@ consult the papers when the task needs challenge or method detail.
 | Explain SynthFlag to a stakeholder | `docs/AI_CONTEXT.md`, `submission/MODEL_CARD.md` |
 | Answer a Tu et al. method question | [arXiv:2603.21939](https://arxiv.org/abs/2603.21939), `docs/AI_CONTEXT.md` |
 | Answer a challenge, team, or leaderboard question | [arXiv:2604.11487](https://arxiv.org/abs/2604.11487), `docs/AI_CONTEXT.md` |
-| Change inference behavior | `AGENTS.md`, `infer/architecture.py`, `infer/preprocessing.py`, `infer/checkpoints.py`, `infer/model.py`, `infer/cli.py`, relevant tests |
+| Change inference behavior | `AGENTS.md`, `training_eval/scripts/model.py`, `training_eval/configs/selected_test1.yaml`, `training_eval/tests/`, then the `infer/` product adapter and relevant tests |
 | Change development augmentation | `AGENTS.md`, `docs/AUGMENTATION_TOOLKIT.md`, `synthflag_augment/`, `tests/test_augmentation_toolkit.py` |
 | Change the service or `/try` flow | `AGENTS.md`, `service/app.py`, both `landing-page/app/api/analyze*` routes, `landing-page/lib/server/multipart.ts`, `landing-page/app/try/page.tsx`, `landing-page/app/try/video-pipeline.tsx`, `landing-page/lib/video-analysis.ts`, relevant frontend tests |
 | Edit the judge-first `/journey` route | `AGENTS.md`, `docs/AI_CONTEXT.md`, `landing-page/app/journey/`, relevant benchmark and release sources |
@@ -66,13 +66,14 @@ Change requested: <describe change>
 ### Generate new documentation
 
 ```text
-Create documentation for <audience/topic>. Treat infer/architecture.py,
-infer/preprocessing.py, infer/checkpoints.py, infer/model.py, infer/cli.py,
-service/app.py, and the web proxy/UI as code facts; the vendored NTIRE report
-as paper facts; submission/evidence as local-result facts; and the model card
-as guidance. Add an evidence label to every material claim. Do not fabricate
-calibration, localization, attribution, infrastructure, privacy, or robustness
-guarantees.
+Create documentation for <audience/topic>. Treat training_eval/scripts/model.py
+and training_eval/configs/selected_test1.yaml as the project-model source of
+truth; treat infer/ as its product adapter and service/app.py plus the web
+proxy/UI as delivery code facts. Treat the vendored NTIRE report as paper
+facts, training_eval/benchmarks/test1 as primary local-result facts, and the
+model card as guidance. Add an evidence label to every material claim. Do not
+fabricate calibration, localization, attribution, infrastructure, privacy, or
+robustness guarantees.
 ```
 
 ### Interpret a score
@@ -90,6 +91,9 @@ evidence and human review.
   benchmarks, the hosted interface, or a proposed future design.
 - Ask for file-path citations when accuracy matters.
 - Give the AI the exact evidence JSON/Markdown file for metric questions.
+- Treat `training_eval/` as the source of truth for the project's model
+  implementation, training, augmentation, selected route, tests, and TEST1
+  evidence. Treat `infer/` as the product adapter around that implementation.
 - Treat TEST1 as the selected-graph public development diagnostic. Treat V1/V2
   as historical four-expert evidence and V3 as blocked.
 - Treat the Professor Ng interview as research input for a future
@@ -112,5 +116,7 @@ evidence and human review.
   `python scripts/check_source_provenance.py`.
 - Keep `synthflag_augment` out of inference diagrams and protected-final tuning;
   it is an optional development utility, not paper-described training reproduction.
-- Never paste checkpoint binaries, private rows, per-image protected scores,
-  secrets, or restricted dataset content into a prompt.
+- Never paste the external Expert 4 binary, private rows, per-image protected
+  scores, secrets, or restricted dataset content into a prompt. The exact
+  collaborator head ZIP, three project residual heads, and public TEST1
+  predictions are tracked artifacts.

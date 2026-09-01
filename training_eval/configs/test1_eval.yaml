@@ -1,0 +1,40 @@
+schema_version: 1
+status: completed_verified_public_development_benchmark
+unique_source_images: 15000
+prediction_rows: 30000
+class_convention:
+  0: real_or_non_aigc
+  1: generated_or_ai_tampered
+
+datasets:
+  cifake:
+    split: official_test_subset
+    real: 2500
+    ai: 2500
+    native_resolution: 32x32
+  sid_set:
+    split: public_validation_subset
+    real: 2500
+    fully_synthetic: 1250
+    ai_tampered: 1250
+  wildfake:
+    split: official_20_percent_test_metadata_subset
+    real: 2500
+    ai: 2500
+    licensing_status: public_research_evaluation_only_clearance_unproven
+
+views:
+  clean: original_decoded_pixels
+  composite_standard:
+    transform_depths: [1, 2, 3, 4, 5]
+    sources_per_depth_per_dataset: 1000
+    families: [jpeg, gaussian_blur, resize_round_trip, gaussian_noise, color_jitter, center_crop_round_trip]
+    deterministic: true
+    label_symmetric: true
+    score_blind: true
+
+artifacts:
+  metrics: ../benchmarks/test1/metrics_full.csv
+  predictions: ../benchmarks/test1/predictions.csv
+  robustness_deltas: ../benchmarks/test1/robustness_deltas.csv
+  integrity: ../benchmarks/test1/integrity.json

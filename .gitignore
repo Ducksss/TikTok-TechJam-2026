@@ -223,9 +223,17 @@ weights/*
 !weights/manifest.json
 outputs/
 
-# Release safety: never publish model binaries, dataset pixels, or private evaluation rows
+# The three collaborator-trained residual heads are first-party project artifacts.
+# The large upstream Expert 4 checkpoint, dataset pixels, and private evaluation
+# rows remain excluded.
 *.pth
 *.pt
+!weights/cifake_router_head.pt
+!weights/general_epoch05_head.pt
+!weights/general_epoch08_head.pt
+!training_eval/weights/cifake_router_head.pt
+!training_eval/weights/general_epoch05_head.pt
+!training_eval/weights/general_epoch08_head.pt
 *.ckpt
 *.safetensors
 data/

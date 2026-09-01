@@ -22,13 +22,20 @@ weights/
 └── general_epoch08_head.pt
 ```
 
-Obtain Expert 4 and the three-head bundle from the rights holder or another
-authorized source. This repository intentionally publishes no checkpoint
-download URL or access code.
+The three project heads are already tracked in `weights/`. Obtain only the
+external Expert 4 dependency from an authorized source. Its expected byte size
+and SHA-256, together with the three head identities, are pinned in
+`weights/manifest.json`; the runtime rejects any mismatch.
 
-The ZIP must be `3,323,126` bytes with SHA-256
-`7a8acf6823cc08ba5e7a55def6c2147f95456a3e9f94c8d60d199e503208be54`.
-The runtime verifies every extracted file against `weights/manifest.json`.
+The collaborator's original three-head bundle is recorded in
+`training_eval/weights/head_bundle_manifest.json`. Its exact source links,
+bundle hash, per-file hashes, and all three extracted binaries are included in
+that directory. Verify it unchanged with:
+
+```bash
+python training_eval/scripts/verify_bundle.py \
+  training_eval/weights/head_bundle_manifest.json
+```
 
 ## 3. Run batch inference
 
@@ -71,13 +78,25 @@ pnpm lint
 pnpm build
 ```
 
-## 5. Recompute aggregate TEST1 metrics
+## 5. Recompute TEST1 metrics from the complete public record
 
-The public Git package includes aggregate metrics and integrity receipts under
-`submission/evidence/test1/`, not the 30,000 per-image predictions. If an
-authorized evaluator has the checksum-matched prediction table, run the
-documented evaluator from the supplied technical evidence repository and
-compare its six rows with `metrics_full.csv`.
+The collaborator-authoritative package includes all 30,000 public-development
+prediction rows, the evaluator, metrics, bootstrap evidence, figures, and
+integrity receipts under `training_eval/benchmarks/test1/`:
+
+```bash
+python training_eval/scripts/evaluate_predictions.py \
+  training_eval/benchmarks/test1/predictions.csv \
+  --label-column label \
+  --score-column reported_probability \
+  --group-columns dataset view \
+  --output-json /tmp/synthflag-test1-summary.json \
+  --output-csv /tmp/synthflag-test1-metrics.csv
+```
+
+Compare the regenerated six-row table with
+`training_eval/benchmarks/test1/metrics_full.csv` and the submission copy at
+`submission/evidence/test1/metrics_full.csv`.
 
 This step reproduces reporting from existing selected-graph scores. It does not
 rerun image pixels through Expert 4 and does not establish latency or VRAM.
@@ -87,8 +106,9 @@ rerun image pixels through Expert 4 and does not establish latency or VRAM.
 - TEST1 is public development evidence, not a locked organizer test.
 - No fitting, threshold selection, or checkpoint selection may use protected
   final-evaluation rows.
-- Checkpoint binaries, dataset pixels, local paths, private rows, and protected
-  per-image scores must remain outside Git.
+- The three project head binaries and public TEST1 prediction rows are tracked
+  and hash-pinned. The external Expert 4 checkpoint, dataset pixels, local
+  paths, private rows, and protected per-image scores must remain outside Git.
 - Residual-head rights are collaborator-attested and project-owner accepted,
   not independently license-audited here. Expert 4 redistribution and
   organizer eligibility remain separate.

@@ -16,6 +16,7 @@ need repository context without reconstructing the project from chat history.
 | NTIRE challenge report | [Gushchin et al., arXiv:2604.11487](https://arxiv.org/abs/2604.11487) |
 | Public submission evidence | [`../submission/README.md`](../submission/README.md) |
 | Selected TEST1 aggregate evidence | [`../submission/evidence/test1/`](../submission/evidence/test1/) |
+| Authoritative model-development, exact head bundle, and full TEST1 record | [`../training_eval/`](../training_eval/) |
 | Professor Ng interview and research boundary | [`INTERVIEW_PROF_NG.md`](INTERVIEW_PROF_NG.md) |
 | Detailed architecture diagrams | [`../landing-page/app/documentation/architecture/atlas.tsx`](../landing-page/app/documentation/architecture/atlas.tsx) and [`../landing-page/public/diagrams/`](../landing-page/public/diagrams/) |
 | Brand system | [`BRAND_GUIDE.md`](BRAND_GUIDE.md) |
@@ -24,8 +25,10 @@ need repository context without reconstructing the project from chat history.
 
 When two documents differ, prefer the narrowest authoritative source:
 
-1. Executed code and machine-readable manifests for current behavior.
-2. Checksum-bound evidence in `submission/evidence/` for local results.
+1. `training_eval/` executed code and machine-readable manifests for project
+   model behavior, with `infer/` as the product adapter.
+2. Checksum-bound evidence in `training_eval/benchmarks/test1/` and
+   `submission/evidence/` for local results.
 3. The versioned challenge report for paper-described methods and rankings.
 4. Explanatory website copy and diagrams.
 5. Plans, status notes, and prompt examples.

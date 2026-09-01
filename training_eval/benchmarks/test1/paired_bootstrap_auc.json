@@ -1,0 +1,65 @@
+{
+  "cifake_test5000": {
+    "augmented_auc": {
+      "bootstrap_mean": 0.90958298568,
+      "ci95_high": 0.917653256,
+      "ci95_low": 0.90140388
+    },
+    "augmented_minus_clean_auc": {
+      "bootstrap_mean": -0.07201804168,
+      "ci95_high": -0.06474769200000019,
+      "ci95_low": -0.07958288800000009,
+      "fraction_nonnegative": 0.0
+    },
+    "clean_auc": {
+      "bootstrap_mean": 0.98160102736,
+      "ci95_high": 0.9843422720000001,
+      "ci95_low": 0.97861818
+    },
+    "iterations": 2000,
+    "resampling": "stratified source-level paired bootstrap; 2,500 real and 2,500 AI source draws with replacement",
+    "seed": 20260901
+  },
+  "sid_validation5000": {
+    "augmented_auc": {
+      "bootstrap_mean": 0.8440591300400001,
+      "ci95_high": 0.854877848,
+      "ci95_low": 0.832686952
+    },
+    "augmented_minus_clean_auc": {
+      "bootstrap_mean": -0.02513569908,
+      "ci95_high": -0.020739387999999928,
+      "ci95_low": -0.029655542000000194,
+      "fraction_nonnegative": 0.0
+    },
+    "clean_auc": {
+      "bootstrap_mean": 0.86919482912,
+      "ci95_high": 0.8791127280000001,
+      "ci95_low": 0.858892392
+    },
+    "iterations": 2000,
+    "resampling": "stratified source-level paired bootstrap; 2,500 real and 2,500 AI source draws with replacement",
+    "seed": 20260902
+  },
+  "wildfake_test5000": {
+    "augmented_auc": {
+      "bootstrap_mean": 0.87844256936,
+      "ci95_high": 0.8875983,
+      "ci95_low": 0.8686924280000001
+    },
+    "augmented_minus_clean_auc": {
+      "bootstrap_mean": -0.0682830924,
+      "ci95_high": -0.060707624000000036,
+      "ci95_low": -0.07648316000000004,
+      "fraction_nonnegative": 0.0
+    },
+    "clean_auc": {
+      "bootstrap_mean": 0.9467256617600001,
+      "ci95_high": 0.9528515799999999,
+      "ci95_low": 0.9403783960000002
+    },
+    "iterations": 2000,
+    "resampling": "stratified source-level paired bootstrap; 2,500 real and 2,500 AI source draws with replacement",
+    "seed": 20260903
+  }
+}

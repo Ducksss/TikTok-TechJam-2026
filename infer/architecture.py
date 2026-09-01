@@ -2,12 +2,16 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 from pathlib import Path
 
 import torch
 from torch import nn
 from transformers import SiglipVisionConfig, SiglipVisionModel
+from training_eval.scripts.model import (
+    LoadedHead,
+    ResidualHead,
+    load_head_checkpoint,
+)
 
 from .checkpoints import load_expert_state, verify_checkpoint_files
 
@@ -59,113 +63,6 @@ class SiglipTeacher(nn.Module):
     def forward(self, pixel_values: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
         pooled = self.vision_encoder(pixel_values=pixel_values).pooler_output
         return pooled, self.classifier(pooled)
-
-
-class ResidualHead(nn.Module):
-    """Project-trained scalar correction over a frozen teacher margin."""
-
-    def __init__(
-        self,
-        input_width: int = FEATURE_WIDTH,
-        hidden_width: int = HIDDEN_WIDTH,
-        dropout: float = 0.0,
-        *,
-        zero_initialize_output: bool = False,
-    ) -> None:
-        super().__init__()
-        if input_width <= 0 or hidden_width <= 0:
-            raise ValueError("input_width and hidden_width must be positive")
-        if not 0.0 <= dropout < 1.0:
-            raise ValueError("dropout must be in [0, 1)")
-        self.input_width = int(input_width)
-        self.hidden_width = int(hidden_width)
-        self.norm = nn.LayerNorm(self.input_width)
-        self.hidden = nn.Linear(self.input_width, self.hidden_width)
-        self.activation = nn.GELU()
-        self.dropout = nn.Dropout(float(dropout))
-        self.residual = nn.Linear(self.hidden_width, 1)
-        if zero_initialize_output:
-            nn.init.zeros_(self.residual.weight)
-            nn.init.zeros_(self.residual.bias)
-
-    @staticmethod
-    def teacher_margin(teacher_logits: torch.Tensor) -> torch.Tensor:
-        """Return ``logit(AI) - logit(real)`` from one- or two-column input."""
-
-        if teacher_logits.ndim == 1:
-            return teacher_logits.float()
-        if teacher_logits.ndim == 2 and teacher_logits.shape[1] == 2:
-            return (teacher_logits[:, 1] - teacher_logits[:, 0]).float()
-        raise ValueError("teacher_logits must have shape [batch] or [batch, 2]")
-
-    def correction(self, features: torch.Tensor) -> torch.Tensor:
-        if features.ndim != 2 or features.shape[1] != self.input_width:
-            raise ValueError(f"features must have shape [batch, {self.input_width}]")
-        hidden = self.dropout(self.activation(self.hidden(self.norm(features.float()))))
-        return self.residual(hidden).squeeze(1)
-
-    def forward(
-        self,
-        features: torch.Tensor,
-        teacher_logits: torch.Tensor,
-        *,
-        alpha: float = 1.0,
-    ) -> torch.Tensor:
-        teacher = self.teacher_margin(teacher_logits).detach()
-        return teacher + float(alpha) * self.correction(features)
-
-    @property
-    def parameter_count(self) -> int:
-        return sum(parameter.numel() for parameter in self.parameters())
-
-
-@dataclass(frozen=True)
-class LoadedHead:
-    model: ResidualHead
-    selected_alpha: float
-    payload: dict[str, object]
-
-
-def load_head_checkpoint(
-    path: str | Path,
-    *,
-    device: str | torch.device = "cpu",
-) -> LoadedHead:
-    """Safely and strictly load one selected TEST1 residual head."""
-
-    checkpoint_path = Path(path)
-    payload = torch.load(checkpoint_path, map_location="cpu", weights_only=True)
-    if not isinstance(payload, dict) or not isinstance(payload.get("state_dict"), dict):
-        raise ValueError(f"head checkpoint must contain state_dict: {checkpoint_path}")
-    architecture = payload.get("architecture") or {}
-    if not isinstance(architecture, dict):
-        raise ValueError(f"head checkpoint has invalid architecture: {checkpoint_path}")
-    state = payload["state_dict"]
-    input_width = int(architecture.get("input_width", state["norm.weight"].numel()))
-    hidden_width = int(architecture.get("hidden_width", state["hidden.bias"].numel()))
-    if input_width != FEATURE_WIDTH or hidden_width != HIDDEN_WIDTH:
-        raise ValueError(
-            f"head checkpoint has unsupported dimensions {input_width}x{hidden_width}: "
-            f"{checkpoint_path}"
-        )
-    model = ResidualHead(
-        input_width=input_width,
-        hidden_width=hidden_width,
-        dropout=0.0,
-        zero_initialize_output=False,
-    )
-    try:
-        model.load_state_dict(state, strict=True)
-    except RuntimeError as exc:
-        raise RuntimeError(
-            f"head checkpoint does not match the selected architecture: {checkpoint_path}"
-        ) from exc
-    model.to(device).eval()
-    return LoadedHead(
-        model=model,
-        selected_alpha=float(payload.get("selected_alpha", 1.0)),
-        payload=payload,
-    )
 
 
 def score_corrected_margins(
@@ -236,6 +133,16 @@ class SynthFlagDetector(nn.Module):
         epoch08 = load_head_checkpoint(
             files["general_epoch08_head.pt"], device=target_device
         )
+        for name, loaded in {
+            "cifake_router_head.pt": low,
+            "general_epoch05_head.pt": epoch05,
+            "general_epoch08_head.pt": epoch08,
+        }.items():
+            if (
+                loaded.model.input_width != FEATURE_WIDTH
+                or loaded.model.hidden_width != HIDDEN_WIDTH
+            ):
+                raise ValueError(f"head checkpoint has unsupported dimensions: {name}")
         if low.selected_alpha != LOW_RESOLUTION_ALPHA:
             raise ValueError("low-resolution head alpha does not match the selected graph")
         if epoch05.selected_alpha != 1.0 or epoch08.selected_alpha != 1.0:

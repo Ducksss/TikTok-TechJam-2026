@@ -33,6 +33,51 @@ TEST1_EVIDENCE_FILES = (
     "submission/evidence/test1/source-integrity.json",
 )
 
+COLLABORATOR_TECHNICAL_FILES = (
+    "training_eval/README.md",
+    "training_eval/scripts/model.py",
+    "training_eval/scripts/train_head.py",
+    "training_eval/scripts/augmentations.py",
+    "training_eval/scripts/evaluate_predictions.py",
+    "training_eval/scripts/verify_bundle.py",
+    "training_eval/configs/selected_test1.yaml",
+    "training_eval/weights/head_bundle_manifest.json",
+    "training_eval/weights/SynthFlag_TEST1_head_bundle_v1.zip",
+    "training_eval/benchmarks/test1/predictions.csv",
+    "training_eval/benchmarks/test1/paired_bootstrap_auc.json",
+    "training_eval/benchmarks/test1/TEST1_BENCHMARK_PACKAGE.zip",
+)
+
+PROJECT_ARTIFACT_HASHES = {
+    "weights/cifake_router_head.pt": (
+        "da8cdd81a14d112a7531837762fe3aad97ebfe07c8cdaa69da6d3c7dfe08b48e"
+    ),
+    "weights/general_epoch05_head.pt": (
+        "98e03c194fc902560d965d1b28d4b1e245e3580d792ff2c086d5ab515588479c"
+    ),
+    "weights/general_epoch08_head.pt": (
+        "b6a8d13d71ab05d0bb43477a4721a74e60d54d289ef483129e857b525dd08526"
+    ),
+    "training_eval/weights/cifake_router_head.pt": (
+        "da8cdd81a14d112a7531837762fe3aad97ebfe07c8cdaa69da6d3c7dfe08b48e"
+    ),
+    "training_eval/weights/general_epoch05_head.pt": (
+        "98e03c194fc902560d965d1b28d4b1e245e3580d792ff2c086d5ab515588479c"
+    ),
+    "training_eval/weights/general_epoch08_head.pt": (
+        "b6a8d13d71ab05d0bb43477a4721a74e60d54d289ef483129e857b525dd08526"
+    ),
+    "training_eval/benchmarks/test1/predictions.csv": (
+        "112b7b948aef9250534306486833aee74e85f4058f6d8c105b9de7b12e879016"
+    ),
+    "training_eval/benchmarks/test1/TEST1_BENCHMARK_PACKAGE.zip": (
+        "d9d5f79eb65b723fb322940cc62ec6dcaccd5f7ef6c6e7f9ed4e3bc174a79c6b"
+    ),
+    "training_eval/weights/SynthFlag_TEST1_head_bundle_v1.zip": (
+        "7a8acf6823cc08ba5e7a55def6c2147f95456a3e9f94c8d60d199e503208be54"
+    ),
+}
+
 TEST1_CONTEXT_FILES = (
     "AGENTS.md",
     "README.md",
@@ -116,6 +161,11 @@ def main() -> int:
     retired_mentions = []
     for path in candidate_files():
         relative_path = path.relative_to(ROOT).as_posix()
+        # Checksum-bound collaborator artifacts must remain byte-exact. Their
+        # embedded checkpoint metadata is not public release prose and cannot
+        # be rewritten without invalidating the authoritative artifacts.
+        if relative_path in PROJECT_ARTIFACT_HASHES:
+            continue
         searchable = relative_path.encode("utf-8") + b"\n" + path.read_bytes()
         if any(pattern.search(searchable) for pattern in retired_patterns):
             retired_mentions.append(relative_path)
@@ -146,6 +196,35 @@ def main() -> int:
     if missing_test1_evidence:
         errors.append(
             "missing TEST1 evidence files: " + ", ".join(missing_test1_evidence)
+        )
+
+    missing_technical = [
+        path for path in COLLABORATOR_TECHNICAL_FILES if not (ROOT / path).is_file()
+    ]
+    if missing_technical:
+        errors.append(
+            "missing collaborator-authoritative technical files: "
+            + ", ".join(missing_technical)
+        )
+
+    for relative_path, expected_hash in PROJECT_ARTIFACT_HASHES.items():
+        path = ROOT / relative_path
+        if not path.is_file():
+            errors.append("missing project artifact: " + relative_path)
+            continue
+        actual_hash = hashlib.sha256(path.read_bytes()).hexdigest()
+        if actual_hash != expected_hash:
+            errors.append(
+                "{} project artifact hash changed: {}".format(
+                    relative_path, actual_hash
+                )
+            )
+
+    architecture = read("infer/architecture.py")
+    if "from training_eval.scripts.model import" not in architecture:
+        errors.append(
+            "infer/architecture.py no longer imports the authoritative "
+            "training_eval residual-head implementation"
         )
 
     for relative_path in TEST1_CONTEXT_FILES:
@@ -278,6 +357,12 @@ def main() -> int:
     print("- {} maintained context files".format(len(CONTEXT_FILES)))
     print("- {} maintained source-provenance files".format(len(PROVENANCE_FILES)))
     print("- {} TEST1 aggregate evidence files".format(len(TEST1_EVIDENCE_FILES)))
+    print(
+        "- {} collaborator-authoritative technical files".format(
+            len(COLLABORATOR_TECHNICAL_FILES)
+        )
+    )
+    print("- {} checksum-bound project artifacts".format(len(PROJECT_ARTIFACT_HASHES)))
     print(
         "- {} checksum-bound interview artifacts".format(
             len(INTERVIEW_ARTIFACT_HASHES)

@@ -6,16 +6,18 @@ Executed code and machine-readable manifests outrank explanatory copy.
 ## Executive summary
 
 SynthFlag is the public-facing TikTok TechJam 2026 project. Its selected TEST1
-detector uses one frozen upstream Tu et al. Expert 4 SigLIP encoder/teacher
-plus three project-trained residual heads and deterministic native-size routing.
+detector centers the team's three trained residual heads, deterministic
+native-size routing, augmentation/training/evaluation stack, and public TEST1
+record over one frozen Expert 4 SigLIP representation.
 The repository also provides a Python API and CLI, an optional FastAPI service,
 a public web experience, technical documentation, and evidence-labeled release
 materials.
 
-Tu et al. retain credit for the detector research and Expert 4 checkpoint
-lineage. SynthFlag did not originate or train Expert 4. The residual heads, routing,
-evaluation harness, integration, service, product, and documentation are
-project work, but they do not turn Expert 4 into a clean-room detector.
+`training_eval/` is authoritative for the project contribution: residual-head
+implementation, exact collaborator head ZIP and extracted binaries, training,
+augmentation, routing config, TEST1 predictions, metrics, bootstrap evidence,
+and tests. Expert 4 remains a frozen dependency with required attribution; it
+is not the project contribution.
 
 ## Context freshness
 
@@ -28,7 +30,12 @@ changes. Run `python scripts/check_repository_context.py` afterward.
 
 | Path | Responsibility | Authority |
 |---|---|---|
-| `infer/architecture.py` | Expert 4 teacher, residual-head schema, route, stack, and score conversion | Model graph and score |
+| `training_eval/scripts/model.py` | Residual-head implementation used by training and product inference | Project model code |
+| `training_eval/configs/selected_test1.yaml` | Selected route, blend, alpha, boundary, and artifact contract | Project graph selection |
+| `training_eval/scripts/`, `training_eval/tests/` | Training, augmentation, evaluation, bundle verification, and regression tests | Project development stack |
+| `training_eval/benchmarks/test1/` | Public row-level predictions, metrics, bootstrap evidence, figures, and integrity | Primary TEST1 evidence |
+| `training_eval/weights/` | Exact Drive ZIP, extracted project heads, and bundle manifest | Primary project artifacts |
+| `infer/architecture.py` | Frozen encoder adapter, route execution, and score conversion | Product runtime graph |
 | `infer/preprocessing.py` | RGB, 384 px resize/crop, and SigLIP normalization | Pixel transform |
 | `infer/checkpoints.py` | Manifest verification, identity, and safe tensor loading | Checkpoint boundary |
 | `infer/model.py` | Stable Python scoring API and device handling | Runtime API |
@@ -99,7 +106,9 @@ weights/
 
 The three-head ZIP has SHA-256
 `7a8acf6823cc08ba5e7a55def6c2147f95456a3e9f94c8d60d199e503208be54`.
-No checkpoint binary belongs in Git.
+The exact ZIP and three project `.pt` heads are tracked in Git and verified by
+the collaborator manifest plus the runtime manifest. Only the upstream
+`Expert_4_siglip.pth` binary remains external.
 
 ## Batch and service contracts
 

@@ -27,7 +27,7 @@ wheel or source distribution.
 |---|---|---|
 | Google SigLIP base model | The [`google/siglip-so400m-patch14-384` model card](https://huggingface.co/google/siglip-so400m-patch14-384) declares Apache-2.0 and identifies WebLI training. | Preserve attribution and the Apache-2.0 terms when redistributing covered base-model material. |
 | Tu et al. `Expert_4_siglip.pth` | Architecture and hash are documented locally; the file is obtained from an authorized external source. No explicit fine-tuned-checkpoint redistribution license was located in the audited public materials. | Required by the selected graph, but not included in Git or the submission archive. Do not re-upload or bundle without permission. |
-| Three SynthFlag residual heads | Project-trained head artifacts distributed as a separate bundle. The collaborator attests that the heads and their training inputs are rights-cleared, and the project owner accepts that attestation. | Not included in Git. Treat rights as teammate-attested rather than independently audited; this does not clear upstream Expert 4 redistribution or organizer eligibility. |
+| Three SynthFlag residual heads | Project-trained head artifacts supplied by the collaborator together with implementation, configuration, tests, and evidence. The collaborator attests that the heads and their training inputs are rights-cleared, and the project owner accepts that attestation. | Included and hash-pinned in Git as primary project artifacts. Treat rights as teammate-attested rather than independently audited; this does not clear upstream Expert 4 redistribution or organizer eligibility. |
 | Tu et al. method | [Technical report, arXiv:2603.21939](https://arxiv.org/abs/2603.21939) | Cite the authors; do not relabel the detector architecture or checkpoints as original SynthFlag research. |
 
 ## Source attribution
@@ -47,9 +47,11 @@ residual heads.
 
 ## Dataset and benchmark materials
 
-No dataset pixels, TEST1 source identities or row-level predictions, or
-protected row-level results are redistributed. Dataset attribution and rights
-evidence are recorded in
+No dataset pixels or protected row-level results are redistributed. The
+complete 30,000-row public-development TEST1 prediction record is included as
+project technical evidence; it contains relative sample identifiers, labels,
+native dimensions, routes, margins, and probabilities, but no pixels or local
+filesystem paths. Dataset attribution and rights evidence are recorded in
 [DATASETS_AND_RIGHTS.md](DATASETS_AND_RIGHTS.md).
 
 ## Project artwork

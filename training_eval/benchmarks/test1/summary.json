@@ -1,0 +1,80 @@
+{
+  "benchmark_date": "2026-09-01",
+  "benchmark_id": "TEST1",
+  "descriptive_macro": {
+    "augmented": {
+      "accuracy": 0.7932666666666668,
+      "average_precision": 0.8917635222633615,
+      "balanced_accuracy": 0.7932666666666667,
+      "equal_error_rate": 0.20826666666666663,
+      "f1_ai": 0.7847718587214896,
+      "mcc": 0.6086569641296152,
+      "roc_auc": 0.8772597599999999,
+      "tpr_at_fpr_1pct": 0.3894666666666667
+    },
+    "clean": {
+      "accuracy": 0.8632666666666666,
+      "average_precision": 0.9437954137558798,
+      "balanced_accuracy": 0.8632666666666667,
+      "equal_error_rate": 0.13546666666666665,
+      "f1_ai": 0.8462336296759103,
+      "mcc": 0.7457833760927485,
+      "roc_auc": 0.9324469866666667,
+      "tpr_at_fpr_1pct": 0.5954666666666667
+    },
+    "delta_augmented_minus_clean": {
+      "accuracy": -0.06999999999999984,
+      "average_precision": -0.0520318914925183,
+      "balanced_accuracy": -0.07000000000000006,
+      "equal_error_rate": 0.07279999999999998,
+      "f1_ai": -0.061461770954420736,
+      "mcc": -0.13712641196313324,
+      "roc_auc": -0.055187226666666755,
+      "tpr_at_fpr_1pct": -0.20600000000000002
+    }
+  },
+  "generated_at_asia_singapore": "2026-09-01T04:18:57+08:00",
+  "model": {
+    "backbone_checkpoint": "Expert_4_siglip.pth",
+    "backbone_checkpoint_sha256": "a7d2297e7fecace8ae95d8bbdca023b697cc395d7fde0d1bd90b23d0cf130ff4",
+    "backbone_parameter_count": 428521282,
+    "large_branch_threshold_margin": -1.557959395647049,
+    "name": "Frozen corrected-v2 Expert-4 detector",
+    "native_longest_side_gt_64": "0.65*epoch05 + 0.35*epoch08 frozen finetuned-head stack",
+    "native_longest_side_le_64": "accepted CIFAKE router head, alpha=1.25",
+    "parameters_per_head": 297729,
+    "probability_decision_threshold": 0.5,
+    "stored_head_count": 3,
+    "whole_loaded_system_parameter_count": 429414469
+  },
+  "protocol": {
+    "augmentation": "one deterministic composite view per source containing 1-5 score-blind transformations",
+    "class_counts_per_dataset": {
+      "ai_generated": 2500,
+      "real": 2500
+    },
+    "datasets": [
+      "cifake_test5000",
+      "sid_validation5000",
+      "wildfake_test5000"
+    ],
+    "execution_note": "fresh frozen-head replay over integrity-verified cached Expert-4 features/logits; not a fresh pixel-to-encoder or latency run",
+    "primary_aggregation": "per-dataset rows; unweighted macro is descriptive; no pooled AUC headline",
+    "sid_split_note": "SID is the public labeled validation split, not an official hidden test split",
+    "sources_per_dataset": 5000,
+    "threshold_policy": "fixed at 0.5 before TEST1; no benchmark-label threshold fitting",
+    "total_scored_views": 30000,
+    "total_unique_sources": 15000,
+    "views": [
+      "clean",
+      "composite_standard"
+    ]
+  },
+  "raw_evaluator": {
+    "deterministic_match_to_previous_selected_report": true,
+    "metrics_sha256": "022222d2fc5164c6bcf5463c94dae44b7fe17454ed3c384a0893fc270ab60dc1",
+    "predictions_sha256": "9b815c92cd1104d5f7b7e696f6505fbd1547b327effa36e0e24c556d20ccd0c5",
+    "report_sha256": "50c02a4d37cd1dfbc3ad261534b728088c29eb47e4ec1b5088563a369a09b986"
+  },
+  "status": "COMPLETE"
+}
