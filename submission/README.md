@@ -11,6 +11,8 @@ native-size router. Expert 4 remains credited upstream research.
 - [`ARCHITECTURE.md`](ARCHITECTURE.md): route and score derivation.
 - [`REPRODUCE.md`](REPRODUCE.md): environment, artifacts, CLI, and checks.
 - [`evidence/test1/`](evidence/test1/): aggregate TEST1 source evidence.
+- [`../docs/INTERVIEW_PROF_NG.md`](../docs/INTERVIEW_PROF_NG.md): Professor Ng
+  interview, transcript boundary, and future-work plan.
 - [`ARTIFACTS.sha256`](ARTIFACTS.sha256): release artifact checksums.
 - [`DATASETS_AND_RIGHTS.md`](DATASETS_AND_RIGHTS.md): dataset and redistribution inventory.
 - [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md): upstream notices.
@@ -37,6 +39,10 @@ owner rather than independently audited in this repository.
 Older V1/V2 files measure the retired four-expert probability-mean runtime and
 are retained only for audit history. V3 remains blocked; no missing result has
 been converted to zero or estimated.
+
+The Day 3 Professor Ng interview is research input, not performance evidence
+or endorsement. Its early camera-statistics prototype is not part of the
+selected runtime or TEST1.
 
 ## Public-release exclusions
 

@@ -100,6 +100,9 @@ and [Gushchin et al., arXiv:2604.11487](https://arxiv.org/abs/2604.11487).
 - Treat TEST1 as a completed public development diagnostic, not the locked
   TikTok test. Preserve the retired V1/V2/V3 four-expert results as historical
   evidence only. A dash means unavailable, not zero; V3 remains blocked.
+- Treat the Day 3 Professor Ng interview as research input and a future-work
+  direction, not model-performance evidence or endorsement. Its early
+  camera-statistics prototype is absent from the selected runtime and TEST1.
 - The project owner accepts the collaborator's attestation that the residual
   heads and their training inputs are rights-cleared for project use. Describe
   that status as teammate-attested, not independently audited. Keep the

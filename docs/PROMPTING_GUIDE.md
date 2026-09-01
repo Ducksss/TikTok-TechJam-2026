@@ -92,6 +92,9 @@ evidence and human review.
 - Give the AI the exact evidence JSON/Markdown file for metric questions.
 - Treat TEST1 as the selected-graph public development diagnostic. Treat V1/V2
   as historical four-expert evidence and V3 as blocked.
+- Treat the Professor Ng interview as research input for a future
+  camera-statistics study, not performance evidence or endorsement; its early
+  prototype is not part of the selected runtime or TEST1.
 - Describe residual-head rights as collaborator-attested and project-owner
   accepted, not independently audited. Keep Expert 4 redistribution and
   organizer eligibility as separate unresolved questions.

@@ -88,6 +88,11 @@ and keeps the older four-expert V1/V2 studies explicitly historical. The
 attestation that the residual heads and their training inputs are rights-cleared
 for project use; that attestation was not independently license-audited here.
 
+The Day 3 [Professor Ng Teck Khim interview](docs/INTERVIEW_PROF_NG.md)
+motivated a future camera-statistics study. Its early prototype was not used in
+the selected runtime or TEST1, and the interview is not performance evidence or
+an endorsement.
+
 ## Architecture
 
 ![SynthFlag selected TEST1 architecture: Expert 4 plus three routed residual heads](submission/ARCHITECTURE.svg)

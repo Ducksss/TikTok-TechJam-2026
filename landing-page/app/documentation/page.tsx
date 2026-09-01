@@ -1,5 +1,6 @@
 /* oxlint-disable next/no-html-link-for-pages -- standard anchors preserve production route reliability. */
-import { ArrowUpRight, ScanSearch } from 'lucide-react';
+import { ArrowUpRight, Download, ScanSearch } from 'lucide-react';
+import Image from 'next/image';
 import type { ReactNode } from 'react';
 
 import { HashAnchorSync } from './hash-anchor-sync';
@@ -22,6 +23,7 @@ const contentGroups = [
     label: 'Evidence',
     links: [
       ['test1', 'TEST1 results'],
+      ['research-interview', 'Research interview'],
       ['limits', 'Limits and rights'],
       ['operations', 'Runtime and outputs'],
       ['sources', 'Sources'],
@@ -343,6 +345,73 @@ export default function Documentation() {
               The public suites were previously inspected and native resolution
               sends all TEST1 CIFAKE images to the specialist.
             </p>
+          </section>
+
+          <section id="research-interview" className="docs-section">
+            <SectionHeading kicker="Research input · Day 3">
+              Professor Ng Teck Khim: a future camera-forensics direction
+            </SectionHeading>
+            <div className="docs-results-intro">
+              <p className="docs-section-lead">
+                The SynthFlag team interviewed Professor Ng Teck Khim about
+                local image statistics created by Bayer color-filter sampling
+                and demosaicing. The discussion motivated future tests of
+                small-block variance, cross-channel correlation, mosaic phase,
+                and acquisition consistency.
+              </p>
+              <EvidenceTag kind="guidance">
+                Interview-derived direction
+              </EvidenceTag>
+            </div>
+            <div className="docs-interview-grid">
+              <figure>
+                <Image
+                  alt="Professor Ng Teck Khim and the SynthFlag team during a Day 3 video research interview"
+                  height={679}
+                  loading="lazy"
+                  src="/interviews/prof-ng-teck-khim-day3.png"
+                  width={1280}
+                />
+                <figcaption>
+                  Team-supplied interview image. It documents the conversation,
+                  not detector performance or endorsement.
+                </figcaption>
+              </figure>
+              <div>
+                <h3>What the interview changed</h3>
+                <ul>
+                  <li>
+                    Test whether physical-camera statistics complement deep
+                    features on the same source-disjoint images.
+                  </li>
+                  <li>
+                    Stress blur, resize, JPEG, screenshots, crop, color
+                    processing, and deliberate Bayer-statistic injection.
+                  </li>
+                  <li>
+                    Validate low-false-positive operating points rather than
+                    relying on ROC-AUC alone.
+                  </li>
+                </ul>
+                <a
+                  className="docs-interview-link"
+                  download
+                  href="/interviews/prof-ng-teck-khim-day3-transcript.txt"
+                >
+                  <Download aria-hidden="true" />
+                  Download the interview-only transcript
+                </a>
+              </div>
+            </div>
+            <div className="docs-callout">
+              <strong>Exploratory, not a final result</strong>
+              <p>
+                The early prototype was not strong or stable enough for a
+                result. It was not used in the selected Expert 4 plus three-head
+                runtime, TEST1, or final model selection. No performance metric
+                is claimed for it.
+              </p>
+            </div>
           </section>
 
           <section id="limits" className="docs-section">

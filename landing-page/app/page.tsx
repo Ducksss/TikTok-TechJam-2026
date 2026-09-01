@@ -947,9 +947,8 @@ export default function Home() {
               </div>
               <p className="max-w-xl text-sm leading-7 text-[#4b5563] lg:justify-self-end">
                 One deterministic composite corruption per public source
-                produced 30,000 paired predictions. TEST1 uses a benchmark-only
-                corrected-v2 Expert-4/router and stored-head system—not the live
-                four-expert product shown above.
+                produced 30,000 paired predictions for the selected Expert 4
+                plus three-head runtime shown above.
               </p>
             </div>
             <dl className="grid gap-px bg-[#b7cfff] sm:grid-cols-2 lg:grid-cols-4">

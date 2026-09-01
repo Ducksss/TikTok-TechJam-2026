@@ -4,7 +4,7 @@ Interview role: **research input and future-work direction**
 
 Sprint timing: **Day 3 — 31 August 2026**
 
-Final-model status: **not used for the released model or final benchmark claims**
+Final-model status: **not used for the selected runtime or final benchmark claims**
 
 ![SynthFlag team video call with Professor Ng Teck Khim](../landing-page/public/interviews/prof-ng-teck-khim-day3.png)
 
@@ -72,8 +72,8 @@ The early prototype was not strong or stable enough to support a final model
 claim. The team did not have enough time to establish a source-disjoint
 protocol, robust baselines, corruption behavior, confidence intervals, or a
 reliable low-FPR operating point. We therefore did **not** use this line in the
-released four-expert inference path, TEST1 headline results, or final model
-selection. No performance number is claimed here.
+selected Expert 4 plus three-head inference path, TEST1 headline results, or
+final model selection. No performance number is claimed here.
 
 That negative result is part of the evidence trail: an interesting mechanism
 and a researcher interview can motivate a study, but they do not substitute for

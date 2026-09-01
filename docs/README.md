@@ -17,6 +17,7 @@ need repository context without reconstructing the project from chat history.
 | NTIRE challenge report | [Gushchin et al., arXiv:2604.11487](https://arxiv.org/abs/2604.11487) |
 | Public submission evidence | [`../submission/README.md`](../submission/README.md) |
 | Selected TEST1 aggregate evidence | [`../submission/evidence/test1/`](../submission/evidence/test1/) |
+| Professor Ng interview and research boundary | [`INTERVIEW_PROF_NG.md`](INTERVIEW_PROF_NG.md) |
 | Detailed architecture diagrams | [`../landing-page/app/documentation/architecture/atlas.tsx`](../landing-page/app/documentation/architecture/atlas.tsx) and [`../landing-page/public/diagrams/`](../landing-page/public/diagrams/) |
 | Brand system | [`BRAND_GUIDE.md`](BRAND_GUIDE.md) |
 
@@ -41,6 +42,10 @@ unless they have been explicitly revised for the selected graph.
 Residual-head rights are collaborator-attested and accepted by the project
 owner. That status does not independently audit licenses, grant Expert 4
 redistribution, or establish organizer eligibility.
+
+The Professor Ng interview is research input for a future camera-statistics
+study. Its early prototype is absent from the selected runtime and TEST1; the
+photo and transcript do not establish model performance or endorsement.
 
 The primary public routes have separate jobs: `/journey` is the judge-first
 project narrative and `/documentation` is the unified readable technical

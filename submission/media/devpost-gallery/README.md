@@ -80,9 +80,9 @@ is not an evidence-source diagram; it is not part of the final Devpost gallery.
 - Threshold metrics are protected-final V1 evidence rounded to four decimals.
   The threshold was selected on calibration data, then frozen.
 - TEST1 is newer public-development evidence: 15,000 unique public images and
-  30,000 clean/augmented predictions from a benchmark-only corrected-v2
-  topology. It is not encoded into these historical V1/V2 gallery graphics and
-  must not be transferred to the released four-expert model.
+  30,000 clean/augmented predictions from the selected Expert 4 plus three-head
+  topology. It is not encoded into these historical V1/V2 gallery graphics;
+  those graphics must not be presented as the current runtime.
 - For TikTok-like creator operations, constrain false-positive rate first and
   reduce false negatives within that cap. The fixed `0.5` service/TEST1 point is
   not a universal consequential-action threshold.

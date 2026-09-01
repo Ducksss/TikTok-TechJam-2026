@@ -147,6 +147,15 @@ They remain historical evidence only and must not be used to claim performance
 for the selected graph. V3 remains blocked because the exact organizer DALL-E
 Advanced source is absent.
 
+## Research interview boundary
+
+The Day 3 interview with Professor Ng Teck Khim motivated a future forensic
+study of Bayer sampling, demosaicing, local variance, and cross-channel
+statistics. The photo and transcript document the research conversation; they
+are not detector-performance evidence or endorsement. The early prototype was
+not stable enough for a claim and is absent from the selected runtime and
+TEST1. See `docs/INTERVIEW_PROF_NG.md` for the maintained evidence boundary.
+
 ## Rights, eligibility, and provenance
 
 - The project owner accepts the collaborator's attestation that the three

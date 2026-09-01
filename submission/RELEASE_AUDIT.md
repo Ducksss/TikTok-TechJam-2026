@@ -48,8 +48,8 @@ Allowed in the public Git release:
 - the SynthFlag wordmark, project-created architecture diagram, and Devpost
   thumbnail;
 - aggregate benchmark tables, non-row-level reports, protocols, and hashes;
-- TEST1 aggregate metrics and paired deltas with an explicit benchmark-only
-  corrected-v2 versus released-four-expert model boundary;
+- TEST1 aggregate metrics and paired deltas for the selected Expert 4 plus
+  three-head runtime, with its public-development and routing limits attached;
 - the team-supplied Day 3 interview image and interview-only transcript, after
   maintainers confirm publication and likeness consent for depicted and named
   participants;

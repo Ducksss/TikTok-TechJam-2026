@@ -30,6 +30,7 @@ TEST1_EVIDENCE_FILES = (
     "submission/evidence/test1/README.md",
     "submission/evidence/test1/metrics_full.csv",
     "submission/evidence/test1/robustness_deltas.csv",
+    "submission/evidence/test1/source.json",
     "submission/evidence/test1/source-integrity.json",
 )
 

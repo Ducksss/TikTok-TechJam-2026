@@ -550,7 +550,7 @@ export default function JourneyPage() {
               <h2>The next ideas stay visibly on the research side.</h2>
             </div>
             <div className="journey-roadmap-grid">
-              <article>
+              <article id="research-interview">
                 <div>
                   <Microscope aria-hidden="true" />
                   <StatusBadge kind="planned">Proposed</StatusBadge>
@@ -562,7 +562,10 @@ export default function JourneyPage() {
                   and local variance associated with camera acquisition, Bayer
                   sampling, and demosaicing.
                 </p>
-                <small>Not implemented or evaluated during the sprint.</small>
+                <small>
+                  Early prototype not stable enough for final use; no metric
+                  claimed.
+                </small>
               </article>
               <article>
                 <div>
