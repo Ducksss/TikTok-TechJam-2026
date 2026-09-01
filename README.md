@@ -82,16 +82,33 @@ It is a public development diagnostic, not TikTok's hidden test.
 | SID-Set | 0.8691 | 0.8439 | 18 / 1,044 | 58 / 1,038 |
 | WildFake | 0.9467 | 0.8785 | 316 / 272 | 861 / 257 |
 
+For TikTok-like creator operations, SynthFlag constrains false positives
+first, then works to reduce false negatives within that constraint. A false
+positive can wrongly question authentic work, interrupt distribution or
+monetization, and create an appeal. TEST1 therefore reports TPR at 1% and 5%
+FPR alongside ROC-AUC. Its fixed `0.5` point is diagnostic, not a universal
+moderation cutoff; any consequential threshold needs representative
+calibration, slice monitoring, human review, and an appeals path.
+
 The complete [benchmark table](submission/BENCHMARKS.md) records TEST1 limits
 and keeps the older four-expert V1/V2 studies explicitly historical. The
 `<=64` route is benchmark-aware. The project owner accepts the collaborator's
 attestation that the residual heads and their training inputs are rights-cleared
 for project use; that attestation was not independently license-audited here.
 
-The Day 3 [Professor Ng Teck Khim interview](docs/INTERVIEW_PROF_NG.md)
-motivated a future camera-statistics study. Its early prototype was not used in
-the selected runtime or TEST1, and the interview is not performance evidence or
-an endorsement.
+### Day 3 research interview
+
+![SynthFlag team video call with Professor Ng Teck Khim](landing-page/public/interviews/prof-ng-teck-khim-day3.png)
+
+The SynthFlag team [interviewed Professor Ng Teck Khim](docs/INTERVIEW_PROF_NG.md)
+on Day 3. His discussion of Bayer sampling and demosaicing motivated us to
+explore local variance, cross-channel relationships, mosaic phase, and
+acquisition consistency as a future camera-forensics direction. With little
+sprint time remaining, the early prototype was not strong or stable enough for
+final use. It did not enter the selected runtime, TEST1, model selection, or
+final claims, and the interview is not performance evidence or an endorsement.
+
+[Download the interview-only transcript](landing-page/public/interviews/prof-ng-teck-khim-day3-transcript.txt).
 
 ## Architecture
 
