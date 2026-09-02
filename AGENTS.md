@@ -102,10 +102,13 @@ and [Gushchin et al., arXiv:2604.11487](https://arxiv.org/abs/2604.11487).
   same-origin proxy. One transport is selected per analysis attempt; POSTs are
   never replayed automatically.
   - `/journey` is the judge-first project and decision narrative.
-  - `/documentation` is the unified technical appendix, evidence guide, deep
-    model walkthrough, and system atlas.
+  - `/documentation` is the unified technical appendix. It presents the
+    selected TEST1 diagram first, then restores the interactive V1/V2 execution
+    trace and all 18 four-expert SVGs as an explicitly historical visual
+    archive.
   - `/documentation/architecture` preserves legacy links by forwarding the
-    current URL fragment to the matching `/documentation` section.
+    current URL fragment to the matching current or historical
+    `/documentation` section.
 - `submission/`: evidence-labeled release package, benchmark tables, model card,
   rights inventory, checksums, and reproduction guide.
 - `deploy/macos/`: idempotent Apple-silicon MPS/ngrok host setup, launchd

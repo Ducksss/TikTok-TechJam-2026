@@ -3,6 +3,10 @@ import { ArrowUpRight, Download, ScanSearch } from 'lucide-react';
 import Image from 'next/image';
 import type { ReactNode } from 'react';
 
+import ArchitectureAtlas, {
+  HistoricalGuideFigures,
+} from './architecture/atlas';
+import { ModelJourney } from './architecture/model-journey';
 import { HashAnchorSync } from './hash-anchor-sync';
 import { PrintButton } from './print-button';
 import './documentation.css';
@@ -27,6 +31,14 @@ const contentGroups = [
       ['limits', 'Limits and rights'],
       ['operations', 'Runtime and outputs'],
       ['sources', 'Sources'],
+    ],
+  },
+  {
+    label: 'Visual archive',
+    links: [
+      ['historical-walkthrough', 'Interactive trace'],
+      ['historical-guide', 'Guide diagrams 01–06'],
+      ['architecture-atlas', 'Architecture atlas 07–18'],
     ],
   },
 ] as const;
@@ -289,6 +301,36 @@ export default function Documentation() {
                 <strong>teacher + α × residual(feature)</strong>
               </div>
             </div>
+            <figure className="docs-figure docs-current-architecture">
+              <div className="docs-figure-toolbar">
+                <figcaption>
+                  <span>Current architecture</span>
+                  Selected TEST1 graph
+                </figcaption>
+                <a
+                  className="docs-download"
+                  download
+                  href="/selected-test1-architecture.svg"
+                >
+                  <Download aria-hidden="true" />
+                  Download SVG
+                </a>
+              </div>
+              <div className="docs-figure-frame">
+                <Image
+                  alt="Selected SynthFlag TEST1 graph showing frozen Expert 4 and three residual heads split across low-resolution and general-image routes."
+                  height={900}
+                  src="/selected-test1-architecture.svg"
+                  unoptimized
+                  width={1200}
+                />
+              </div>
+              <figcaption className="docs-figure-note">
+                This is the current released graph. The restored four-expert
+                material below is preserved as an explicitly historical V1/V2
+                architecture archive.
+              </figcaption>
+            </figure>
           </section>
 
           <section id="routing" className="docs-section">
@@ -485,6 +527,25 @@ export default function Documentation() {
             </div>
           </section>
 
+          <section
+            id="historical-walkthrough"
+            className="docs-section docs-historical-walkthrough"
+          >
+            <SectionHeading kicker="Restored visual archive · historical V1/V2">
+              The original interactive execution trace
+            </SectionHeading>
+            <p className="docs-section-lead">
+              This walkthrough has been restored for technical depth, design
+              history, and auditability. It explains the retired four-expert
+              probability-mean runtime; it does not replace the selected TEST1
+              graph shown above.
+            </p>
+            <ModelJourney />
+          </section>
+
+          <HistoricalGuideFigures />
+          <ArchitectureAtlas />
+
           <section id="sources" className="docs-section docs-sources">
             <SectionHeading kicker="Trace the evidence">
               Sources and downloads
@@ -522,11 +583,21 @@ export default function Documentation() {
                 <strong>Project journey and decisions</strong>
                 <ArrowUpRight aria-hidden="true" />
               </a>
+              <a download href="/selected-test1-architecture.svg">
+                <span>Current visual contract</span>
+                <strong>Download selected TEST1 architecture</strong>
+                <Download aria-hidden="true" />
+              </a>
+              <a href="#architecture-atlas">
+                <span>Restored visual archive</span>
+                <strong>Explore all 18 historical diagrams</strong>
+                <ArrowUpRight aria-hidden="true" />
+              </a>
             </div>
             <p className="docs-source-note">
-              The retired 18-diagram four-expert atlas remains in repository
-              history as baseline documentation. It is not the selected runtime
-              contract; current behavior is defined by the Expert 4 plus
+              The 18-diagram four-expert atlas is restored above as visible
+              historical baseline documentation. It is not the selected runtime
+              contract; current behavior remains defined by the Expert 4 plus
               three-head implementation and manifest.
             </p>
           </section>

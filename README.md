@@ -75,6 +75,7 @@ The frozen Expert 4 dependency retains its required upstream attribution.
 - [Follow the project journey](https://synthflag.chaipinzheng353496.chatgpt.site/journey)
 - [Read the visual documentation](https://synthflag.chaipinzheng353496.chatgpt.site/documentation)
 - [Open the selected architecture section](https://synthflag.chaipinzheng353496.chatgpt.site/documentation#architecture)
+- [Explore the restored 18-diagram historical atlas](https://synthflag.chaipinzheng353496.chatgpt.site/documentation#architecture-atlas)
 
 The YouTube link is the recorded product demo. The source `/try` route provides
 the complete image and sampled-video file-drop
@@ -147,9 +148,9 @@ margin. Native longest side `<=64` uses the specialist head at alpha `1.25`;
 larger images blend epoch-05 and epoch-08 corrected margins `0.65 / 0.35` and
 apply the frozen boundary `-1.557959395647049` before sigmoid.
 
-Read the [architecture explanation](submission/ARCHITECTURE.md), follow the
-[project and decision journey](https://synthflag.chaipinzheng353496.chatgpt.site/journey),
-or open the
+Read the [architecture explanation](submission/ARCHITECTURE.md), explore the
+[selected graph and restored visual archive](https://synthflag.chaipinzheng353496.chatgpt.site/documentation#architecture), follow the
+[project and decision journey](https://synthflag.chaipinzheng353496.chatgpt.site/journey), or open the
 [selected-model walkthrough](https://synthflag.chaipinzheng353496.chatgpt.site/journey#selected-model).
 
 ## Quick start

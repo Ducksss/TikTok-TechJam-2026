@@ -16,7 +16,7 @@ consult the papers when the task needs challenge or method detail.
 | Change the service or `/try` flow | `AGENTS.md`, `service/app.py`, both `landing-page/app/api/analyze*` routes, `landing-page/lib/server/multipart.ts`, `landing-page/lib/inference-transport.ts`, `landing-page/app/try/page.tsx`, `landing-page/app/try/video-pipeline.tsx`, `landing-page/lib/video-analysis.ts`, relevant frontend tests |
 | Operate the Mac public worker | `deploy/macos/README.md`, `deploy/macos/templates/`, `infer/checkpoint_manifest.json`, `service/README.md`, `STATUS.md` |
 | Edit the judge-first `/journey` route | `AGENTS.md`, `docs/AI_CONTEXT.md`, `landing-page/app/journey/`, relevant benchmark and release sources |
-| Edit diagrams or technical documentation | `AGENTS.md`, `docs/AI_CONTEXT.md`, relevant source files, `landing-page/public/diagrams/` |
+| Edit diagrams or technical documentation | `AGENTS.md`, `docs/AI_CONTEXT.md`, `submission/ARCHITECTURE.svg`, `landing-page/app/documentation/architecture/`, and `landing-page/public/diagrams/` |
 | Change CLI output or Track 5 submission JSON | `AGENTS.md`, `infer/cli.py`, `tests/test_cli_outputs.py`, `submission/REPRODUCE.md` |
 | Discuss selected-model benchmarks | `submission/BENCHMARKS.md`, `submission/evidence/test1/`, `submission/MODEL_CARD.md` |
 | Review attribution and licensing | `submission/THIRD_PARTY_NOTICES.md`, `submission/MODEL_CARD.md`, `scripts/check_source_provenance.py` |
@@ -109,8 +109,10 @@ evidence and human review.
   coordination facts can become stale.
 - Keep the site roles distinct: `/journey` is the judge narrative and
   `/documentation` is the unified readable appendix, evidence guide, and deep
-  technical atlas. `/documentation/architecture` is a compatibility route for
-  legacy links, not a separate information destination.
+  technical atlas. It shows the selected TEST1 graph first and exposes the
+  interactive V1/V2 trace plus 18 four-expert SVGs only as a labeled historical
+  archive. `/documentation/architecture` is a compatibility route for legacy
+  links, not a separate information destination.
 - Keep image scores distinct from sampled-video summaries: the video mean is a
   descriptive aggregate, not motion analysis or a calibrated video probability.
 - After changing naming, routes, output contracts, evidence status, or context

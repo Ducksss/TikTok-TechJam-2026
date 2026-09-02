@@ -37,6 +37,33 @@
   border-left: 1px solid var(--docs-line);
 }
 
+.docs-current-architecture,
+.atlas-guide-stack {
+  margin-top: 2.5rem;
+}
+
+.docs-current-architecture .docs-figure-frame {
+  background: #07101f;
+}
+
+.docs-figure-note {
+  display: block;
+  border-top: 1px solid var(--docs-line);
+  color: var(--docs-muted);
+  font-size: 0.75rem;
+  line-height: 1.65;
+  padding: 1rem 1.25rem;
+}
+
+.docs-historical-walkthrough {
+  scroll-margin-top: 6rem;
+}
+
+.atlas-guide-stack {
+  display: grid;
+  gap: 3.5rem;
+}
+
 .atlas-overview-grid > div {
   min-height: 13rem;
   border-right: 1px solid var(--docs-line);

@@ -481,6 +481,25 @@ def main() -> int:
                 + diagram.relative_to(ROOT).as_posix()
             )
 
+    documentation_page = read("landing-page/app/documentation/page.tsx")
+    atlas_source = read("landing-page/app/documentation/architecture/atlas.tsx")
+    for token in (
+        "/selected-test1-architecture.svg",
+        "<ModelJourney />",
+        "<HistoricalGuideFigures />",
+        "<ArchitectureAtlas />",
+    ):
+        if token not in documentation_page:
+            errors.append(
+                "documentation no longer mounts required architecture visual: "
+                + token
+            )
+    for diagram in diagrams:
+        if diagram.name not in atlas_source:
+            errors.append(
+                "historical atlas diagram is no longer surfaced: " + diagram.name
+            )
+
     for number in ("06", "07", "08", "09"):
         for theme in ("dark", "light"):
             relative_path = (

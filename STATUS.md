@@ -30,16 +30,16 @@ automation, process, or worktree dirtiness state.
 | Development augmentation | `synthflag_augment/` provides repository-authored, sample-keyed image variants and audit traces; it is optional, outside inference, and not paper-described training reproduction. |
 | Batch artifacts | A completed run produces `predictions.csv`, Track 5 `predictions.json` records with `image_path,pred`, and `predictions.meta.json`. |
 | HTTP service | `service/app.py` exposes checkpoint-backed health, single-image analysis, and bounded sampled-frame analysis with two-frame microbatches; its Mac launch agent runs one eager MPS worker on loopback and does not silently use public CPU inference. |
-| Web experience | Primary routes are `/`, `/try`, `/journey`, and the unified `/documentation`; `/documentation/architecture` is a fragment-preserving compatibility route. The `/api/analyze` and `/api/analyze-video` proxies bound request bodies before multipart parsing. A configured direct route is health-probed before same-origin fallback, and an analysis POST is never replayed automatically. Raw videos remain in the browser while eight midpoint PNG frames are submitted and response metadata is matched to them. |
+| Web experience | Primary routes are `/`, `/try`, `/journey`, and the unified `/documentation`; the current TEST1 diagram appears first and the restored interactive V1/V2 trace plus 18 historical SVGs remain visibly labeled as an archive. `/documentation/architecture` preserves legacy fragments. The `/api/analyze` and `/api/analyze-video` proxies bound request bodies before multipart parsing. A configured direct route is health-probed before same-origin fallback, and an analysis POST is never replayed automatically. Raw videos remain in the browser while eight midpoint PNG frames are submitted and response metadata is matched to them. |
 | Mac host package | `deploy/macos/` owns pinned ngrok installation, launchd agents, loopback binding, edge route/rate policy, checkpoint/MPS gates, health checks, and rollback. It does not prove that credentials, a public tunnel, or a matching Sites deployment are active. |
 | Submission package | `submission/` contains the evidence-labeled benchmarks, architecture, reproduction guide, rights inventory, model card, release audit, and checksums. |
 | Attribution and source hygiene | Method, checkpoint, dependency, and source credit is preserved in third-party notices; the release check rejects prohibited source overlap. |
 
 The two long-form web routes are intentionally distinct: `/journey` is the
 judge-first project and decision narrative, while `/documentation` combines
-the readable technical appendix, evidence guide, deep model, and system atlas.
-The legacy `/documentation/architecture` route forwards to the matching anchor
-inside `/documentation`.
+the readable technical appendix, current selected-model visual, and restored
+historical visual archive. The legacy `/documentation/architecture` route
+forwards to the matching current or historical anchor inside `/documentation`.
 
 ## Evidence state
 

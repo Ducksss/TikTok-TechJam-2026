@@ -1,9 +1,10 @@
 # Historical architecture atlas
 
 All 18 SVG files in this directory document the retired V1/V2 four-expert
-runtime or its surrounding product surfaces. They are retained for audit and
-design history only, and every SVG carries a visible **HISTORICAL BASELINE —
-NOT SELECTED TEST1** stamp.
+runtime or its surrounding product surfaces. They are published in the restored
+`/documentation#architecture-atlas` visual archive for audit and design history,
+and every SVG carries a visible **HISTORICAL BASELINE — NOT SELECTED TEST1**
+stamp.
 
 Do not use these files to explain the current detector. The selected source of
 truth is:

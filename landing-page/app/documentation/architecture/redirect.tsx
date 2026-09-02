@@ -4,19 +4,19 @@
 import { useEffect } from 'react';
 
 const legacyHashTargets: Record<string, string> = {
-  'architecture-atlas': 'architecture',
-  overall: 'operations',
-  request: 'operations',
-  'video-sampling': 'operations',
-  runtime: 'operations',
-  checkpoints: 'operations',
-  tensors: 'input',
-  'deep-model': 'architecture',
-  'expert-anatomy': 'architecture',
-  'dinov3-context': 'sources',
-  release: 'limits',
-  operations: 'operations',
-  batch: 'operations',
+  'architecture-atlas': 'architecture-atlas',
+  overall: 'historical-overall',
+  request: 'historical-request',
+  'video-sampling': 'historical-video-sampling',
+  runtime: 'historical-runtime',
+  checkpoints: 'historical-checkpoints',
+  tensors: 'historical-tensors',
+  'deep-model': 'historical-deep-model',
+  'expert-anatomy': 'historical-expert-anatomy',
+  'dinov3-context': 'historical-dinov3-context',
+  release: 'historical-release',
+  operations: 'historical-operations',
+  batch: 'historical-batch',
 };
 
 export function ArchitectureCompatibilityRedirect() {

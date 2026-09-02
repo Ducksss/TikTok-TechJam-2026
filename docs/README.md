@@ -20,7 +20,7 @@ need repository context without reconstructing the project from chat history.
 | Authoritative model-development, final Drive bundle identity, and full TEST1 record | [`../training_eval/`](../training_eval/) |
 | Professor Ng interview and research boundary | [`INTERVIEW_PROF_NG.md`](INTERVIEW_PROF_NG.md) |
 | Selected architecture diagram | [`../submission/ARCHITECTURE.svg`](../submission/ARCHITECTURE.svg) and [`../submission/ARCHITECTURE.md`](../submission/ARCHITECTURE.md) |
-| Historical four-expert atlas | [`../landing-page/public/diagrams/README.md`](../landing-page/public/diagrams/README.md) |
+| Restored historical four-expert atlas | [`../landing-page/app/documentation/architecture/atlas.tsx`](../landing-page/app/documentation/architecture/atlas.tsx), [`../landing-page/app/documentation/architecture/model-journey.tsx`](../landing-page/app/documentation/architecture/model-journey.tsx), and [`../landing-page/public/diagrams/README.md`](../landing-page/public/diagrams/README.md) |
 | Brand system | [`BRAND_GUIDE.md`](BRAND_GUIDE.md) |
 
 ## Evidence hierarchy
@@ -57,9 +57,10 @@ photo and transcript do not establish model performance or endorsement.
 
 The primary public routes have separate jobs: `/journey` is the judge-first
 project narrative and `/documentation` is the unified readable technical
-appendix, evidence guide, and deepest model and system atlas. The legacy
-`/documentation/architecture` route forwards fragments to the same section in
-`/documentation`.
+appendix. Documentation shows the current TEST1 architecture first, followed
+by the restored interactive V1/V2 trace and 18-diagram four-expert archive with
+historical labels. The legacy `/documentation/architecture` route forwards
+fragments to the matching current or historical section in `/documentation`.
 The `/try` working surface supports one image or eight browser-extracted
 midpoint frames from a 1–10 second video; the raw video remains local and the
 frame summary is not a video-level probability. Its same-origin proxies bound

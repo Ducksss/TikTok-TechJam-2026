@@ -47,6 +47,8 @@ changes. Run `python scripts/check_repository_context.py` afterward.
 | `infer/outputs.py`, `infer/cli.py` | Discovery, locking, resumability, CSV, Track 5 JSON, metadata | Batch behavior |
 | `service/app.py` | Health, image analysis, and sampled-frame analysis | HTTP behavior |
 | `landing-page/app/` | `/`, `/try`, `/journey`, `/documentation`, compatibility route, and proxies | Public product source |
+| `landing-page/public/selected-test1-architecture.svg` | Byte-identical public mirror of `submission/ARCHITECTURE.svg` | Current selected-model visual |
+| `landing-page/app/documentation/architecture/` and `landing-page/public/diagrams/` | Restored interactive trace and 18 SVGs, all explicitly labeled historical V1/V2 | Historical visual archive |
 | `infer/checkpoint_manifest.json` | Packaged Drive locations plus Expert 4 and three-head hashes/sizes | Runtime artifact identity |
 | `weights/README.md` | Final Google Drive download and local-install guide | Artifact setup |
 | `submission/BENCHMARKS.md` | TEST1 primary evidence and historical-study boundaries | Benchmark summary |
@@ -137,7 +139,10 @@ requests, with separate per-IP sliding-window limits. MPS and all four
 checkpoint identities are startup gates; there is no public CPU fallback.
 
 Public routes are `/`, `/try`, `/journey`, and `/documentation`.
-`/documentation/architecture` forwards legacy fragment links.
+`/documentation` shows the current selected TEST1 architecture first, then the
+restored interactive V1/V2 execution trace and all 18 historical four-expert
+diagrams. `/documentation/architecture` forwards legacy fragment links to the
+matching current or historical section.
 `/api/analyze` and `/api/analyze-video` are bounded same-origin proxies.
 The browser probes a configured direct ngrok health route first and falls back
 to same-origin health. Each analysis uses exactly the selected transport; a

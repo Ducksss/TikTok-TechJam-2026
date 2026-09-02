@@ -1,5 +1,6 @@
-/* Historical four-expert atlas retained as an unsurfaced baseline. The selected
- * runtime is documented in ../page.tsx and infer/architecture.py. */
+/* Historical four-expert atlas retained as a visible, explicitly labeled
+ * baseline. The selected runtime is documented in ../page.tsx and
+ * infer/architecture.py. */
 /* oxlint-disable next/no-html-link-for-pages -- vinext's production next/link prefetch shim currently breaks route clicks; standard anchors keep public navigation reliable. */
 import { ArrowUpRight, Download } from 'lucide-react';
 import Image from 'next/image';
@@ -49,6 +50,45 @@ type AtlasSection = {
   width?: number;
   dense?: boolean;
 };
+
+const historicalGuideFigures = [
+  {
+    number: '01',
+    title: 'Inference user flow',
+    file: '01-user-flow.svg',
+    alt: 'Historical four-expert user flow showing web image, sampled-video, and CLI inputs moving through validation, preprocessing, four experts, and score outputs.',
+  },
+  {
+    number: '02',
+    title: 'Backbone-specific image processing',
+    file: '02-image-processing.svg',
+    alt: 'Historical image-processing diagram showing separate 224-pixel CLIP and 384-pixel SigLIP preprocessing lanes.',
+  },
+  {
+    number: '03',
+    title: 'Four-expert model architecture',
+    file: '03-model-architecture.svg',
+    alt: 'Historical architecture showing two CLIP experts, two SigLIP experts, their feature sizes, binary heads, and logits.',
+  },
+  {
+    number: '04',
+    title: 'Exact probability ensemble',
+    file: '04-ensemble-flow.svg',
+    alt: 'Historical ensemble diagram showing four equal-weight fake-class probabilities combined by an arithmetic mean.',
+  },
+  {
+    number: '05',
+    title: 'Feature-level self-distillation',
+    file: '05-training-self-distillation.svg',
+    alt: 'Historical training-only diagram showing binary training followed by dense feature self-distillation.',
+  },
+  {
+    number: '06',
+    title: 'Robustness evidence and boundaries',
+    file: '06-robustness-evidence.svg',
+    alt: 'Historical robustness diagram describing challenge scale, image degradations, reported evidence, and deployment limitations.',
+  },
+] as const;
 
 const sections: AtlasSection[] = [
   {
@@ -1070,6 +1110,55 @@ function FigureBlock({ section }: { section: AtlasSection }) {
   );
 }
 
+export function HistoricalGuideFigures() {
+  return (
+    <section className="docs-section atlas-guide" id="historical-guide">
+      <SectionHeading kicker="Historical guide · Figures 01–06">
+        The original model and evidence diagrams
+      </SectionHeading>
+      <p className="docs-section-lead">
+        These six restored figures explain the retired V1/V2 four-expert
+        baseline and its original evidence framing. Every image carries a
+        visible historical-status stamp and remains downloadable as SVG.
+      </p>
+      <div className="atlas-guide-stack">
+        {historicalGuideFigures.map((figure) => (
+          <figure
+            className="docs-figure"
+            id={`historical-guide-${figure.number}`}
+            key={figure.file}
+          >
+            <div className="docs-figure-toolbar">
+              <figcaption>
+                <span>Historical Figure {figure.number}</span>
+                {figure.title}
+              </figcaption>
+              <a
+                className="docs-download"
+                download
+                href={`/diagrams/${figure.file}`}
+              >
+                <Download aria-hidden="true" />
+                Download SVG
+              </a>
+            </div>
+            <div className="docs-figure-frame">
+              <Image
+                alt={figure.alt}
+                height={900}
+                loading="lazy"
+                src={`/diagrams/${figure.file}`}
+                unoptimized
+                width={1440}
+              />
+            </div>
+          </figure>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export default function ArchitectureAtlas() {
   return (
     <div className="atlas-embedded">
@@ -1081,9 +1170,10 @@ export default function ArchitectureAtlas() {
           This archived atlas describes the retired four-expert runtime
         </SectionHeading>
         <p className="docs-lead">
-          Retained for audit history only. Current behavior is the frozen Expert
-          4 plus three-head graph in <code>training_eval/</code> and the
-          <code>infer/</code> adapter.
+          Restored for audit history, technical reference, and design
+          continuity. Current behavior is the frozen Expert 4 plus three-head
+          graph in <code>training_eval/</code> and the <code>infer/</code>{' '}
+          adapter.
         </p>
         <div className="atlas-overview-grid">
           <div>
@@ -1136,7 +1226,7 @@ export default function ArchitectureAtlas() {
               </div>
             ) : null}
             <section
-              id={section.id}
+              id={`historical-${section.id}`}
               className={`docs-section atlas-section${section.dense ? ' atlas-section-dense' : ''}`}
             >
               <SectionHeading kicker={section.kicker}>
@@ -1166,14 +1256,14 @@ export default function ArchitectureAtlas() {
                 {section.id === 'deep-model' ? (
                   <aside className="atlas-journey-transfer">
                     <div>
-                      <span>Historical trace retired</span>
+                      <span>Historical trace restored</span>
                       <strong>
-                        This retired trace is no longer linked from the project
-                        journey.
+                        The interactive four-expert trace is available above;
+                        the selected runtime remains separate.
                       </strong>
                     </div>
-                    <a href="/journey#selected-model">
-                      Open selected runtime
+                    <a href="#historical-walkthrough">
+                      Open interactive trace
                       <ArrowUpRight aria-hidden="true" />
                     </a>
                   </aside>
