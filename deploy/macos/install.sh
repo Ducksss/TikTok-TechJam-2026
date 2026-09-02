@@ -15,7 +15,7 @@ PREPARE_ONLY=0
 SKIP_PYTHON=0
 
 usage() {
-  print "Usage: ${PROGRAM_NAME} [--prepare-only | --domain <assigned-name>.ngrok.app] [--ref origin/main] [--skip-python]"
+  print "Usage: ${PROGRAM_NAME} [--prepare-only | --domain <assigned-ngrok-hostname>] [--ref origin/main] [--skip-python]"
 }
 
 while (( $# > 0 )); do
@@ -49,8 +49,8 @@ while (( $# > 0 )); do
 done
 
 if (( PREPARE_ONLY == 0 )) && \
-  [[ ! "${DOMAIN}" =~ '^[a-zA-Z0-9][a-zA-Z0-9.-]*\.ngrok\.app$' ]]; then
-  print -u2 -- "--domain must be the assigned hostname ending in .ngrok.app"
+  [[ ! "${DOMAIN}" =~ '^[a-zA-Z0-9][a-zA-Z0-9.-]*\.(ngrok\.app|ngrok-free\.dev)$' ]]; then
+  print -u2 -- "--domain must be an assigned hostname ending in .ngrok.app or .ngrok-free.dev"
   exit 2
 fi
 if [[ "$(uname -s)" != "Darwin" || "$(uname -m)" != "arm64" ]]; then

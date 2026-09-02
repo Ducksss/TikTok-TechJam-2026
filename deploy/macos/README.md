@@ -39,11 +39,12 @@ when the service constructs the model.
      --head-bundle-file "/path/to/SynthFlag_TEST1_head_bundle_v1.zip"
    ```
 
-2. In the ngrok dashboard, copy the free account's assigned `*.ngrok.app`
-   domain. Run the installer with that hostname:
+2. In the ngrok dashboard, copy the free account's assigned `*.ngrok-free.dev`
+   dev domain (older accounts may have an assigned `*.ngrok.app` hostname).
+   Run the installer with that hostname:
 
    ```bash
-   deploy/macos/install.sh --domain "your-assigned-name.ngrok.app"
+   deploy/macos/install.sh --domain "your-assigned-name.ngrok-free.dev"
    ```
 
    The installer requires Python 3.10 or newer. If macOS's `/usr/bin/python3`
@@ -64,18 +65,18 @@ when the service constructs the model.
 
    ```bash
    deploy/macos/configure_ngrok_token.sh
-   deploy/macos/install.sh --domain "your-assigned-name.ngrok.app"
+   deploy/macos/install.sh --domain "your-assigned-name.ngrok-free.dev"
    ```
 
 4. Verify local and public health:
 
    ```bash
    deploy/macos/healthcheck.sh \
-     --public-url "https://your-assigned-name.ngrok.app"
+     --public-url "https://your-assigned-name.ngrok-free.dev"
    ```
 
 5. Build the web source with
-   `NEXT_PUBLIC_SYNTHFLAG_INFERENCE_URL=https://your-assigned-name.ngrok.app`.
+   `NEXT_PUBLIC_SYNTHFLAG_INFERENCE_URL=https://your-assigned-name.ngrok-free.dev`.
    In the existing Sites project, set runtime
    `SYNTHFLAG_INFERENCE_URL` to the same base URL, save a version from the
    pushed source commit, and deploy it. Do not create another Sites project.
