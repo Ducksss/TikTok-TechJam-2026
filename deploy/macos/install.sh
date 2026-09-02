@@ -64,6 +64,26 @@ ORIGIN_URL="$(git -C "${SOURCE_REPO}" remote get-url origin)"
 LAUNCH_AGENTS="/Users/tiktok/Library/LaunchAgents"
 GUI_DOMAIN="gui/$(id -u)"
 
+restart_agent() {
+  local label="$1"
+  local plist="$2"
+  local attempt
+
+  launchctl bootout "${GUI_DOMAIN}/${label}" >/dev/null 2>&1 || true
+  for attempt in 1 2 3; do
+    if launchctl bootstrap "${GUI_DOMAIN}" "${plist}"; then
+      launchctl enable "${GUI_DOMAIN}/${label}"
+      launchctl kickstart -k "${GUI_DOMAIN}/${label}"
+      return 0
+    fi
+    if (( attempt < 3 )); then
+      sleep 1
+    fi
+  done
+  print -u2 -- "Could not bootstrap ${label} after three attempts."
+  return 1
+}
+
 umask 077
 mkdir -p "/Users/tiktok/Services" "${STATE_DIR}/bin" "${STATE_DIR}/downloads" \
   "${STATE_DIR}/logs" "${STATE_DIR}/weights" "${LAUNCH_AGENTS}"
@@ -168,10 +188,9 @@ ruby -e 'require "yaml"; YAML.safe_load(File.read(ARGV.fetch(0)), permitted_clas
   --config "${STATE_DIR}/ngrok-credentials.yml" \
   --config "${STATE_DIR}/ngrok.yml"
 
-launchctl bootout "${GUI_DOMAIN}/com.synthflag.inference" >/dev/null 2>&1 || true
-launchctl bootstrap "${GUI_DOMAIN}" "${LAUNCH_AGENTS}/com.synthflag.inference.plist"
-launchctl enable "${GUI_DOMAIN}/com.synthflag.inference"
-launchctl kickstart -k "${GUI_DOMAIN}/com.synthflag.inference"
+restart_agent \
+  com.synthflag.inference \
+  "${LAUNCH_AGENTS}/com.synthflag.inference.plist"
 
 if (( PREPARE_ONLY == 1 )); then
   print "Prepared the stable runtime, verified checkpoints, pinned ngrok, and started loopback-only MPS inference."
@@ -179,14 +198,13 @@ if (( PREPARE_ONLY == 1 )); then
   exit 0
 fi
 
-launchctl bootout "${GUI_DOMAIN}/com.synthflag.ngrok" >/dev/null 2>&1 || true
-
 if grep -Eq '^[[:space:]]+authtoken:' "${STATE_DIR}/ngrok-credentials.yml"; then
-  launchctl bootstrap "${GUI_DOMAIN}" "${LAUNCH_AGENTS}/com.synthflag.ngrok.plist"
-  launchctl enable "${GUI_DOMAIN}/com.synthflag.ngrok"
-  launchctl kickstart -k "${GUI_DOMAIN}/com.synthflag.ngrok"
+  restart_agent \
+    com.synthflag.ngrok \
+    "${LAUNCH_AGENTS}/com.synthflag.ngrok.plist"
   print "Installed and started SynthFlag inference plus ngrok for https://${DOMAIN}."
 else
+  launchctl bootout "${GUI_DOMAIN}/com.synthflag.ngrok" >/dev/null 2>&1 || true
   print "Inference is installed. ngrok is prepared but not started because no authtoken is stored."
   print "Run ${RUNTIME_DIR}/deploy/macos/configure_ngrok_token.sh, then rerun this installer."
 fi
