@@ -10,10 +10,11 @@ RUNTIME_DIR="${SYNTHFLAG_RUNTIME_DIR:-/Users/tiktok/Services/SynthFlag}"
 STATE_DIR="${SYNTHFLAG_STATE_DIR:-/Users/tiktok/Library/Application Support/SynthFlag}"
 SOURCE_REF="origin/main"
 DOMAIN=""
+PREPARE_ONLY=0
 SKIP_PYTHON=0
 
 usage() {
-  print "Usage: ${PROGRAM_NAME} --domain <assigned-name>.ngrok.app [--ref origin/main] [--skip-python]"
+  print "Usage: ${PROGRAM_NAME} [--prepare-only | --domain <assigned-name>.ngrok.app] [--ref origin/main] [--skip-python]"
 }
 
 while (( $# > 0 )); do
@@ -25,6 +26,10 @@ while (( $# > 0 )); do
     --ref)
       SOURCE_REF="${2:-}"
       shift 2
+      ;;
+    --prepare-only)
+      PREPARE_ONLY=1
+      shift
       ;;
     --skip-python)
       SKIP_PYTHON=1
@@ -42,7 +47,8 @@ while (( $# > 0 )); do
   esac
 done
 
-if [[ ! "${DOMAIN}" =~ '^[a-zA-Z0-9][a-zA-Z0-9.-]*\.ngrok\.app$' ]]; then
+if (( PREPARE_ONLY == 0 )) && \
+  [[ ! "${DOMAIN}" =~ '^[a-zA-Z0-9][a-zA-Z0-9.-]*\.ngrok\.app$' ]]; then
   print -u2 -- "--domain must be the assigned hostname ending in .ngrok.app"
   exit 2
 fi
@@ -122,6 +128,12 @@ fi
 SYNTHFLAG_WEIGHTS_DIR="${STATE_DIR}/weights" \
   "${STATE_DIR}/venv/bin/python" -c \
   'import os; from infer.checkpoints import verify_checkpoint_files; verify_checkpoint_files(os.environ["SYNTHFLAG_WEIGHTS_DIR"])'
+
+if (( PREPARE_ONLY == 1 )); then
+  print "Prepared the stable runtime, Python environment, verified checkpoints, and pinned ngrok binary."
+  print "Rerun with --domain after the assigned ngrok hostname is available."
+  exit 0
+fi
 
 if [[ ! -f "${STATE_DIR}/ngrok-credentials.yml" ]]; then
   print 'version: "3"\nagent: {}' > "${STATE_DIR}/ngrok-credentials.yml"
