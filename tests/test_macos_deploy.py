@@ -13,27 +13,34 @@ DEPLOY = ROOT / "deploy" / "macos"
 
 
 class MacDeployContractTest(unittest.TestCase):
-    def _rendered(self, temporary: Path) -> tuple[Path, Path]:
+    def _rendered(
+        self, temporary: Path, domain: str | None = "example.ngrok.app"
+    ) -> tuple[Path, Path]:
         state = temporary / "private state"
         agents = temporary / "LaunchAgents"
-        subprocess.run(
-            [
-                sys.executable,
-                str(DEPLOY / "render_templates.py"),
-                "--templates",
-                str(DEPLOY / "templates"),
-                "--launch-agents",
-                str(agents),
-                "--state-dir",
-                str(state),
-                "--runtime-dir",
-                "/Users/tiktok/Services/SynthFlag",
-                "--domain",
-                "example.ngrok.app",
-            ],
-            check=True,
-        )
+        arguments = [
+            sys.executable,
+            str(DEPLOY / "render_templates.py"),
+            "--templates",
+            str(DEPLOY / "templates"),
+            "--launch-agents",
+            str(agents),
+            "--state-dir",
+            str(state),
+            "--runtime-dir",
+            "/Users/tiktok/Services/SynthFlag",
+        ]
+        if domain:
+            arguments.extend(("--domain", domain))
+        subprocess.run(arguments, check=True)
         return state, agents
+
+    def test_prepare_only_render_omits_public_ngrok_agent(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            state, agents = self._rendered(Path(temporary), domain=None)
+            self.assertTrue((agents / "com.synthflag.inference.plist").is_file())
+            self.assertFalse((agents / "com.synthflag.ngrok.plist").exists())
+            self.assertTrue((state / "ngrok.yml").is_file())
 
     def test_launch_agents_are_single_worker_loopback_mps_services(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

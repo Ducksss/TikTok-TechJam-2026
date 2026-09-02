@@ -55,8 +55,9 @@ when the service constructs the model.
    ngrok, Inc. (`TEX8MHRDQ9`). The versioned archive URL and both checksums
    prevent a different release from being installed silently.
 
-   If the domain is not assigned yet, prepare everything except launchd with
-   `deploy/macos/install.sh --prepare-only`; rerunning later is safe.
+   If the domain is not assigned yet, use
+   `deploy/macos/install.sh --prepare-only`. It installs and starts only the
+   loopback MPS service while preparing ngrok; rerunning later is safe.
 
 3. Enter the ngrok authtoken locally; input is hidden and the resulting file is
    mode `0600`:

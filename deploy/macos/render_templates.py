@@ -39,7 +39,7 @@ def main() -> int:
     parser.add_argument("--launch-agents", required=True, type=Path)
     parser.add_argument("--state-dir", required=True, type=Path)
     parser.add_argument("--runtime-dir", required=True, type=Path)
-    parser.add_argument("--domain", required=True)
+    parser.add_argument("--domain")
     args = parser.parse_args()
 
     state = args.state_dir.resolve()
@@ -47,7 +47,7 @@ def main() -> int:
     launch_agents = args.launch_agents.resolve()
     values = {
         "credentials": str(state / "ngrok-credentials.yml"),
-        "domain": args.domain,
+        "domain": args.domain or "",
         "log_dir": str(state / "logs"),
         "ngrok": str(state / "bin" / "ngrok"),
         "ngrok_config": str(state / "ngrok.yml"),
@@ -63,7 +63,10 @@ def main() -> int:
         state / "traffic-policy.yml",
         values,
     )
-    for name in ("com.synthflag.inference.plist", "com.synthflag.ngrok.plist"):
+    names = ["com.synthflag.inference.plist"]
+    if args.domain:
+        names.append("com.synthflag.ngrok.plist")
+    for name in names:
         destination = launch_agents / name
         render(args.templates / name, destination, values)
         with destination.open("rb") as source:

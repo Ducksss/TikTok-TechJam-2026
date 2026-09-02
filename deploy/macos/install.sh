@@ -142,37 +142,44 @@ SYNTHFLAG_WEIGHTS_DIR="${STATE_DIR}/weights" \
   "${STATE_DIR}/venv/bin/python" -c \
   'import os; from infer.checkpoints import verify_checkpoint_files; verify_checkpoint_files(os.environ["SYNTHFLAG_WEIGHTS_DIR"])'
 
-if (( PREPARE_ONLY == 1 )); then
-  print "Prepared the stable runtime, Python environment, verified checkpoints, and pinned ngrok binary."
-  print "Rerun with --domain after the assigned ngrok hostname is available."
-  exit 0
-fi
-
 if [[ ! -f "${STATE_DIR}/ngrok-credentials.yml" ]]; then
   print 'version: "3"\nagent: {}' > "${STATE_DIR}/ngrok-credentials.yml"
 fi
 chmod 600 "${STATE_DIR}/ngrok-credentials.yml"
+RENDER_ARGUMENTS=(
+  --templates "${RUNTIME_DIR}/deploy/macos/templates"
+  --launch-agents "${LAUNCH_AGENTS}"
+  --state-dir "${STATE_DIR}"
+  --runtime-dir "${RUNTIME_DIR}"
+)
+if (( PREPARE_ONLY == 0 )); then
+  RENDER_ARGUMENTS+=(--domain "${DOMAIN}")
+fi
 "${STATE_DIR}/venv/bin/python" "${RUNTIME_DIR}/deploy/macos/render_templates.py" \
-  --templates "${RUNTIME_DIR}/deploy/macos/templates" \
-  --launch-agents "${LAUNCH_AGENTS}" \
-  --state-dir "${STATE_DIR}" \
-  --runtime-dir "${RUNTIME_DIR}" \
-  --domain "${DOMAIN}"
+  "${RENDER_ARGUMENTS[@]}"
 chmod 600 "${STATE_DIR}/ngrok.yml" "${STATE_DIR}/traffic-policy.yml"
-plutil -lint "${LAUNCH_AGENTS}/com.synthflag.inference.plist" \
-  "${LAUNCH_AGENTS}/com.synthflag.ngrok.plist"
+plutil -lint "${LAUNCH_AGENTS}/com.synthflag.inference.plist"
+if (( PREPARE_ONLY == 0 )); then
+  plutil -lint "${LAUNCH_AGENTS}/com.synthflag.ngrok.plist"
+fi
 ruby -e 'require "yaml"; YAML.safe_load(File.read(ARGV.fetch(0)), permitted_classes: [], aliases: false)' \
   "${STATE_DIR}/traffic-policy.yml"
 "${STATE_DIR}/bin/ngrok" config check \
   --config "${STATE_DIR}/ngrok-credentials.yml" \
   --config "${STATE_DIR}/ngrok.yml"
 
-for label in com.synthflag.inference com.synthflag.ngrok; do
-  launchctl bootout "${GUI_DOMAIN}/${label}" >/dev/null 2>&1 || true
-done
+launchctl bootout "${GUI_DOMAIN}/com.synthflag.inference" >/dev/null 2>&1 || true
 launchctl bootstrap "${GUI_DOMAIN}" "${LAUNCH_AGENTS}/com.synthflag.inference.plist"
 launchctl enable "${GUI_DOMAIN}/com.synthflag.inference"
 launchctl kickstart -k "${GUI_DOMAIN}/com.synthflag.inference"
+
+if (( PREPARE_ONLY == 1 )); then
+  print "Prepared the stable runtime, verified checkpoints, pinned ngrok, and started loopback-only MPS inference."
+  print "Rerun with --domain after the assigned ngrok hostname is available."
+  exit 0
+fi
+
+launchctl bootout "${GUI_DOMAIN}/com.synthflag.ngrok" >/dev/null 2>&1 || true
 
 if grep -Eq '^[[:space:]]+authtoken:' "${STATE_DIR}/ngrok-credentials.yml"; then
   launchctl bootstrap "${GUI_DOMAIN}" "${LAUNCH_AGENTS}/com.synthflag.ngrok.plist"
