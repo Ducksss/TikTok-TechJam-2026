@@ -100,6 +100,18 @@ It is a public development diagnostic, not TikTok's hidden test.
 | SID-Set | 0.8691 | 0.8439 | 18 / 1,044 | 58 / 1,038 |
 | WildFake | 0.9467 | 0.8785 | 316 / 272 | 861 / 257 |
 
+
+## Model Performance
+
+| Dataset | View | AUC | Accuracy | Recall | Specificity | F1 | MCC | FN |
+|:--|:--|--:|--:|--:|--:|--:|--:|--:|
+| **CIFAKE** | Clean | **0.9816** | **0.9198** | **0.9548** | 0.8848 | **0.9225** | **0.8417** | **113** |
+| CIFAKE | Augmented | 0.9095 | 0.8226 | 0.8448 | 0.8004 | 0.8265 | 0.6458 | 388 |
+| **SID** | Clean | 0.8691 | 0.7876 | 0.5824 | **0.9928** | 0.7328 | 0.6308 | 1,044 |
+| SID | Augmented | 0.8439 | 0.7808 | 0.5848 | 0.9768 | 0.7274 | 0.6105 | 1,038 |
+| **WildFake** | Clean | **0.9467** | **0.8824** | 0.8912 | **0.8736** | **0.8834** | **0.7649** | 272 |
+| WildFake | Augmented | 0.8785 | 0.7764 | **0.8972** | 0.6556 | 0.8005 | 0.5697 | **257** |
+
 For TikTok-like creator operations, SynthFlag constrains false positives
 first, then works to reduce false negatives within that constraint. A false
 positive can wrongly question authentic work, interrupt distribution or
