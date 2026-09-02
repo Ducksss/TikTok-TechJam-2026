@@ -101,8 +101,8 @@ if [[ "${OBSERVED_BINARY_SHA}" != "${NGROK_BINARY_SHA256}" ]]; then
   exit 1
 fi
 codesign --verify --deep --strict "${STATE_DIR}/bin/ngrok"
-if ! codesign --display --verbose=4 "${STATE_DIR}/bin/ngrok" 2>&1 | \
-  grep -q 'TeamIdentifier=TEX8MHRDQ9'; then
+SIGNATURE_INFO="$(codesign --display --verbose=4 "${STATE_DIR}/bin/ngrok" 2>&1)"
+if [[ "${SIGNATURE_INFO}" != *'TeamIdentifier=TEX8MHRDQ9'* ]]; then
   print -u2 -- "ngrok Developer ID team did not match ngrok, Inc."
   exit 1
 fi
