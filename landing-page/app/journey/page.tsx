@@ -337,6 +337,45 @@ export default function JourneyPage() {
               are not universal robustness guarantees.
             </p>
 
+            <aside
+              className="journey-author-note"
+              aria-labelledby="journey-author-note-title"
+            >
+              <div>
+                <p>Direct author correspondence · 2 September 2026</p>
+                <h3 id="journey-author-note-title">
+                  A late clarification made the research boundary clearer.
+                </h3>
+              </div>
+              <div className="journey-author-note-grid">
+                <div>
+                  <span>Author-reported final competition ensemble</span>
+                  <ul>
+                    <li>CLIP ViT-L/14</li>
+                    <li>CLIP ViT-L/14 at 336 px</li>
+                    <li>SigLIP2 So400M Patch14 at 224 px</li>
+                    <li>SigLIP2 Giant-opt Patch16 at 384 px</li>
+                  </ul>
+                </div>
+                <div>
+                  <span>Training clarification</span>
+                  <p>
+                    The authors reported sampling degradation operations
+                    independently at random for each training image, rather
+                    than composing a fixed sequence of every transform.
+                  </p>
+                </div>
+              </div>
+              <p className="journey-author-note-boundary">
+                This is an author-reported historical detail, not a new local
+                benchmark or an executable training recipe. It also differs
+                from both the repository&apos;s retired checkpoint-compatible
+                four-expert topology and the selected SynthFlag TEST1 graph
+                below. We preserve those distinctions instead of retrofitting
+                the new description onto released code or results.
+              </p>
+            </aside>
+
             <div className="journey-model-choice">
               <div className="journey-panel-heading">
                 <div>

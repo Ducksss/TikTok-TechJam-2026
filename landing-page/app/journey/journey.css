@@ -417,6 +417,76 @@
   font: 600 0.63rem/1.7 var(--font-mono);
 }
 
+.journey-author-note {
+  margin-top: 2rem;
+  border: 1px solid rgba(234, 187, 94, 0.28);
+  border-radius: 1.25rem;
+  background: linear-gradient(
+    135deg,
+    rgba(234, 187, 94, 0.08),
+    rgba(112, 164, 255, 0.035)
+  );
+  padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.journey-author-note > div:first-child > p {
+  color: var(--journey-gold);
+  font: 700 0.62rem/1.4 var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.journey-author-note h3 {
+  max-width: 48rem;
+  margin-top: 0.6rem;
+  color: #edf4ff;
+  font: 560 clamp(1.5rem, 3vw, 2.25rem) / 1.08 var(--font-instrument);
+  letter-spacing: -0.04em;
+}
+
+.journey-author-note-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.8rem;
+}
+
+.journey-author-note-grid > div {
+  border-top: 1px solid rgba(234, 187, 94, 0.2);
+  padding-top: 1rem;
+}
+
+.journey-author-note-grid span {
+  color: #d5deed;
+  font: 700 0.65rem/1.5 var(--font-mono);
+  text-transform: uppercase;
+}
+
+.journey-author-note-grid ul {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0.9rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.journey-author-note-grid li,
+.journey-author-note-grid p,
+.journey-author-note-boundary {
+  color: #9eafc7;
+  font-size: 0.74rem;
+  line-height: 1.7;
+}
+
+.journey-author-note-grid p {
+  margin-top: 0.9rem;
+}
+
+.journey-author-note-boundary {
+  margin-top: 1.5rem;
+  border-top: 1px solid var(--docs-line);
+  padding-top: 1.25rem;
+}
+
 .journey-auc-card {
   display: grid;
   grid-template-columns: 12rem 1fr;
@@ -1169,6 +1239,7 @@
   }
 
   .journey-robustness-grid,
+  .journey-author-note-grid,
   .journey-lanes,
   .journey-roadmap-grid {
     grid-template-columns: 1fr;
