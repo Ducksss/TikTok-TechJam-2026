@@ -8,6 +8,7 @@ NGROK_BINARY_SHA256="ea3a570604bd161d00ba7358af4ad2d6b0ac4c8421c17fc0106b527deff
 NGROK_URL="https://bin.equinox.io/a/dy27whJwwmb/ngrok-v3-3.39.11-darwin-arm64.zip"
 RUNTIME_DIR="${SYNTHFLAG_RUNTIME_DIR:-/Users/tiktok/Services/SynthFlag}"
 STATE_DIR="${SYNTHFLAG_STATE_DIR:-/Users/tiktok/Library/Application Support/SynthFlag}"
+PYTHON_BOOTSTRAP="${SYNTHFLAG_PYTHON:-python3}"
 SOURCE_REF="origin/main"
 DOMAIN=""
 PREPARE_ONLY=0
@@ -112,9 +113,21 @@ if [[ "$("${STATE_DIR}/bin/ngrok" version | awk '{print $3}')" != "${NGROK_VERSI
 fi
 
 if (( SKIP_PYTHON == 0 )); then
-  if [[ ! -x "${STATE_DIR}/venv/bin/python" ]]; then
-    python3 -m venv "${STATE_DIR}/venv"
+  if ! "${PYTHON_BOOTSTRAP}" -c \
+    'import sys; raise SystemExit(0 if sys.version_info >= (3, 10) else 1)'; then
+    print -u2 -- "SynthFlag needs Python 3.10 or newer. Set SYNTHFLAG_PYTHON to a compatible interpreter."
+    exit 1
   fi
+  if [[ ! -x "${STATE_DIR}/venv/bin/python" ]]; then
+    "${PYTHON_BOOTSTRAP}" -m venv "${STATE_DIR}/venv"
+  fi
+  if ! "${STATE_DIR}/venv/bin/python" -c \
+    'import sys; raise SystemExit(0 if sys.version_info >= (3, 10) else 1)'; then
+    print -u2 -- "The existing private virtual environment uses unsupported Python; move it aside and rerun."
+    exit 1
+  fi
+  "${STATE_DIR}/venv/bin/python" -m pip install --disable-pip-version-check \
+    'pip>=25,<27' 'setuptools>=69,<82' 'wheel>=0.45,<1'
   "${STATE_DIR}/venv/bin/python" -m pip install --disable-pip-version-check \
     --editable "${RUNTIME_DIR}[server]"
 fi

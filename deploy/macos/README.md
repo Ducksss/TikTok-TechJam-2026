@@ -46,6 +46,10 @@ when the service constructs the model.
    deploy/macos/install.sh --domain "your-assigned-name.ngrok.app"
    ```
 
+   The installer requires Python 3.10 or newer. If macOS's `/usr/bin/python3`
+   is older, point it at a compatible interpreter for the first run, for
+   example `SYNTHFLAG_PYTHON=/path/to/python3.12 deploy/macos/install.sh ...`.
+
    The ngrok 3.39.11 Apple-silicon archive and executable are pinned by
    SHA-256. The installer also validates its embedded Developer ID team as
    ngrok, Inc. (`TEX8MHRDQ9`). The versioned archive URL and both checksums
