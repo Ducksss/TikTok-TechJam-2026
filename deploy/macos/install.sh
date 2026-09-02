@@ -198,7 +198,9 @@ if (( PREPARE_ONLY == 1 )); then
   exit 0
 fi
 
-if grep -Eq '^[[:space:]]+authtoken:' "${STATE_DIR}/ngrok-credentials.yml"; then
+if ruby -ryaml -e \
+  'data = YAML.safe_load(File.read(ARGV.fetch(0)), permitted_classes: [], aliases: false); exit((data.dig("agent", "authtoken") || data["authtoken"]).to_s.empty? ? 1 : 0)' \
+  "${STATE_DIR}/ngrok-credentials.yml"; then
   restart_agent \
     com.synthflag.ngrok \
     "${LAUNCH_AGENTS}/com.synthflag.ngrok.plist"
