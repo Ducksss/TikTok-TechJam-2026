@@ -67,6 +67,22 @@ The frozen Expert 4 dependency retains its required upstream attribution.
   landing page, image and sampled-video source experience, and technical
   documentation.
 
+## How we selected the released graph
+
+We did not jump from one paper to one final model. We recorded an exploratory
+screen across MoCo, CLIP, and DINO-family representations; built calibration
+and duplicate-aware protected splits; measured JPEG, resize, screenshot, and
+composite damage; and evaluated residual heads and fixed blends against
+no-regression gates. Direct technical outreach helped us sharpen the questions
+around representative validation, degradation strategy, distillation, and
+ensemble diversity, but our own evidence decided what shipped. In particular,
+the strongest augmentation-trained candidate improved its target worst-view
+ROC-AUC and was still rejected because CIFAKE and SID transfer gates regressed.
+The [project journey](https://synthflag.chaipinzheng353496.chatgpt.site/journey)
+tells the concise story; the
+[augmentation method card](training_eval/docs/AUGMENTATION_METHOD_CARD.md)
+preserves the measured and rejected results.
+
 ## Demos
 
 - [Open the SynthFlag landing page](https://synthflag.chaipinzheng353496.chatgpt.site/)

@@ -338,41 +338,54 @@ export default function JourneyPage() {
             </p>
 
             <aside
-              className="journey-author-note"
-              aria-labelledby="journey-author-note-title"
+              className="journey-research-loop"
+              aria-labelledby="journey-research-loop-title"
             >
               <div>
-                <p>Direct author correspondence · 2 September 2026</p>
-                <h3 id="journey-author-note-title">
-                  A late clarification made the research boundary clearer.
+                <p>Our investigation loop · 29 August–2 September 2026</p>
+                <h3 id="journey-research-loop-title">
+                  We went through the full selection process—not one lucky model
+                  pick.
                 </h3>
               </div>
-              <div className="journey-author-note-grid">
+              <div className="journey-research-loop-grid">
                 <div>
-                  <span>Author-reported final competition ensemble</span>
+                  <span>What we did</span>
                   <ul>
-                    <li>CLIP ViT-L/14</li>
-                    <li>CLIP ViT-L/14 at 336 px</li>
-                    <li>SigLIP2 So400M Patch14 at 224 px</li>
-                    <li>SigLIP2 Giant-opt Patch16 at 384 px</li>
+                    <li>
+                      Screened MoCo, CLIP, and DINO-family representations
+                    </li>
+                    <li>
+                      Built calibration and duplicate-aware protected splits
+                    </li>
+                    <li>
+                      Measured JPEG, resize, screenshot, and composite damage
+                    </li>
+                    <li>
+                      Evaluated residual heads and fixed blends against
+                      no-regression gates
+                    </li>
                   </ul>
                 </div>
                 <div>
-                  <span>Training clarification</span>
+                  <span>What decided the release</span>
                   <p>
-                    The authors reported sampling degradation operations
-                    independently at random for each training image, rather
-                    than composing a fixed sequence of every transform.
+                    Our strongest augmentation-trained candidate improved its
+                    target worst-view AUC, but regressed on CIFAKE and SID, so
+                    we rejected it. The graph we could defend kept one frozen
+                    SigLIP teacher, added three lightweight residual heads, and
+                    routed them by native image size.
                   </p>
                 </div>
               </div>
-              <p className="journey-author-note-boundary">
-                This is an author-reported historical detail, not a new local
-                benchmark or an executable training recipe. It also differs
-                from both the repository&apos;s retired checkpoint-compatible
-                four-expert topology and the selected SynthFlag TEST1 graph
-                below. We preserve those distinctions instead of retrofitting
-                the new description onto released code or results.
+              <p className="journey-research-loop-boundary">
+                Direct technical outreach sharpened our questions about
+                representative validation, degradation strategy, distillation,
+                and ensemble diversity. We used that framing to audit what we
+                had actually tested and what remained only a proposal. The
+                correspondence was research input—not proof that we reproduced
+                the upstream training recipe, and not a substitute for the
+                selected SynthFlag graph below.
               </p>
             </aside>
 
