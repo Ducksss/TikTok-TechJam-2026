@@ -130,9 +130,18 @@ frame route scores 1–8 browser-derived frames in two-frame microbatches and
 returns ordered scores plus descriptive mean/peak/threshold-count summaries.
 The raw video stays in the browser; audio and motion are not analyzed.
 
+The Apple-silicon self-host route is `deploy/macos/`: one eager MPS Uvicorn
+worker bound to `127.0.0.1:8000`, published by one ngrok launch agent. Its edge
+policy allows only health, image, sampled-frame, and required CORS-preflight
+requests, with separate per-IP sliding-window limits. MPS and all four
+checkpoint identities are startup gates; there is no public CPU fallback.
+
 Public routes are `/`, `/try`, `/journey`, and `/documentation`.
 `/documentation/architecture` forwards legacy fragment links.
 `/api/analyze` and `/api/analyze-video` are bounded same-origin proxies.
+The browser probes a configured direct ngrok health route first and falls back
+to same-origin health. Each analysis uses exactly the selected transport; a
+failed POST is preserved for manual retry and is never automatically replayed.
 
 ## TEST1 evidence
 

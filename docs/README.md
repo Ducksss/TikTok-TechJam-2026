@@ -64,7 +64,10 @@ The `/try` working surface supports one image or eight browser-extracted
 midpoint frames from a 1–10 second video; the raw video remains local and the
 frame summary is not a video-level probability. Its same-origin proxies bound
 request bodies before multipart parsing, and returned video metadata must match
-the submitted samples.
+the submitted samples. A configured direct ngrok endpoint is health-probed
+before the proxy; analysis POSTs use one selected route and never replay
+automatically. The Apple-silicon host procedure and rollback boundary live in
+[`deploy/macos/README.md`](../deploy/macos/README.md).
 
 Verify the maintained context set, route inventory, diagram count, and batch
 output contract with:

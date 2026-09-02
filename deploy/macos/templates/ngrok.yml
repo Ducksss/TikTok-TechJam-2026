@@ -1,0 +1,5 @@
+version: 3
+agent:
+  web_addr: false
+  update_check: false
+  update_channel: stable

@@ -3,6 +3,7 @@ from __future__ import annotations
 import asyncio
 import io
 import json
+import os
 import unittest
 from unittest.mock import AsyncMock, patch
 
@@ -80,6 +81,39 @@ class ServiceContractTest(unittest.TestCase):
                 "visual_only": True,
             },
         )
+
+    def test_explicit_mps_requirement_fails_closed(self) -> None:
+        with (
+            patch.dict(os.environ, {"SYNTHFLAG_DEVICE": "mps"}),
+            patch.object(torch.backends.mps, "is_built", return_value=True),
+            patch.object(torch.backends.mps, "is_available", return_value=False),
+        ):
+            with self.assertRaisesRegex(RuntimeError, "Apple MPS is unavailable"):
+                service_app._device()
+
+    def test_cors_allows_site_and_ngrok_warning_header_only(self) -> None:
+        headers = {
+            "Access-Control-Request-Headers": "ngrok-skip-browser-warning",
+            "Access-Control-Request-Method": "GET",
+            "Origin": "https://synthflag.chaipinzheng353496.chatgpt.site",
+        }
+        response = self.client.options("/health", headers=headers)
+        self.assertEqual(response.status_code, 200, response.text)
+        self.assertEqual(
+            response.headers["access-control-allow-origin"],
+            "https://synthflag.chaipinzheng353496.chatgpt.site",
+        )
+        self.assertIn(
+            "ngrok-skip-browser-warning",
+            response.headers["access-control-allow-headers"].lower(),
+        )
+
+        response = self.client.options(
+            "/health",
+            headers={**headers, "Origin": "https://unrelated.example"},
+        )
+        self.assertEqual(response.status_code, 400)
+        self.assertNotIn("access-control-allow-origin", response.headers)
 
     def test_eight_frames_return_ordered_scores_and_server_aggregates(self) -> None:
         expected_scores = [0.1, 0.2, 0.8, 0.4, 0.9, 0.3, 0.7, 0.6]

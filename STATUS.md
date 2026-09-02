@@ -1,6 +1,6 @@
 # SynthFlag project status
 
-Last refreshed: **2026-09-01**. This file records durable release state and
+Last refreshed: **2026-09-02**. This file records durable release state and
 verification gates. It intentionally does not mirror volatile Codex task,
 automation, process, or worktree dirtiness state.
 
@@ -29,8 +29,9 @@ automation, process, or worktree dirtiness state.
 | Batch inference | `infer/` uses the authoritative `training_eval.scripts.model.ResidualHead` implementation with the frozen Expert 4 adapter, native-size routing, and resumable directory inference. |
 | Development augmentation | `synthflag_augment/` provides repository-authored, sample-keyed image variants and audit traces; it is optional, outside inference, and not paper-described training reproduction. |
 | Batch artifacts | A completed run produces `predictions.csv`, Track 5 `predictions.json` records with `image_path,pred`, and `predictions.meta.json`. |
-| HTTP service | `service/app.py` exposes checkpoint-backed health, single-image analysis, and bounded sampled-frame analysis with two-frame microbatches; it does not make the public worker available by itself. |
-| Web experience | Primary routes are `/`, `/try`, `/journey`, and the unified `/documentation`; `/documentation/architecture` is a fragment-preserving compatibility route. The `/api/analyze` and `/api/analyze-video` proxies bound request bodies before multipart parsing. Raw videos remain in the browser while eight midpoint PNG frames are submitted and response metadata is matched to them. |
+| HTTP service | `service/app.py` exposes checkpoint-backed health, single-image analysis, and bounded sampled-frame analysis with two-frame microbatches; its Mac launch agent runs one eager MPS worker on loopback and does not silently use public CPU inference. |
+| Web experience | Primary routes are `/`, `/try`, `/journey`, and the unified `/documentation`; `/documentation/architecture` is a fragment-preserving compatibility route. The `/api/analyze` and `/api/analyze-video` proxies bound request bodies before multipart parsing. A configured direct route is health-probed before same-origin fallback, and an analysis POST is never replayed automatically. Raw videos remain in the browser while eight midpoint PNG frames are submitted and response metadata is matched to them. |
+| Mac host package | `deploy/macos/` owns pinned ngrok installation, launchd agents, loopback binding, edge route/rate policy, checkpoint/MPS gates, health checks, and rollback. It does not prove that credentials, a public tunnel, or a matching Sites deployment are active. |
 | Submission package | `submission/` contains the evidence-labeled benchmarks, architecture, reproduction guide, rights inventory, model card, release audit, and checksums. |
 | Attribution and source hygiene | Method, checkpoint, dependency, and source credit is preserved in third-party notices; the release check rejects prohibited source overlap. |
 
@@ -64,6 +65,11 @@ saved, or a Devpost draft is complete. Recheck those systems at action time.
   advertised `sampled_video_frames` capability before calling the demo live.
 - `connected: false` or `ready: false` means the UI cannot provide a live
   checkpoint-backed score, even when the page itself loads.
+- The Mac/ngrok package and private checkpoint set are prepared, but public
+  activation remains **BLOCKED** until the owner enters an ngrok authtoken,
+  supplies the assigned domain, and redeploys the existing Site from its owning
+  account. Do not create a replacement Site or call scoring live before the
+  direct and forced-proxy checks pass from an external network.
 - Never claim a GitHub visibility/About change, media upload, or Devpost save or
   submission until the external service confirms it.
 

@@ -13,7 +13,8 @@ consult the papers when the task needs challenge or method detail.
 | Answer a challenge, team, or leaderboard question | [arXiv:2604.11487](https://arxiv.org/abs/2604.11487), `docs/AI_CONTEXT.md` |
 | Change inference behavior | `AGENTS.md`, `training_eval/scripts/model.py`, `training_eval/configs/selected_test1.yaml`, `training_eval/tests/`, then the `infer/` product adapter and relevant tests |
 | Change development augmentation | `AGENTS.md`, `docs/AUGMENTATION_TOOLKIT.md`, `synthflag_augment/`, `tests/test_augmentation_toolkit.py` |
-| Change the service or `/try` flow | `AGENTS.md`, `service/app.py`, both `landing-page/app/api/analyze*` routes, `landing-page/lib/server/multipart.ts`, `landing-page/app/try/page.tsx`, `landing-page/app/try/video-pipeline.tsx`, `landing-page/lib/video-analysis.ts`, relevant frontend tests |
+| Change the service or `/try` flow | `AGENTS.md`, `service/app.py`, both `landing-page/app/api/analyze*` routes, `landing-page/lib/server/multipart.ts`, `landing-page/lib/inference-transport.ts`, `landing-page/app/try/page.tsx`, `landing-page/app/try/video-pipeline.tsx`, `landing-page/lib/video-analysis.ts`, relevant frontend tests |
+| Operate the Mac public worker | `deploy/macos/README.md`, `deploy/macos/templates/`, `infer/checkpoint_manifest.json`, `service/README.md`, `STATUS.md` |
 | Edit the judge-first `/journey` route | `AGENTS.md`, `docs/AI_CONTEXT.md`, `landing-page/app/journey/`, relevant benchmark and release sources |
 | Edit diagrams or technical documentation | `AGENTS.md`, `docs/AI_CONTEXT.md`, relevant source files, `landing-page/public/diagrams/` |
 | Change CLI output or Track 5 submission JSON | `AGENTS.md`, `infer/cli.py`, `tests/test_cli_outputs.py`, `submission/REPRODUCE.md` |

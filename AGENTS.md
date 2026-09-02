@@ -89,7 +89,8 @@ and [Gushchin et al., arXiv:2604.11487](https://arxiv.org/abs/2604.11487).
 - `service/`: optional FastAPI wrapper. It lazy-loads or optionally eager-loads
   one cached model per process, admits one active and one queued analysis, and
   serializes prediction with an inference lock. The image route uses `B=1`;
-  the sampled-video frame route uses two-frame microbatches.
+  the sampled-video frame route uses two-frame microbatches. Public Mac hosting
+  must fail closed when MPS is unavailable.
 - `landing-page/`: public website with primary routes `/`, `/try`, `/journey`,
   and `/documentation`, plus the compatibility route
   `/documentation/architecture` and the
@@ -97,6 +98,9 @@ and [Gushchin et al., arXiv:2604.11487](https://arxiv.org/abs/2604.11487).
   decoded locally into eight midpoint PNG samples; the original video is not
   uploaded. The proxies bound request bodies before multipart parsing, and the
   video client binds returned duration and timestamps to its submitted samples.
+  When a direct inference URL is built in, `/try` probes it first and then the
+  same-origin proxy. One transport is selected per analysis attempt; POSTs are
+  never replayed automatically.
   - `/journey` is the judge-first project and decision narrative.
   - `/documentation` is the unified technical appendix, evidence guide, deep
     model walkthrough, and system atlas.
@@ -104,6 +108,8 @@ and [Gushchin et al., arXiv:2604.11487](https://arxiv.org/abs/2604.11487).
     current URL fragment to the matching `/documentation` section.
 - `submission/`: evidence-labeled release package, benchmark tables, model card,
   rights inventory, checksums, and reproduction guide.
+- `deploy/macos/`: idempotent Apple-silicon MPS/ngrok host setup, launchd
+  templates, edge policy, health checks, and non-destructive rollback.
 - `infer/checkpoint_manifest.json`: packaged identities and final Google Drive
   locations for the upstream Expert 4 checkpoint and three selected residual
   heads. `weights/README.md` is the install guide; all checkpoint bytes remain

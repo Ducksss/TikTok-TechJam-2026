@@ -1,0 +1,39 @@
+on_http_request:
+  - expressions:
+      - "req.method == 'POST'"
+      - "req.url.path == '/v1/analyze'"
+    actions:
+      - type: rate-limit
+        config:
+          name: synthflag-image-per-ip
+          algorithm: sliding_window
+          capacity: 20
+          rate: 10m
+          bucket_key:
+            - conn.client_ip
+  - expressions:
+      - "req.method == 'POST'"
+      - "req.url.path == '/v1/analyze-frames'"
+    actions:
+      - type: rate-limit
+        config:
+          name: synthflag-video-per-ip
+          algorithm: sliding_window
+          capacity: 6
+          rate: 10m
+          bucket_key:
+            - conn.client_ip
+  - expressions:
+      - >-
+        !((req.method == 'GET' && req.url.path == '/health') ||
+        (req.method == 'OPTIONS' && req.url.path in
+        ['/health', '/v1/analyze', '/v1/analyze-frames']) ||
+        (req.method == 'POST' && req.url.path in
+        ['/v1/analyze', '/v1/analyze-frames']))
+    actions:
+      - type: custom-response
+        config:
+          status_code: 404
+          headers:
+            content-type: application/json
+          body: '{"detail":"Not found."}'

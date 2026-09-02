@@ -57,6 +57,12 @@ def _weights_dir() -> Path:
 def _device() -> str:
     requested = os.environ.get("SYNTHFLAG_DEVICE")
     if requested:
+        if requested == "mps" and not (
+            torch.backends.mps.is_built() and torch.backends.mps.is_available()
+        ):
+            raise RuntimeError(
+                "SYNTHFLAG_DEVICE=mps was required, but Apple MPS is unavailable."
+            )
         return requested
     if torch.cuda.is_available():
         return "cuda"
@@ -156,7 +162,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_credentials=False,
     allow_methods=["GET", "POST"],
-    allow_headers=["Content-Type"],
+    allow_headers=["Content-Type", "ngrok-skip-browser-warning"],
     allow_origins=allowed_origins,
 )
 

@@ -22,6 +22,14 @@ import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
+  AnalysisHttpError,
+  type InferenceTransport,
+  InferenceTransportError,
+  probeInferenceTransport,
+  requestAnalysis,
+  type ServiceState,
+} from '@/lib/inference-transport';
+import {
   canAnalyzeSampledVideo,
   INITIAL_VIDEO_PIPELINE_STATE,
   MAX_VIDEO_DURATION_MS,
@@ -43,7 +51,6 @@ const ANALYSIS_TIMEOUT_MS = 300_000;
 
 type MediaMode = 'image' | 'video';
 type ImageWorkStatus = 'complete' | 'idle' | 'requesting';
-type ServiceState = 'checking' | 'offline' | 'ready' | 'warming';
 
 type ImageDetails = {
   file: File;
@@ -73,14 +80,6 @@ type ImageAnalysisResult = {
 };
 
 type AnalysisResult = ImageAnalysisResult | VideoAnalysisResult;
-
-type HealthPayload = {
-  capabilities?: {
-    sampled_video_frames?: { endpoint?: string };
-  };
-  connected?: boolean;
-  ready?: boolean;
-};
 
 function formatBytes(bytes: number) {
   if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`;
@@ -296,25 +295,12 @@ async function extractVideoFrames(
   return frames;
 }
 
-async function responsePayload(response: Response) {
-  try {
-    return (await response.json()) as Record<string, unknown>;
-  } catch {
-    return {};
-  }
-}
-
-function responseError(payload: Record<string, unknown>, fallback: string) {
-  if (typeof payload.error === 'string') return payload.error;
-  if (typeof payload.detail === 'string') return payload.detail;
-  return fallback;
-}
-
 export default function TryDetector() {
   const inputRef = useRef<HTMLInputElement>(null);
   const resultRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const requestControllerRef = useRef<AbortController | null>(null);
+  const healthControllerRef = useRef<AbortController | null>(null);
   const samplingControllerRef = useRef<AbortController | null>(null);
   const pendingMediaUrlRef = useRef<string | null>(null);
   const frameUrlsRef = useRef(new Set<string>());
@@ -330,41 +316,44 @@ export default function TryDetector() {
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [serviceState, setServiceState] = useState<ServiceState>('checking');
+  const [transport, setTransport] = useState<InferenceTransport>('offline');
   const [imageStatus, setImageStatus] = useState<ImageWorkStatus>('idle');
   const [videoCapability, setVideoCapability] = useState(false);
 
-  useEffect(() => {
-    const directEndpoint =
-      process.env.NEXT_PUBLIC_SYNTHFLAG_INFERENCE_URL?.replace(/\/$/, '');
-    const healthEndpoint = directEndpoint
-      ? `${directEndpoint}/health`
-      : '/api/analyze';
+  const checkService = useCallback(async () => {
+    healthControllerRef.current?.abort();
     const controller = new AbortController();
-    const timeout = window.setTimeout(() => controller.abort(), 6_000);
-    fetch(healthEndpoint, { signal: controller.signal })
-      .then(async (response) => {
-        if (!response.ok) throw new Error('Health check failed');
-        return (await response.json()) as HealthPayload;
-      })
-      .then((health) => {
-        const connected = directEndpoint ? true : health.connected === true;
-        setVideoCapability(
-          Boolean(health.capabilities?.sampled_video_frames?.endpoint),
-        );
-        setServiceState(
-          !connected ? 'offline' : health.ready === true ? 'ready' : 'warming',
-        );
-      })
-      .catch(() => {
+    healthControllerRef.current = controller;
+    setServiceState('checking');
+    try {
+      const result = await probeInferenceTransport({
+        directEndpoint: process.env.NEXT_PUBLIC_SYNTHFLAG_INFERENCE_URL,
+        signal: controller.signal,
+      });
+      if (controller.signal.aborted) return;
+      setTransport(result.transport);
+      setServiceState(result.serviceState);
+      setVideoCapability(result.videoCapability);
+    } catch {
+      if (!controller.signal.aborted) {
+        setTransport('offline');
         setServiceState('offline');
         setVideoCapability(false);
-      })
-      .finally(() => window.clearTimeout(timeout));
-    return () => {
-      controller.abort();
-      window.clearTimeout(timeout);
-    };
+      }
+    } finally {
+      if (healthControllerRef.current === controller) {
+        healthControllerRef.current = null;
+      }
+    }
   }, []);
+
+  useEffect(() => {
+    const startup = window.setTimeout(() => void checkService(), 0);
+    return () => {
+      window.clearTimeout(startup);
+      healthControllerRef.current?.abort();
+    };
+  }, [checkService]);
 
   useEffect(() => {
     return () => {
@@ -387,6 +376,7 @@ export default function TryDetector() {
   useEffect(() => {
     return () => {
       requestControllerRef.current?.abort();
+      healthControllerRef.current?.abort();
       samplingControllerRef.current?.abort();
       revokeFrameUrls();
       if (pendingMediaUrlRef.current) {
@@ -624,6 +614,7 @@ export default function TryDetector() {
       !media ||
       serviceState === 'checking' ||
       serviceState === 'offline' ||
+      transport === 'offline' ||
       (media.kind === 'image' && imageStatus === 'requesting') ||
       (media.kind === 'video' &&
         (!videoCapability ||
@@ -636,8 +627,7 @@ export default function TryDetector() {
     const operation = ++operationRef.current;
     setError(null);
     setResult(null);
-    const directEndpoint =
-      process.env.NEXT_PUBLIC_SYNTHFLAG_INFERENCE_URL?.replace(/\/$/, '');
+    const selectedTransport = transport;
     const controller = new AbortController();
     requestControllerRef.current = controller;
     const timeout = window.setTimeout(
@@ -650,30 +640,22 @@ export default function TryDetector() {
         setImageStatus('requesting');
         const body = new FormData();
         body.append('image', media.file);
-        const endpoint = directEndpoint
-          ? `${directEndpoint}/v1/analyze`
-          : '/api/analyze';
-        const response = await fetch(endpoint, {
+        const payload = await requestAnalysis({
           body,
-          method: 'POST',
+          directEndpoint: process.env.NEXT_PUBLIC_SYNTHFLAG_INFERENCE_URL,
+          kind: 'image',
           signal: controller.signal,
+          transport: selectedTransport,
         });
-        const payload = await responsePayload(response);
-        if (!response.ok) {
-          throw new Error(
-            responseError(
-              payload,
-              'The detector could not analyze this image.',
-            ),
-          );
-        }
         if (
           typeof payload.score !== 'number' ||
           !Number.isFinite(payload.score) ||
           payload.score < 0 ||
           payload.score > 1
         ) {
-          throw new Error('The detector returned an invalid score.');
+          throw new InferenceTransportError(
+            'The detector returned an invalid score.',
+          );
         }
         if (operation !== operationRef.current) return;
         setResult(payload as ImageAnalysisResult);
@@ -694,31 +676,31 @@ export default function TryDetector() {
           'timestamps_ms',
           JSON.stringify(frames.map((frame) => frame.timestampMs)),
         );
-        const endpoint = directEndpoint
-          ? `${directEndpoint}/v1/analyze-frames`
-          : '/api/analyze-video';
-        const response = await fetch(endpoint, {
+        const payload = await requestAnalysis({
           body,
-          method: 'POST',
+          directEndpoint: process.env.NEXT_PUBLIC_SYNTHFLAG_INFERENCE_URL,
+          kind: 'video',
           signal: controller.signal,
+          transport: selectedTransport,
         });
-        const payload = await responsePayload(response);
-        if (!response.ok) {
-          throw new Error(
-            responseError(
-              payload,
-              'The detector could not analyze the sampled video frames.',
-            ),
-          );
-        }
         dispatchVideoPipeline({ type: 'analysis_received' });
         await new Promise<void>((resolve) =>
           window.requestAnimationFrame(() => resolve()),
         );
-        const parsed = parseVideoAnalysisResult(payload, {
-          durationMs: media.durationMs,
-          timestampsMs: frames.map((frame) => frame.timestampMs),
-        });
+        let parsed: VideoAnalysisResult;
+        try {
+          parsed = parseVideoAnalysisResult(payload, {
+            durationMs: media.durationMs,
+            timestampsMs: frames.map((frame) => frame.timestampMs),
+          });
+        } catch (cause) {
+          throw new InferenceTransportError(
+            cause instanceof Error
+              ? cause.message
+              : 'The detector returned an invalid video report.',
+            { cause },
+          );
+        }
         if (operation !== operationRef.current) return;
         setResult(parsed);
         dispatchVideoPipeline({
@@ -742,11 +724,20 @@ export default function TryDetector() {
       } else {
         setImageStatus('idle');
       }
+      if (reason instanceof InferenceTransportError) {
+        void checkService();
+      }
+      const retryMessage =
+        reason instanceof AnalysisHttpError &&
+        reason.status === 429 &&
+        reason.retryAfter
+          ? ` Retry-After: ${reason.retryAfter}.`
+          : '';
       setError(
         reason instanceof DOMException && reason.name === 'AbortError'
           ? 'Analysis reached the five-minute limit. Your selection is preserved so you can retry.'
           : reason instanceof Error
-            ? reason.message
+            ? `${reason.message}${retryMessage}`
             : 'The detector could not complete the analysis.',
       );
     } finally {
@@ -757,9 +748,11 @@ export default function TryDetector() {
     }
   }, [
     imageStatus,
+    checkService,
     media,
     sampledFrames,
     serviceState,
+    transport,
     videoCapability,
     videoPipeline,
   ]);
@@ -1121,6 +1114,7 @@ export default function TryDetector() {
                 media={media}
                 mode={mode}
                 onAnalyze={analyze}
+                onCheckAgain={checkService}
                 serviceState={serviceState}
                 videoCapability={videoCapability}
               />
@@ -1324,6 +1318,7 @@ function EmptyReport({
   media,
   mode,
   onAnalyze,
+  onCheckAgain,
   serviceState,
   videoCapability,
 }: {
@@ -1331,6 +1326,7 @@ function EmptyReport({
   media: MediaDetails | null;
   mode: MediaMode;
   onAnalyze: () => void;
+  onCheckAgain: () => void;
   serviceState: ServiceState;
   videoCapability: boolean;
 }) {
@@ -1354,9 +1350,16 @@ function EmptyReport({
               : 'Select a short video to see eight reproducible midpoint samples, a score timeline, and descriptive aggregates.'}
           </p>
           {serviceState === 'offline' && (
-            <p className="mx-auto mt-4 max-w-sm rounded-xl border border-[#e6c878] bg-[#fff8dc] px-3 py-2 text-xs leading-5 text-[#735c13]">
-              The GPU model service is not connected on this deployment yet.
-            </p>
+            <div className="mx-auto mt-4 max-w-sm rounded-xl border border-[#e6c878] bg-[#fff8dc] px-3 py-2 text-xs leading-5 text-[#735c13]">
+              <p>The Mac model service is offline or cannot be reached.</p>
+              <button
+                className="mt-2 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] underline underline-offset-2"
+                onClick={onCheckAgain}
+                type="button"
+              >
+                Check again
+              </button>
+            </div>
           )}
           {mode === 'video' &&
             serviceState !== 'offline' &&

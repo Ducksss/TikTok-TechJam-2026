@@ -46,6 +46,12 @@ build’s `NEXT_PUBLIC_SYNTHFLAG_INFERENCE_URL` and the server runtime’s
 `SYNTHFLAG_INFERENCE_URL` at its HTTPS base URL. Keep one warm container during
 judging and cap scaling at two single-worker replicas.
 
+On this Apple-silicon Mac, use [`deploy/macos/`](../deploy/macos/README.md).
+It pins and verifies ngrok, launches exactly one eager MPS worker on
+`127.0.0.1:8000`, rejects missing or mismatched checkpoints, and fails closed
+if MPS is unavailable. The user-level services require an awake, connected,
+logged-in Mac and carry no 24/7 SLA.
+
 The browser endpoint is public by design. In front of it, enforce exact-origin
 CORS, a request timeout of 300 seconds, a multipart body limit above 16 MiB,
 and per-IP limits of 20 image analyses and 6 video analyses per 10 minutes.

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.synthflag.inference</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>__PYTHON__</string>
+    <string>-m</string>
+    <string>uvicorn</string>
+    <string>service.app:app</string>
+    <string>--app-dir</string>
+    <string>__RUNTIME_DIR__</string>
+    <string>--host</string>
+    <string>127.0.0.1</string>
+    <string>--port</string>
+    <string>8000</string>
+    <string>--workers</string>
+    <string>1</string>
+    <string>--no-access-log</string>
+    <string>--log-level</string>
+    <string>info</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PYTHONUNBUFFERED</key>
+    <string>1</string>
+    <key>PYTORCH_ENABLE_MPS_FALLBACK</key>
+    <string>0</string>
+    <key>SYNTHFLAG_ALLOWED_ORIGINS</key>
+    <string>http://localhost:3000,http://127.0.0.1:3000,https://synthflag.chaipinzheng353496.chatgpt.site</string>
+    <key>SYNTHFLAG_DEVICE</key>
+    <string>mps</string>
+    <key>SYNTHFLAG_EAGER_LOAD</key>
+    <string>1</string>
+    <key>SYNTHFLAG_WEIGHTS_DIR</key>
+    <string>__WEIGHTS_DIR__</string>
+    <key>TOKENIZERS_PARALLELISM</key>
+    <string>false</string>
+  </dict>
+  <key>WorkingDirectory</key>
+  <string>__RUNTIME_DIR__</string>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+  <key>ProcessType</key>
+  <string>Interactive</string>
+  <key>ThrottleInterval</key>
+  <integer>10</integer>
+  <key>StandardOutPath</key>
+  <string>__LOG_DIR__/inference.stdout.log</string>
+  <key>StandardErrorPath</key>
+  <string>__LOG_DIR__/inference.stderr.log</string>
+</dict>
+</plist>

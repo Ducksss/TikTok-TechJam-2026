@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.synthflag.ngrok</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>__NGROK__</string>
+    <string>http</string>
+    <string>http://127.0.0.1:8000</string>
+    <string>--url</string>
+    <string>https://__DOMAIN__</string>
+    <string>--traffic-policy-file</string>
+    <string>__POLICY__</string>
+    <string>--config</string>
+    <string>__CREDENTIALS__</string>
+    <string>--config</string>
+    <string>__NGROK_CONFIG__</string>
+    <string>--log</string>
+    <string>stdout</string>
+    <string>--log-format</string>
+    <string>json</string>
+    <string>--log-level</string>
+    <string>info</string>
+  </array>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+  <key>ProcessType</key>
+  <string>Interactive</string>
+  <key>ThrottleInterval</key>
+  <integer>10</integer>
+  <key>StandardOutPath</key>
+  <string>__LOG_DIR__/ngrok.stdout.log</string>
+  <key>StandardErrorPath</key>
+  <string>__LOG_DIR__/ngrok.stderr.log</string>
+</dict>
+</plist>

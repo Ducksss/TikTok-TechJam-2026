@@ -79,6 +79,10 @@ The frozen Expert 4 dependency retains its required upstream attribution.
 The YouTube link is the recorded product demo. The source `/try` route provides
 the complete image and sampled-video file-drop
 experience and reports whether a checkpoint-backed model service is connected.
+When configured with a public inference URL, the browser probes the direct
+ngrok route first and falls back to the same-origin Site proxy only during
+health selection. An analysis POST is sent once through the selected transport
+and is never automatically replayed.
 The hosted route reflects the latest deployed saved version, so verify its
 health capability before claiming video is live. It never fabricates a score
 when the public worker is unavailable. Use the local service setup below for
@@ -279,6 +283,12 @@ calibrated probability that the video is AI-generated. See
 [`service/README.md`](service/README.md) for the production GPU, health-check,
 bounded-queue, and origin-allowlisting contract.
 
+For this Apple-silicon Mac, [`deploy/macos/`](deploy/macos/README.md) provides
+the repository-owned MPS, ngrok, launchd, checkpoint-verification, health-check,
+and rollback path. It keeps the API on `127.0.0.1:8000`; only ngrok receives
+public traffic. Availability depends on the Mac remaining awake, online,
+plugged in, and logged in.
+
 ## Repository structure
 
 ```text
@@ -287,6 +297,7 @@ bounded-queue, and origin-allowlisting contract.
 ├─ infer/          # Product adapter and resumable batch CLI
 ├─ synthflag_augment/ # Optional deterministic development-data augmentation
 ├─ service/        # Optional FastAPI inference service
+├─ deploy/macos/   # Apple MPS + ngrok user-service deployment
 ├─ landing-page/   # Public website, detector UI, and visual documentation
 ├─ submission/     # Benchmarks, model card, checksums, and release audit
 ├─ docs/           # Project context and research references
